@@ -3,11 +3,13 @@ import { render } from 'solid-js/web'
 import { Router, Route } from '@solidjs/router'
 import './pages/dvibd/styles/index.module.css'
 import App from './pages/dvibd/ui/App.tsx'
+import Login from './pages/dvibd/ui/Login.tsx'
 
 const root = document.getElementById('root')
 
 render(() => (
   <Router>
     <Route path="/" component={App} />
+    <Route path="/login" component={Login} />
   </Router>
 ), root!)
