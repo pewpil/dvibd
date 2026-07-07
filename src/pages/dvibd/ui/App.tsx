@@ -1,5 +1,5 @@
-import { A } from "@solidjs/router";
 import type { Component } from "solid-js";
+import { A } from "@solidjs/router";
 import NavBar from "../../../components/dvibd/ui/NavBar";
 import FeatureCard from "../../../components/dvibd/ui/FeatureCard";
 import ProductivityCard from "../../../components/dvibd/ui/ProductivityCard";

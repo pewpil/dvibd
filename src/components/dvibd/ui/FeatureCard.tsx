@@ -1,5 +1,5 @@
-import { A } from '@solidjs/router'
 import { For, type Component } from 'solid-js'
+import { A } from '@solidjs/router'
 import Tag from './Tag'
 import s from '../styles/FeatureCard.module.css'
 
