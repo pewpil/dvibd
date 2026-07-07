@@ -1,0 +1,33 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17px 107px;
+  background: var(--bg);
+  width: 100%;
+  height: 68px;
+}
+
+.navbar-logo {
+  font-family: var(--font);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-heading);
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 17px;
+  align-items: center;
+}
+
+.navbar-link {
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-nav);
+}
+
+.navbar-link:hover {
+  color: var(--text-heading);
+}
