@@ -1,0 +1,36 @@
+nav.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17px 107px;
+  background: #0d0d12;
+  width: 100%;
+  height: 68px;
+  box-sizing: border-box;
+
+    a.logo {
+      text-decoration: none;
+    font-family: 'Lexend', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+  }
+
+  div.menu {
+    display: flex;
+    gap: 17px;
+    align-items: center;
+
+    a.link {
+      font-family: 'Lexend', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      color: #a0a0b0;
+      text-decoration: none;
+
+      &:hover {
+        color: #ffffff;
+      }
+    }
+  }
+}

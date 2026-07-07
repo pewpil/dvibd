@@ -1,0 +1,103 @@
+div.products {
+  display: flex;
+  flex-direction: column;
+  width: 7%;
+  background: #0d0d12;
+
+  /* ── Hero ── */
+  section.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 17px;
+    padding: 59px 107px;
+    width: 100%;
+    box-sizing: border-box;
+
+    h1.heroHeading {
+      font-family: "Lexend", sans-serif;
+      font-size: 72px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+      text-align: center;
+    }
+
+    p.heroSubtitle {
+      font-family: "Lexend", sans-serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: #8e8e9a;
+      margin: 0;
+      text-align: center;
+      max-width: 568px;
+    }
+  }
+
+  /* ── Section wrapper ── */
+  section.section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 33px;
+    padding: 59px 107px;
+    width: 100%;
+    box-sizing: border-box;
+
+    span.sectionLabel {
+      font-family: "Lexend", sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      text-transform: lowercase;
+    }
+
+    div.sectionContent {
+      display: flex;
+      flex-direction: row;
+      gap: 13px;
+      width: 100%;
+    }
+  }
+
+  /* ── Features card (right panel for social, left panel for message) ── */
+  div.featuresCard {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    padding: 29px;
+    background: #16161f;
+    border-radius: 20px;
+    width: 560px;
+    box-sizing: border-box;
+
+    h3.featuresHeading {
+      font-family: "Lexend", sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    div.featureItem {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+
+      span.featureTitle {
+        font-family: "Lexend", sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      p.featureDesc {
+        font-family: "Lexend", sans-serif;
+        font-size: 13px;
+        font-weight: 300;
+        color: #8e8e9a;
+        margin: 0;
+        line-height: 1.4;
+      }
+    }
+  }
+}
