@@ -54,10 +54,10 @@
 .feature-card-cta {
   display: inline-flex;
   align-items: center;
-  padding: 9px 17px;
+  padding: 14px 32px;
   border-radius: 18px;
   font-family: var(--font);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   background: var(--cta-bg);
   color: var(--cta-color);

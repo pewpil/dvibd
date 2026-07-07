@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js'
-import './NavBar.css'
+import '../../styles/dvibd/NavBar.css'
 
 const NavBar: Component = () => {
   return (
@@ -9,6 +9,7 @@ const NavBar: Component = () => {
         <a href="#" class="navbar-link">Products</a>
         <a href="#" class="navbar-link">About</a>
         <a href="#" class="navbar-link">Contact</a>
+        <a href="#" class="navbar-link">Log In</a>
       </div>
     </nav>
   )

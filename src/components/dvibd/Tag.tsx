@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js'
-import './Tag.css'
+import '../../styles/dvibd/Tag.css'
 
 interface TagProps {
   label: string
