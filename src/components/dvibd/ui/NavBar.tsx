@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js'
-import '../../styles/dvibd/NavBar.css'
+import '../styles/NavBar.css'
 
 const NavBar: Component = () => {
   return (

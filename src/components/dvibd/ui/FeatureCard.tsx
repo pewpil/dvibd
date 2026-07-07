@@ -1,6 +1,6 @@
 import { For, type Component } from 'solid-js'
 import Tag from './Tag'
-import '../../styles/dvibd/FeatureCard.css'
+import '../styles/FeatureCard.css'
 
 interface TagDef {
   label: string

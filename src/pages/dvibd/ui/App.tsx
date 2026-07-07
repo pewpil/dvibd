@@ -1,8 +1,8 @@
 import type { Component } from "solid-js";
-import NavBar from "../../components/dvibd/NavBar";
-import FeatureCard from "../../components/dvibd/FeatureCard";
-import ProductivityCard from "../../components/dvibd/ProductivityCard";
-import "../../styles/dvibd/App.css";
+import NavBar from "../../../components/dvibd/ui/NavBar";
+import FeatureCard from "../../../components/dvibd/ui/FeatureCard";
+import ProductivityCard from "../../../components/dvibd/ui/ProductivityCard";
+import "../styles/App.css";
 
 const socialTags = [
   { label: "Photo Sharing", color: "#6c63ff" },
@@ -27,7 +27,9 @@ const App: Component = () => {
         <p class="hero-subtitle">
           Adipiscing elit sed do eiusmod tempor incididunt.
         </p>
-        <a href="#" class="hero-cta">Create free account</a>
+        <a href="#" class="hero-cta">
+          Create free account
+        </a>
       </section>
 
       <section class="products">
@@ -68,4 +70,3 @@ const App: Component = () => {
 };
 
 export default App;
-

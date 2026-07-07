@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js'
-import '../../styles/dvibd/ProductivityCard.css'
+import '../styles/ProductivityCard.css'
 
 interface ProductivityCardProps {
   iconLetter: string
