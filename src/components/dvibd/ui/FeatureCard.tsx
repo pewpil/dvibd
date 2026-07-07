@@ -1,6 +1,7 @@
+import { A } from '@solidjs/router'
 import { For, type Component } from 'solid-js'
 import Tag from './Tag'
-import '../styles/FeatureCard.css'
+import s from '../styles/FeatureCard.module.css'
 
 interface TagDef {
   label: string
@@ -11,7 +12,7 @@ interface FeatureCardProps {
   iconLetter: string
   iconBg: string
   title: string
-  description: string
+  children: string
   tags: TagDef[]
   ctaColor: string
   ctaTextColor: string
@@ -19,32 +20,32 @@ interface FeatureCardProps {
 
 const FeatureCard: Component<FeatureCardProps> = (props) => {
   return (
-    <article class="feature-card">
-      <div class="feature-card-header">
+    <article class={s.card}>
+      <div class={s.header}>
         <div
-          class="feature-card-icon"
+          class={s.icon}
           style={{ '--icon-bg': `${props.iconBg}26` } as Record<string, string>}
         >
           <span style={{ color: props.iconBg }}>{props.iconLetter}</span>
         </div>
-        <h3 class="feature-card-title">{props.title}</h3>
+        <h3 class={s.title}>{props.title}</h3>
       </div>
-      <p class="feature-card-desc">{props.description}</p>
-      <div class="feature-card-tags">
+      <p class={s.desc}>{props.children}</p>
+      <div class={s.tags}>
         <For each={props.tags}>
           {(tag) => <Tag label={tag.label} color={tag.color} />}
         </For>
       </div>
-      <a
-        href="#"
-        class="feature-card-cta"
+      <A
+        href="/"
+        class={s.cta}
         style={{
           '--cta-bg': props.ctaColor,
           '--cta-color': props.ctaTextColor,
         } as Record<string, string>}
       >
         Learn More
-      </a>
+      </A>
     </article>
   )
 }

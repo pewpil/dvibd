@@ -1,25 +1,25 @@
 import type { Component } from 'solid-js'
-import '../styles/ProductivityCard.css'
+import s from '../styles/ProductivityCard.module.css'
 
 interface ProductivityCardProps {
   iconLetter: string
   iconColor: string
   title: string
-  description: string
+  children: string
 }
 
 const ProductivityCard: Component<ProductivityCardProps> = (props) => {
   return (
-    <article class="prod-card">
+    <article class={s.card}>
       <div
-        class="prod-card-icon"
+        class={s.icon}
         style={{ '--icon-bg': `${props.iconColor}26`, '--icon-color': props.iconColor } as Record<string, string>}
       >
         <span>{props.iconLetter}</span>
       </div>
-      <div class="prod-card-text">
-        <h3 class="prod-card-title">{props.title}</h3>
-        <p class="prod-card-desc">{props.description}</p>
+      <div class={s.text}>
+        <h3 class={s.title}>{props.title}</h3>
+        <p class={s.desc}>{props.children}</p>
       </div>
     </article>
   )

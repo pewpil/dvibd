@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js'
-import '../styles/Tag.css'
+import s from '../styles/Tag.module.css'
 
 interface TagProps {
   label: string
@@ -9,7 +9,7 @@ interface TagProps {
 const Tag: Component<TagProps> = (props) => {
   return (
     <span
-      class="tag"
+      class={s.tag}
       style={{
         '--tag-bg': `${props.color}1a`,
         '--tag-color': props.color,
