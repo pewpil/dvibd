@@ -20,4 +20,8 @@ a.action {
   &:active {
     opacity: 0.8;
   }
+
+  &.fullWidth {
+    width: 100%;
+  }
 }

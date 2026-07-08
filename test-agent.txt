@@ -1,0 +1,1 @@
+Test: general agent can write files.

@@ -69,49 +69,6 @@ div.about {
       gap: 17px;
       width: 100%;
 
-      article.valueCard {
-        display: flex;
-        flex-direction: column;
-        gap: 17px;
-        padding: 29px;
-        background: #16161f;
-        border-radius: 20px;
-        width: 390px;
-        box-sizing: border-box;
-
-        div.valueIcon {
-          width: 48px;
-          height: 48px;
-          border-radius: 24px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-
-          span.valueLetter {
-            font-family: "Lexend", sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-          }
-        }
-
-        h3.valueTitle {
-          font-family: "Lexend", sans-serif;
-          font-size: 22px;
-          font-weight: 600;
-          color: #ffffff;
-          margin: 0;
-        }
-
-        p.valueDesc {
-          font-family: "Lexend", sans-serif;
-          font-size: 14px;
-          font-weight: 300;
-          color: #8e8e9a;
-          margin: 0;
-          line-height: 1.5;
-        }
-      }
     }
 
     /* ── Contact Card ── */

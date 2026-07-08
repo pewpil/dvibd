@@ -8,6 +8,9 @@ import App from "./dvibd/App";
 import Home from "./dvibd/app/Home";
 import Products from "./dvibd/app/Products";
 import About from "./dvibd/app/About";
+import Auth from "./dvibd/Auth";
+import Login from "./dvibd/auth/Login";
+import Signup from "./dvibd/auth/Signup";
 
 const root = document.getElementById("root");
 
@@ -24,6 +27,10 @@ render(
         <Route path="/" component={Home} />
         <Route path="/products" component={Products} />
         <Route path="/about" component={About} />
+      </Route>
+      <Route component={Auth}>
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
       </Route>
     </Router>
   ),

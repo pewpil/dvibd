@@ -1,5 +1,6 @@
 import { For, type Component } from 'solid-js';
 import style from '../../../styles/dvibd/app/About.module.css';
+import Card from '@components/uis/dvibd/about/Card';
 
 const About: Component = () => {
   const values = [
@@ -64,18 +65,12 @@ const About: Component = () => {
         <div class={style.valuesRow}>
           <For each={values}>
             {(v) => (
-              <article class={style.valueCard}>
-                <div
-                  class={style.valueIcon}
-                  style={{ background: `${v.accent}26` }}
-                >
-                  <span class={style.valueLetter} style={{ color: v.accent }}>
-                    {v.letter}
-                  </span>
-                </div>
-                <h3 class={style.valueTitle}>{v.title}</h3>
-                <p class={style.valueDesc}>{v.description}</p>
-              </article>
+              <Card
+                letter={v.letter}
+                accent={v.accent}
+                title={v.title}
+                description={v.description}
+              />
             )}
           </For>
         </div>

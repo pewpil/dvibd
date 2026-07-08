@@ -1,7 +1,7 @@
 div.products {
   display: flex;
   flex-direction: column;
-  width: 7%;
+  width: 75%;
   background: #0d0d12;
 
   /* ── Hero ── */

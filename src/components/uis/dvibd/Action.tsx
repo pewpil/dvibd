@@ -6,6 +6,7 @@ interface ActionProps {
   textColor: string;
   href: string;
   radius?: number;
+  fullWidth?: boolean;
   children: string;
 }
 
@@ -14,6 +15,7 @@ const Action: Component<ActionProps> = (props) => {
     <a
       href={props.href}
       class={style.action}
+      classList={{ [style.fullWidth!]: props.fullWidth }}
       style={{
         background: props.bgColor,
         color: props.textColor,
