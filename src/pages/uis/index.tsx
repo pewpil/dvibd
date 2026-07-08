@@ -8,6 +8,7 @@ import App from "./dvibd/App";
 import Home from "./dvibd/app/Home";
 import Products from "./dvibd/app/Products";
 import About from "./dvibd/app/About";
+import Contact from "./dvibd/app/Contact";
 import Auth from "./dvibd/Auth";
 import Login from "./dvibd/auth/Login";
 import Signup from "./dvibd/auth/Signup";
@@ -27,6 +28,7 @@ render(
         <Route path="/" component={Home} />
         <Route path="/products" component={Products} />
         <Route path="/about" component={About} />
+        <Route path="/contact" component={Contact} />
       </Route>
       <Route component={Auth}>
         <Route path="/login" component={Login} />

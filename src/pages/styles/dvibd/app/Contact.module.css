@@ -1,0 +1,151 @@
+div.contact {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  background: #0d0d12;
+
+  section.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 17px;
+    padding: 75px 107px;
+    width: 100%;
+    box-sizing: border-box;
+
+    h1.heroHeading {
+      font-family: 'Lexend', sans-serif;
+      font-size: 72px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+      text-align: center;
+    }
+
+    p.heroSubtitle {
+      font-family: 'Lexend', sans-serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: #8e8e9a;
+      margin: 0;
+      text-align: center;
+      max-width: 739px;
+    }
+  }
+
+  section.content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 17px;
+    padding: 75px 107px;
+    width: 100%;
+    box-sizing: border-box;
+
+    div.infoCard {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      padding: 29px;
+      background: #16161f;
+      border: 1px solid #2a2a3a;
+      border-radius: 20px;
+      width: 450px;
+      box-sizing: border-box;
+
+      h2.infoHeading {
+        font-family: 'Lexend', sans-serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: #ffffff;
+        margin: 0;
+      }
+
+      div.infoItem {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        span.infoLabel {
+          font-family: 'Lexend', sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          color: #a0a0b0;
+        }
+
+        span.infoValue {
+          font-family: 'Lexend', sans-serif;
+          font-size: 16px;
+          font-weight: 600;
+          color: #ffffff;
+        }
+      }
+    }
+
+    div.formCard {
+      display: flex;
+      flex-direction: column;
+      gap: 17px;
+      padding: 29px;
+      background: #16161f;
+      border: 1px solid #2a2a3a;
+      border-radius: 20px;
+      flex: 1;
+      box-sizing: border-box;
+
+      h2.formHeading {
+        font-family: 'Lexend', sans-serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: #ffffff;
+        margin: 0;
+      }
+
+      p.formSubtitle {
+        font-family: 'Lexend', sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        color: #8e8e9a;
+        margin: 0;
+      }
+
+      div.messageField {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+
+        span.messageLabel {
+          font-family: 'Lexend', sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          color: #a0a0b0;
+        }
+
+        textarea.messageInput {
+          width: 100%;
+          min-height: 100px;
+          padding: 11px 14px;
+          background: #0d0d12;
+          border: 1px solid #2e2e3e;
+          border-radius: 10px;
+          font-family: 'Lexend', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          color: #ffffff;
+          outline: none;
+          resize: vertical;
+          box-sizing: border-box;
+
+          &::placeholder {
+            color: #5e5e6a;
+          }
+
+          &:focus {
+            border-color: #6c63ff;
+          }
+        }
+      }
+    }
+  }
+}
