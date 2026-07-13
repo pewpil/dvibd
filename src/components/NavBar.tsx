@@ -1,4 +1,5 @@
 import { A } from '@solidjs/router';
+import { Action } from './Action';
 import styles from './NavBar.module.css';
 
 export function NavBar() {
@@ -24,9 +25,14 @@ export function NavBar() {
           </A>
         </nav>
 
-        <A href="/contact" class={styles.cta}>
-          Get Started
-        </A>
+        <div class={styles.auth}>
+          <Action href="/login" variant="ghost" color="purple">
+            Log in
+          </Action>
+          <Action href="/signup" variant="primary" color="purple">
+            Sign up
+          </Action>
+        </div>
       </div>
     </header>
   );

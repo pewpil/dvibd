@@ -7,6 +7,7 @@ type Props = {
   variant?: 'primary' | 'secondary' | 'ghost';
   color?: 'purple' | 'teal' | 'coral';
   submit?: boolean;
+  full?: boolean;
   onClick?: () => void;
   children: JSX.Element;
 };
@@ -15,7 +16,7 @@ export function Action(props: Props) {
   const classes = () => {
     const variant = props.variant ?? 'primary';
     const color = props.color ?? 'purple';
-    return `${styles.action} ${styles[variant]} ${styles[color]}`;
+    return `${styles.action} ${styles[variant]} ${styles[color]}${props.full ? ` ${styles.full}` : ''}`;
   };
 
   const content = <span class={styles.inner}>{props.children}</span>;
