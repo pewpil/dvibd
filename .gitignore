@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Lockfile — project uses pnpm; pnpm-lock.yaml is the tracked source of truth.
+# package-lock.json is an artifact of `npm install` and should not be committed.
+package-lock.json
+
+# Environment
+.env
+.env*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Vite cache (if a standalone cache dir appears)
+.vite/
