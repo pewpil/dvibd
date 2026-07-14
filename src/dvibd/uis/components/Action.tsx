@@ -1,6 +1,6 @@
 import { A } from '@solidjs/router';
 import type { JSX } from 'solid-js';
-import styles from './Action.module.css';
+import styles from '~/dvibd/styles/components/Action.module.css';
 
 type Props = {
   href?: string;

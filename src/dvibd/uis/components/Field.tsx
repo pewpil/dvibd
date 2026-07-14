@@ -1,5 +1,5 @@
 import type { JSX } from 'solid-js';
-import styles from './Field.module.css';
+import styles from '~/dvibd/styles/components/Field.module.css';
 
 type Props = {
   label: string;

@@ -11,8 +11,7 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["./src/components/*"],
-      "@pages/*": ["./src/pages/*"],
+      "~/*": ["./src/*"],
       "@public/*": ["./public/*"]
     },
     "strict": true,

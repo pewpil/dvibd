@@ -1,5 +1,5 @@
 import { A } from '@solidjs/router';
-import styles from './Footer.module.css';
+import styles from '~/dvibd/styles/components/Footer.module.css';
 
 export function Footer() {
   return (

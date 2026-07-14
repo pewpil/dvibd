@@ -1,8 +1,8 @@
 import { For } from 'solid-js';
 import { A } from '@solidjs/router';
-import { Action } from '../components/Action';
-import { Icon } from '../components/Icon';
-import styles from './Products.module.css';
+import { Action } from '~/dvibd/uis/components/Action';
+import { Icon } from '~/dvibd/uis/components/Icon';
+import styles from '~/dvibd/styles/pages/app/Products.module.css';
 
 const products = [
   {

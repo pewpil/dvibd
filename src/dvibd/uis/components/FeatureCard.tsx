@@ -1,6 +1,6 @@
 import { A } from '@solidjs/router';
-import { Icon, type IconName } from './Icon';
-import styles from './FeatureCard.module.css';
+import { Icon, type IconName } from '~/dvibd/uis/components/Icon';
+import styles from '~/dvibd/styles/components/FeatureCard.module.css';
 
 type Props = {
   title: string;

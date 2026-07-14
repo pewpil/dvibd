@@ -1,6 +1,6 @@
 import { A } from '@solidjs/router';
-import { Action } from './Action';
-import styles from './NavBar.module.css';
+import { Action } from '~/dvibd/uis/components/Action';
+import styles from '~/dvibd/styles/components/NavBar.module.css';
 
 export function NavBar() {
   return (

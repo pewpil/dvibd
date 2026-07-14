@@ -1,8 +1,8 @@
 import { For } from 'solid-js';
 import { A } from '@solidjs/router';
-import { Action } from '../components/Action';
-import { Icon } from '../components/Icon';
-import styles from './About.module.css';
+import { Action } from '~/dvibd/uis/components/Action';
+import { Icon } from '~/dvibd/uis/components/Icon';
+import styles from '~/dvibd/styles/pages/app/About.module.css';
 
 const values = [
   {

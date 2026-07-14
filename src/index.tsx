@@ -1,15 +1,15 @@
-import { render } from 'solid-js/web';
-import { Router, Route } from '@solidjs/router';
-import App from './App';
-import Home from './pages/Home';
-import Products from './pages/Products';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import './styles/index.css';
+import { render } from "solid-js/web";
+import { Router, Route } from "@solidjs/router";
+import App from "~/dvibd/uis/pages/app/App";
+import Home from "~/dvibd/uis/pages/app/Home";
+import Products from "~/dvibd/uis/pages/app/Products";
+import About from "~/dvibd/uis/pages/app/About";
+import Contact from "~/dvibd/uis/pages/app/Contact";
+import Login from "~/dvibd/uis/pages/app/auth/Login";
+import Signup from "~/dvibd/uis/pages/app/auth/Signup";
+import "~/index.css";
 
-const root = document.getElementById('root');
+const root = document.getElementById("root");
 
 render(
   () => (

@@ -1,6 +1,6 @@
 import { A } from '@solidjs/router';
 import type { JSX } from 'solid-js';
-import styles from './Auth.module.css';
+import styles from '~/dvibd/styles/pages/app/auth/Auth.module.css';
 
 type Props = {
   title: string;
@@ -24,3 +24,5 @@ export function AuthLayout(props: Props) {
     </div>
   );
 }
+
+export default AuthLayout;

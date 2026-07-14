@@ -1,13 +1,12 @@
 import { createSignal } from 'solid-js';
 import { A } from '@solidjs/router';
-import { User, Mail, Lock } from 'lucide-solid';
-import { Action } from '../components/Action';
-import { Field } from '../components/Field';
-import { AuthLayout } from './AuthLayout';
-import styles from './Auth.module.css';
+import { Mail, Lock } from 'lucide-solid';
+import { Action } from '~/dvibd/uis/components/Action';
+import { Field } from '~/dvibd/uis/components/Field';
+import { AuthLayout } from '~/dvibd/uis/pages/app/auth/Auth';
+import styles from '~/dvibd/styles/pages/app/auth/Auth.module.css';
 
-export default function Signup() {
-  const [name, setName] = createSignal('');
+export default function Login() {
   const [email, setEmail] = createSignal('');
   const [password, setPassword] = createSignal('');
   const [done, setDone] = createSignal(false);
@@ -19,36 +18,24 @@ export default function Signup() {
 
   return (
     <AuthLayout
-      title="Create your account"
-      subtitle="Join the dvibd open beta — it takes a minute."
+      title="Welcome back"
+      subtitle="Log in to pick up where you left off."
       footer={
         <>
-          Already have an account? <A href="/login">Log in</A>
+          New to dvibd? <A href="/signup">Create an account</A>
         </>
       }
     >
       {done() ? (
         <div class={styles.success}>
-          <h2>You’re on the list, {name() || 'friend'}!</h2>
-          <p>
-            We sent a confirmation link to <strong>{email() || 'your inbox'}</strong>.
-            Click it to activate your account.
-          </p>
+          <h2>Signed in as {email() || 'you'}</h2>
+          <p>This is a demo — no real session was created.</p>
           <Action href="/" variant="secondary" color="purple">
             Back home
           </Action>
         </div>
       ) : (
         <form class={styles.form} onSubmit={submit}>
-          <Field
-            label="Username"
-            value={name()}
-            onInput={setName}
-            placeholder="ada"
-            autocomplete="username"
-            icon={<User size={18} />}
-            required
-          />
           <Field
             label="Email"
             type="email"
@@ -64,17 +51,16 @@ export default function Signup() {
             type="password"
             value={password()}
             onInput={setPassword}
-            placeholder="At least 8 characters"
-            autocomplete="new-password"
+            placeholder="Your password"
+            autocomplete="current-password"
             icon={<Lock size={18} />}
             required
           />
-          <p class={styles.hint}>
-            By signing up you agree to our <a href="#">Terms</a> and{' '}
-            <a href="#">Privacy Policy</a>.
-          </p>
+          <A href="#" class={styles.forgot}>
+            Forgot your password?
+          </A>
           <Action variant="primary" color="purple" full submit>
-            Create account
+            Log in
           </Action>
         </form>
       )}

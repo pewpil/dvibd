@@ -1,9 +1,9 @@
 import { For } from 'solid-js';
 import { A } from '@solidjs/router';
-import { Action } from '../components/Action';
-import { FeatureCard } from '../components/FeatureCard';
-import { Icon } from '../components/Icon';
-import styles from './Home.module.css';
+import { Action } from '~/dvibd/uis/components/Action';
+import { FeatureCard } from '~/dvibd/uis/components/FeatureCard';
+import { Icon } from '~/dvibd/uis/components/Icon';
+import styles from '~/dvibd/styles/pages/app/Home.module.css';
 
 const highlights = [
   { color: 'purple' as const, text: 'Share photos, stories & live moments' },

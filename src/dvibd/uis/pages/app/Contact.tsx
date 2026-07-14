@@ -1,7 +1,7 @@
 import { createSignal, For } from 'solid-js';
-import { Action } from '../components/Action';
-import { Icon } from '../components/Icon';
-import styles from './Contact.module.css';
+import { Action } from '~/dvibd/uis/components/Action';
+import { Icon } from '~/dvibd/uis/components/Icon';
+import styles from '~/dvibd/styles/pages/app/Contact.module.css';
 
 const channels = [
   {
