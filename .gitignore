@@ -26,3 +26,14 @@ gitignore
 # System Files
 .DS_Store
 Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Vite cache (if a standalone cache dir appears)
+.vite/
