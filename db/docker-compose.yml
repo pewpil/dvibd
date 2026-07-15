@@ -1,0 +1,30 @@
+name: dvibd
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: dvibd-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dvibd}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dvibd}
+      POSTGRES_DB: ${POSTGRES_DB:-dvibd}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dvibd} -d ${POSTGRES_DB:-dvibd}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dvibd
+
+networks:
+  dvibd:
+    driver: bridge
+
+volumes:
+  db_data:
