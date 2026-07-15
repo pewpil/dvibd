@@ -12,7 +12,7 @@ type Props = {
   icon?: JSX.Element;
 };
 
-export function Field(props: Props) {
+export function Field(props: Props): JSX.Element {
   return (
     <label class={styles.field}>
       <span>{props.label}</span>

@@ -9,7 +9,7 @@ type Props = {
   footer: JSX.Element;
 };
 
-export function AuthLayout(props: Props) {
+export function AuthLayout(props: Props): JSX.Element {
   return (
     <div class={styles.wrap}>
       <div class={styles.card}>

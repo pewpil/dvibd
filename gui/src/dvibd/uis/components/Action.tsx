@@ -1,19 +1,20 @@
 import { A } from '@solidjs/router';
 import type { JSX } from 'solid-js';
+import type { Color } from '~/dvibd/types';
 import styles from '~/dvibd/styles/components/Action.module.css';
 
 type Props = {
   href?: string;
   variant?: 'primary' | 'secondary' | 'ghost';
-  color?: 'purple' | 'teal' | 'coral';
+  color?: Color;
   submit?: boolean;
   full?: boolean;
   onClick?: () => void;
   children: JSX.Element;
 };
 
-export function Action(props: Props) {
-  const classes = () => {
+export function Action(props: Props): JSX.Element {
+  const classes = (): string => {
     const variant = props.variant ?? 'primary';
     const color = props.color ?? 'purple';
     return `${styles.action} ${styles[variant]} ${styles[color]}${props.full ? ` ${styles.full}` : ''}`;

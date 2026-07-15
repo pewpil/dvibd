@@ -9,7 +9,7 @@ import Login from "~/dvibd/uis/pages/app/auth/Login";
 import Signup from "~/dvibd/uis/pages/app/auth/Signup";
 import "~/index.css";
 
-const root = document.getElementById("root");
+const root: HTMLElement | null = document.getElementById("root");
 
 render(
   () => (

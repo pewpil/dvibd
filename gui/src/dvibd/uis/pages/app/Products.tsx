@@ -1,13 +1,22 @@
+import type { JSX } from 'solid-js';
 import { For } from 'solid-js';
 import { A } from '@solidjs/router';
 import { Action } from '~/dvibd/uis/components/Action';
-import { Icon } from '~/dvibd/uis/components/Icon';
+import { Icon, type IconName } from '~/dvibd/uis/components/Icon';
+import type { Color } from '~/dvibd/types';
 import styles from '~/dvibd/styles/pages/app/Products.module.css';
 
-const products = [
+const products: {
+  color: Color;
+  icon: IconName;
+  name: string;
+  tagline: string;
+  description: string;
+  points: string[];
+}[] = [
   {
-    color: 'purple' as const,
-    icon: 'social' as const,
+    color: 'purple',
+    icon: 'social',
     name: 'Social',
     tagline: 'Your corner of the internet',
     description:
@@ -20,8 +29,8 @@ const products = [
     ],
   },
   {
-    color: 'teal' as const,
-    icon: 'message' as const,
+    color: 'teal',
+    icon: 'message',
     name: 'Message',
     tagline: 'Private by default',
     description:
@@ -34,8 +43,8 @@ const products = [
     ],
   },
   {
-    color: 'coral' as const,
-    icon: 'productivity' as const,
+    color: 'coral',
+    icon: 'productivity',
     name: 'Productivity',
     tagline: 'Coming soon',
     description:
@@ -49,7 +58,7 @@ const products = [
   },
 ];
 
-export default function Products() {
+export default function Products(): JSX.Element {
   return (
     <div class={styles.page}>
       <section class={`container ${styles.head}`}>

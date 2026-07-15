@@ -89,6 +89,16 @@
       }
     }
 
+    .error {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      background: color-mix(in srgb, var(--coral) 16%, transparent);
+      border: 1px solid color-mix(in srgb, var(--coral) 40%, transparent);
+      color: var(--coral);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
     .footer {
       text-align: center;
       color: var(--muted);

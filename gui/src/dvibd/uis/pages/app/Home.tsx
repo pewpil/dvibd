@@ -1,17 +1,19 @@
+import type { JSX } from 'solid-js';
 import { For } from 'solid-js';
 import { A } from '@solidjs/router';
 import { Action } from '~/dvibd/uis/components/Action';
 import { FeatureCard } from '~/dvibd/uis/components/FeatureCard';
 import { Icon } from '~/dvibd/uis/components/Icon';
+import type { Color } from '~/dvibd/types';
 import styles from '~/dvibd/styles/pages/app/Home.module.css';
 
-const highlights = [
-  { color: 'purple' as const, text: 'Share photos, stories & live moments' },
-  { color: 'teal' as const, text: 'Private, end-to-end encrypted chats' },
-  { color: 'coral' as const, text: 'Plan & focus with connected tools' },
+const highlights: { color: Color; text: string }[] = [
+  { color: 'purple', text: 'Share photos, stories & live moments' },
+  { color: 'teal', text: 'Private, end-to-end encrypted chats' },
+  { color: 'coral', text: 'Plan & focus with connected tools' },
 ];
 
-export default function Home() {
+export default function Home(): JSX.Element {
   return (
     <div>
       <section class={styles.hero}>

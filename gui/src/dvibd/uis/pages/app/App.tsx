@@ -3,7 +3,7 @@ import { NavBar } from '~/dvibd/uis/components/NavBar';
 import { Footer } from '~/dvibd/uis/components/Footer';
 import styles from '~/dvibd/styles/pages/app/App.module.css';
 
-export default function App(props: { children?: JSX.Element }) {
+export default function App(props: { children?: JSX.Element }): JSX.Element {
   return (
     <div class={styles.app}>
       <NavBar />

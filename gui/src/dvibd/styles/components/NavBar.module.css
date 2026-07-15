@@ -53,7 +53,7 @@
     gap: 6px;
 
     .avatar {
-      display: none;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       width: 38px;

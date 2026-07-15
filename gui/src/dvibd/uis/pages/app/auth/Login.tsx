@@ -1,19 +1,32 @@
+import type { JSX } from 'solid-js';
 import { createSignal } from 'solid-js';
-import { A } from '@solidjs/router';
+import { A, useNavigate } from '@solidjs/router';
 import { Mail, Lock } from 'lucide-solid';
 import { Action } from '~/dvibd/uis/components/Action';
 import { Field } from '~/dvibd/uis/components/Field';
 import { AuthLayout } from '~/dvibd/uis/pages/app/auth/Auth';
+import { login } from '~/dvibd/auth';
 import styles from '~/dvibd/styles/pages/app/auth/Auth.module.css';
 
-export default function Login() {
+export default function Login(): JSX.Element {
+  const navigate = useNavigate();
   const [email, setEmail] = createSignal('');
   const [password, setPassword] = createSignal('');
-  const [done, setDone] = createSignal(false);
+  const [error, setError] = createSignal('');
+  const [loading, setLoading] = createSignal(false);
 
-  const submit = (e: Event) => {
+  const submit = async (e: Event): Promise<void> => {
     e.preventDefault();
-    setDone(true);
+    setError('');
+    setLoading(true);
+    try {
+      await login({ email: email(), password: password() });
+      navigate('/', { replace: true });
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -26,44 +39,35 @@ export default function Login() {
         </>
       }
     >
-      {done() ? (
-        <div class={styles.success}>
-          <h2>Signed in as {email() || 'you'}</h2>
-          <p>This is a demo — no real session was created.</p>
-          <Action href="/" variant="secondary" color="purple">
-            Back home
-          </Action>
-        </div>
-      ) : (
-        <form class={styles.form} onSubmit={submit}>
-          <Field
-            label="Email"
-            type="email"
-            value={email()}
-            onInput={setEmail}
-            placeholder="you@example.com"
-            autocomplete="email"
-            icon={<Mail size={18} />}
-            required
-          />
-          <Field
-            label="Password"
-            type="password"
-            value={password()}
-            onInput={setPassword}
-            placeholder="Your password"
-            autocomplete="current-password"
-            icon={<Lock size={18} />}
-            required
-          />
-          <A href="#" class={styles.forgot}>
-            Forgot your password?
-          </A>
-          <Action variant="primary" color="purple" full submit>
-            Log in
-          </Action>
-        </form>
-      )}
+      <form class={styles.form} onSubmit={submit}>
+        {error() && <p class={styles.error}>{error()}</p>}
+        <Field
+          label="Email"
+          type="email"
+          value={email()}
+          onInput={setEmail}
+          placeholder="you@example.com"
+          autocomplete="email"
+          icon={<Mail size={18} />}
+          required
+        />
+        <Field
+          label="Password"
+          type="password"
+          value={password()}
+          onInput={setPassword}
+          placeholder="Your password"
+          autocomplete="current-password"
+          icon={<Lock size={18} />}
+          required
+        />
+        <A href="#" class={styles.forgot}>
+          Forgot your password?
+        </A>
+        <Action variant="primary" color="purple" full submit>
+          {loading() ? 'Logging in…' : 'Log in'}
+        </Action>
+      </form>
     </AuthLayout>
   );
 }

@@ -1,39 +1,47 @@
+import type { JSX } from 'solid-js';
 import { createSignal, For } from 'solid-js';
 import { Action } from '~/dvibd/uis/components/Action';
-import { Icon } from '~/dvibd/uis/components/Icon';
+import { Icon, type IconName } from '~/dvibd/uis/components/Icon';
+import type { Color } from '~/dvibd/types';
 import styles from '~/dvibd/styles/pages/app/Contact.module.css';
 
-const channels = [
+const channels: {
+  color: Color;
+  icon: IconName;
+  title: string;
+  value: string;
+  href: string;
+}[] = [
   {
-    color: 'purple' as const,
-    icon: 'mail' as const,
+    color: 'purple',
+    icon: 'mail',
     title: 'Email',
     value: 'hello@dvibd.app',
     href: 'mailto:hello@dvibd.app',
   },
   {
-    color: 'teal' as const,
-    icon: 'globe' as const,
+    color: 'teal',
+    icon: 'globe',
     title: 'Community',
     value: 'discord.gg/dvibd',
     href: '#',
   },
   {
-    color: 'coral' as const,
-    icon: 'social' as const,
+    color: 'coral',
+    icon: 'social',
     title: 'Social',
     value: '@dvibd',
     href: '#',
   },
 ];
 
-export default function Contact() {
+export default function Contact(): JSX.Element {
   const [name, setName] = createSignal('');
   const [email, setEmail] = createSignal('');
   const [message, setMessage] = createSignal('');
   const [sent, setSent] = createSignal(false);
 
-  const handleSubmit = (e: Event) => {
+  const handleSubmit = (e: Event): void => {
     e.preventDefault();
     setSent(true);
   };

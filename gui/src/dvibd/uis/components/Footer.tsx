@@ -1,7 +1,8 @@
+import type { JSX } from 'solid-js';
 import { A } from '@solidjs/router';
 import styles from '~/dvibd/styles/components/Footer.module.css';
 
-export function Footer() {
+export function Footer(): JSX.Element {
   return (
     <footer class={styles.footer}>
       <div class={`container ${styles.top}`}>

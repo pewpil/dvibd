@@ -1,9 +1,11 @@
+import type { JSX } from 'solid-js';
 import { A } from '@solidjs/router';
 import { User } from 'lucide-solid';
 import { Action } from '~/dvibd/uis/components/Action';
+import { isAuthenticated, currentUser, logout } from '~/dvibd/auth';
 import styles from '~/dvibd/styles/components/NavBar.module.css';
 
-export function NavBar() {
+export function NavBar(): JSX.Element {
   return (
     <header class={styles.header}>
       <div class={`container ${styles.inner}`}>
@@ -27,15 +29,30 @@ export function NavBar() {
         </nav>
 
         <div class={styles.auth}>
-          <Action href="/login" variant="ghost" color="purple">
-            Log in
-          </Action>
-          <Action href="/signup" variant="primary" color="purple">
-            Sign up
-          </Action>
-          <div class={styles.avatar} aria-label="Profile">
-            <User size={18} />
-          </div>
+          {isAuthenticated() ? (
+            <div
+              class={styles.avatar}
+              role="button"
+              tabIndex={0}
+              aria-label="Log out"
+              title={currentUser()?.username ?? 'Log out'}
+              onClick={() => logout()}
+              onKeyDown={(e: KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') logout();
+              }}
+            >
+              <User size={18} />
+            </div>
+          ) : (
+            <>
+              <Action href="/login" variant="ghost" color="purple">
+                Log in
+              </Action>
+              <Action href="/signup" variant="primary" color="purple">
+                Sign up
+              </Action>
+            </>
+          )}
         </div>
       </div>
     </header>

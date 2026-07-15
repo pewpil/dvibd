@@ -37,3 +37,6 @@ pnpm-debug.log*
 
 # Vite cache (if a standalone cache dir appears)
 *.vite*
+
+# Prisma generated client
+api/src/generated/

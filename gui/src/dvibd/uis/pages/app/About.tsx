@@ -1,35 +1,37 @@
+import type { JSX } from 'solid-js';
 import { For } from 'solid-js';
 import { A } from '@solidjs/router';
 import { Action } from '~/dvibd/uis/components/Action';
 import { Icon } from '~/dvibd/uis/components/Icon';
+import type { Color } from '~/dvibd/types';
 import styles from '~/dvibd/styles/pages/app/About.module.css';
 
-const values = [
+const values: { color: Color; title: string; text: string }[] = [
   {
-    color: 'purple' as const,
+    color: 'purple',
     title: 'People over metrics',
     text: 'We optimize for calm and connection, not time-on-app or ad impressions.',
   },
   {
-    color: 'teal' as const,
+    color: 'teal',
     title: 'Private by default',
     text: 'Your messages and moments are yours. Encryption and minimal data collection are the baseline.',
   },
   {
-    color: 'coral' as const,
+    color: 'coral',
     title: 'Small and focused',
     text: 'A few tools that work well together beat a sprawling suite you never finish setting up.',
   },
 ];
 
-const stats = [
+const stats: { value: string; label: string }[] = [
   { value: '3', label: 'Connected products' },
   { value: 'E2E', label: 'Encrypted messaging' },
   { value: '0', label: 'Ads in your feed' },
   { value: '1', label: 'Account for everything' },
 ];
 
-export default function About() {
+export default function About(): JSX.Element {
   return (
     <div class={styles.page}>
       <section class={`container ${styles.hero}`}>
