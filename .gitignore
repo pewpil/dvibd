@@ -36,4 +36,4 @@ npm-debug.log*
 pnpm-debug.log*
 
 # Vite cache (if a standalone cache dir appears)
-.vite/
+*.vite*

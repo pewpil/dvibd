@@ -1,4 +1,5 @@
 import { A } from '@solidjs/router';
+import { User } from 'lucide-solid';
 import { Action } from '~/dvibd/uis/components/Action';
 import styles from '~/dvibd/styles/components/NavBar.module.css';
 
@@ -32,6 +33,9 @@ export function NavBar() {
           <Action href="/signup" variant="primary" color="purple">
             Sign up
           </Action>
+          <div class={styles.avatar} aria-label="Profile">
+            <User size={18} />
+          </div>
         </div>
       </div>
     </header>
