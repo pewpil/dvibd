@@ -1,13 +1,13 @@
 import type { Component } from "solid-js";
 
-import ThemeToggle from "@src/dvibd/uis/components/ThemeToggle";
+import NavBar from "@src/dvibd/uis/components/NavBar";
 
 import Home from "./home/Home";
 
 const App: Component = () => {
   return (
     <>
-      <ThemeToggle />
+      <NavBar />
       <Home />
     </>
   );

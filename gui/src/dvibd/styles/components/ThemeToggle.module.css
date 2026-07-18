@@ -1,8 +1,4 @@
 .toggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 10;
   padding: 0.55rem 1.1rem;
   font-size: 0.875rem;
   font-weight: 600;
