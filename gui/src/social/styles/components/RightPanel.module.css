@@ -1,0 +1,121 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 300px;
+  flex-shrink: 0;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--card);
+
+    .h2 {
+      font-size: 1.15rem;
+      margin-bottom: 12px;
+    }
+
+    .tag {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s ease;
+
+      &:hover {
+        background: var(--card-2);
+      }
+
+      .tagName {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--text);
+      }
+
+      .tagCount {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+    }
+
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+
+      .pAvatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--card-2);
+        border: 1px solid var(--border);
+        flex-shrink: 0;
+
+        &.purple {
+          color: var(--purple);
+        }
+        &.teal {
+          color: var(--teal);
+        }
+        &.coral {
+          color: var(--coral);
+        }
+      }
+
+      .pBody {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        flex: 1;
+
+        .pName {
+          font-weight: 600;
+          font-size: 0.92rem;
+        }
+
+        .pBio {
+          font-size: 0.82rem;
+          color: var(--muted);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      .follow {
+        padding: 7px 16px;
+        border-radius: 999px;
+        border: 1px solid var(--purple);
+        background: transparent;
+        color: var(--purple);
+        font-weight: 600;
+        font-family: inherit;
+        font-size: 0.82rem;
+        cursor: pointer;
+        transition:
+          background 0.15s ease,
+          color 0.15s ease;
+
+        &:hover {
+          background: var(--purple);
+          color: #0d0d12;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  .panel {
+    display: none;
+  }
+}

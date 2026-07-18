@@ -30,19 +30,15 @@ export function NavBar(): JSX.Element {
 
         <div class={styles.auth}>
           {isAuthenticated() ? (
-            <div
-              class={styles.avatar}
-              role="button"
-              tabIndex={0}
-              aria-label="Log out"
-              title={currentUser()?.username ?? 'Log out'}
-              onClick={() => logout()}
-              onKeyDown={(e: KeyboardEvent) => {
-                if (e.key === 'Enter' || e.key === ' ') logout();
-              }}
-            >
-              <User size={18} />
-            </div>
+            <>
+              <div class={styles.avatar} aria-hidden="true">
+                <User size={18} />
+              </div>
+              <span class={styles.username}>{currentUser()?.username ?? 'Account'}</span>
+              <Action variant="ghost" color="purple" onClick={() => logout()}>
+                Log out
+              </Action>
+            </>
           ) : (
             <>
               <Action href="/login" variant="ghost" color="purple">

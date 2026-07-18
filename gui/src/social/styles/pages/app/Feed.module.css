@@ -1,0 +1,56 @@
+.page {
+  padding-top: 48px;
+
+  .head {
+    text-align: center;
+    max-width: 60ch;
+    margin: 0 auto 36px;
+
+    .title {
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+
+    .lead {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+  }
+
+  .feed {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 640px;
+  }
+
+  .gate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 40px 28px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    background: var(--card);
+    color: var(--muted);
+    text-align: center;
+
+    p {
+      font-size: 0.98rem;
+    }
+
+    .gateLink {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: var(--purple);
+      transition: gap 0.15s ease;
+
+      &:hover {
+        gap: 12px;
+      }
+    }
+  }
+}

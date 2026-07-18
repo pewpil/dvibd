@@ -1,0 +1,134 @@
+.sidebar {
+  position: sticky;
+  top: 40px;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  width: fit-content;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: rgba(13, 13, 18, 0.72);
+  backdrop-filter: blur(12px);
+  flex-shrink: 0;
+  z-index: 50;
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 6px;
+    border-radius: 12px;
+
+    svg {
+      color: var(--purple);
+    }
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    .link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      color: var(--muted);
+      transition: color 0.15s ease, background 0.15s ease;
+
+      &:hover {
+        color: var(--text);
+        background: var(--card);
+      }
+
+      &.active {
+        color: var(--purple);
+        background: color-mix(in srgb, var(--purple) 14%, transparent);
+      }
+
+      .tip {
+        position: absolute;
+        left: calc(100% + 12px);
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: var(--card-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 0.82rem;
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.15s ease;
+        z-index: 60;
+      }
+
+      &:hover .tip {
+        opacity: 1;
+      }
+    }
+  }
+
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+
+    .avatar {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--card-2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.15s ease, color 0.15s ease;
+
+      &:hover {
+        border-color: var(--purple);
+        color: var(--text);
+      }
+
+      .tip {
+        position: absolute;
+        left: calc(100% + 12px);
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 6px 10px;
+        border-radius: 8px;
+        background: var(--card-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 0.82rem;
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.15s ease;
+        z-index: 60;
+      }
+
+      &:hover .tip {
+        opacity: 1;
+      }
+    }
+  }
+}

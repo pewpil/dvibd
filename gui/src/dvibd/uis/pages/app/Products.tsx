@@ -100,6 +100,10 @@ export default function Products(): JSX.Element {
                     <Action href="/contact" variant="secondary" color="coral">
                       Notify me
                     </Action>
+                  ) : p.name === 'Social' ? (
+                    <Action href="/social" variant="primary" color={p.color}>
+                      Open Social
+                    </Action>
                   ) : (
                     <Action href="/contact" variant="primary" color={p.color}>
                       Get {p.name}

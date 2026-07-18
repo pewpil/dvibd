@@ -1,0 +1,24 @@
+.app {
+  min-height: 100vh;
+}
+
+.shell {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 28px;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+
+.main {
+  width: 100%;
+  max-width: 640px;
+}
+
+@media (max-width: 900px) {
+  .shell {
+    padding-left: 88px;
+  }
+}
