@@ -34,10 +34,10 @@ const NavBar: Component = () => {
           <Button variant="primary" href="/auth/signup">
             Sign up
           </Button>
-          <span class={styles.themeSlot}>
-            <ThemeToggle />
-          </span>
         </div>
+        <span class={styles.themeSlot}>
+          <ThemeToggle />
+        </span>
       </div>
     </header>
   );
