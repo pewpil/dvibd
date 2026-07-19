@@ -9,6 +9,8 @@ import App from "./dvibd/uis/pages/App";
 import About from "./dvibd/uis/pages/home/About";
 import Home from "./dvibd/uis/pages/home/Home";
 import Landing from "./dvibd/uis/pages/home/Landing";
+import Products from "./dvibd/uis/pages/home/Products";
+import Contact from "./dvibd/uis/pages/home/Contact";
 
 const root = document.getElementById("root");
 
@@ -24,6 +26,8 @@ render(
       <Route path="/" component={Home}>
         <Route path="" component={Landing} />
         <Route path="/about" component={About} />
+        <Route path="/products" component={Products} />
+        <Route path="/contact" component={Contact} />
       </Route>
     </Router>
   ),
