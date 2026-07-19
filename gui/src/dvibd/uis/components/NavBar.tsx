@@ -2,7 +2,6 @@ import type { Component } from "solid-js";
 import { A } from "@solidjs/router";
 
 import Button from "@src/dvibd/uis/components/Button";
-import ThemeToggle from "@src/dvibd/uis/components/ThemeToggle";
 import styles from "@src/dvibd/styles/components/NavBar.module.css";
 
 const links = [
@@ -36,9 +35,6 @@ const NavBar: Component = () => {
             Sign up
           </Button>
         </div>
-        <span class={styles.themeSlot}>
-          <ThemeToggle />
-        </span>
       </div>
     </header>
   );

@@ -1,9 +1,13 @@
 .toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 30;
   padding: 0.55rem 1.1rem;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--text);
-  background: var(--surface);
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
   border: 1px solid var(--border);
   border-radius: 0.85rem;
   cursor: pointer;

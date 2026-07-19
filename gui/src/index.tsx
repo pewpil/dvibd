@@ -11,6 +11,9 @@ import Home from "./dvibd/uis/pages/home/Home";
 import Landing from "./dvibd/uis/pages/home/Landing";
 import Products from "./dvibd/uis/pages/home/Products";
 import Contact from "./dvibd/uis/pages/home/Contact";
+import Auth from "./dvibd/uis/pages/auth/Auth";
+import LogIn from "./dvibd/uis/pages/auth/LogIn";
+import SignUp from "./dvibd/uis/pages/auth/SignUp";
 
 const root = document.getElementById("root");
 
@@ -28,6 +31,10 @@ render(
         <Route path="/about" component={About} />
         <Route path="/products" component={Products} />
         <Route path="/contact" component={Contact} />
+      </Route>
+      <Route path="/auth" component={Auth}>
+        <Route path="/login" component={LogIn} />
+        <Route path="/signup" component={SignUp} />
       </Route>
     </Router>
   ),

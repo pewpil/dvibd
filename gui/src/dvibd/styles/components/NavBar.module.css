@@ -63,10 +63,5 @@
       align-items: center;
       gap: 0.75rem;
     }
-
-    span.themeSlot {
-      position: absolute;
-      left: 92.5%;
-    }
   }
 }
