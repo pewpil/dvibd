@@ -19,6 +19,7 @@
 .classpath
 *.launch
 .settings/
+.opencode/
 
 # Temp
 gitignore
