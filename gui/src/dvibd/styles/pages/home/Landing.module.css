@@ -127,29 +127,4 @@
     }
   }
 
-  .footer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2.5rem 0 3rem;
-    border-top: 1px solid var(--border);
-    margin-top: 2rem;
-
-    .footerBrand {
-      font-weight: 800;
-      font-size: 1.05rem;
-      letter-spacing: -0.02em;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .footerCopy {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-  }
 }

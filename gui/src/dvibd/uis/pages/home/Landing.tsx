@@ -96,13 +96,6 @@ const Landing: Component = () => {
           Create your account
         </Button>
       </section>
-
-      <footer class={styles.footer}>
-        <span class={styles.footerBrand}>dvibd</span>
-        <span class={styles.footerCopy}>
-          © {new Date().getFullYear()} dvibd. All rights reserved.
-        </span>
-      </footer>
     </main>
   );
 };
