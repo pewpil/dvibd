@@ -1,0 +1,15 @@
+.tag {
+  align-self: flex-start;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--card-accent, var(--accent));
+  background: color-mix(
+    in srgb,
+    var(--card-accent, var(--accent)) 14%,
+    transparent
+  );
+  border-radius: 999px;
+}

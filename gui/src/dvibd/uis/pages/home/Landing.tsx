@@ -2,6 +2,9 @@ import type { Component } from "solid-js";
 
 import Button from "@src/dvibd/uis/components/Button";
 import FeatureCard from "@src/dvibd/uis/components/FeatureCard";
+import socialIcon from "@src/dvibd/assets/social.ico";
+import messageIcon from "@src/dvibd/assets/message.ico";
+import suiteIcon from "@src/dvibd/assets/suite.ico";
 import styles from "@src/dvibd/styles/pages/home/Landing.module.css";
 
 const features = [
@@ -9,18 +12,24 @@ const features = [
     name: "social",
     title: "social",
     color: "#ec4899",
+    icon: socialIcon,
+    tags: ["Social network", "Feeds", "Communities"],
     description: "Share moments and stay close with the people who matter.",
   },
   {
     name: "message",
     title: "message",
     color: "#06b6d4",
+    icon: messageIcon,
+    tags: ["Messaging app", "Private chats", "Group rooms"],
     description: "Fast, private conversations in dvibd's communication app.",
   },
   {
-    name: "productivity",
-    title: "productivity",
+    name: "suite",
+    title: "suite",
     color: "#22c55e",
+    icon: suiteIcon,
+    tags: ["Productivity suite", "Notes", "Cloud", "Email", "Docs"],
     description:
       "Notes, cloud, email, and docs — separate apps, one workspace. Coming soon.",
   },
@@ -55,12 +64,14 @@ const Landing: Component = () => {
               title={feature.title}
               description={feature.description}
               color={feature.color}
+              icon={feature.icon}
+              tags={feature.tags}
             >
               <div class={styles.cardActions}>
                 <Button variant="ghost" href={`#${feature.name}`}>
                   Learn more
                 </Button>
-                {feature.name === "productivity" ? (
+                {feature.name === "suite" ? (
                   <Button variant="primary" href="#get-started" disabled>
                     Coming soon
                   </Button>
