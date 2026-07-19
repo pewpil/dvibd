@@ -1,13 +1,14 @@
 import type { Component } from "solid-js";
+import { A } from "@solidjs/router";
 
 import Button from "@src/dvibd/uis/components/Button";
 import ThemeToggle from "@src/dvibd/uis/components/ThemeToggle";
 import styles from "@src/dvibd/styles/components/NavBar.module.css";
 
 const links = [
-  { label: "about", href: "#about" },
-  { label: "products", href: "#products" },
-  { label: "contact", href: "#contact" },
+  { label: "about", href: "/about" },
+  { label: "products", href: "/products" },
+  { label: "contact", href: "/contact" },
 ];
 
 const NavBar: Component = () => {
@@ -15,14 +16,14 @@ const NavBar: Component = () => {
     <header class={styles.nav}>
       <div class={styles.inner}>
         <div class={styles.left}>
-          <a class={styles.brand} href="/">
+          <A class={styles.brand} href="/">
             dvibd
-          </a>
+          </A>
           <nav class={styles.links}>
             {links.map((link) => (
-              <a class={styles.link} href={link.href}>
+              <A class={styles.link} href={link.href}>
                 {link.label}
-              </a>
+              </A>
             ))}
           </nav>
         </div>

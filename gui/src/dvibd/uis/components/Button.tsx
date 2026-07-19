@@ -1,4 +1,5 @@
 import type { Component, JSX } from "solid-js";
+import { A } from "@solidjs/router";
 
 import styles from "@src/dvibd/styles/components/Button.module.css";
 
@@ -9,18 +10,34 @@ type ButtonProps = {
   children: JSX.Element;
 };
 
+const isInternal = (href?: string) => !!href && href.startsWith("/");
+
 const Button: Component<ButtonProps> = (props) => {
   const classes = () =>
-    props.variant === "ghost" ? styles.ghost : styles.primary;
+    `${styles.button} ${props.variant === "ghost" ? styles.ghost : styles.primary}`;
+
+  if (props.disabled) {
+    return (
+      <a
+        class={`${classes()} ${styles.disabled}`}
+        aria-disabled={true}
+        onClick={(e) => e.preventDefault()}
+      >
+        {props.children}
+      </a>
+    );
+  }
+
+  if (isInternal(props.href)) {
+    return (
+      <A class={classes()} href={props.href!}>
+        {props.children}
+      </A>
+    );
+  }
 
   return (
-    <a
-      class={`${styles.button} ${classes()}`}
-      classList={{ [styles.disabled]: props.disabled }}
-      href={props.disabled ? undefined : props.href ?? "#"}
-      aria-disabled={props.disabled}
-      onClick={(e) => props.disabled && e.preventDefault()}
-    >
+    <a class={classes()} href={props.href ?? "#"}>
       {props.children}
     </a>
   );

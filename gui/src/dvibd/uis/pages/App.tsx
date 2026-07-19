@@ -1,16 +1,7 @@
-import type { Component } from "solid-js";
+import type { Component, JSX } from "solid-js";
 
-import NavBar from "@src/dvibd/uis/components/NavBar";
-
-import Home from "./home/Home";
-
-const App: Component = () => {
-  return (
-    <>
-      <NavBar />
-      <Home />
-    </>
-  );
+const App: Component<{ children?: JSX.Element }> = (props) => {
+  return <div>{props.children}</div>;
 };
 
 export default App;
