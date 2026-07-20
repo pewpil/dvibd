@@ -1,17 +1,17 @@
-dist
-.wrangler
-.output
-.vercel
-.netlify
-.vinxi
-app.config.timestamp_*.js
+*dist
+*.wrangler
+*.output
+*.vercel
+*.netlify
+*.vinxi
+*app.config.timestamp_*.js
 
 # Environment
-.env
-.env*.local
+*.env
+*.env*.local
 
 # dependencies
-*node_modules*
+*/node_modules/
 
 # IDEs and editors
 /.idea
@@ -38,5 +38,5 @@ pnpm-debug.log*
 # Vite cache (if a standalone cache dir appears)
 *.vite*
 
-# Prisma generated client
-api/src/generated/
+# ORM
+api/drizzle/
