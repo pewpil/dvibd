@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    // General
+    "target": "ESNext",
+
+    // Modules
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true,
+
+    // Emit — none. Node runs the .ts sources directly (native type stripping);
+    // tsc is used only for type-checking (noEmit). Imports are relative with
+    // .ts extensions.
+    "noEmit": true,
+    "rootDir": "src",
+
+    // Type Checking & Safety
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "drizzle"]
+}

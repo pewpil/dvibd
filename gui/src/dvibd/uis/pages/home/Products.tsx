@@ -1,4 +1,4 @@
-import { For, type Component, type JSX } from "solid-js";
+import { For, type JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import Tag from "@src/dvibd/uis/components/Tag";
@@ -69,7 +69,7 @@ const products = [
   },
 ];
 
-const Products: Component = () => {
+function Products(): JSX.Element {
   return (
     <main class={styles.products}>
       <section class={styles.hero}>
@@ -140,6 +140,6 @@ const Products: Component = () => {
       </section>
     </main>
   );
-};
+}
 
 export default Products;

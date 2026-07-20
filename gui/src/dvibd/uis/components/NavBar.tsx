@@ -1,4 +1,4 @@
-import type { Component } from "solid-js";
+import type { JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import Button from "@src/dvibd/uis/components/Button";
@@ -10,7 +10,7 @@ const links = [
   { label: "contact", href: "/contact" },
 ];
 
-const NavBar: Component = () => {
+function NavBar(): JSX.Element {
   return (
     <header class={styles.nav}>
       <div class={styles.inner}>
@@ -38,6 +38,6 @@ const NavBar: Component = () => {
       </div>
     </header>
   );
-};
+}
 
 export default NavBar;

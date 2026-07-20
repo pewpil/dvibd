@@ -1,4 +1,4 @@
-import { For, type Component } from "solid-js";
+import { For, type JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import brandIcon from "@src/dvibd/assets/dvibd.ico";
@@ -30,7 +30,7 @@ const columns = [
   },
 ];
 
-const Footer: Component = () => {
+function Footer(): JSX.Element {
   return (
     <footer class={styles.footer}>
       <div class={styles.inner}>
@@ -81,6 +81,6 @@ const Footer: Component = () => {
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;

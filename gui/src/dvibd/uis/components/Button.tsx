@@ -1,20 +1,26 @@
-import type { Component, JSX } from "solid-js";
+import type { JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import styles from "@src/dvibd/styles/components/Button.module.css";
+
+type AnchorClickHandler = JSX.EventHandlerUnion<HTMLAnchorElement, MouseEvent>;
 
 type ButtonProps = {
   variant?: "primary" | "ghost";
   href?: string;
   disabled?: boolean;
+  onClick?: AnchorClickHandler;
   children: JSX.Element;
 };
 
-const isInternal = (href?: string) => !!href && href.startsWith("/");
+function isInternal(href?: string): boolean {
+  return !!href && href.startsWith("/");
+}
 
-const Button: Component<ButtonProps> = (props) => {
-  const classes = () =>
-    `${styles.button} ${props.variant === "ghost" ? styles.ghost : styles.primary}`;
+function Button(props: ButtonProps): JSX.Element {
+  function classes(): string {
+    return `${styles.button} ${props.variant === "ghost" ? styles.ghost : styles.primary}`;
+  }
 
   if (props.disabled) {
     return (
@@ -30,17 +36,17 @@ const Button: Component<ButtonProps> = (props) => {
 
   if (isInternal(props.href)) {
     return (
-      <A class={classes()} href={props.href!}>
+      <A class={classes()} href={props.href!} onClick={props.onClick}>
         {props.children}
       </A>
     );
   }
 
   return (
-    <a class={classes()} href={props.href ?? "#"}>
+    <a class={classes()} href={props.href ?? "#"} onClick={props.onClick}>
       {props.children}
     </a>
   );
-};
+}
 
 export default Button;

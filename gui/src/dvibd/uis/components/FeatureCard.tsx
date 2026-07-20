@@ -1,4 +1,4 @@
-import { For, type Component, type JSX } from "solid-js";
+import { For, type JSX } from "solid-js";
 
 import Tag from "@src/dvibd/uis/components/Tag";
 import styles from "@src/dvibd/styles/components/FeatureCard.module.css";
@@ -12,7 +12,7 @@ type FeatureCardProps = {
   children?: JSX.Element;
 };
 
-const FeatureCard: Component<FeatureCardProps> = (props) => {
+function FeatureCard(props: FeatureCardProps): JSX.Element {
   return (
     <article
       class={styles.card}
@@ -31,6 +31,6 @@ const FeatureCard: Component<FeatureCardProps> = (props) => {
       {props.children}
     </article>
   );
-};
+}
 
 export default FeatureCard;

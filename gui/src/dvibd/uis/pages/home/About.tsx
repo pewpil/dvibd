@@ -1,4 +1,4 @@
-import type { Component } from "solid-js";
+import type { JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import styles from "@src/dvibd/styles/pages/home/About.module.css";
@@ -21,7 +21,7 @@ const values = [
   },
 ];
 
-const About: Component = () => {
+function About(): JSX.Element {
   return (
     <main class={styles.about}>
       <section class={styles.hero}>
@@ -61,6 +61,6 @@ const About: Component = () => {
       </section>
     </main>
   );
-};
+}
 
 export default About;
