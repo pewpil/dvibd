@@ -1,16 +1,16 @@
-import type { Component } from "solid-js";
+import type { JSX } from "solid-js";
 import { createSignal } from "solid-js";
 
 import Button from "@src/dvibd/uis/components/Button";
 import styles from "@src/dvibd/styles/pages/auth/LogIn.module.css";
 
-const LogIn: Component = () => {
+function LogIn(): JSX.Element {
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
 
-  const submit = (e: Event) => {
+  function submit(e: Event): void {
     e.preventDefault();
-  };
+  }
 
   return (
     <div class={styles.login}>
@@ -59,6 +59,6 @@ const LogIn: Component = () => {
       </p>
     </div>
   );
-};
+}
 
 export default LogIn;

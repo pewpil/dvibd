@@ -1,4 +1,4 @@
-import type { Component } from "solid-js";
+import type { JSX } from "solid-js";
 import { createSignal } from "solid-js";
 import { A } from "@solidjs/router";
 
@@ -11,16 +11,16 @@ const channels = [
   { label: "Press", value: "press@dvibd.com" },
 ];
 
-const Contact: Component = () => {
+function Contact(): JSX.Element {
   const [name, setName] = createSignal("");
   const [email, setEmail] = createSignal("");
   const [message, setMessage] = createSignal("");
   const [sent, setSent] = createSignal(false);
 
-  const submit = (e: Event) => {
+  function submit(e: Event): void {
     e.preventDefault();
     setSent(true);
-  };
+  }
 
   return (
     <main class={styles.contact}>
@@ -112,6 +112,6 @@ const Contact: Component = () => {
       </section>
     </main>
   );
-};
+}
 
 export default Contact;

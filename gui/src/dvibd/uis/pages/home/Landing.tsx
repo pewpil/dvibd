@@ -1,4 +1,4 @@
-import type { Component } from "solid-js";
+import type { JSX } from "solid-js";
 
 import Button from "@src/dvibd/uis/components/Button";
 import FeatureCard from "@src/dvibd/uis/components/FeatureCard";
@@ -35,7 +35,7 @@ const features = [
   },
 ];
 
-const Landing: Component = () => {
+function Landing(): JSX.Element {
   return (
     <main class={styles.landing}>
       <section class={styles.hero}>
@@ -98,6 +98,6 @@ const Landing: Component = () => {
       </section>
     </main>
   );
-};
+}
 
 export default Landing;

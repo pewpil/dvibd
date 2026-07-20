@@ -1,9 +1,9 @@
-import type { Component, JSX } from "solid-js";
+import type { JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import styles from "@src/dvibd/styles/pages/auth/Auth.module.css";
 
-const Auth: Component<{ children?: JSX.Element }> = (props) => {
+function Auth(props: { children?: JSX.Element }): JSX.Element {
   return (
     <div class={styles.auth}>
       <div class={styles.glow} />
@@ -16,6 +16,6 @@ const Auth: Component<{ children?: JSX.Element }> = (props) => {
       </A>
     </div>
   );
-};
+}
 
 export default Auth;

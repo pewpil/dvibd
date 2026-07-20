@@ -1,4 +1,4 @@
-import type { Component, JSX } from "solid-js";
+import type { JSX } from "solid-js";
 
 import NavBar from "@src/dvibd/uis/components/NavBar";
 import Footer from "@src/dvibd/uis/components/Footer";
@@ -6,7 +6,7 @@ import styles from "@src/dvibd/styles/pages/home/Home.module.css";
 
 import Landing from "./Landing";
 
-const Home: Component<{ children?: JSX.Element }> = (props) => {
+function Home(props: { children?: JSX.Element }): JSX.Element {
   return (
     <div class={styles.home}>
       <NavBar />
@@ -14,6 +14,6 @@ const Home: Component<{ children?: JSX.Element }> = (props) => {
       <Footer />
     </div>
   );
-};
+}
 
 export default Home;
