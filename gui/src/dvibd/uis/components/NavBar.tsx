@@ -2,6 +2,7 @@ import type { Component } from "solid-js";
 import { A } from "@solidjs/router";
 
 import Button from "@src/dvibd/uis/components/Button";
+import avatar from "@src/dvibd/assets/avatar.png";
 import styles from "@src/dvibd/styles/components/NavBar.module.css";
 
 const links = [
@@ -34,6 +35,12 @@ const NavBar: Component = () => {
           <Button variant="primary" href="/auth/signup">
             Sign up
           </Button>
+          {/* Profile picture — shown when the user is logged in. Hidden for now
+              until auth wiring is ready.
+          <A class={styles.profile} href="/">
+            <img class={styles.profileImg} src={avatar} alt="Your profile" />
+          </A>
+          */}
         </div>
       </div>
     </header>
