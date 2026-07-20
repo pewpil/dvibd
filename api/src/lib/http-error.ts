@@ -3,12 +3,12 @@
 // can throw typed errors that the central error handler turns into responses.
 
 export class HttpError extends Error {
-  constructor(
-    public statusCode: number,
-    message: string,
-  ) {
+  statusCode: number;
+
+  constructor(statusCode: number, message: string) {
     super(message);
     this.name = "HttpError";
+    this.statusCode = statusCode;
   }
 }
 

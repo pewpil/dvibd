@@ -5,12 +5,11 @@
 import { Router } from "express";
 
 import healthRoute from "./health.route.ts";
+import usersRoutes from "../modules/users/users.routes.ts";
 
-const router = Router();
+const router: Router = Router();
 
 router.use("/health", healthRoute);
-
-// TODO: mount module routers, e.g.
-// router.use("/users", usersRoutes);
+router.use("/users", usersRoutes);
 
 export default router;

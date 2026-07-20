@@ -7,6 +7,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 
+import { env } from "./config/env.ts";
 import routes from "./routes/index.ts";
 import { notFound } from "./middleware/not-found.ts";
 import { errorHandler } from "./middleware/error-handler.ts";
@@ -16,8 +17,7 @@ export function createServer() {
 
   app.use(helmet());
 
-  // TODO: restrict cors origin to env.CORS_ORIGIN.
-  app.use(cors());
+  app.use(cors({ origin: env.CORS_ORIGIN }));
   app.use(express.json());
 
   // TODO: mount under a versioned base path (e.g. "/api/v1").
