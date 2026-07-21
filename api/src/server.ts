@@ -13,7 +13,7 @@ import { notFound } from "./middleware/not-found.ts";
 import { errorHandler } from "./middleware/error-handler.ts";
 
 export function createServer() {
-  const app = express();
+  const app: express.Express = express();
 
   app.use(helmet());
 

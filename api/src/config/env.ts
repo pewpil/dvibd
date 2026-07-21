@@ -9,12 +9,13 @@
 // deployment fails loudly at startup instead of silently using dev values.
 
 import "dotenv/config";
-import { z, type ZodCoercedNumber, type ZodString, type ZodSafeParseResult } from "zod";
+import { z, type ZodCoercedNumber, type ZodString, type ZodURL, type ZodSafeParseResult } from "zod";
 
 type DevDefaults = {
   readonly PORT: number;
   readonly DATABASE_URL: string;
   readonly CORS_ORIGIN: string;
+  readonly JWT_SECRET: string;
 };
 
 const NODE_ENV: string = process.env.NODE_ENV ?? "development";
@@ -24,19 +25,20 @@ const devDefaults: DevDefaults = {
   PORT: 4000,
   DATABASE_URL: "postgres://dvibd:dvibd_dev_password@localhost:5432/dvibd",
   CORS_ORIGIN: "http://localhost:3000",
+  JWT_SECRET: "dev-secret-change-in-production",
 };
 
-// In production every value is required (no defaults). In dev/test we attach
-// fallbacks so the app runs with zero configuration.
 const port: ZodCoercedNumber<unknown> = z.coerce.number().int().positive();
-const databaseUrl: ZodString = z.string().url();
+const databaseUrl: ZodURL = z.url();
 const corsOrigin: ZodString = z.string();
+const jwtSecret: ZodString = z.string();
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   PORT: isProd ? port : port.default(devDefaults.PORT),
   DATABASE_URL: isProd ? databaseUrl : databaseUrl.default(devDefaults.DATABASE_URL),
   CORS_ORIGIN: isProd ? corsOrigin : corsOrigin.default(devDefaults.CORS_ORIGIN),
+  JWT_SECRET: isProd ? jwtSecret : jwtSecret.default(devDefaults.JWT_SECRET),
 });
 
 export type Env = z.infer<typeof envSchema>;

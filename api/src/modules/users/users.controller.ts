@@ -4,10 +4,10 @@
 //
 // These are async handlers. Express 5 automatically forwards a rejected promise
 // to the error-handling middleware, so a thrown HttpError (from the service or
-// here) becomes a proper JSON error response without any try/catch wrapper.
+// the validation middleware) becomes a proper JSON error response without any
+// try/catch wrapper.
 
 import type { Request, Response } from "express";
-import { z } from "zod";
 
 import { HttpError } from "../../lib/http-error.ts";
 import {
@@ -16,14 +16,7 @@ import {
   listUsers,
   type PublicUser,
 } from "./users.service.ts";
-
-// Minimal input contract for creating a user. (Full request-validation
-// middleware is step 8; for now the create endpoint validates its own body.)
-const createUserSchema = z.object({
-  email: z.string().email(),
-  username: z.string().min(3).max(50),
-  passwordHash: z.string().min(1),
-});
+import type { CreateUserInput } from "./users.validation.ts";
 
 // GET /users
 export async function list(_req: Request, res: Response): Promise<void> {
@@ -33,10 +26,11 @@ export async function list(_req: Request, res: Response): Promise<void> {
 
 // GET /users/:id
 export async function getById(req: Request, res: Response): Promise<void> {
-  const id: unknown = req.params.id;
-  if (typeof id !== "string") {
+  const idRaw: unknown = req.params.id;
+  if (typeof idRaw !== "string") {
     throw new HttpError(400, "Missing user id");
   }
+  const id: string = idRaw;
 
   const user: PublicUser | null = await findUserById(id);
   if (user === null) {
@@ -48,11 +42,10 @@ export async function getById(req: Request, res: Response): Promise<void> {
 
 // POST /users
 export async function create(req: Request, res: Response): Promise<void> {
-  const parsed = createUserSchema.safeParse(req.body);
-  if (!parsed.success) {
-    throw new HttpError(400, parsed.error.issues[0]?.message ?? "Invalid body");
-  }
+  // Validation middleware already ran and threw HttpError(400) on failure.
+  // req.body is now guaranteed to match CreateUserInput.
+  const input: CreateUserInput = req.body as CreateUserInput;
 
-  const user: PublicUser = await createUser(parsed.data);
+  const user: PublicUser = await createUser(input);
   res.status(201).json(user);
 }

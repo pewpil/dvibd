@@ -1,5 +1,16 @@
 // types/index.ts
 // Shared, app-wide TypeScript types live here.
 
-// TODO: add shared types (e.g. authenticated request user, pagination params).
-export {};
+export interface AuthUser {
+  id: string;
+  email: string;
+  username: string;
+}
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: AuthUser;
+    }
+  }
+}

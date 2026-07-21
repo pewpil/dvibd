@@ -5,9 +5,9 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 
-const router = Router();
+const router: Router = Router();
 
-router.get("/", function (_req: Request, res: Response): void {
+router.get("/", function(_req: Request, res: Response): void {
   res.json({ status: "ok" });
 });
 
