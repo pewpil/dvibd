@@ -9,6 +9,7 @@ type ButtonProps = {
   variant?: "primary" | "ghost";
   href?: string;
   disabled?: boolean;
+  type?: "submit" | "button" | "reset";
   onClick?: AnchorClickHandler;
   children: JSX.Element;
 };
@@ -20,6 +21,19 @@ function isInternal(href?: string): boolean {
 function Button(props: ButtonProps): JSX.Element {
   function classes(): string {
     return `${styles.button} ${props.variant === "ghost" ? styles.ghost : styles.primary}`;
+  }
+
+  function handleClick(event: MouseEvent): void {
+    if (props.type === "submit" && !props.disabled) {
+      event.preventDefault();
+      const form = (event.currentTarget as HTMLElement).closest("form");
+      if (form) {
+        form.requestSubmit();
+      }
+    }
+    if (props.onClick) {
+      props.onClick(event);
+    }
   }
 
   if (props.disabled) {
@@ -42,8 +56,14 @@ function Button(props: ButtonProps): JSX.Element {
     );
   }
 
+  const buttonType = props.type || "button";
   return (
-    <a class={classes()} href={props.href ?? "#"} onClick={props.onClick}>
+    <a
+      class={classes()}
+      href={props.href ?? "#"}
+      onClick={handleClick}
+      type={buttonType}
+    >
       {props.children}
     </a>
   );

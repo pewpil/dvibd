@@ -37,7 +37,11 @@ export async function register(
   email: string,
   username: string,
   password: string,
-): Promise<{ accessToken: string; refreshToken: string; user: { id: string; email: string; username: string } }> {
+): Promise<{
+  accessToken: string;
+  refreshToken: string;
+  user: { id: string; email: string; username: string };
+}> {
   // Check for existing user
   const existing = await db
     .select()
@@ -80,7 +84,11 @@ export async function register(
 export async function login(
   email: string,
   password: string,
-): Promise<{ accessToken: string; refreshToken: string; user: { id: string; email: string; username: string } }> {
+): Promise<{
+  accessToken: string;
+  refreshToken: string;
+  user: { id: string; email: string; username: string };
+}> {
   const result = await db
     .select()
     .from(users)
@@ -115,9 +123,14 @@ export function verifyAccessToken(token: string): { sub: string } | null {
   }
 }
 
-export function verifyRefreshToken(token: string): { sub: string; type: string } | null {
+export function verifyRefreshToken(
+  token: string,
+): { sub: string; type: string } | null {
   try {
-    const payload = jwt.verify(token, env.JWT_SECRET) as { sub: string; type: string };
+    const payload = jwt.verify(token, env.JWT_SECRET) as {
+      sub: string;
+      type: string;
+    };
     if (payload.type !== "refresh") {
       return null;
     }
@@ -126,3 +139,4 @@ export function verifyRefreshToken(token: string): { sub: string; type: string }
     return null;
   }
 }
+

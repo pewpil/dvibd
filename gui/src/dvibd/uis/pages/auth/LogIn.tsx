@@ -7,9 +7,36 @@ import styles from "@src/dvibd/styles/pages/auth/LogIn.module.css";
 function LogIn(): JSX.Element {
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
+  const [isLoading, setIsLoading] = createSignal(false);
+  const [error, setError] = createSignal<string | null>(null);
 
-  function submit(e: Event): void {
+  async function submit(e: Event): Promise<void> {
     e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email(), password: password() }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Login failed");
+      }
+
+      const data = await response.json();
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      window.location.href = "/"; // Redirect to home page
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -18,6 +45,8 @@ function LogIn(): JSX.Element {
       <p class={styles.subtitle}>Log in to your dvibd account.</p>
 
       <form class={styles.form} onSubmit={submit}>
+        {error() && <div class={styles.error}>{error()}</div>}
+        
         <label class={styles.field}>
           <span class={styles.label}>Email</span>
           <input
@@ -27,6 +56,7 @@ function LogIn(): JSX.Element {
             onInput={(e) => setEmail(e.currentTarget.value)}
             placeholder="you@example.com"
             required
+            disabled={isLoading()}
           />
         </label>
 
@@ -39,15 +69,17 @@ function LogIn(): JSX.Element {
             onInput={(e) => setPassword(e.currentTarget.value)}
             placeholder="••••••••"
             required
+            disabled={isLoading()}
           />
         </label>
 
         <Button
           variant="primary"
           href="#"
-          onClick={(e) => e.preventDefault()}
+          disabled={isLoading()}
+          type="submit"
         >
-          Log in
+          {isLoading() ? "Logging in..." : "Log in"}
         </Button>
       </form>
 

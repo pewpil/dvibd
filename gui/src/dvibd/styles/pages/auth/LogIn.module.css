@@ -62,6 +62,16 @@
         }
       }
     }
+
+    .error {
+      padding: 0.8rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      color: #dc2626;
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      margin-bottom: 0.5rem;
+    }
   }
 
   .alt {

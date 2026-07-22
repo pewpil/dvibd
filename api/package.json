@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:reset": "drizzle-kit reset",
     "db:studio": "drizzle-kit studio"
   },
   "keywords": [],

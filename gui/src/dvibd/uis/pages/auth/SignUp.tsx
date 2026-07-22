@@ -8,9 +8,40 @@ function SignUp(): JSX.Element {
   const [name, setName] = createSignal("");
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
+  const [isLoading, setIsLoading] = createSignal(false);
+  const [error, setError] = createSignal<string | null>(null);
 
-  function submit(e: Event): void {
+  async function submit(e: Event): Promise<void> {
     e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email(),
+          username: name(),
+          password: password(),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Registration failed");
+      }
+
+      const data = await response.json();
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      window.location.href = "/"; // Redirect to home page
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -21,6 +52,8 @@ function SignUp(): JSX.Element {
       </p>
 
       <form class={styles.form} onSubmit={submit}>
+        {error() && <div class={styles.error}>{error()}</div>}
+
         <label class={styles.field}>
           <span class={styles.label}>Name</span>
           <input
@@ -30,6 +63,7 @@ function SignUp(): JSX.Element {
             onInput={(e) => setName(e.currentTarget.value)}
             placeholder="Your name"
             required
+            disabled={isLoading()}
           />
         </label>
 
@@ -42,6 +76,7 @@ function SignUp(): JSX.Element {
             onInput={(e) => setEmail(e.currentTarget.value)}
             placeholder="you@example.com"
             required
+            disabled={isLoading()}
           />
         </label>
 
@@ -54,15 +89,17 @@ function SignUp(): JSX.Element {
             onInput={(e) => setPassword(e.currentTarget.value)}
             placeholder="••••••••"
             required
+            disabled={isLoading()}
           />
         </label>
 
         <Button
           variant="primary"
           href="#"
-          onClick={(e) => e.preventDefault()}
+          disabled={isLoading()}
+          type="submit"
         >
-          Create account
+          {isLoading() ? "Creating account..." : "Create account"}
         </Button>
       </form>
 
