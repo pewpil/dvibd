@@ -3,6 +3,7 @@ import { A } from "@solidjs/router";
 
 import styles from "@src/dvibd/styles/components/Button.module.css";
 
+type ButtonClickHandler = JSX.EventHandlerUnion<HTMLButtonElement, MouseEvent>;
 type AnchorClickHandler = JSX.EventHandlerUnion<HTMLAnchorElement, MouseEvent>;
 
 type ButtonProps = {
@@ -10,7 +11,7 @@ type ButtonProps = {
   href?: string;
   disabled?: boolean;
   type?: "submit" | "button" | "reset";
-  onClick?: AnchorClickHandler;
+  onClick?: AnchorClickHandler | ButtonClickHandler;
   children: JSX.Element;
 };
 
@@ -30,9 +31,10 @@ function Button(props: ButtonProps): JSX.Element {
       if (form) {
         form.requestSubmit();
       }
+      return;
     }
-    if (props.onClick) {
-      props.onClick(event);
+    if (typeof props.onClick === "function") {
+      (props.onClick as (e: MouseEvent) => void)(event);
     }
   }
 
@@ -56,16 +58,22 @@ function Button(props: ButtonProps): JSX.Element {
     );
   }
 
-  const buttonType = props.type || "button";
+  if (props.href) {
+    return (
+      <a class={classes()} href={props.href!} onClick={props.onClick}>
+        {props.children}
+      </a>
+    );
+  }
+
   return (
-    <a
+    <button
       class={classes()}
-      href={props.href ?? "#"}
+      type={props.type || "button"}
       onClick={handleClick}
-      type={buttonType}
     >
       {props.children}
-    </a>
+    </button>
   );
 }
 

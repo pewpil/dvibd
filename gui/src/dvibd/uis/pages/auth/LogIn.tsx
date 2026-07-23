@@ -1,14 +1,18 @@
-import type { JSX } from "solid-js";
+import type { JSX, Signal } from "solid-js";
 import { createSignal } from "solid-js";
+import { useNavigate } from "@solidjs/router";
+import { useAuth } from "@src/dvibd/contexts/AuthContext";
 
 import Button from "@src/dvibd/uis/components/Button";
 import styles from "@src/dvibd/styles/pages/auth/LogIn.module.css";
 
 function LogIn(): JSX.Element {
-  const [email, setEmail] = createSignal("");
-  const [password, setPassword] = createSignal("");
-  const [isLoading, setIsLoading] = createSignal(false);
-  const [error, setError] = createSignal<string | null>(null);
+  const [email, setEmail]: Signal<string> = createSignal("");
+  const [password, setPassword]: Signal<string> = createSignal("");
+  const [isLoading, setIsLoading]: Signal<boolean> = createSignal(false);
+  const [error, setError]: Signal<string | null> = createSignal<string | null>(null);
+  const navigate: (path: string) => void = useNavigate();
+  const { setUser } = useAuth();
 
   async function submit(e: Event): Promise<void> {
     e.preventDefault();
@@ -31,7 +35,8 @@ function LogIn(): JSX.Element {
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("user", JSON.stringify(data.user));
-      window.location.href = "/"; // Redirect to home page
+      setUser(data.user);
+      navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -46,7 +51,7 @@ function LogIn(): JSX.Element {
 
       <form class={styles.form} onSubmit={submit}>
         {error() && <div class={styles.error}>{error()}</div>}
-        
+
         <label class={styles.field}>
           <span class={styles.label}>Email</span>
           <input
@@ -73,12 +78,7 @@ function LogIn(): JSX.Element {
           />
         </label>
 
-        <Button
-          variant="primary"
-          href="#"
-          disabled={isLoading()}
-          type="submit"
-        >
+        <Button variant="primary" disabled={isLoading()} type="submit">
           {isLoading() ? "Logging in..." : "Log in"}
         </Button>
       </form>

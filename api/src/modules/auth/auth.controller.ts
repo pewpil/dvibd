@@ -6,6 +6,7 @@ import type { Request, Response } from "express";
 import { login, register } from "./auth.service.ts";
 import type { RegisterInput, LoginInput } from "./auth.validation.ts";
 
+// POST /auth/register
 export async function registerHandler(
   req: Request,
   res: Response,
@@ -16,6 +17,7 @@ export async function registerHandler(
   res.status(201).json(result);
 }
 
+// POST /auth/login
 export async function loginHandler(req: Request, res: Response): Promise<void> {
   const input: LoginInput = req.body as LoginInput;
   const { email, password } = input;

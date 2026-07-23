@@ -1,15 +1,19 @@
-import type { JSX } from "solid-js";
+import type { JSX, Signal } from "solid-js";
 import { createSignal } from "solid-js";
+import { useNavigate } from "@solidjs/router";
+import { useAuth } from "@src/dvibd/contexts/AuthContext";
 
 import Button from "@src/dvibd/uis/components/Button";
 import styles from "@src/dvibd/styles/pages/auth/SignUp.module.css";
 
 function SignUp(): JSX.Element {
-  const [name, setName] = createSignal("");
-  const [email, setEmail] = createSignal("");
-  const [password, setPassword] = createSignal("");
-  const [isLoading, setIsLoading] = createSignal(false);
-  const [error, setError] = createSignal<string | null>(null);
+  const [name, setName]: Signal<string> = createSignal("");
+  const [email, setEmail]: Signal<string> = createSignal("");
+  const [password, setPassword]: Signal<string> = createSignal("");
+  const [isLoading, setIsLoading]: Signal<boolean> = createSignal(false);
+  const [error, setError]: Signal<string | null> = createSignal<string | null>(null);
+  const navigate: (path: string) => void = useNavigate();
+  const { setUser } = useAuth();
 
   async function submit(e: Event): Promise<void> {
     e.preventDefault();
@@ -36,7 +40,8 @@ function SignUp(): JSX.Element {
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("user", JSON.stringify(data.user));
-      window.location.href = "/"; // Redirect to home page
+      setUser(data.user);
+      navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -95,7 +100,6 @@ function SignUp(): JSX.Element {
 
         <Button
           variant="primary"
-          href="#"
           disabled={isLoading()}
           type="submit"
         >

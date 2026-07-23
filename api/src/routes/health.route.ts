@@ -7,6 +7,7 @@ import type { Request, Response } from "express";
 
 const router: Router = Router();
 
+// GET /health
 router.get("/", function(_req: Request, res: Response): void {
   res.json({ status: "ok" });
 });
