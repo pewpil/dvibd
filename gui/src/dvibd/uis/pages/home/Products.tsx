@@ -4,7 +4,7 @@ import { A } from "@solidjs/router";
 import Tag from "@src/dvibd/uis/components/Tag";
 
 import Button from "@src/dvibd/uis/components/Button";
-import socialIcon from "@src/dvibd/assets/social.ico";
+const socialIcon = "/social.ico";
 import messageIcon from "@src/dvibd/assets/message.ico";
 import suiteIcon from "@src/dvibd/assets/suite.ico";
 import styles from "@src/dvibd/styles/pages/home/Products.module.css";
@@ -27,7 +27,7 @@ const products = [
     ],
     status: "available",
     cta: "Open social",
-    href: "/auth/signup",
+    href: "/social",
   },
   {
     name: "message",

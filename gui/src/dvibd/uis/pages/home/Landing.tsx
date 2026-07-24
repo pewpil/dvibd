@@ -2,7 +2,7 @@ import type { JSX } from "solid-js";
 
 import Button from "@src/dvibd/uis/components/Button";
 import FeatureCard from "@src/dvibd/uis/components/FeatureCard";
-import socialIcon from "@src/dvibd/assets/social.ico";
+const socialIcon = "/social.ico";
 import messageIcon from "@src/dvibd/assets/message.ico";
 import suiteIcon from "@src/dvibd/assets/suite.ico";
 import styles from "@src/dvibd/styles/pages/home/Landing.module.css";
@@ -76,7 +76,7 @@ function Landing(): JSX.Element {
                     Coming soon
                   </Button>
                 ) : (
-                  <Button variant="primary" href={`/auth/signup`}>
+                  <Button variant="primary" href={feature.name === "social" ? "/social" : "/auth/signup"}>
                     Open app
                   </Button>
                 )}
