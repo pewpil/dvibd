@@ -1,4 +1,4 @@
-import { createSignal, For, type JSX } from "solid-js";
+import { createSignal, For, onMount, type JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import Status from "@src/social/uis/components/Status";
@@ -132,11 +132,23 @@ const fallbackStatuses: StatusData[] = [
 
 function Feed(props: FeedProps): JSX.Element {
   const [activeTab, setActiveTab] = createSignal<"discover" | "following">("discover");
+  const [isStuck, setIsStuck] = createSignal(false);
   const items = () => props.statuses ?? fallbackStatuses;
+  let sentinel!: HTMLDivElement;
+
+  onMount(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsStuck(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  });
 
   return (
     <div class={styles.feed}>
-      <div class={styles.header}>
+      <div ref={sentinel} class={styles.sentinel} />
+      <div class={styles.header} classList={{ [styles.stuck]: isStuck() }}>
         <button
           class={styles.tab}
           classList={{ [styles.tabActive]: activeTab() === "discover" }}

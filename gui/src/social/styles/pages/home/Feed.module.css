@@ -6,6 +6,11 @@
   margin-inline: auto;
 }
 
+.sentinel {
+  height: 1px;
+  flex-shrink: 0;
+}
+
 .header {
   display: flex;
   gap: 0;
@@ -18,6 +23,11 @@
   position: sticky;
   top: 0;
   z-index: 1;
+}
+
+.stuck {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .tab {
