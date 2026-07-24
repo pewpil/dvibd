@@ -1,9 +1,11 @@
 .home {
   display: grid;
-  grid-template-columns: fit-content(240px) minmax(auto, 640px) 300px;
+  grid-template-columns: fit-content(240px) minmax(auto, 680px) 320px;
+  max-width: 1260px;
+  margin-inline: auto;
   width: 100%;
   min-height: 100vh;
-  justify-content: center;
+  padding-inline: 1rem;
 
   .left {
     grid-column: 1;
