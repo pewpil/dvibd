@@ -1,0 +1,19 @@
+.home {
+  display: grid;
+  grid-template-columns: fit-content(240px) minmax(auto, 640px) 300px;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+
+  .left {
+    grid-column: 1;
+  }
+
+  .center {
+    grid-column: 2;
+  }
+
+  .right {
+    grid-column: 3;
+  }
+}

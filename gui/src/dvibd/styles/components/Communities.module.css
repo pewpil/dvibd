@@ -1,0 +1,70 @@
+.communities {
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  padding: 1rem 1.25rem;
+
+  .heading {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin: 0 0 0.75rem;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .community {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: default;
+
+    .icon {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 0.5rem;
+      background: var(--surface-2);
+      flex-shrink: 0;
+    }
+
+    .info {
+      flex: 1;
+      min-width: 0;
+
+      .name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        display: block;
+      }
+
+      .members {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        display: block;
+      }
+    }
+
+    .join {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: none;
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      padding: 0.25rem 0.75rem;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--accent);
+        color: var(--accent-contrast);
+      }
+    }
+  }
+}

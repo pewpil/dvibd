@@ -17,6 +17,10 @@ import Auth from "./dvibd/uis/pages/auth/Auth";
 import LogIn from "./dvibd/uis/pages/auth/LogIn";
 import SignUp from "./dvibd/uis/pages/auth/SignUp";
 
+import SocialApp from "./social/uis/pages/App";
+import SocialHome from "./social/uis/pages/home/Home";
+import Feed from "./social/uis/pages/home/Feed";
+
 const root = document.getElementById("root");
 
 if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
@@ -38,6 +42,11 @@ render(
         <Route path="/auth" component={Auth}>
           <Route path="/login" component={LogIn} />
           <Route path="/signup" component={SignUp} />
+        </Route>
+        <Route path="/social" component={SocialApp}>
+          <Route path="" component={SocialHome}>
+            <Route path="" component={Feed} />
+          </Route>
         </Route>
       </Router>
     </AuthProvider>
