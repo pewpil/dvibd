@@ -5,3 +5,106 @@
   width: 100%;
   margin-inline: auto;
 }
+
+.header {
+  display: flex;
+  gap: 0;
+  margin-bottom: 0.85rem;
+  border-radius: 1.1rem;
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  padding: 0.75rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.tab {
+  flex: 1;
+  padding: 0.55rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  background: none;
+  border: none;
+  border-radius: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+
+  &:hover {
+    color: var(--text);
+  }
+}
+
+.tabActive {
+  background: var(--accent);
+  color: var(--accent-contrast);
+
+  &:hover {
+    color: var(--accent-contrast);
+  }
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.heroTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.75rem;
+}
+
+.heroText {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+  max-width: 420px;
+}
+
+.heroActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.heroPrimary {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+}
+
+.heroGhost {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--accent);
+  }
+}

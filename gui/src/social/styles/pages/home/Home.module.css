@@ -10,6 +10,9 @@
 
   .left {
     grid-column: 1;
+    position: sticky;
+    top: 1.5rem;
+    align-self: start;
   }
 
   .center {
@@ -18,5 +21,8 @@
 
   .right {
     grid-column: 3;
+    position: sticky;
+    top: 1.5rem;
+    align-self: start;
   }
 }
