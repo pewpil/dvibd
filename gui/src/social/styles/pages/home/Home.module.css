@@ -1,11 +1,12 @@
 .home {
   display: grid;
   grid-template-columns: fit-content(240px) minmax(auto, 680px) 320px;
-  max-width: 1260px;
   margin-inline: auto;
+  column-gap: 0.25rem;
   width: 100%;
   min-height: 100vh;
-  padding-inline: 1rem;
+  padding: 1.5rem 1rem 0;
+  justify-content: center;
 
   .left {
     grid-column: 1;
