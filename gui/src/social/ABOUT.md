@@ -56,7 +56,7 @@
 
 | #  | Feature        | Description                     | Progress     |
 |----|----------------|---------------------------------|--------------|
-| 26 | Explore page   | Trending / popular public posts | in progress  |
+| 26 | Explore page   | Trending / popular public posts | completed    |
 | 27 | Search users   | By username                     | in progress  |
 
 ---
@@ -150,19 +150,16 @@
 
 | #  | Feature                | Description                                     | Progress     |
 |----|------------------------|-------------------------------------------------|--------------|
-| 67 | Explore page           | `/social/explore` — trending & popular content   | in progress  |
-| 68 | Explore layout          | Masonry/grid of popular posts, trending sidebar  | in progress  |
-| 69 | Explore tabs            | For You / Trending / Topics switching            | not started  |
-| 70 | "For You" feed          | Personalized post recommendations based on interests | not started  |
-| 71 | Trending posts          | Most-liked and most-reposted posts in 24h        | not started  |
-| 72 | Topic browsing          | Browse posts by topic / category                 | not started  |
-| 73 | Suggested users         | "Who to follow" based on network and interests   | not started  |
-| 74 | Suggested communities   | Communities you might like to join               | not started  |
-| 75 | Media explore           | Grid of image and rich-media posts               | not started  |
-| 76 | Search posts            | Full-text search on post content                 | not started  |
-| 77 | Search users            | By username, display name, or bio                | not started  |
-| 78 | Search communities      | By community name or description                 | not started  |
-| 79 | Search filters          | Filter by date, media, popularity                | not started  |
+| 67 | Explore page           | `/social/explore` — discover content & people    | completed    |
+| 68 | Explore header          | Unified search bar (posts / users / communities), filter icon with expandable panel | completed    |
+| 69 | Trending section        | Hashtag cards (single card, title outside)       | completed    |
+| 70 | What's happening        | Real-world events surfaced from posts (single card, title outside) | completed    |
+| 71 | Who to follow           | Suggested users (single card, title outside)     | completed    |
+| 72 | Where to belong         | Suggested communities (single card, title outside) | completed    |
+| 73 | Discover feed           | Scrollable list of posts (multiple cards, title outside) | completed    |
+| 74 | Media explore           | Grid of image and rich-media posts               | not started  |
+| 75 | Search filters          | Filter by date, media, popularity via expandable panel | not started  |
+| 76 | Topic browsing          | Browse posts by topic / category                 | not started  |
 
 ---
 
@@ -170,7 +167,7 @@
 
 | Status       | Count |
 |--------------|-------|
-| completed    | 16    |
-| in progress  | 14    |
-| not started  | 49    |
-| **Total**    | **79** |
+| completed    | 24    |
+| in progress  | 12    |
+| not started  | 40    |
+| **Total**    | **76** |

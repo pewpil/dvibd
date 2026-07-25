@@ -1,0 +1,294 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  max-width: 640px;
+  width: 100%;
+  margin-inline: auto;
+
+  .sentinel {
+    height: 1px;
+    flex-shrink: 0;
+  }
+
+  .header {
+    margin-bottom: 1rem;
+    border-radius: 1.1rem;
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    overflow: hidden;
+
+    &.stuck {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    .searchRow {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+
+      .searchBar {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 0.75rem;
+        background: var(--background);
+        border-radius: 0.75rem;
+
+        img {
+          width: 1.1rem;
+          height: 1.1rem;
+          flex-shrink: 0;
+        }
+
+        input {
+          flex: 1;
+          background: none;
+          border: none;
+          color: var(--text);
+          font-size: 0.95rem;
+          outline: none;
+
+          &::placeholder {
+            color: var(--text-muted);
+          }
+        }
+      }
+
+      .filterBtn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 0.75rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: background 0.15s ease;
+        flex-shrink: 0;
+
+        &:hover {
+          background: color-mix(in srgb, var(--text) 8%, transparent);
+        }
+
+        img {
+          width: 1.2rem;
+          height: 1.2rem;
+        }
+      }
+    }
+
+    .filters {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0 1rem 0.75rem;
+      flex-wrap: wrap;
+
+      .filterChip {
+        padding: 0.4rem 0.85rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition:
+          background 0.15s ease,
+          color 0.15s ease,
+          border-color 0.15s ease;
+
+        &:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+        }
+      }
+    }
+  }
+
+  .section {
+    margin: 1.25em 0em;
+
+    .sectionTitle {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin: 0 0 1.25rem 0;
+    }
+
+    .card {
+      border-radius: 1.1rem;
+      background: color-mix(in srgb, var(--surface) 60%, transparent);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+
+      .tagList {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+
+        .tagRow {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          .tag {
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.15s ease;
+
+            &:hover {
+              color: var(--accent);
+            }
+          }
+
+          .count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+          }
+        }
+      }
+
+      .eventList {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .event {
+          .eventTitle {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 0.2rem;
+          }
+
+          .eventMeta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+          }
+        }
+      }
+
+      .peopleList {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+
+        .person {
+          display: flex;
+          align-items: center;
+          gap: 0.65rem;
+
+          .avatar {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            background: var(--surface-2);
+            flex-shrink: 0;
+            object-fit: cover;
+          }
+
+          .info {
+            flex: 1;
+            min-width: 0;
+
+            .name {
+              font-size: 1rem;
+              font-weight: 600;
+              display: block;
+            }
+
+            .handle {
+              font-size: 0.85rem;
+              color: var(--text-muted);
+              display: block;
+            }
+          }
+
+          .follow {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: none;
+            border: 1px solid var(--accent);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+            cursor: pointer;
+            transition:
+              background 0.15s ease,
+              color 0.15s ease;
+
+            &:hover {
+              background: var(--accent);
+              color: var(--accent-contrast);
+            }
+          }
+        }
+      }
+
+      .communityList {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+
+        .community {
+          display: flex;
+          align-items: center;
+          gap: 0.65rem;
+
+          .icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.75rem;
+            background: var(--surface-2);
+            flex-shrink: 0;
+          }
+
+          .info {
+            flex: 1;
+            min-width: 0;
+
+            .name {
+              font-size: 1rem;
+              font-weight: 600;
+              display: block;
+            }
+
+            .members {
+              font-size: 0.85rem;
+              color: var(--text-muted);
+              display: block;
+            }
+          }
+
+          .join {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: none;
+            border: 1px solid var(--accent);
+            border-radius: 999px;
+            padding: 0.3rem 0.8rem;
+            cursor: pointer;
+            transition:
+              background 0.15s ease,
+              color 0.15s ease;
+
+            &:hover {
+              background: var(--accent);
+              color: var(--accent-contrast);
+            }
+          }
+        }
+      }
+    }
+  }
+}
