@@ -8,6 +8,10 @@
   padding: 1.5rem 1rem 0;
   justify-content: center;
 
+  &.loggedOut {
+    grid-template-columns: 0 minmax(auto, 680px) 320px;
+  }
+
   .left {
     grid-column: 1;
     position: sticky;

@@ -20,6 +20,7 @@ import SignUp from "./dvibd/uis/pages/auth/SignUp";
 import SocialApp from "./social/uis/pages/App";
 import SocialHome from "./social/uis/pages/home/Home";
 import Feed from "./social/uis/pages/home/Feed";
+import Notifications from "./social/uis/pages/home/Notifications";
 
 const root = document.getElementById("root");
 
@@ -46,6 +47,7 @@ render(
         <Route path="/social" component={SocialApp}>
           <Route path="" component={SocialHome}>
             <Route path="" component={Feed} />
+            <Route path="/notifications" component={Notifications} />
           </Route>
         </Route>
       </Router>

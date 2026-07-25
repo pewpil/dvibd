@@ -1,6 +1,7 @@
-import { createSignal, For, onMount, type JSX } from "solid-js";
+import { createSignal, For, onMount, Show, type JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
+import { useAuth } from "@src/dvibd/contexts/AuthContext";
 import Status from "@src/social/uis/components/Status";
 import styles from "@src/social/styles/pages/home/Feed.module.css";
 
@@ -131,6 +132,7 @@ const fallbackStatuses: StatusData[] = [
 ];
 
 function Feed(props: FeedProps): JSX.Element {
+  const { isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = createSignal<"discover" | "following">("discover");
   const [isStuck, setIsStuck] = createSignal(false);
   const items = () => props.statuses ?? fallbackStatuses;
@@ -148,37 +150,41 @@ function Feed(props: FeedProps): JSX.Element {
   return (
     <div class={styles.feed}>
       <div ref={sentinel} class={styles.sentinel} />
-      <div class={styles.header} classList={{ [styles.stuck]: isStuck() }}>
-        <button
-          class={styles.tab}
-          classList={{ [styles.tabActive]: activeTab() === "discover" }}
-          onClick={() => setActiveTab("discover")}
-        >
-          Discover
-        </button>
-        <button
-          class={styles.tab}
-          classList={{ [styles.tabActive]: activeTab() === "following" }}
-          onClick={() => setActiveTab("following")}
-        >
-          Following
-        </button>
-      </div>
-      <div class={styles.hero}>
-        <h2 class={styles.heroTitle}>Welcome to social</h2>
-        <p class={styles.heroText}>
-          Follow the people and communities that matter. Share your thoughts,
-          discover new ideas, and stay connected.
-        </p>
-        <div class={styles.heroActions}>
-          <A class={styles.heroPrimary} href="/auth/signup">
-            Create account
-          </A>
-          <A class={styles.heroGhost} href="/auth/login">
-            Sign in
-          </A>
+      <Show when={isAuthenticated()}>
+        <div class={styles.header} classList={{ [styles.stuck]: isStuck() }}>
+          <button
+            class={styles.tab}
+            classList={{ [styles.tabActive]: activeTab() === "discover" }}
+            onClick={() => setActiveTab("discover")}
+          >
+            Discover
+          </button>
+          <button
+            class={styles.tab}
+            classList={{ [styles.tabActive]: activeTab() === "following" }}
+            onClick={() => setActiveTab("following")}
+          >
+            Following
+          </button>
         </div>
-      </div>
+      </Show>
+      <Show when={!isAuthenticated()}>
+        <div class={styles.hero}>
+          <h2 class={styles.heroTitle}>Welcome to social</h2>
+          <p class={styles.heroText}>
+            Follow the people and communities that matter. Share your thoughts,
+            discover new ideas, and stay connected.
+          </p>
+          <div class={styles.heroActions}>
+            <A class={styles.heroPrimary} href="/auth/signup">
+              Create account
+            </A>
+            <A class={styles.heroGhost} href="/auth/login">
+              Sign in
+            </A>
+          </div>
+        </div>
+      </Show>
       <For each={items()}>
         {(status) => (
           <Status
