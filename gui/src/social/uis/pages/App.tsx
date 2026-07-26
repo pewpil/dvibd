@@ -1,34 +1,14 @@
-import { onMount, onCleanup } from "solid-js";
 import type { JSX } from "solid-js";
+import { MetaProvider, Link } from "@solidjs/meta";
 
 function App(props: { children?: JSX.Element }): JSX.Element {
-  let restored = false;
-
-  onMount(() => {
-    const setFavicon = (href: string): void => {
-      const existing = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
-      if (existing) existing.remove();
-      const link = document.createElement("link");
-      link.rel = "icon";
-      link.href = href;
-      document.head.appendChild(link);
-    };
-
-    const dvibd =
-      document.querySelector<HTMLLinkElement>('link[rel="icon"]')?.href ??
-      "/dvibd.ico";
-
-    setFavicon("/social.ico?" + Date.now());
-
-    onCleanup(() => {
-      if (!restored) {
-        restored = true;
-        setFavicon(dvibd);
-      }
-    });
-  });
-
-  return <div>{props.children}</div>;
+  return (
+    <MetaProvider>
+      <Link rel="icon" type="image/x-icon" href="/social.ico" />
+      <Link rel="shortcut icon" href="/social.ico" />
+      {props.children}
+    </MetaProvider>
+  );
 }
 
 export default App;
