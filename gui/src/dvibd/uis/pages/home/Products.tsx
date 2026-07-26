@@ -1,4 +1,4 @@
-import { For, type JSX } from "solid-js";
+import { For, Show, type JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import Tag from "@src/dvibd/uis/components/Tag";
@@ -85,47 +85,51 @@ function Products(): JSX.Element {
       </section>
 
       <section class={styles.list}>
-        {products.map((product) => (
-          <article
-            class={styles.item}
-            style={{ "--card-accent": product.color } as JSX.CSSProperties}
-          >
-            <div class={styles.itemMain}>
-              <div class={styles.itemHead}>
-                <img
-                  class={styles.itemIcon}
-                  src={product.icon}
-                  alt={`${product.title} icon`}
-                />
-                {product.status === "soon" && (
-                  <span class={styles.soon}>Coming soon</span>
-                )}
+        <For each={products}>
+          {(product) => (
+            <article
+              class={styles.item}
+              style={{ "--card-accent": product.color } as JSX.CSSProperties}
+            >
+              <div class={styles.itemMain}>
+                <div class={styles.itemHead}>
+                  <img
+                    class={styles.itemIcon}
+                    src={product.icon}
+                    alt={`${product.title} icon`}
+                  />
+                  <Show when={product.status === "soon"}>
+                    <span class={styles.soon}>Coming soon</span>
+                  </Show>
+                </div>
+                <h2 class={styles.itemTitle}>{product.title}</h2>
+                <p class={styles.itemTagline}>{product.tagline}</p>
+                <div class={styles.tags}>
+                  <For each={product.tags}>{(tag) => <Tag label={tag} />}</For>
+                </div>
+                <div class={styles.itemActions}>
+                  <Button
+                    variant="primary"
+                    href={product.href}
+                    disabled={product.status === "soon"}
+                  >
+                    {product.cta}
+                  </Button>
+                </div>
               </div>
-              <h2 class={styles.itemTitle}>{product.title}</h2>
-              <p class={styles.itemTagline}>{product.tagline}</p>
-              <div class={styles.tags}>
-                <For each={product.tags}>{(tag) => <Tag label={tag} />}</For>
+              <div class={styles.itemDetails}>
+                <p class={styles.itemText}>{product.description}</p>
+                <ul class={styles.features}>
+                  <For each={product.features}>
+                    {(feature) => (
+                      <li class={styles.feature}>{feature}</li>
+                    )}
+                  </For>
+                </ul>
               </div>
-              <div class={styles.itemActions}>
-                <Button
-                  variant="primary"
-                  href={product.href}
-                  disabled={product.status === "soon"}
-                >
-                  {product.cta}
-                </Button>
-              </div>
-            </div>
-            <div class={styles.itemDetails}>
-              <p class={styles.itemText}>{product.description}</p>
-              <ul class={styles.features}>
-                {product.features.map((feature) => (
-                  <li class={styles.feature}>{feature}</li>
-                ))}
-              </ul>
-            </div>
-          </article>
-        ))}
+            </article>
+          )}
+        </For>
       </section>
 
       <section id="get-started" class={styles.cta}>

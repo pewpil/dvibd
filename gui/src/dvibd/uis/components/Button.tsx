@@ -1,17 +1,14 @@
-import type { JSX } from "solid-js";
+import { createMemo, type JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import styles from "@src/dvibd/styles/components/Button.module.css";
-
-type ButtonClickHandler = JSX.EventHandlerUnion<HTMLButtonElement, MouseEvent>;
-type AnchorClickHandler = JSX.EventHandlerUnion<HTMLAnchorElement, MouseEvent>;
 
 type ButtonProps = {
   variant?: "primary" | "ghost";
   href?: string;
   disabled?: boolean;
   type?: "submit" | "button" | "reset";
-  onClick?: AnchorClickHandler | ButtonClickHandler;
+  onClick?: (e: MouseEvent) => void;
   children: JSX.Element;
 };
 
@@ -20,39 +17,23 @@ function isInternal(href?: string): boolean {
 }
 
 function Button(props: ButtonProps): JSX.Element {
-  function classes(): string {
-    return `${styles.button} ${props.variant === "ghost" ? styles.ghost : styles.primary}`;
-  }
+  const classes = createMemo(() => {
+    let c = `${styles.button} ${props.variant === "ghost" ? styles.ghost : styles.primary}`;
+    if (props.disabled) c += ` ${styles.disabled}`;
+    return c;
+  });
 
-  function handleClick(event: MouseEvent): void {
-    if (props.type === "submit" && !props.disabled) {
-      event.preventDefault();
-      const form = (event.currentTarget as HTMLElement).closest("form");
-      if (form) {
-        form.requestSubmit();
-      }
-      return;
-    }
-    if (typeof props.onClick === "function") {
-      (props.onClick as (e: MouseEvent) => void)(event);
-    }
-  }
-
-  if (props.disabled) {
+  if (props.type === "submit") {
     return (
-      <a
-        class={`${classes()} ${styles.disabled}`}
-        aria-disabled={true}
-        onClick={(e) => e.preventDefault()}
-      >
+      <button class={classes()} type="submit" disabled={props.disabled} onClick={props.onClick}>
         {props.children}
-      </a>
+      </button>
     );
   }
 
   if (isInternal(props.href)) {
     return (
-      <A class={classes()} href={props.href!} onClick={props.onClick}>
+      <A class={classes()} href={props.href!} aria-disabled={props.disabled} onClick={props.disabled ? (e) => e.preventDefault() : props.onClick}>
         {props.children}
       </A>
     );
@@ -60,18 +41,14 @@ function Button(props: ButtonProps): JSX.Element {
 
   if (props.href) {
     return (
-      <a class={classes()} href={props.href!} onClick={props.onClick}>
+      <a class={classes()} href={props.href!} aria-disabled={props.disabled} onClick={props.disabled ? (e) => e.preventDefault() : props.onClick}>
         {props.children}
       </a>
     );
   }
 
   return (
-    <button
-      class={classes()}
-      type={props.type || "button"}
-      onClick={handleClick}
-    >
+    <button class={classes()} type="button" disabled={props.disabled} onClick={props.onClick}>
       {props.children}
     </button>
   );

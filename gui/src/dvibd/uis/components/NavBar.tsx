@@ -1,5 +1,5 @@
 import type { JSX } from "solid-js";
-import { Show, createSignal, onCleanup, onMount } from "solid-js";
+import { For, Show, createSignal, onCleanup, onMount } from "solid-js";
 import { A } from "@solidjs/router";
 import { useAuth } from "@src/dvibd/contexts/AuthContext";
 
@@ -7,19 +7,19 @@ import Button from "@src/dvibd/uis/components/Button";
 import avatar from "@src/dvibd/assets/avatar.png";
 import styles from "@src/dvibd/styles/components/NavBar.module.css";
 
-const links = [
-  { label: "about", href: "/about" },
-  { label: "products", href: "/products" },
-  { label: "contact", href: "/contact" },
-];
-
 function NavBar(): JSX.Element {
   const { user, isAuthenticated, clearUser } = useAuth();
   const [dropdownOpen, setDropdownOpen] = createSignal(false);
   let profileRef: HTMLDivElement | undefined;
 
+  const links = [
+    { label: "about", href: "/about" },
+    { label: "products", href: "/products" },
+    { label: "contact", href: "/contact" },
+  ];
+
   function toggleDropdown(): void {
-    setDropdownOpen(!dropdownOpen());
+    setDropdownOpen((prev) => !prev);
   }
 
   function handleClickOutside(e: MouseEvent): void {
@@ -44,11 +44,13 @@ function NavBar(): JSX.Element {
             dvibd
           </A>
           <nav class={styles.links}>
-            {links.map((link) => (
-              <A class={styles.link} href={link.href}>
-                {link.label}
-              </A>
-            ))}
+            <For each={links}>
+              {(link) => (
+                <A class={styles.link} href={link.href}>
+                  {link.label}
+                </A>
+              )}
+            </For>
           </nav>
         </div>
 

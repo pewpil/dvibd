@@ -1,4 +1,4 @@
-import type { JSX } from "solid-js";
+import { For, type JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import styles from "@src/dvibd/styles/pages/home/About.module.css";
@@ -40,12 +40,14 @@ function About(): JSX.Element {
 
       <section class={styles.values}>
         <div class={styles.valuesGrid}>
-          {values.map((value) => (
-            <article class={styles.valueCard}>
-              <h3 class={styles.valueTitle}>{value.title}</h3>
-              <p class={styles.valueText}>{value.description}</p>
-            </article>
-          ))}
+          <For each={values}>
+            {(value) => (
+              <article class={styles.valueCard}>
+                <h3 class={styles.valueTitle}>{value.title}</h3>
+                <p class={styles.valueText}>{value.description}</p>
+              </article>
+            )}
+          </For>
         </div>
       </section>
 

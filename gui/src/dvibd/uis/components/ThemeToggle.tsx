@@ -1,4 +1,4 @@
-import { createSignal, onMount, type JSX } from "solid-js";
+import { createSignal, type JSX } from "solid-js";
 
 import styles from "@src/dvibd/styles/components/ThemeToggle.module.css";
 
@@ -11,10 +11,6 @@ function readTheme(): "light" | "dark" {
 
 function ThemeToggle(): JSX.Element {
   const [theme, setTheme] = createSignal<"light" | "dark">(readTheme());
-
-  onMount(() => {
-    setTheme(readTheme());
-  });
 
   function toggle(): void {
     const next = theme() === "dark" ? "light" : "dark";

@@ -1,4 +1,4 @@
-import type { JSX } from "solid-js";
+import { For, Show, type JSX } from "solid-js";
 
 import Button from "@src/dvibd/uis/components/Button";
 import FeatureCard from "@src/dvibd/uis/components/FeatureCard";
@@ -59,30 +59,35 @@ function Landing(): JSX.Element {
 
       <section id="features" class={styles.features}>
         <div class={styles.featuresGrid}>
-          {features.map((feature) => (
-            <FeatureCard
-              title={feature.title}
-              description={feature.description}
-              color={feature.color}
-              icon={feature.icon}
-              tags={feature.tags}
-            >
-              <div class={styles.cardActions}>
-                <Button variant="ghost" href={`#${feature.name}`}>
-                  Learn more
-                </Button>
-                {feature.name === "suite" ? (
-                  <Button variant="primary" href="#get-started" disabled>
-                    Coming soon
+          <For each={features}>
+            {(feature) => (
+              <FeatureCard
+                title={feature.title}
+                description={feature.description}
+                color={feature.color}
+                icon={feature.icon}
+                tags={feature.tags}
+              >
+                <div class={styles.cardActions}>
+                  <Button variant="ghost" href={`#${feature.name}`}>
+                    Learn more
                   </Button>
-                ) : (
-                  <Button variant="primary" href={feature.name === "social" ? "/social" : "/auth/signup"}>
-                    Open app
-                  </Button>
-                )}
-              </div>
-            </FeatureCard>
-          ))}
+                  <Show
+                    when={feature.name === "suite"}
+                    fallback={
+                      <Button variant="primary" href={feature.name === "social" ? "/social" : "/auth/signup"}>
+                        Open app
+                      </Button>
+                    }
+                  >
+                    <Button variant="primary" href="#get-started" disabled>
+                      Coming soon
+                    </Button>
+                  </Show>
+                </div>
+              </FeatureCard>
+            )}
+          </For>
         </div>
       </section>
 

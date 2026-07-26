@@ -5,8 +5,6 @@ import "solid-devtools";
 
 import "@src/dvibd/styles/theme.css";
 
-import { AuthProvider } from "@src/dvibd/contexts/AuthContext";
-
 import App from "./dvibd/uis/pages/App";
 import About from "./dvibd/uis/pages/home/About";
 import Home from "./dvibd/uis/pages/home/Home";
@@ -33,27 +31,25 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 
 render(
   () => (
-    <AuthProvider>
-      <Router root={App}>
-        <Route path="/" component={Home}>
-          <Route path="" component={Landing} />
-          <Route path="/about" component={About} />
-          <Route path="/products" component={Products} />
-          <Route path="/contact" component={Contact} />
+    <Router root={App}>
+      <Route path="/" component={Home}>
+        <Route path="" component={Landing} />
+        <Route path="/about" component={About} />
+        <Route path="/products" component={Products} />
+        <Route path="/contact" component={Contact} />
+      </Route>
+      <Route path="/auth" component={Auth}>
+        <Route path="/login" component={LogIn} />
+        <Route path="/signup" component={SignUp} />
+      </Route>
+      <Route path="/social" component={SocialApp}>
+        <Route path="" component={SocialHome}>
+          <Route path="" component={Feed} />
+          <Route path="/explore" component={Explore} />
+          <Route path="/notifications" component={Notifications} />
         </Route>
-        <Route path="/auth" component={Auth}>
-          <Route path="/login" component={LogIn} />
-          <Route path="/signup" component={SignUp} />
-        </Route>
-        <Route path="/social" component={SocialApp}>
-          <Route path="" component={SocialHome}>
-            <Route path="" component={Feed} />
-            <Route path="/explore" component={Explore} />
-            <Route path="/notifications" component={Notifications} />
-          </Route>
-        </Route>
-      </Router>
-    </AuthProvider>
+      </Route>
+    </Router>
   ),
   root!,
 );

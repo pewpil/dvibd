@@ -1,4 +1,4 @@
-import type { JSX } from "solid-js";
+import { For, Show, type JSX } from "solid-js";
 import { createSignal } from "solid-js";
 import { A } from "@solidjs/router";
 
@@ -37,17 +37,20 @@ function Contact(): JSX.Element {
 
       <section class={styles.body}>
         <div class={styles.formCard}>
-          {sent() ? (
-            <div class={styles.success}>
-              <h3 class={styles.successTitle}>Thanks for reaching out!</h3>
-              <p class={styles.successText}>
-                We've received your message and will reply soon.
-              </p>
-              <Button variant="ghost" href="/">
-                Back to home
-              </Button>
-            </div>
-          ) : (
+          <Show
+            when={!sent()}
+            fallback={
+              <div class={styles.success}>
+                <h3 class={styles.successTitle}>Thanks for reaching out!</h3>
+                <p class={styles.successText}>
+                  We've received your message and will reply soon.
+                </p>
+                <Button variant="ghost" href="/">
+                  Back to home
+                </Button>
+              </div>
+            }
+          >
             <form class={styles.form} onSubmit={submit}>
               <label class={styles.field}>
                 <span class={styles.label}>Name</span>
@@ -89,18 +92,20 @@ function Contact(): JSX.Element {
                 Send message
               </Button>
             </form>
-          )}
+          </Show>
         </div>
 
         <aside class={styles.aside}>
           <h3 class={styles.asideTitle}>Other ways to reach us</h3>
           <ul class={styles.channels}>
-            {channels.map((channel) => (
-              <li class={styles.channel}>
-                <span class={styles.channelLabel}>{channel.label}</span>
-                <span class={styles.channelValue}>{channel.value}</span>
-              </li>
-            ))}
+            <For each={channels}>
+              {(channel) => (
+                <li class={styles.channel}>
+                  <span class={styles.channelLabel}>{channel.label}</span>
+                  <span class={styles.channelValue}>{channel.value}</span>
+                </li>
+              )}
+            </For>
           </ul>
           <p class={styles.note}>
             We typically respond within one business day.
