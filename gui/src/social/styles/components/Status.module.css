@@ -57,6 +57,7 @@
 
     .actions {
       display: flex;
+      padding-top: 1rem;
       gap: 10rem;
 
       --left-width: 75%;

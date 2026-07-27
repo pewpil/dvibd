@@ -10,7 +10,7 @@ import bookmarksIcon from "@src/social/assets/save.svg";
 import userIcon from "@src/social/assets/user.svg";
 import plusIcon from "@src/social/assets/plus.svg";
 import logoutIcon from "@src/social/assets/logout.svg";
-import styles from "@src/dvibd/styles/components/Nav.module.css";
+import styles from "@src/social/styles/components/Nav.module.css";
 
 function Nav(): JSX.Element {
   const { user, clearUser } = useAuth();

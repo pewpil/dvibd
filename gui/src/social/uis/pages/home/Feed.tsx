@@ -11,6 +11,9 @@ type StatusData = {
   handle: string;
   time: string;
   content: string;
+  media?: "none" | "single" | "multi";
+  mediaCount?: number;
+  mediaActiveIndex?: number;
   likes?: number;
   comments?: number;
   reposts?: number;
@@ -26,6 +29,7 @@ const fallbackStatuses: StatusData[] = [
     handle: "alexrivera",
     time: "2h",
     content: "just shipped the new social feed layout. feeling good about this one.",
+    media: "single",
     likes: 24,
     comments: 7,
     reposts: 3,
@@ -44,6 +48,9 @@ const fallbackStatuses: StatusData[] = [
     handle: "jordant",
     time: "6h",
     content: "working on a side project with SolidJS. the signals model is incredibly clean.",
+    media: "multi",
+    mediaCount: 6,
+    mediaActiveIndex: 1,
     likes: 89,
     comments: 14,
     reposts: 6,
@@ -62,6 +69,7 @@ const fallbackStatuses: StatusData[] = [
     handle: "taylorr",
     time: "10h",
     content: "hot take: tailwind is fine but people should learn actual CSS first.",
+    media: "single",
     likes: 67,
     comments: 89,
     reposts: 15,
@@ -80,6 +88,9 @@ const fallbackStatuses: StatusData[] = [
     handle: "averyw",
     time: "14h",
     content: "there's something satisfying about deleting 500 lines of code and replacing it with 50.",
+    media: "multi",
+    mediaCount: 3,
+    mediaActiveIndex: 0,
     likes: 312,
     comments: 41,
     reposts: 34,
@@ -98,6 +109,7 @@ const fallbackStatuses: StatusData[] = [
     handle: "quinnd",
     time: "1d",
     content: "started using container queries in production. feels like the future has finally arrived.",
+    media: "single",
     likes: 94,
     comments: 18,
     reposts: 7,
@@ -107,6 +119,9 @@ const fallbackStatuses: StatusData[] = [
     handle: "dakotam",
     time: "1d",
     content: "me: i'll keep this project simple\nalso me: adds TypeScript, tests, CI, a monorepo, and three databases",
+    media: "multi",
+    mediaCount: 8,
+    mediaActiveIndex: 2,
     likes: 445,
     comments: 67,
     reposts: 52,
@@ -125,6 +140,7 @@ const fallbackStatuses: StatusData[] = [
     handle: "emersonb",
     time: "2d",
     content: "the best code is the code you don't have to write. but sometimes you gotta write it anyway.",
+    media: "single",
     likes: 134,
     comments: 22,
     reposts: 11,
@@ -193,6 +209,9 @@ function Feed(props: FeedProps): JSX.Element {
             handle={status.handle}
             time={status.time}
             content={status.content}
+            media={status.media}
+            mediaCount={status.mediaCount}
+            mediaActiveIndex={status.mediaActiveIndex}
             likes={status.likes}
             comments={status.comments}
             reposts={status.reposts}

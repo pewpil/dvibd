@@ -1,10 +1,10 @@
 import type { JSX } from "solid-js";
 
-import Trending from "@src/social/uis/components/Trending";
-import People from "@src/social/uis/components/People";
-import Communities from "@src/social/uis/components/Communities";
+import Trending from "@src/social/uis/components/panel/Trending";
+import People from "@src/social/uis/components/panel/People";
+import Communities from "@src/social/uis/components/panel/Communities";
 import searchIcon from "@src/social/assets/search.svg";
-import styles from "@src/dvibd/styles/components/Panel.module.css";
+import styles from "@src/social/styles/components/panel/Panel.module.css";
 
 function Panel(): JSX.Element {
   return (

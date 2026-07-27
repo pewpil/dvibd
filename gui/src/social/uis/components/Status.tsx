@@ -1,4 +1,4 @@
-import type { JSX } from "solid-js";
+import { Show, type JSX } from "solid-js";
 
 import defaultPfp from "@src/social/assets/user-default-pfp.ico";
 import heartIcon from "@src/social/assets/heart.svg";
@@ -6,7 +6,10 @@ import commentIcon from "@src/social/assets/comment.svg";
 import repostIcon from "@src/social/assets/repost.svg";
 import shareIcon from "@src/social/assets/share.svg";
 import saveIcon from "@src/social/assets/save.svg";
+import MediaPlaceholder from "@src/social/uis/components/MediaPlaceholder";
 import styles from "@src/social/styles/components/Status.module.css";
+
+export type MediaType = "none" | "single" | "multi";
 
 type StatusProps = {
   avatar?: string;
@@ -14,12 +17,17 @@ type StatusProps = {
   handle: string;
   time: string;
   content: string;
+  media?: MediaType;
+  mediaCount?: number;
+  mediaActiveIndex?: number;
   likes?: number;
   comments?: number;
   reposts?: number;
 };
 
 function Status(props: StatusProps): JSX.Element {
+  const mediaType = () => props.media ?? "none";
+
   return (
     <article class={styles.status}>
       <img
@@ -31,10 +39,17 @@ function Status(props: StatusProps): JSX.Element {
         <div class={styles.header}>
           <span class={styles.name}>{props.name}</span>
           <span class={styles.handle}>@{props.handle}</span>
-          <span class={styles.dot}>·</span>
+          <span class={styles.dot}>&middot;</span>
           <span class={styles.time}>{props.time}</span>
         </div>
         <p class={styles.content}>{props.content}</p>
+        <Show when={mediaType() !== "none"}>
+          <MediaPlaceholder
+            type={mediaType() as "single" | "multi"}
+            count={props.mediaCount}
+            activeIndex={props.mediaActiveIndex}
+          />
+        </Show>
         <div class={styles.actions}>
           <div class={styles.actionsLeft}>
             <button class={styles.action}>

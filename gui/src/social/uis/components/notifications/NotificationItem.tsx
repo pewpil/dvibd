@@ -1,7 +1,7 @@
 import type { JSX } from "solid-js";
 
 import defaultPfp from "@src/social/assets/user-default-pfp.ico";
-import styles from "@src/social/styles/components/NotificationItem.module.css";
+import styles from "@src/social/styles/components/notifications/NotificationItem.module.css";
 
 export type NotificationType = "follow" | "like" | "repost" | "comment" | "mention";
 

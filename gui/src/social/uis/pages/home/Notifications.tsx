@@ -1,6 +1,6 @@
 import { createSignal, For, onMount, type JSX } from "solid-js";
 
-import NotificationItem, { type NotificationItemProps } from "@src/social/uis/components/NotificationItem";
+import NotificationItem, { type NotificationItemProps } from "@src/social/uis/components/notifications/NotificationItem";
 import settingsIcon from "@src/social/assets/settings.svg";
 import styles from "@src/social/styles/pages/home/Notifications.module.css";
 

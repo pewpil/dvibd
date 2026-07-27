@@ -2,7 +2,7 @@ import { Show, type JSX } from "solid-js";
 
 import { useAuth } from "@src/dvibd/contexts/AuthContext";
 import Nav from "@src/social/uis/components/Nav";
-import Panel from "@src/social/uis/pages/home/Panel";
+import Panel from "@src/social/uis/components/panel/Panel";
 import styles from "@src/social/styles/pages/home/Home.module.css";
 
 function Home(props: { children?: JSX.Element }): JSX.Element {

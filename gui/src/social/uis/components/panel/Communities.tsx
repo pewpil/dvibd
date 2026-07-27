@@ -1,6 +1,6 @@
 import { For, type JSX } from "solid-js";
 
-import styles from "@src/dvibd/styles/components/Communities.module.css";
+import styles from "@src/social/styles/components/panel/Communities.module.css";
 
 type SuggestedCommunity = {
   name: string;

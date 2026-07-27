@@ -1,7 +1,7 @@
 import { For, type JSX } from "solid-js";
 
 import defaultPfp from "@src/social/assets/user-default-pfp.ico";
-import styles from "@src/dvibd/styles/components/People.module.css";
+import styles from "@src/social/styles/components/panel/People.module.css";
 
 type SuggestedPerson = {
   name: string;

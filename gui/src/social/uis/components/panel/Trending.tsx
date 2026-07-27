@@ -1,6 +1,6 @@
 import { For, type JSX } from "solid-js";
 
-import styles from "@src/dvibd/styles/components/Trending.module.css";
+import styles from "@src/social/styles/components/panel/Trending.module.css";
 
 type TrendingTopic = {
   tag: string;

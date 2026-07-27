@@ -1,6 +1,6 @@
 import { createSignal, For, onMount, Show, type JSX } from "solid-js";
 
-import Status from "@src/social/uis/components/Status";
+import Status, { type MediaType } from "@src/social/uis/components/Status";
 import defaultPfp from "@src/social/assets/user-default-pfp.ico";
 import searchIcon from "@src/social/assets/search.svg";
 import filterIcon from "@src/social/assets/filter.svg";
@@ -31,7 +31,20 @@ const communitiesToJoin = [
   { name: "Indie Hackers", members: "52.1K members" },
 ];
 
-const discoverPosts = [
+type DiscoverPost = {
+  name: string;
+  handle: string;
+  time: string;
+  content: string;
+  media?: MediaType;
+  mediaCount?: number;
+  mediaActiveIndex?: number;
+  likes: number;
+  comments: number;
+  reposts: number;
+};
+
+const discoverPosts: DiscoverPost[] = [
   {
     name: "Sam Chen",
     handle: "samchen",
@@ -46,6 +59,9 @@ const discoverPosts = [
     handle: "jordant",
     time: "6h",
     content: "working on a side project with SolidJS. the signals model is incredibly clean.",
+    media: "multi",
+    mediaCount: 4,
+    mediaActiveIndex: 2,
     likes: 89,
     comments: 14,
     reposts: 6,
@@ -55,6 +71,7 @@ const discoverPosts = [
     handle: "alexrivera",
     time: "2h",
     content: "just shipped the new social feed layout. feeling good about this one.",
+    media: "single",
     likes: 24,
     comments: 7,
     reposts: 3,
@@ -64,6 +81,9 @@ const discoverPosts = [
     handle: "dakotam",
     time: "1d",
     content: "me: i'll keep this project simple\nalso me: adds TypeScript, tests, CI, a monorepo, and three databases",
+    media: "multi",
+    mediaCount: 7,
+    mediaActiveIndex: 3,
     likes: 445,
     comments: 67,
     reposts: 52,
@@ -190,6 +210,9 @@ function Explore(): JSX.Element {
               handle={post.handle}
               time={post.time}
               content={post.content}
+              media={post.media}
+              mediaCount={post.mediaCount}
+              mediaActiveIndex={post.mediaActiveIndex}
               likes={post.likes}
               comments={post.comments}
               reposts={post.reposts}
