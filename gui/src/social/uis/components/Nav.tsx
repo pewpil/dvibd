@@ -1,3 +1,4 @@
+import { A } from "@solidjs/router";
 import { createSignal, onCleanup, Show, type JSX } from "solid-js";
 
 import { useAuth } from "@src/dvibd/contexts/AuthContext";
@@ -36,21 +37,21 @@ function Nav(): JSX.Element {
 
   return (
     <nav class={styles.nav}>
-      <a class={styles.link} href="/social" title="Home">
+      <A class={styles.link} href="/social" title="Home">
         <img src={homeIcon} alt="Home" />
-      </a>
-      <a class={styles.link} href="/social/explore" title="Explore">
+      </A>
+      <A class={styles.link} href="/social/explore" title="Explore">
         <img src={exploreIcon} alt="Explore" />
-      </a>
-      <a class={styles.link} href="/social/communities" title="Communities">
+      </A>
+      <A class={styles.link} href="/social/communities" title="Communities">
         <img src={communitiesIcon} alt="Communities" />
-      </a>
-      <a class={styles.link} href="/social/notifications" title="Notifications">
+      </A>
+      <A class={styles.link} href="/social/notifications" title="Notifications">
         <img src={notificationsIcon} alt="Notifications" />
-      </a>
-      <a class={styles.link} href="/social/bookmarks" title="Bookmarks">
+      </A>
+      <A class={styles.link} href="/social/bookmarks" title="Bookmarks">
         <img src={bookmarksIcon} alt="Bookmarks" />
-      </a>
+      </A>
       <div class={styles.profileWrap} ref={menuRef}>
         <button class={styles.profileBtn} onClick={toggleMenu} title="Profile menu">
           <img class={styles.profile} src={defaultPfp} alt="Profile" />
@@ -66,14 +67,14 @@ function Nav(): JSX.Element {
               </div>
             </div>
             <div class={styles.dropdownDivider} />
-            <a href={`/social/@${user()?.username ?? "profile"}`} class={styles.dropdownItem} onClick={closeMenu}>
+            <A href={`/social/@${user()?.username ?? "profile"}`} class={styles.dropdownItem} onClick={closeMenu}>
               <img class={styles.dropdownItemIcon} src={userIcon} alt="" />
               Go to profile
-            </a>
-            <a href="/auth/login" class={styles.dropdownItem} onClick={closeMenu}>
+            </A>
+            <A href="/auth/login" class={styles.dropdownItem} onClick={closeMenu}>
               <img class={styles.dropdownItemIcon} src={plusIcon} alt="" />
               Add account
-            </a>
+            </A>
             <button class={styles.dropdownItem} onClick={handleLogout}>
               <img class={styles.dropdownItemIcon} src={logoutIcon} alt="" />
               Log out

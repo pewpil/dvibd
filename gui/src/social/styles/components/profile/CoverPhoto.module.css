@@ -1,0 +1,17 @@
+.coverPhoto {
+  overflow: hidden;
+
+  .inner {
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--surface-2) 80%, #000), color-mix(in srgb, var(--surface-2) 50%, #000));
+
+    .icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      opacity: 0.2;
+    }
+  }
+}

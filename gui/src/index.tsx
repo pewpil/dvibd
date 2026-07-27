@@ -20,6 +20,7 @@ import SocialHome from "./social/uis/pages/home/Home";
 import Feed from "./social/uis/pages/home/Feed";
 import Explore from "./social/uis/pages/home/Explore";
 import Notifications from "./social/uis/pages/home/Notifications";
+import Profile from "./social/uis/pages/home/Profile";
 
 const root = document.getElementById("root");
 
@@ -49,6 +50,7 @@ render(
           <Route path="" component={Feed} />
           <Route path="/explore" component={Explore} />
           <Route path="/notifications" component={Notifications} />
+          <Route path="/@username" component={Profile} />
         </Route>
       </Route>
     </Router>

@@ -1,0 +1,19 @@
+.information {
+  .name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 0.15rem;
+  }
+
+  .handle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .active {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+}
