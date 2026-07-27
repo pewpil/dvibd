@@ -58,14 +58,14 @@ function NavBar(): JSX.Element {
           <Show
             when={isAuthenticated()}
             fallback={
-              <>
+              <div>
                 <Button variant="ghost" href="/auth/login">
                   Log in
                 </Button>
                 <Button variant="primary" href="/auth/signup">
                   Sign up
                 </Button>
-              </>
+              </div>
             }
           >
             <div

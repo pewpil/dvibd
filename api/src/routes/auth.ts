@@ -1,11 +1,11 @@
-// modules/auth/auth.routes.ts
+// routes/auth.ts
 // HTTP routes for authentication.
 
 import { Router, type RequestHandler } from "express";
 
-import { loginHandler, registerHandler } from "./auth.controller.ts";
-import { validate } from "../../lib/validation.ts";
-import { loginSchema, registerSchema } from "./auth.validation.ts";
+import { loginHandler, registerHandler } from "../modules/auth/auth.controller.ts";
+import { validate } from "../lib/validation.ts";
+import { loginSchema, registerSchema } from "../modules/auth/auth.validation.ts";
 
 const router: Router = Router();
 

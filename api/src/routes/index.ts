@@ -5,8 +5,8 @@
 import { Router } from "express";
 
 import healthRoute from "./health.route.ts";
-import usersRoutes from "../modules/users/users.routes.ts";
-import authRoutes from "../modules/auth/auth.routes.ts";
+import usersRoutes from "./users.ts";
+import authRoutes from "./auth.ts";
 
 const router: Router = Router();
 

@@ -5,7 +5,7 @@ import "solid-devtools";
 
 import "@src/dvibd/styles/theme.css";
 
-import App from "./dvibd/uis/pages/App";
+import DvibdApp from "./dvibd/uis/pages/App";
 import About from "./dvibd/uis/pages/home/About";
 import Home from "./dvibd/uis/pages/home/Home";
 import Landing from "./dvibd/uis/pages/home/Landing";
@@ -31,16 +31,18 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 
 render(
   () => (
-    <Router root={App}>
-      <Route path="/" component={Home}>
-        <Route path="" component={Landing} />
-        <Route path="/about" component={About} />
-        <Route path="/products" component={Products} />
-        <Route path="/contact" component={Contact} />
-      </Route>
-      <Route path="/auth" component={Auth}>
-        <Route path="/login" component={LogIn} />
-        <Route path="/signup" component={SignUp} />
+    <Router>
+      <Route path="/" component={DvibdApp}>
+        <Route path="/" component={Home}>
+          <Route path="" component={Landing} />
+          <Route path="/about" component={About} />
+          <Route path="/products" component={Products} />
+          <Route path="/contact" component={Contact} />
+        </Route>
+        <Route path="/auth" component={Auth}>
+          <Route path="/login" component={LogIn} />
+          <Route path="/signup" component={SignUp} />
+        </Route>
       </Route>
       <Route path="/social" component={SocialApp}>
         <Route path="" component={SocialHome}>
