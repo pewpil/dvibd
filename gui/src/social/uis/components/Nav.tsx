@@ -53,25 +53,45 @@ function Nav(): JSX.Element {
         <img src={bookmarksIcon} alt="Bookmarks" />
       </A>
       <div class={styles.profileWrap} ref={menuRef}>
-        <button class={styles.profileBtn} onClick={toggleMenu} title="Profile menu">
+        <button
+          class={styles.profileBtn}
+          onClick={toggleMenu}
+          title="Profile menu"
+        >
           <img class={styles.profile} src={defaultPfp} alt="Profile" />
         </button>
         <Show when={menuOpen()}>
           <div class={styles.dropdown}>
             <h3 class={styles.dropdownHeading}>Accounts</h3>
             <div class={styles.dropdownHeader}>
-              <img class={styles.dropdownAvatar} src={defaultPfp} alt="Avatar" />
+              <img
+                class={styles.dropdownAvatar}
+                src={defaultPfp}
+                alt="Avatar"
+              />
               <div class={styles.dropdownUser}>
-                <span class={styles.dropdownName}>{user()?.username ?? "User"}</span>
-                <span class={styles.dropdownHandle}>@{user()?.username ?? "user"}</span>
+                <span class={styles.dropdownName}>
+                  {user()?.username ?? "User"}
+                </span>
+                <span class={styles.dropdownHandle}>
+                  @{user()?.username ?? "user"}
+                </span>
               </div>
             </div>
             <div class={styles.dropdownDivider} />
-            <A href={`/social/@${user()?.username ?? "profile"}`} class={styles.dropdownItem} onClick={closeMenu}>
+            <A
+              href={`/social/@${user()?.username ?? "profile"}`}
+              class={styles.dropdownItem}
+              onClick={closeMenu}
+            >
               <img class={styles.dropdownItemIcon} src={userIcon} alt="" />
               Go to profile
             </A>
-            <A href="/auth/login" class={styles.dropdownItem} onClick={closeMenu}>
+            <A
+              href="/auth/login"
+              class={styles.dropdownItem}
+              onClick={closeMenu}
+            >
               <img class={styles.dropdownItemIcon} src={plusIcon} alt="" />
               Add account
             </A>
