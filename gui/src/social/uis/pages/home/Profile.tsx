@@ -1,8 +1,8 @@
 import { createSignal, For, onMount, type JSX } from "solid-js";
-import { A } from "@solidjs/router";
+import { A, useParams } from "@solidjs/router";
 
 import { useAuth } from "@src/dvibd/contexts/AuthContext";
-import Status from "@src/social/uis/components/Status";
+import Status, { type MediaType } from "@src/social/uis/components/Status";
 import CoverPhoto from "@src/social/uis/components/profile/CoverPhoto";
 import Card from "@src/social/uis/components/profile/card/Card";
 import arrowLeftIcon from "@src/social/assets/arrow-left.svg";
@@ -10,56 +10,35 @@ import styles from "@src/social/styles/pages/home/Profile.module.css";
 
 type ProfileTab = "posts" | "replies" | "media" | "likes";
 
-const fallbackPosts = [
-  {
-    name: "Alex Rivera",
-    handle: "alexrivera",
-    time: "2h",
-    content:
-      "just shipped the new social feed layout. feeling good about this one.",
-    media: "single" as const,
-    likes: 24,
-    comments: 7,
-    reposts: 3,
-  },
-  {
-    name: "Alex Rivera",
-    handle: "alexrivera",
-    time: "5h",
-    content:
-      "solid state management is underrated. the ecosystem around it is maturing fast.",
-    likes: 56,
-    comments: 12,
-    reposts: 4,
-  },
-  {
-    name: "Alex Rivera",
-    handle: "alexrivera",
-    time: "1d",
-    content:
-      "took a walk and thought about nothing but CSS variables for an hour. highly recommend.",
-    media: "multi" as const,
-    mediaCount: 3,
-    mediaActiveIndex: 0,
-    likes: 134,
-    comments: 28,
-    reposts: 11,
-  },
-];
+const fallbackPosts: {
+  name: string;
+  handle: string;
+  time: string;
+  content: string;
+  media?: MediaType;
+  mediaCount?: number;
+  mediaActiveIndex?: number;
+  likes: number;
+  comments: number;
+  reposts: number;
+}[] = [];
 
 function Profile(): JSX.Element {
+  const params = useParams<{ username: string }>();
   const { user } = useAuth();
   const [activeTab, setActiveTab] = createSignal<ProfileTab>("posts");
   const [isStuck, setIsStuck] = createSignal(false);
   let sentinel!: HTMLDivElement;
 
-  const username = () => user()?.username ?? "profile";
-  const displayName = () => user()?.username ?? "User";
+  const username = (): string =>
+    params.username ?? user()?.username ?? "profile";
+  const displayName = (): string =>
+    params.username ?? user()?.username ?? "User";
 
   onMount(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsStuck(!entry.isIntersecting),
-      { threshold: 0 }
+      { threshold: 0 },
     );
     observer.observe(sentinel);
     return () => observer.disconnect();

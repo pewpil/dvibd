@@ -13,15 +13,22 @@ export async function registerHandler(
 ): Promise<void> {
   const input: RegisterInput = req.body as RegisterInput;
   const { email, username, password }: RegisterInput = input;
-  const result = await register(email, username, password);
+  const result: {
+    accessToken: string;
+    refreshToken: string;
+    user: { id: string; email: string; username: string };
+  } = await register(email, username, password);
   res.status(201).json(result);
 }
 
 // POST /auth/login
 export async function loginHandler(req: Request, res: Response): Promise<void> {
   const input: LoginInput = req.body as LoginInput;
-  const { email, password } = input;
-  const result = await login(email, password);
+  const { email, password }: LoginInput = input;
+  const result: {
+    accessToken: string;
+    refreshToken: string;
+    user: { id: string; email: string; username: string };
+  } = await login(email, password);
   res.json(result);
 }
-

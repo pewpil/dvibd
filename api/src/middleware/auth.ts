@@ -7,21 +7,23 @@ import { HttpError } from "../lib/http-error.ts";
 import { verifyToken, type TokenPayload } from "../lib/jwt.ts";
 
 export function authMiddleware(): RequestHandler {
-  return async function (
+  return async function(
     req: Request,
     _res: Response,
     next: NextFunction,
   ): Promise<void> {
-    const authHeader = req.headers.authorization;
+    //NOTE: req.headers.authorization is coming from out thin air. It may be is from gui
+    const authHeader: string | undefined = req.headers.authorization;
+
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       throw new HttpError(401, "Missing or invalid Authorization header");
     }
 
-    const token = authHeader.slice(7);
+    const token: string = authHeader.slice(7);
     try {
       const payload: TokenPayload = await verifyToken(token);
       req.user = {
-        id: payload.sub,
+        id: payload.id,
         email: payload.email,
         username: payload.username,
       };
@@ -33,22 +35,22 @@ export function authMiddleware(): RequestHandler {
 }
 
 export function optionalAuthMiddleware(): RequestHandler {
-  return async function (
+  return async function(
     req: Request,
     _res: Response,
     next: NextFunction,
   ): Promise<void> {
-    const authHeader = req.headers.authorization;
+    const authHeader: string | undefined = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       next();
       return;
     }
 
-    const token = authHeader.slice(7);
+    const token: string = authHeader.slice(7);
     try {
       const payload: TokenPayload = await verifyToken(token);
       req.user = {
-        id: payload.sub,
+        id: payload.id,
         email: payload.email,
         username: payload.username,
       };

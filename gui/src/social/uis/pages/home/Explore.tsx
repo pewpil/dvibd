@@ -6,89 +6,11 @@ import searchIcon from "@src/social/assets/search.svg";
 import filterIcon from "@src/social/assets/filter.svg";
 import styles from "@src/social/styles/pages/home/Explore.module.css";
 
-const trendingTags = [
-  { tag: "#solidjs", posts: 1240 },
-  { tag: "#webdev", posts: 3420 },
-  { tag: "#uiux", posts: 2150 },
-  { tag: "#opensource", posts: 1890 },
-  { tag: "#typescript", posts: 2860 },
-];
-
-const happenings = [
-  { title: "SolidJS 2.0 release candidate", meta: "Trending in Technology · 14.2K posts" },
-  { title: "State of CSS 2026 survey drops", meta: "Trending in Design · 8.7K posts" },
-];
-
-const peopleToFollow = [
-  { name: "Elena Vargas", handle: "elenacodes" },
-  { name: "Marcus Lee", handle: "marcusl" },
-  { name: "Priya Kapoor", handle: "priyadesigns" },
-];
-
-const communitiesToJoin = [
-  { name: "TypeScript Enthusiasts", members: "34.2K members" },
-  { name: "CSS Art Community", members: "18.7K members" },
-  { name: "Indie Hackers", members: "52.1K members" },
-];
-
-type DiscoverPost = {
-  name: string;
-  handle: string;
-  time: string;
-  content: string;
-  media?: MediaType;
-  mediaCount?: number;
-  mediaActiveIndex?: number;
-  likes: number;
-  comments: number;
-  reposts: number;
-};
-
-const discoverPosts: DiscoverPost[] = [
-  {
-    name: "Sam Chen",
-    handle: "samchen",
-    time: "4h",
-    content: "does anyone else think nested CSS is the best thing to happen to frontend?",
-    likes: 142,
-    comments: 31,
-    reposts: 12,
-  },
-  {
-    name: "Jordan Taylor",
-    handle: "jordant",
-    time: "6h",
-    content: "working on a side project with SolidJS. the signals model is incredibly clean.",
-    media: "multi",
-    mediaCount: 4,
-    mediaActiveIndex: 2,
-    likes: 89,
-    comments: 14,
-    reposts: 6,
-  },
-  {
-    name: "Alex Rivera",
-    handle: "alexrivera",
-    time: "2h",
-    content: "just shipped the new social feed layout. feeling good about this one.",
-    media: "single",
-    likes: 24,
-    comments: 7,
-    reposts: 3,
-  },
-  {
-    name: "Dakota Moore",
-    handle: "dakotam",
-    time: "1d",
-    content: "me: i'll keep this project simple\nalso me: adds TypeScript, tests, CI, a monorepo, and three databases",
-    media: "multi",
-    mediaCount: 7,
-    mediaActiveIndex: 3,
-    likes: 445,
-    comments: 67,
-    reposts: 52,
-  },
-];
+const trendingTags: { tag: string; posts: number }[] = [];
+const happenings: { title: string; meta: string }[] = [];
+const peopleToFollow: { name: string; handle: string }[] = [];
+const communitiesToJoin: { name: string; members: string }[] = [];
+const discoverPosts: { name: string; handle: string; time: string; content: string; media?: MediaType; mediaCount?: number; mediaActiveIndex?: number; likes: number; comments: number; reposts: number }[] = [];
 
 function Explore(): JSX.Element {
   const [filtersOpen, setFiltersOpen] = createSignal(false);

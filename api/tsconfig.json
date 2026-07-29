@@ -23,7 +23,8 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": ["node"],
+    "noImplicitAny": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist", "drizzle"]

@@ -5,12 +5,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import { db } from "../../db/client.ts";
-import { users } from "../../db/schema/users.ts";
+import { users, type User } from "../../db/schema/users.ts";
 import { eq } from "drizzle-orm";
 import { HttpError } from "../../lib/http-error.ts";
 import { env } from "../../config/env.ts";
 
-const BCRYPT_ROUNDS = 12;
+const BCRYPT_ROUNDS: number = 12;
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, BCRYPT_ROUNDS);
@@ -42,8 +42,7 @@ export async function register(
   refreshToken: string;
   user: { id: string; email: string; username: string };
 }> {
-  // Check for existing user
-  const existing = await db
+  const existing: User[] = await db
     .select()
     .from(users)
     .where(eq(users.email, email))
@@ -53,7 +52,7 @@ export async function register(
     throw new HttpError(409, "A user with this email already exists");
   }
 
-  const existingUsername = await db
+  const existingUsername: User[] = await db
     .select()
     .from(users)
     .where(eq(users.username, username))
@@ -63,9 +62,9 @@ export async function register(
     throw new HttpError(409, "This username is already taken");
   }
 
-  const passwordHash = await hashPassword(password);
+  const passwordHash: string = await hashPassword(password);
 
-  const result = await db
+  const result: { id: string; email: string; username: string }[] = await db
     .insert(users)
     .values({ email, username, passwordHash })
     .returning({ id: users.id, email: users.email, username: users.username });
@@ -74,9 +73,9 @@ export async function register(
     throw new HttpError(500, "Failed to create user");
   }
 
-  const created = result[0]!;
-  const accessToken = generateAccessToken(created.id);
-  const refreshToken = generateRefreshToken(created.id);
+  const created: { id: string; email: string; username: string } = result[0]!;
+  const accessToken: string = generateAccessToken(created.id);
+  const refreshToken: string = generateRefreshToken(created.id);
 
   return { accessToken, refreshToken, user: created };
 }
@@ -89,24 +88,24 @@ export async function login(
   refreshToken: string;
   user: { id: string; email: string; username: string };
 }> {
-  const result = await db
+  const result: User[] = await db
     .select()
     .from(users)
     .where(eq(users.email, email))
     .limit(1);
 
-  const user = result[0];
+  const user: User | undefined = result[0];
   if (!user) {
     throw new HttpError(401, "Invalid email or password");
   }
 
-  const valid = await verifyPassword(password, user.passwordHash);
+  const valid: boolean = await verifyPassword(password, user.passwordHash);
   if (!valid) {
     throw new HttpError(401, "Invalid email or password");
   }
 
-  const accessToken = generateAccessToken(user.id);
-  const refreshToken = generateRefreshToken(user.id);
+  const accessToken: string = generateAccessToken(user.id);
+  const refreshToken: string = generateRefreshToken(user.id);
 
   return {
     accessToken,
@@ -127,10 +126,10 @@ export function verifyRefreshToken(
   token: string,
 ): { sub: string; type: string } | null {
   try {
-    const payload = jwt.verify(token, env.JWT_SECRET) as {
-      sub: string;
-      type: string;
-    };
+    const payload: { sub: string; type: string } = jwt.verify(
+      token,
+      env.JWT_SECRET,
+    ) as { sub: string; type: string };
     if (payload.type !== "refresh") {
       return null;
     }
@@ -139,4 +138,3 @@ export function verifyRefreshToken(
     return null;
   }
 }
-

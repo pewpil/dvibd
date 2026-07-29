@@ -12,7 +12,7 @@ import routes from "./routes/index.ts";
 import { notFound } from "./middleware/not-found.ts";
 import { errorHandler } from "./middleware/error-handler.ts";
 
-export function createServer() {
+export function createServer(): express.Express {
   const app: express.Express = express();
 
   app.use(helmet());

@@ -3,3 +3,5 @@
 // drizzle-kit both consume the combined schema from here.
 
 export * from "./users.ts";
+export * from "./statuses.ts";
+export * from "./likes.ts";

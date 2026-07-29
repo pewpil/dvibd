@@ -6,7 +6,6 @@
   margin-inline: auto;
 
   .sentinel {
-    height: 1px;
     flex-shrink: 0;
   }
 

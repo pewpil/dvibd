@@ -5,24 +5,26 @@
 // All routes should use this instead of inline safeParse calls.
 
 import type { Request, Response, NextFunction, RequestHandler } from "express";
-import { z, type ZodSchema } from "zod";
+import { type ZodType } from "zod";
 
 import { HttpError } from "./http-error.ts";
+import type { $ZodIssue } from "zod/v4/core";
 
 type ValidationTarget = "body" | "params" | "query";
 
 function validateSchema<T>(
-  schema: ZodSchema<T>,
+  schema: ZodType<T>,
   value: unknown,
   target: ValidationTarget,
 ): T {
   const result = schema.safeParse(value);
   if (!result.success) {
-    const issue = result.error.issues[0];
+    const issue: $ZodIssue | undefined = result.error.issues[0];
     if (issue === undefined) {
       throw new HttpError(400, `${target}: Invalid input`);
     }
-    const path = issue.path.length > 0 ? `${target}.${issue.path.join(".")}` : target;
+    const path =
+      issue.path.length > 0 ? `${target}.${issue.path.join(".")}` : target;
     throw new HttpError(400, `${path}: ${issue.message}`);
   }
   return result.data;
@@ -32,11 +34,11 @@ function validateSchema<T>(
 // schema types (e.g., RegisterInput, LoginInput) for their handler parameters.
 // The return type is a standard Express RequestHandler for router compatibility.
 export function validate(options: {
-  body?: ZodSchema<unknown>;
-  params?: ZodSchema<unknown>;
-  query?: ZodSchema<unknown>;
+  body?: ZodType<unknown>;
+  params?: ZodType<unknown>;
+  query?: ZodType<unknown>;
 }): RequestHandler {
-  return function (req: Request, _res: Response, next: NextFunction): void {
+  return function(req: Request, _res: Response, next: NextFunction): void {
     try {
       if (options.body !== undefined) {
         validateSchema(options.body, req.body, "body");

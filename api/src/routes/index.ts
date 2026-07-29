@@ -7,11 +7,13 @@ import { Router } from "express";
 import healthRoute from "./health.route.ts";
 import usersRoutes from "./users.ts";
 import authRoutes from "./auth.ts";
+import statusRoutes from "./status.ts";
 
 const router: Router = Router();
 
 router.use("/health", healthRoute);
 router.use("/users", usersRoutes);
 router.use("/auth", authRoutes);
+router.use("/status", statusRoutes);
 
 export default router;

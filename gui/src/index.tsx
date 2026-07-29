@@ -50,7 +50,7 @@ render(
           <Route path="" component={Feed} />
           <Route path="/explore" component={Explore} />
           <Route path="/notifications" component={Notifications} />
-          <Route path="/@username" component={Profile} />
+          <Route path="/@:username" component={Profile} />
         </Route>
       </Route>
     </Router>

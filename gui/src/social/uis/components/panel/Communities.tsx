@@ -7,11 +7,7 @@ type SuggestedCommunity = {
   members: number;
 };
 
-const fallbackCommunities: SuggestedCommunity[] = [
-  { name: "SolidJS Devs", members: 3420 },
-  { name: "UI Design", members: 8910 },
-  { name: "TypeScript", members: 12450 },
-];
+const fallbackCommunities: SuggestedCommunity[] = [];
 
 function Communities(): JSX.Element {
   return (

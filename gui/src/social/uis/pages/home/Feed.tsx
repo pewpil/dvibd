@@ -2,7 +2,9 @@ import { createSignal, For, onMount, Show, type JSX } from "solid-js";
 import { A } from "@solidjs/router";
 
 import { useAuth } from "@src/dvibd/contexts/AuthContext";
+import { fetchStatuses, type ApiStatus } from "@src/social/lib/api";
 import Status from "@src/social/uis/components/Status";
+import CreateStatus from "@src/social/uis/components/CreateStatus";
 import styles from "@src/social/styles/pages/home/Feed.module.css";
 
 type StatusData = {
@@ -19,140 +21,51 @@ type StatusData = {
   reposts?: number;
 };
 
-type FeedProps = {
-  statuses?: StatusData[];
-};
+function mapApiStatusToUI(api: ApiStatus): StatusData {
+  return {
+    name: api.author?.username ?? "unknown",
+    handle: api.author?.username ?? "unknown",
+    time: formatRelativeTime(api.createdAt),
+    content: api.content,
+  };
+}
 
-const fallbackStatuses: StatusData[] = [
-  {
-    name: "Alex Rivera",
-    handle: "alexrivera",
-    time: "2h",
-    content: "just shipped the new social feed layout. feeling good about this one.",
-    media: "single",
-    likes: 24,
-    comments: 7,
-    reposts: 3,
-  },
-  {
-    name: "Sam Chen",
-    handle: "samchen",
-    time: "4h",
-    content: "does anyone else think nested CSS is the best thing to happen to frontend?",
-    likes: 142,
-    comments: 31,
-    reposts: 12,
-  },
-  {
-    name: "Jordan Taylor",
-    handle: "jordant",
-    time: "6h",
-    content: "working on a side project with SolidJS. the signals model is incredibly clean.",
-    media: "multi",
-    mediaCount: 6,
-    mediaActiveIndex: 1,
-    likes: 89,
-    comments: 14,
-    reposts: 6,
-  },
-  {
-    name: "Morgan Foster",
-    handle: "morganf",
-    time: "8h",
-    content: "just finished reading 'Designing Data-Intensive Applications'. mind officially blown.",
-    likes: 210,
-    comments: 45,
-    reposts: 28,
-  },
-  {
-    name: "Taylor Reed",
-    handle: "taylorr",
-    time: "10h",
-    content: "hot take: tailwind is fine but people should learn actual CSS first.",
-    media: "single",
-    likes: 67,
-    comments: 89,
-    reposts: 15,
-  },
-  {
-    name: "Jamie Lin",
-    handle: "jamelin",
-    time: "12h",
-    content: "spent the weekend rewriting my portfolio in Solid. signals make state management feel like cheating.",
-    likes: 156,
-    comments: 23,
-    reposts: 9,
-  },
-  {
-    name: "Avery Wright",
-    handle: "averyw",
-    time: "14h",
-    content: "there's something satisfying about deleting 500 lines of code and replacing it with 50.",
-    media: "multi",
-    mediaCount: 3,
-    mediaActiveIndex: 0,
-    likes: 312,
-    comments: 41,
-    reposts: 34,
-  },
-  {
-    name: "Riley Cooper",
-    handle: "rileyc",
-    time: "1d",
-    content: "just discovered CSS accent-color. why did nobody tell me this existed?",
-    likes: 78,
-    comments: 12,
-    reposts: 5,
-  },
-  {
-    name: "Quinn Davis",
-    handle: "quinnd",
-    time: "1d",
-    content: "started using container queries in production. feels like the future has finally arrived.",
-    media: "single",
-    likes: 94,
-    comments: 18,
-    reposts: 7,
-  },
-  {
-    name: "Dakota Moore",
-    handle: "dakotam",
-    time: "1d",
-    content: "me: i'll keep this project simple\nalso me: adds TypeScript, tests, CI, a monorepo, and three databases",
-    media: "multi",
-    mediaCount: 8,
-    mediaActiveIndex: 2,
-    likes: 445,
-    comments: 67,
-    reposts: 52,
-  },
-  {
-    name: "Skyler Park",
-    handle: "skylarp",
-    time: "2d",
-    content: "pair programming > solo programming. fight me.",
-    likes: 189,
-    comments: 73,
-    reposts: 21,
-  },
-  {
-    name: "Emerson Blake",
-    handle: "emersonb",
-    time: "2d",
-    content: "the best code is the code you don't have to write. but sometimes you gotta write it anyway.",
-    media: "single",
-    likes: 134,
-    comments: 22,
-    reposts: 11,
-  },
-];
+function formatRelativeTime(iso: string): string {
+  const diff: number = Date.now() - new Date(iso).getTime();
+  const minutes: number = Math.floor(diff / 60000);
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes}m`;
+  const hours: number = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h`;
+  const days: number = Math.floor(hours / 24);
+  return `${days}d`;
+}
 
-function Feed(props: FeedProps): JSX.Element {
+function Feed(): JSX.Element {
   const { isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = createSignal<"discover" | "following">("discover");
   const [isStuck, setIsStuck] = createSignal(false);
-  const items = () => props.statuses ?? fallbackStatuses;
+  const [statuses, setStatuses] = createSignal<StatusData[]>([]);
+  const [isLoading, setIsLoading] = createSignal(true);
+  const [loadError, setLoadError] = createSignal<string | null>(null);
   let sentinel!: HTMLDivElement;
+
+  const loadStatuses = async () => {
+    setIsLoading(true);
+    setLoadError(null);
+    try {
+      const data: ApiStatus[] = await fetchStatuses(1, 50);
+      setStatuses(data.map(mapApiStatusToUI));
+    } catch (err) {
+      setLoadError(err instanceof Error ? err.message : "Failed to load statuses");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleStatusCreated = () => {
+    loadStatuses();
+  };
 
   onMount(() => {
     const observer = new IntersectionObserver(
@@ -160,6 +73,7 @@ function Feed(props: FeedProps): JSX.Element {
       { threshold: 0 }
     );
     observer.observe(sentinel);
+    loadStatuses();
     return () => observer.disconnect();
   });
 
@@ -201,23 +115,52 @@ function Feed(props: FeedProps): JSX.Element {
           </div>
         </div>
       </Show>
-      <For each={items()}>
-        {(status) => (
-          <Status
-            avatar={status.avatar}
-            name={status.name}
-            handle={status.handle}
-            time={status.time}
-            content={status.content}
-            media={status.media}
-            mediaCount={status.mediaCount}
-            mediaActiveIndex={status.mediaActiveIndex}
-            likes={status.likes}
-            comments={status.comments}
-            reposts={status.reposts}
-          />
-        )}
-      </For>
+      <Show when={isAuthenticated()}>
+        <CreateStatus onStatusCreated={handleStatusCreated} />
+      </Show>
+      <Show
+        when={!loadError()}
+        fallback={
+          <div class={styles.state}>
+            <p>{loadError()}</p>
+            <button class={styles.stateBtn} onClick={loadStatuses}>
+              Retry
+            </button>
+          </div>
+        }
+      >
+        <Show
+          when={!isLoading()}
+          fallback={null}
+        >
+          <Show
+            when={statuses().length > 0}
+            fallback={
+              <div class={styles.state}>
+                <p>No statuses yet. Be the first to share!</p>
+              </div>
+            }
+          >
+            <For each={statuses()}>
+              {(status) => (
+                <Status
+                  avatar={status.avatar}
+                  name={status.name}
+                  handle={status.handle}
+                  time={status.time}
+                  content={status.content}
+                  media={status.media}
+                  mediaCount={status.mediaCount}
+                  mediaActiveIndex={status.mediaActiveIndex}
+                  likes={status.likes}
+                  comments={status.comments}
+                  reposts={status.reposts}
+                />
+              )}
+            </For>
+          </Show>
+        </Show>
+      </Show>
     </div>
   );
 }

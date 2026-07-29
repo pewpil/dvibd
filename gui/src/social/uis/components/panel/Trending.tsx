@@ -7,13 +7,7 @@ type TrendingTopic = {
   posts: number;
 };
 
-const fallbackTopics: TrendingTopic[] = [
-  { tag: "#solidjs", posts: 1240 },
-  { tag: "#webdev", posts: 3420 },
-  { tag: "#uiux", posts: 2150 },
-  { tag: "#opensource", posts: 1890 },
-  { tag: "#typescript", posts: 2860 },
-];
+const fallbackTopics: TrendingTopic[] = [];
 
 function Trending(): JSX.Element {
   return (

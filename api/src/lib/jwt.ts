@@ -5,12 +5,14 @@ import { SignJWT, jwtVerify, type JWTPayload } from "jose";
 
 import { env } from "../config/env.ts";
 
-const secret = new TextEncoder().encode(env.JWT_SECRET ?? "dev-secret-change-in-production");
-const issuer = "dvibd-api";
-const audience = "dvibd-gui";
+const secret: Uint8Array = new TextEncoder().encode(
+  env.JWT_SECRET ?? "dev-secret-change-in-production",
+);
+const issuer: string = "dvibd-api";
+const audience: string = "dvibd-gui";
 
 export interface TokenPayload extends JWTPayload {
-  sub: string;
+  id: string;
   email: string;
   username: string;
 }
@@ -26,7 +28,7 @@ export async function createToken(user: TokenPayload): Promise<string> {
 }
 
 export async function verifyToken(token: string): Promise<TokenPayload> {
-  const { payload } = await jwtVerify(token, secret, {
+  const { payload }: { payload: JWTPayload } = await jwtVerify(token, secret, {
     issuer,
     audience,
   });

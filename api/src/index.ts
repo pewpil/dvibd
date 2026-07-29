@@ -4,8 +4,9 @@
 
 import { env } from "./config/env.ts";
 import { createServer } from "./server.ts";
+import type express from "express";
 
-const app = createServer();
+const app: express.Express = createServer();
 
 app.listen(env.PORT, function (): void {
   console.log(`dvibd api listening on http://localhost:${env.PORT}`);

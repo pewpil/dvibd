@@ -16,6 +16,7 @@
     // Type Checking & Safety
     "strict": true,
     "types": ["vite/client", "node"],
+    "noImplicitAny": true,
 
     "baseUrl": ".",
     "paths": {

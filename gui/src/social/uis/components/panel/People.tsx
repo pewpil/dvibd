@@ -8,11 +8,7 @@ type SuggestedPerson = {
   handle: string;
 };
 
-const fallbackPeople: SuggestedPerson[] = [
-  { name: "Elena Vargas", handle: "elenacodes" },
-  { name: "Marcus Lee", handle: "marcusl" },
-  { name: "Priya Kapoor", handle: "priyadesigns" },
-];
+const fallbackPeople: SuggestedPerson[] = [];
 
 function People(): JSX.Element {
   return (
