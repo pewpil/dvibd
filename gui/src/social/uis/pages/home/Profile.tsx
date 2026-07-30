@@ -30,10 +30,12 @@ function Profile(): JSX.Element {
   const [isStuck, setIsStuck] = createSignal(false);
   let sentinel!: HTMLDivElement;
 
-  const username = (): string =>
-    params.username ?? user()?.username ?? "profile";
-  const displayName = (): string =>
-    params.username ?? user()?.username ?? "User";
+  const rawUsername: string = params.username ?? "";
+  const username = (): string => {
+    const fromParam: string = rawUsername.startsWith("@") ? rawUsername.slice(1) : rawUsername;
+    return fromParam || (user()?.username ?? "profile");
+  };
+  const displayName = (): string => username();
 
   onMount(() => {
     const observer = new IntersectionObserver(
