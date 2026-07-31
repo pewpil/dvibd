@@ -1,7 +1,6 @@
 import { createSignal, type JSX } from "solid-js";
 
 import { useAuth } from "@src/dvibd/contexts/AuthContext";
-import { createStatus } from "@src/social/lib/api";
 import defaultPfp from "@src/social/assets/user-default-pfp.ico";
 import imageIcon from "@src/social/assets/image.svg";
 import styles from "@src/social/styles/components/CreateStatus.module.css";
@@ -27,7 +26,7 @@ function CreateStatus(props: CreateStatusProps): JSX.Element {
     setError(null);
 
     try {
-      await createStatus(text);
+      // TODO: post to backend API
       setContent("");
       props.onStatusCreated?.();
     } catch (err) {

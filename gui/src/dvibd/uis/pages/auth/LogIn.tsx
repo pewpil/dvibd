@@ -1,7 +1,5 @@
 import type { JSX, Signal } from "solid-js";
 import { createSignal } from "solid-js";
-import { useNavigate } from "@solidjs/router";
-import { useAuth } from "@src/dvibd/contexts/AuthContext";
 
 import Button from "@src/dvibd/uis/components/Button";
 import styles from "@src/dvibd/styles/pages/auth/LogIn.module.css";
@@ -11,8 +9,6 @@ function LogIn(): JSX.Element {
   const [password, setPassword]: Signal<string> = createSignal("");
   const [isLoading, setIsLoading]: Signal<boolean> = createSignal(false);
   const [error, setError]: Signal<string | null> = createSignal<string | null>(null);
-  const navigate: (path: string) => void = useNavigate();
-  const { setUser } = useAuth();
 
   async function submit(e: Event): Promise<void> {
     e.preventDefault();
@@ -20,23 +16,8 @@ function LogIn(): JSX.Element {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email(), password: password() }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Login failed");
-      }
-
-      const data = await response.json();
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      setUser(data.user);
-      navigate("/");
+      // TODO: authenticate with backend API
+      throw new Error("API not connected");
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
