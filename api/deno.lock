@@ -5,6 +5,7 @@
     "jsr:@hono/hono@^4.12.32": "4.12.32",
     "jsr:@std/assert@1": "1.0.19",
     "jsr:@std/internal@^1.0.12": "1.0.14",
+    "jsr:@zod/zod@^4.4.3": "4.4.3",
     "npm:@prisma/adapter-pg@^7.9.1": "7.9.1",
     "npm:@prisma/client@^7.9.1": "7.9.1_prisma@7.9.1__@types+react@19.2.18__react@19.2.8__react-dom@19.2.8___react@19.2.8",
     "npm:prisma@*": "7.9.1_@types+react@19.2.18_react@19.2.8_react-dom@19.2.8__react@19.2.8"
@@ -24,6 +25,9 @@
     },
     "@std/internal@1.0.14": {
       "integrity": "291516b3d4c35024d6ffbc0a9df5bf4c64116e05b50012cf846710152d2ffdf7"
+    },
+    "@zod/zod@4.4.3": {
+      "integrity": "4712ac0967efaa718b37c36eaffb4e1d4457e1a266aef6efb3ab36f54a6fefe4"
     }
   },
   "npm": {
@@ -908,6 +912,7 @@
       "jsr:@da/bcrypt@^1.0.1",
       "jsr:@hono/hono@^4.12.32",
       "jsr:@std/assert@1",
+      "jsr:@zod/zod@^4.4.3",
       "npm:@prisma/adapter-pg@^7.9.1",
       "npm:@prisma/client@^7.9.1"
     ]

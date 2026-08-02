@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD is required}
       POSTGRES_DB: ${DATABASE_NAME:?DATABASE_NAME is required}
     ports:
-      - "${DATABASE_PORT:?DATABASE_PORT is required}:5432"
+      - "${DATABASE_PORT:?DATABASE_PORT is required}:${DATABASE_PORT:?DATABASE_PORT is required}"
     volumes:
       - pgdata:/var/lib/postgresql
     networks:
