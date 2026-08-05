@@ -1,0 +1,123 @@
+main#landing {
+  flex-grow: 1;
+
+  > section#hero {
+    padding: 120px var(--space) 96px;
+    text-align: center;
+    background: var(--hero-bg);
+
+    > h1 {
+      font-size: clamp(2.5rem, 6vw, 4.25rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      max-width: 20ch;
+      margin: 0 auto;
+    }
+
+    > p {
+      max-width: 56ch;
+      margin: 24px auto 0;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+
+    > div#heroActions {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+  }
+
+  > section#products {
+    padding: 96px var(--space);
+
+    > h2 {
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    > div#productCards {
+      max-width: var(--width);
+      margin: 48px auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 760px) {
+      > div#productCards {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  > section#join {
+    padding: 96px var(--space) 120px;
+    text-align: center;
+    background: var(--bg-soft);
+    border-top: 1px solid var(--line);
+
+    > h2 {
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    > p {
+      max-width: 46ch;
+      margin: 16px auto 0;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+
+    > a.cta {
+      margin-top: 36px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    > section#hero {
+      padding: 72px var(--space) 64px;
+    }
+
+    > section#products,
+    > section#join {
+      padding: 72px var(--space);
+    }
+  }
+}
+
+a.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    background: var(--primary-strong);
+  }
+
+  &.secondary {
+    background: transparent;
+    border-color: var(--line);
+    color: var(--ink);
+
+    &:hover {
+      background: transparent;
+      border-color: var(--ink);
+    }
+  }
+}

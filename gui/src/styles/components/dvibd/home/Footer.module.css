@@ -1,0 +1,56 @@
+footer#footer {
+  background: var(--footer-bg);
+  color: var(--footer-text);
+
+  > div#footerInner {
+    max-width: var(--width);
+    margin: 0 auto;
+    padding: 56px var(--space) 40px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+
+    > div#footerBrand {
+      > span#footerName {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #fff;
+
+        > span#footerNameDot {
+          color: var(--accent);
+        }
+      }
+
+      > p#footerTagline {
+        margin-top: 8px;
+        font-size: 0.9rem;
+      }
+    }
+
+    > ul#footerLinks {
+      display: flex;
+      gap: 24px;
+      font-size: 0.95rem;
+
+      > li > a {
+        color: var(--footer-text);
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+
+    > p#copyright {
+      width: 100%;
+      padding-top: 24px;
+      border-top: 1px solid var(--footer-line);
+      font-size: 0.85rem;
+      color: var(--footer-text-soft);
+    }
+  }
+}

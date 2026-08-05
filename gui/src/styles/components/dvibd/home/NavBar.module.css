@@ -1,0 +1,51 @@
+nav#navBar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--nav-bg);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+
+  > div#navInner {
+    max-width: var(--width);
+    height: 64px;
+    margin: 0 auto;
+    padding: 0 var(--space);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > a#brand {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+
+      > span#brandDot {
+        color: var(--accent);
+      }
+    }
+
+    > ul#navLinks {
+      display: flex;
+      gap: 28px;
+      font-size: 0.95rem;
+
+      > li > a {
+        color: var(--ink-soft);
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: var(--ink);
+        }
+
+        &:global(.active) {
+          color: var(--primary);
+        }
+      }
+    }
+  }
+}

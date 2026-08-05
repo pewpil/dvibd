@@ -1,0 +1,87 @@
+div#app {
+  --bg: #ffffff;
+  --bg-soft: #f6f7fb;
+  --ink: #14161f;
+  --ink-soft: #5b6072;
+  --line: #e6e8f0;
+  --primary: #4f46e5;
+  --primary-strong: #4338ca;
+  --accent: #0ea5e9;
+  --hero-bg: linear-gradient(180deg, #eef1ff 0%, #ffffff 100%);
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --footer-bg: #14161f;
+  --footer-text: #a9adbd;
+  --footer-text-soft: #7d8194;
+  --footer-line: rgba(255, 255, 255, 0.12);
+  --width: 1100px;
+  --radius: 12px;
+  --space: 24px;
+
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  color: var(--ink);
+  background: var(--bg);
+
+  ::selection {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  > button#themeToggle {
+    position: fixed;
+    top: 16px;
+    right: var(--space);
+    z-index: 20;
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(8px);
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+  }
+}
+
+div#app[data-theme='dark'] {
+  --bg: #0f1117;
+  --bg-soft: #171a23;
+  --ink: #f3f4f6;
+  --ink-soft: #a1a6b5;
+  --line: #262a36;
+  --primary: #818cf8;
+  --primary-strong: #a5b4fc;
+  --accent: #38bdf8;
+  --hero-bg: linear-gradient(180deg, #1c2040 0%, #0f1117 100%);
+  --nav-bg: rgba(15, 17, 23, 0.85);
+}
+
+@media (prefers-color-scheme: dark) {
+  div#app:not([data-theme]) {
+    --bg: #0f1117;
+    --bg-soft: #171a23;
+    --ink: #f3f4f6;
+    --ink-soft: #a1a6b5;
+    --line: #262a36;
+    --primary: #818cf8;
+    --primary-strong: #a5b4fc;
+    --accent: #38bdf8;
+    --hero-bg: linear-gradient(180deg, #1c2040 0%, #0f1117 100%);
+    --nav-bg: rgba(15, 17, 23, 0.85);
+  }
+}

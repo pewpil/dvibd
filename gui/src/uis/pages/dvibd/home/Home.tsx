@@ -1,10 +1,11 @@
 import type { ParentProps } from 'solid-js'
 import NavBar from '../../../components/dvibd/home/NavBar.tsx'
 import Footer from '../../../components/dvibd/home/Footer.tsx'
+import style from '../../../../styles/pages/dvibd/home/Home.module.css'
 
 function Home(props: ParentProps) {
   return (
-    <div id="home">
+    <div id={style.home}>
       <NavBar />
       {props.children}
       <Footer />
