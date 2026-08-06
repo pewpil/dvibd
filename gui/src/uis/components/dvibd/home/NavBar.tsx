@@ -1,6 +1,6 @@
-import { A } from '@solidjs/router'
-import logo from '../../../../assets/dvibd/pages/home/logo.svg'
-import style from '../../../../styles/components/dvibd/home/NavBar.module.css'
+import { A } from "@solidjs/router";
+import logo from "../../../../assets/pages/dvibd/home/logo.svg";
+import style from "../../../../styles/components/dvibd/home/NavBar.module.css";
 
 function NavBar() {
   return (
@@ -27,7 +27,8 @@ function NavBar() {
         </ul>
       </div>
     </nav>
-  )
+  );
 }
 
-export default NavBar
+export default NavBar;
+
