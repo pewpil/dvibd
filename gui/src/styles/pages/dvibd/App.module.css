@@ -9,13 +9,9 @@ div#app {
   --accent: #0ea5e9;
   --hero-bg: linear-gradient(180deg, #eef1ff 0%, #ffffff 100%);
   --nav-bg: rgba(255, 255, 255, 0.85);
-  --footer-bg: #14161f;
-  --footer-text: #a9adbd;
-  --footer-text-soft: #7d8194;
-  --footer-line: rgba(255, 255, 255, 0.12);
   --width: 76.5%;
   --radius: 12px;
-  --space: 4%;
+  --space: 12%;
 
   min-height: 100svh;
   display: flex;
@@ -36,7 +32,7 @@ div#app {
   > button#themeToggle {
     position: fixed;
     top: 1.8%;
-    right: var(--space);
+    right: 3%;
     z-index: 20;
     padding: 0.5rem 1rem;
     border: 0.0625rem solid var(--line);
@@ -58,7 +54,7 @@ div#app {
   }
 }
 
-div#app[data-theme='dark'] {
+div#app[data-theme="dark"] {
   --bg: #0f1117;
   --bg-soft: #171a23;
   --ink: #f3f4f6;

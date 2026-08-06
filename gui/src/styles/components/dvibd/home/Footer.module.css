@@ -1,6 +1,6 @@
 footer#footer {
-  background: var(--footer-bg);
-  color: var(--footer-text);
+  background: var(--bg);
+  color: var(--ink-soft);
 
   > div#footerInner {
     max-width: var(--width);
@@ -16,7 +16,7 @@ footer#footer {
       > span#footerName {
         font-size: 1.3rem;
         font-weight: 800;
-        color: #fff;
+        color: var(--ink);
 
         > span#footerNameDot {
           color: var(--accent);
@@ -35,12 +35,12 @@ footer#footer {
       font-size: 0.95rem;
 
       > li > a {
-        color: var(--footer-text);
+        color: var(--ink-soft);
         text-decoration: none;
         transition: color 0.2s ease;
 
         &:hover {
-          color: #fff;
+          color: var(--ink);
         }
       }
     }
@@ -48,9 +48,9 @@ footer#footer {
     > p#copyright {
       width: 100%;
       padding-top: 1.7%;
-      border-top: 0.0625rem solid var(--footer-line);
+      border-top: 0.0625rem solid var(--line);
       font-size: 0.85rem;
-      color: var(--footer-text-soft);
+      color: var(--ink-soft);
     }
   }
 }
