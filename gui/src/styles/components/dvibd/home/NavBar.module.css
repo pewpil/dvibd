@@ -3,12 +3,12 @@ nav#navBar {
   top: 0;
   z-index: 10;
   background: var(--nav-bg);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(0.5rem);
+  border-bottom: 0.0625rem solid var(--line);
 
   > div#navInner {
     max-width: var(--width);
-    height: 64px;
+    height: 4rem;
     margin: 0 auto;
     padding: 0 var(--space);
     display: flex;
@@ -16,20 +16,31 @@ nav#navBar {
     justify-content: space-between;
 
     > a#brand {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
       font-size: 1.3rem;
       font-weight: 800;
       letter-spacing: -0.02em;
       color: var(--ink);
       text-decoration: none;
 
-      > span#brandDot {
-        color: var(--accent);
+      > img {
+        height: 2rem;
+        width: auto;
+        display: block;
+      }
+
+      > span#brandName {
+        > span#brandDot {
+          color: var(--accent);
+        }
       }
     }
 
     > ul#navLinks {
       display: flex;
-      gap: 28px;
+      gap: 1.75rem;
       font-size: 0.95rem;
 
       > li > a {

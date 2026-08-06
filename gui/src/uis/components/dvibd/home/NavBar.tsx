@@ -1,4 +1,5 @@
 import { A } from '@solidjs/router'
+import logo from '../../../../assets/dvibd/pages/home/logo.svg'
 import style from '../../../../styles/components/dvibd/home/NavBar.module.css'
 
 function NavBar() {
@@ -6,7 +7,10 @@ function NavBar() {
     <nav id={style.navBar}>
       <div id={style.navInner}>
         <A id={style.brand} href="/" end>
-          dvibd<span id={style.brandDot}>.</span>
+          <img src={logo} alt="dvibd logo" />
+          <span id={style.brandName}>
+            dvibd<span id={style.brandDot}>.</span>
+          </span>
         </A>
         <ul id={style.navLinks}>
           <li>

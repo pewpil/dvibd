@@ -13,9 +13,9 @@ div#app {
   --footer-text: #a9adbd;
   --footer-text-soft: #7d8194;
   --footer-line: rgba(255, 255, 255, 0.12);
-  --width: 1100px;
+  --width: 76.5%;
   --radius: 12px;
-  --space: 24px;
+  --space: 4%;
 
   min-height: 100svh;
   display: flex;
@@ -29,20 +29,20 @@ div#app {
   }
 
   :focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
+    outline: 0.125rem solid var(--primary);
+    outline-offset: 0.125rem;
   }
 
   > button#themeToggle {
     position: fixed;
-    top: 16px;
+    top: 1.8%;
     right: var(--space);
     z-index: 20;
-    padding: 8px 16px;
-    border: 1px solid var(--line);
+    padding: 0.5rem 1rem;
+    border: 0.0625rem solid var(--line);
     border-radius: 999px;
     background: var(--nav-bg);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(0.5rem);
     color: var(--ink);
     font-size: 0.85rem;
     font-weight: 600;

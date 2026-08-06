@@ -5,12 +5,12 @@ footer#footer {
   > div#footerInner {
     max-width: var(--width);
     margin: 0 auto;
-    padding: 56px var(--space) 40px;
+    padding: 3.9% var(--space) 2.8%;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 40px;
+    gap: 2.5rem;
 
     > div#footerBrand {
       > span#footerName {
@@ -24,14 +24,14 @@ footer#footer {
       }
 
       > p#footerTagline {
-        margin-top: 8px;
+        margin-top: 0.75rem;
         font-size: 0.9rem;
       }
     }
 
     > ul#footerLinks {
       display: flex;
-      gap: 24px;
+      gap: 1.5rem;
       font-size: 0.95rem;
 
       > li > a {
@@ -47,8 +47,8 @@ footer#footer {
 
     > p#copyright {
       width: 100%;
-      padding-top: 24px;
-      border-top: 1px solid var(--footer-line);
+      padding-top: 1.7%;
+      border-top: 0.0625rem solid var(--footer-line);
       font-size: 0.85rem;
       color: var(--footer-text-soft);
     }

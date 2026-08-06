@@ -2,7 +2,7 @@ main#landing {
   flex-grow: 1;
 
   > section#hero {
-    padding: 120px var(--space) 96px;
+    padding: 6.5% var(--space) 5.5%;
     text-align: center;
     background: var(--hero-bg);
 
@@ -16,23 +16,23 @@ main#landing {
 
     > p {
       max-width: 56ch;
-      margin: 24px auto 0;
+      margin: 1.4% auto 0;
       font-size: 1.125rem;
       line-height: 1.6;
       color: var(--ink-soft);
     }
 
     > div#heroActions {
-      margin-top: 40px;
+      margin-top: 2.2%;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 1rem;
     }
   }
 
   > section#products {
-    padding: 96px var(--space);
+    padding: 5.5% var(--space);
 
     > h2 {
       text-align: center;
@@ -42,13 +42,13 @@ main#landing {
 
     > div#productCards {
       max-width: var(--width);
-      margin: 48px auto 0;
+      margin: 2.6% auto 0;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
+      gap: 1.5rem;
     }
 
-    @media (max-width: 760px) {
+    @media (max-width: 47.5rem) {
       > div#productCards {
         grid-template-columns: 1fr;
       }
@@ -56,10 +56,10 @@ main#landing {
   }
 
   > section#join {
-    padding: 96px var(--space) 120px;
+    padding: 5.5% var(--space) 6.5%;
     text-align: center;
     background: var(--bg-soft);
-    border-top: 1px solid var(--line);
+    border-top: 0.0625rem solid var(--line);
 
     > h2 {
       font-size: 2rem;
@@ -68,24 +68,24 @@ main#landing {
 
     > p {
       max-width: 46ch;
-      margin: 16px auto 0;
+      margin: 1% auto 0;
       line-height: 1.6;
       color: var(--ink-soft);
     }
 
     > a.cta {
-      margin-top: 36px;
+      margin-top: 2%;
     }
   }
 
-  @media (max-width: 760px) {
+  @media (max-width: 47.5rem) {
     > section#hero {
-      padding: 72px var(--space) 64px;
+      padding: 8.5% var(--space) 7%;
     }
 
     > section#products,
     > section#join {
-      padding: 72px var(--space);
+      padding: 7.5% var(--space);
     }
   }
 }
@@ -93,9 +93,9 @@ main#landing {
 a.cta {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 28px;
-  border: 1px solid transparent;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  border: 0.0625rem solid transparent;
   border-radius: 999px;
   background: var(--primary);
   color: #fff;

@@ -1,7 +1,7 @@
 article.productCard {
-  padding: 40px 32px;
-  border: 1px solid var(--line);
-  border-top: 4px solid var(--product-accent, var(--line));
+  padding: 7.5% 6%;
+  border: 0.0625rem solid var(--line);
+  border-top: 0.25rem solid var(--product-accent, var(--line));
   border-radius: var(--radius);
   background: var(--bg);
   transition:
@@ -9,8 +9,8 @@ article.productCard {
     box-shadow 0.2s ease;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(20, 22, 31, 0.08);
+    transform: translateY(-1%);
+    box-shadow: 0 0.75rem 2rem rgba(20, 22, 31, 0.08);
   }
 
   &.social {
@@ -26,14 +26,14 @@ article.productCard {
   }
 
   > p {
-    margin-top: 12px;
+    margin-top: 2%;
     line-height: 1.6;
     color: var(--ink-soft);
   }
 
   > a {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 3.5%;
     font-weight: 600;
     color: var(--product-accent);
     text-decoration: none;
