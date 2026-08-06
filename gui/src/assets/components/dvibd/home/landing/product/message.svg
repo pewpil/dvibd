@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="message logo">
+  <rect width="64" height="64" rx="18" fill="#0284c7" />
+  <g fill="#ffffff">
+    <rect x="13" y="13" width="38" height="30" rx="9" />
+    <path d="M17 43 L9 52 L26 43 Z" />
+  </g>
+  <g fill="#0284c7">
+    <circle cx="23" cy="28" r="3" />
+    <circle cx="32" cy="28" r="3" />
+    <circle cx="41" cy="28" r="3" />
+  </g>
+</svg>

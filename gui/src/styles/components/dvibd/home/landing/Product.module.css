@@ -21,8 +21,20 @@ article.productCard {
     --product-accent: #0284c7;
   }
 
-  > h3 {
-    font-size: 1.35rem;
+  > div#productTitle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    > img {
+      width: 8.5%;
+      aspect-ratio: 1 / 1;
+      display: block;
+    }
+
+    > h3 {
+      font-size: 1.35rem;
+    }
   }
 
   > p {
