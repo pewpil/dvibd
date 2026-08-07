@@ -1,0 +1,18 @@
+{
+  "name": "@dvibd/api",
+  "version": "0.0.1",
+  "exports": "./src/main.ts",
+  "tasks": {
+    "dev": "deno run --watch --allow-env --allow-net --env-file src/main.ts",
+    "start": "deno run --allow-env --allow-net --env-file src/main.ts",
+    "check": "deno check src/main.ts",
+    "fmt": "deno fmt",
+    "lint": "deno lint"
+  },
+  "imports": {
+    "@hono/hono": "jsr:@hono/hono@^4.13.0"
+  },
+  "compilerOptions": {
+    "strict": true
+  }
+}
