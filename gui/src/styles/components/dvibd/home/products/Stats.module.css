@@ -1,0 +1,38 @@
+section#stats {
+  padding: 5.5% var(--space);
+  border-top: 0.0625rem solid var(--line);
+
+  > ul#statsList {
+    max-width: var(--width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+
+    > li {
+      text-align: center;
+
+      > span.statValue {
+        display: block;
+        font-family: var(--font-title);
+        font-size: 2.5rem;
+        letter-spacing: -0.02em;
+        color: var(--primary);
+      }
+
+      > span.statLabel {
+        display: block;
+        margin-top: 0.75rem;
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+      }
+    }
+  }
+
+  @media (max-width: 47.5rem) {
+    > ul#statsList {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+}

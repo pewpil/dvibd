@@ -1,0 +1,26 @@
+section#mission {
+  padding: 5.5% var(--space);
+  text-align: center;
+  background: var(--bg-soft);
+  border-top: 0.0625rem solid var(--line);
+
+  > div#missionInner {
+    max-width: var(--width);
+    margin: 0 auto;
+
+    > h2 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--primary);
+    }
+
+    > p {
+      margin-top: 1.2%;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+  }
+}

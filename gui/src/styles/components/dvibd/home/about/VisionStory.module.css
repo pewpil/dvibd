@@ -1,0 +1,25 @@
+section#visionStory {
+  padding: 5.5% var(--space);
+  border-top: 0.0625rem solid var(--line);
+
+  > div#visionStoryInner {
+    max-width: var(--width);
+    margin: 0 auto;
+
+    > h2 {
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    > p {
+      margin-top: 1.2%;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      max-width: 65ch;
+
+      & + p {
+        margin-top: 0.8%;
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+section#aboutProducts {
+  padding: 5.5% var(--space) 6.5%;
+  text-align: center;
+  border-top: 0.0625rem solid var(--line);
+
+  > div#aboutProductsInner {
+    max-width: var(--width);
+    margin: 0 auto;
+
+    > h2 {
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    > p {
+      max-width: 46ch;
+      margin: 1.2% auto 0;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+
+    > div#aboutProductsLinks {
+      margin-top: 2.2%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      > a.aboutProductLink {
+        padding: 0.875rem 1.75rem;
+        border: 0.0625rem solid var(--line);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ink);
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition:
+          border-color 0.2s ease,
+          color 0.2s ease;
+
+        &:hover {
+          border-color: var(--primary);
+          color: var(--primary);
+        }
+      }
+    }
+  }
+}

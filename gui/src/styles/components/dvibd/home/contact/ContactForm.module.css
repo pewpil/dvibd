@@ -1,0 +1,121 @@
+section#contactForm {
+  padding: 5.5% var(--space);
+  background: var(--bg-soft);
+  border-top: 0.0625rem solid var(--line);
+
+  > form#contactFormCard {
+    max-width: var(--width);
+    margin: 0 auto;
+    padding: 5% 6%;
+    border: 0.0625rem solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg);
+
+    > h2 {
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    > p#formIntro {
+      margin-top: 1%;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+
+    > div#formRow {
+      margin-top: 3%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+
+      > label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--ink);
+
+        > input {
+          padding: 0.875rem 5%;
+          border: 0.0625rem solid var(--line);
+          border-radius: var(--radius);
+          background: var(--bg-soft);
+          color: var(--ink);
+          font-size: 1rem;
+          font-weight: 400;
+          outline: none;
+          transition: border-color 0.2s ease;
+
+          &::placeholder {
+            color: var(--ink-soft);
+          }
+
+          &:focus {
+            border-color: var(--primary);
+          }
+        }
+      }
+    }
+
+    > label {
+      margin-top: 1.5%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+
+      > input,
+      > textarea {
+        padding: 0.875rem 5%;
+        border: 0.0625rem solid var(--line);
+        border-radius: var(--radius);
+        background: var(--bg-soft);
+        color: var(--ink);
+        font-size: 1rem;
+        font-weight: 400;
+        outline: none;
+        transition: border-color 0.2s ease;
+
+        &::placeholder {
+          color: var(--ink-soft);
+        }
+
+        &:focus {
+          border-color: var(--primary);
+        }
+      }
+
+      > textarea {
+        resize: vertical;
+        min-height: 10rem;
+        font-family: var(--font-body);
+      }
+    }
+
+    > button#formSubmit {
+      margin-top: 2.5%;
+      padding: 0.875rem 1.75rem;
+      border: none;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: var(--primary-strong);
+      }
+    }
+  }
+
+  @media (max-width: 47.5rem) {
+    > form#contactFormCard > div#formRow {
+      grid-template-columns: 1fr;
+    }
+  }
+}

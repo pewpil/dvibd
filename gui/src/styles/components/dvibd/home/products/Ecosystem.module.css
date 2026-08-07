@@ -1,0 +1,23 @@
+section#ecosystem {
+  padding: 5.5% var(--space);
+  text-align: center;
+  background: var(--bg-soft);
+  border-top: 0.0625rem solid var(--line);
+
+  > div#ecosystemInner {
+    max-width: var(--width);
+    margin: 0 auto;
+
+    > h2 {
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    > p {
+      max-width: 56ch;
+      margin: 1.2% auto 0;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+  }
+}

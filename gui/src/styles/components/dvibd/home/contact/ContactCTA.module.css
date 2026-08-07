@@ -1,0 +1,65 @@
+section#contactCta {
+  padding: 6.5% var(--space) 7.5%;
+  text-align: center;
+  background: var(--bg-soft);
+  border-top: 0.0625rem solid var(--line);
+
+  > div#contactCtaInner {
+    max-width: var(--width);
+    margin: 0 auto;
+
+    > h2 {
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    > p {
+      max-width: 46ch;
+      margin: 1.2% auto 0;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+
+    > div#contactCtaActions {
+      margin-top: 2.2%;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      > a.contactCtaPrimary {
+        padding: 0.875rem 1.75rem;
+        border: 0.0625rem solid transparent;
+        border-radius: 999px;
+        background: var(--primary);
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s ease;
+
+        &:hover {
+          background: var(--primary-strong);
+        }
+      }
+
+      > a.contactCtaSecondary {
+        padding: 0.875rem 1.75rem;
+        border: 0.0625rem solid var(--line);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ink);
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition:
+          border-color 0.2s ease,
+          color 0.2s ease;
+
+        &:hover {
+          border-color: var(--ink);
+        }
+      }
+    }
+  }
+}

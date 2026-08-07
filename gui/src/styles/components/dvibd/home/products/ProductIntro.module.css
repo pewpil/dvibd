@@ -1,0 +1,83 @@
+section.productIntro {
+  padding: 5.5% var(--space);
+  border-top: 0.0625rem solid var(--line);
+  text-align: center;
+
+  &.social {
+    --product-accent: #e11d48;
+  }
+
+  &.message {
+    --product-accent: #0284c7;
+  }
+
+  > img {
+    width: 3%;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    display: block;
+  }
+
+  > h2 {
+    margin-top: 1.2%;
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+  }
+
+  > p.tagline {
+    margin-top: 0.6%;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--product-accent);
+  }
+
+  > p {
+    max-width: 56ch;
+    margin: 1.2% auto 0;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  > ul.features {
+    max-width: 56ch;
+    margin: 1.8% auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: left;
+
+    > li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+
+      &::before {
+        content: '';
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 999px;
+        background: var(--product-accent);
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  > a.cta {
+    display: inline-block;
+    margin-top: 2.2%;
+    padding: 0.875rem 1.75rem;
+    border-radius: 999px;
+    background: var(--product-accent);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: var(--primary-strong);
+    }
+  }
+}

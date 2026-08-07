@@ -1,0 +1,25 @@
+main#products {
+  flex-grow: 1;
+
+  > section#productsHero {
+    padding: 6.5% var(--space) 5.5%;
+    text-align: center;
+    background: var(--hero-bg);
+
+    > h1 {
+      font-size: clamp(2.5rem, 6vw, 4.25rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      max-width: 20ch;
+      margin: 0 auto;
+    }
+
+    > p {
+      max-width: 56ch;
+      margin: 1.4% auto 0;
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+  }
+}

@@ -1,0 +1,52 @@
+section#values {
+  padding: 5.5% var(--space);
+  background: var(--bg-soft);
+  border-top: 0.0625rem solid var(--line);
+
+  > div#valuesInner {
+    max-width: var(--width);
+    margin: 0 auto;
+
+    > h2 {
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    > div#valuesGrid {
+      margin-top: 2.5%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+
+      > article.valueCard {
+        padding: 5% 4%;
+        border: 0.0625rem solid var(--line);
+        border-radius: var(--radius);
+        background: var(--bg);
+        transition: border-color 0.2s ease;
+
+        &:hover {
+          border-color: var(--primary);
+        }
+
+        > h3 {
+          font-size: 1.2rem;
+        }
+
+        > p {
+          margin-top: 1.5%;
+          line-height: 1.6;
+          font-size: 0.95rem;
+          color: var(--ink-soft);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 47.5rem) {
+    > div#valuesInner > div#valuesGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

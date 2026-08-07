@@ -1,0 +1,40 @@
+section#contactFaq {
+  padding: 5.5% var(--space);
+  border-top: 0.0625rem solid var(--line);
+
+  > div#contactFaqInner {
+    max-width: var(--width);
+    margin: 0 auto;
+
+    > h2 {
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    > ul#contactFaqList {
+      margin-top: 2.2%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      > li {
+        border: 0.0625rem solid var(--line);
+        border-radius: var(--radius);
+        background: var(--bg);
+        padding: 1.25rem 2%;
+
+        > h3 {
+          font-size: 1.05rem;
+        }
+
+        > p {
+          margin-top: 0.75rem;
+          line-height: 1.6;
+          font-size: 0.95rem;
+          color: var(--ink-soft);
+        }
+      }
+    }
+  }
+}
