@@ -6,20 +6,31 @@ footer#footer {
     max-width: var(--width);
     margin: 0 auto;
     padding: 3.9% var(--space) 2.8%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 2.5rem;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 1.5rem;
 
     > div#footerBrand {
-      > span#footerName {
-        font-size: 1.3rem;
-        font-weight: 800;
+      > a#brandLink {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
         color: var(--ink);
 
-        > span#footerNameDot {
-          color: var(--accent);
+        > img {
+          height: 1.3rem;
+          width: auto;
+          display: block;
+        }
+
+        > span#brandName {
+          font-size: 1.3rem;
+          font-weight: 800;
+
+          > span#brandDot {
+            color: var(--accent);
+          }
         }
       }
 
@@ -29,28 +40,75 @@ footer#footer {
       }
     }
 
-    > ul#footerLinks {
-      display: flex;
-      gap: 1.5rem;
-      font-size: 0.95rem;
-
-      > li > a {
+    > nav#footerColProducts,
+    > nav#footerColCompany,
+    > nav#footerColSupport {
+      > h4 {
+        margin-bottom: 0.75rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
         color: var(--ink-soft);
-        text-decoration: none;
-        transition: color 0.2s ease;
+      }
 
-        &:hover {
-          color: var(--ink);
+      > ul {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        font-size: 0.95rem;
+
+        > li > a {
+          color: var(--ink-soft);
+          text-decoration: none;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: var(--ink);
+          }
         }
       }
     }
 
-    > p#copyright {
-      width: 100%;
+    > div#footerBottom {
+      grid-column: 1 / -1;
       padding-top: 1.7%;
       border-top: 0.0625rem solid var(--line);
-      font-size: 0.85rem;
-      color: var(--ink-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+
+      > p#copyright {
+        font-size: 0.85rem;
+      }
+
+      > div#footerAuth {
+        display: flex;
+        gap: 1.5rem;
+        font-size: 0.9rem;
+
+        > a {
+          color: var(--ink-soft);
+          text-decoration: none;
+          transition: color 0.2s ease;
+
+          &:hover {
+            color: var(--ink);
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 47.5rem) {
+    > div#footerInner {
+      grid-template-columns: 1fr 1fr;
+
+      > div#footerBrand {
+        grid-column: 1 / -1;
+      }
     }
   }
 }

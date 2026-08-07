@@ -13,6 +13,9 @@
 ## coding
 1. If some text are to be enclosed of either double (") or single (") quotes. You must use double quotes.
 
+## writing
+1. Refrain from using the em dash.
+
 
 ## AI Appended
 - CSS Modules (Lightning CSS in Vite) scope id selectors too, not just classes. Always bind the module as `style` and reference elements through it: `id={style.navBar}` for a selector written `nav#navBar`. Never use a raw `id="navBar"` for an element styled by a module (the hashed id won't match), and never import a module side-effect only (`import './x.module.css'`) when its members could be used — import it as `style` and use `style.xxx`, matching the `tag#xxx` selectors in the module.
