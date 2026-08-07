@@ -13,18 +13,18 @@ app.get("/api", (c) =>
   c.json({
     name: "dvibd api",
     version: "0.0.1",
-  })
+  }),
 );
 
 app.get("/api/health", (c) =>
   c.json({
     status: "ok",
-  })
+  }),
 );
 
 Deno.serve(
   {
     port: Number(Deno.env.get("PORT") ?? 8000),
   },
-  app.fetch
+  app.fetch,
 );

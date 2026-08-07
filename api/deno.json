@@ -5,14 +5,46 @@
   "tasks": {
     "dev": "deno run --watch --allow-env --allow-net --env-file src/main.ts",
     "start": "deno run --allow-env --allow-net --env-file src/main.ts",
-    "check": "deno check src/main.ts",
+    "compile": "deno compile --allow-env --allow-net --output dist/dvibd-api src/main.ts",
+    "check": "deno check src/",
+    "typecheck": "deno check src/",
     "fmt": "deno fmt",
+    "fmt:check": "deno fmt --check",
     "lint": "deno lint"
   },
   "imports": {
     "@hono/hono": "jsr:@hono/hono@^4.13.0"
   },
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "exactOptionalPropertyTypes": true,
+    "useUnknownInCatchVariables": true,
+    "verbatimModuleSyntax": true
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "singleQuote": false,
+    "semiColons": true,
+    "useTabs": false
+  },
+  "lint": {
+    "rules": {
+      "tags": ["recommended"],
+      "include": [
+        "no-array-constructor",
+        "no-await-in-loop",
+        "no-boolean-literal-for-arguments",
+        "no-explicit-any",
+        "no-non-null-assertion"
+      ]
+    }
   }
 }
