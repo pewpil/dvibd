@@ -1,0 +1,81 @@
+main#singup {
+  > h1 {
+    font-size: 1.6rem;
+  }
+
+  > p {
+    margin-top: 1%;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+
+  > form#singupForm {
+    margin-top: 2.5%;
+    display: flex;
+    flex-direction: column;
+
+    > label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      padding-block: 0.5rem;
+      text-align: left;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+
+      > input {
+        padding: 0.625rem 5%;
+        border: 0.0625rem solid var(--line);
+        border-radius: var(--radius);
+        background: var(--bg-soft);
+        color: var(--ink);
+        font-size: 1rem;
+        font-weight: 400;
+        outline: none;
+        transition: border-color 0.2s ease;
+
+        &::placeholder {
+          color: var(--ink-soft);
+        }
+
+        &:focus {
+          border-color: var(--primary);
+        }
+      }
+    }
+
+    > button#singupSubmit {
+      margin-top: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border: none;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: var(--primary-strong);
+      }
+    }
+  }
+
+  > p#singupSwitch {
+    margin-top: 2%;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+
+    > a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

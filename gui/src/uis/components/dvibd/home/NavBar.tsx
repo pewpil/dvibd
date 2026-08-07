@@ -24,12 +24,12 @@ function NavBar() {
           </li>
         </ul>
         <div id={style.navAuth}>
-          <button id={style.navLogIn} type="button">
+          <A id={style.navLogIn} href="/login">
             Log in
-          </button>
-          <button id={style.navSignUp} type="button">
+          </A>
+          <A id={style.navSignUp} href="/signup">
             Sign up
-          </button>
+          </A>
         </div>
       </div>
     </nav>

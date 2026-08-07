@@ -8,6 +8,9 @@ import Landing from './pages/dvibd/home/Landing.tsx'
 import Products from './pages/dvibd/home/Products.tsx'
 import About from './pages/dvibd/home/About.tsx'
 import Contact from './pages/dvibd/home/Contact.tsx'
+import Auth from './components/dvibd/auth/Auth.tsx'
+import Login from './components/dvibd/auth/Login.tsx'
+import Singup from './components/dvibd/auth/Singup.tsx'
 
 const root = document.getElementById('root')
 
@@ -20,6 +23,10 @@ render(
           <Route path="/products" component={Products} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
+        </Route>
+        <Route component={Auth}>
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Singup} />
         </Route>
       </Route>
     </Router>

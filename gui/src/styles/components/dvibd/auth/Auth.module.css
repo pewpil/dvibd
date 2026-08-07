@@ -1,0 +1,44 @@
+div#auth {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space);
+  background: var(--bg);
+
+  > div#authInner {
+    width: 30%;
+    text-align: center;
+
+    > a#authBrand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.625rem;
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+      margin-bottom: 3%;
+
+      > img {
+        height: 2rem;
+        width: auto;
+        display: block;
+      }
+
+      > span#authBrandName {
+        > span#authBrandDot {
+          color: var(--accent);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 47.5rem) {
+    > div#authInner {
+      width: 88%;
+    }
+  }
+}
