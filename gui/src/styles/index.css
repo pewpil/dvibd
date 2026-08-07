@@ -1,8 +1,33 @@
+@font-face {
+  font-family: 'Grifter';
+  src: url('/fonts/grifterbold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rethink Sans';
+  src: url('/fonts/rethink-sans.ttf') format('truetype');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rethink Sans';
+  src: url('/fonts/rethink-sans-italic.ttf') format('truetype');
+  font-weight: 400 800;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
-  --font-sans: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-title: 'Grifter', system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Rethink Sans', system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
   color-scheme: light dark;
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -55,6 +80,7 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: var(--font-title);
   font-weight: 700;
   line-height: 1.15;
 }
