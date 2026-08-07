@@ -12,28 +12,25 @@ function NavBar() {
             dvibd<span id={style.brandDot}>.</span>
           </span>
         </A>
-        {/* these are the actual navlinks: */}
-        {/*   Products - Each of message and social explained elaborately */}
-        {/*   About - Explains `dvibd` company's vision and mission (about) */}
-        {/*   Contact - Where users can contact  */}
-        {/* this is close to the dvibd link */}
-        {/**/}
-        {/* delete this */}
         <ul id={style.navLinks}>
           <li>
-            <A href="/" end>
-              Home
-            </A>
+            <A href="/products">Products</A>
           </li>
           <li>
-            <A href="/social">Social</A>
+            <A href="/about">About</A>
           </li>
           <li>
-            <A href="/message">Message</A>
+            <A href="/contact">Contact</A>
           </li>
         </ul>
-        {/* to be replaced with a log in/sign up button */}
-        {/**/}
+        <div id={style.navAuth}>
+          <button id={style.navLogIn} type="button">
+            Log in
+          </button>
+          <button id={style.navSignUp} type="button">
+            Sign up
+          </button>
+        </div>
       </div>
     </nav>
   );
