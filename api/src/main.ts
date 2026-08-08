@@ -1,31 +1,32 @@
 import { Hono } from "@hono/hono";
 import { cors } from "@hono/hono/cors";
 import { logger } from "@hono/hono/logger";
+import { config } from "./config.ts";
 import routes from "./routes/routes.ts";
 
 const app = new Hono();
 
 app.use(logger());
-app.use("/api/*", cors({ origin: Deno.env.get("CORS_ORIGIN") ?? "*" }));
+app.use("/*", cors({ origin: config.corsOrigin }));
 
-app.get("/", (c) => c.text("dvibd api"));
-
-app.get("/api", (c) =>
+app.get("/", (c) =>
   c.json({
     name: "dvibd api",
     version: "0.0.1",
-  }));
+  }),
+);
 
-app.get("/api/health", (c) =>
+app.get("/health", (c) =>
   c.json({
     status: "ok",
-  }));
+  }),
+);
 
-app.route("/api", routes);
+app.route("/", routes);
 
 Deno.serve(
   {
-    port: Number(Deno.env.get("PORT") ?? 8000),
+    port: config.port,
   },
   app.fetch,
 );

@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "exports": "./src/main.ts",
   "tasks": {
-    "dev": "deno run --watch --allow-env --allow-net --env-file src/main.ts",
-    "start": "deno run --allow-env --allow-net --env-file src/main.ts",
-    "compile": "deno compile --allow-env --allow-net --output dist/dvibd-api src/main.ts",
+    "dev": "deno run --watch --allow-env --allow-net --allow-read --env-file src/main.ts",
+    "start": "deno run --allow-env --allow-net --allow-read --env-file src/main.ts",
+    "compile": "deno compile --allow-env --allow-net --allow-read --output dist/dvibd-api src/main.ts",
     "check": "deno check src/",
     "typecheck": "deno check src/",
     "fmt": "deno fmt",
