@@ -2,19 +2,34 @@
   "name": "@dvibd/api",
   "version": "0.0.1",
   "exports": "./src/main.ts",
+  "nodeModulesDir": "auto",
+  "exclude": ["dist/"],
   "tasks": {
-    "dev": "deno run --watch --allow-env --allow-net --allow-read --env-file src/main.ts",
-    "start": "deno run --allow-env --allow-net --allow-read --env-file src/main.ts",
-    "compile": "deno compile --allow-env --allow-net --allow-read --output dist/dvibd-api src/main.ts",
+    "dev": "deno run -A --watch --env-file src/main.ts",
+    "start": "deno run -A --env-file src/main.ts",
+    "compile": "deno compile -A --output dist/dvibd-api src/main.ts",
     "check": "deno check src/",
     "typecheck": "deno check src/",
     "fmt": "deno fmt",
     "fmt:check": "deno fmt --check",
-    "lint": "deno lint"
+    "lint": "deno lint",
+    "db:generate": "deno run -A --env-file npm:prisma generate",
+    "db:push": "deno run -A --env-file npm:prisma db push",
+    "db:migrate": "deno run -A --env-file npm:prisma migrate dev",
+    "db:studio": "deno run -A --env-file npm:prisma studio"
   },
   "imports": {
     "@da/bcrypt": "jsr:@da/bcrypt@^1.0.1",
-    "@hono/hono": "jsr:@hono/hono@^4.13.0"
+    "@hono/hono": "jsr:@hono/hono@^4.13.0",
+    "@hono/zod-validator": "jsr:@hono/zod-validator@^0.9.0",
+    "@prisma/adapter-pg": "npm:@prisma/adapter-pg@^7.9.1",
+    "@prisma/client": "npm:@prisma/client@^7.9.1",
+    "@types/pg": "npm:@types/pg@^8.20.4",
+    "@zod/zod": "jsr:@zod/zod@^4.4.3",
+    "pg": "npm:pg@^8.22.0",
+    "prisma": "npm:prisma@^7.9.1",
+    "prisma/config": "npm:prisma@^7.9.1/config",
+    "zod": "npm:zod@^4.4.3"
   },
   "compilerOptions": {
     "strict": true,
@@ -30,6 +45,7 @@
     "verbatimModuleSyntax": true
   },
   "fmt": {
+    "exclude": ["orm/generated/"],
     "lineWidth": 100,
     "indentWidth": 2,
     "singleQuote": false,
@@ -37,6 +53,7 @@
     "useTabs": false
   },
   "lint": {
+    "exclude": ["orm/generated/"],
     "rules": {
       "tags": ["recommended"],
       "include": [

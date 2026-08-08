@@ -1,104 +1,77 @@
 import { Hono } from "@hono/hono";
+import { zValidator } from "@hono/zod-validator";
+import { z } from "@zod/zod";
 import { compare, genSalt, hash } from "jsr:@da/bcrypt@1.0.1";
+import { Prisma } from "../../orm/generated/prisma/client.mts";
+import { prisma } from "../db.ts";
 
-type User = {
-  id: string;
-  username: string;
-  email: string;
-  passwordHash: string;
-  createdAt: string;
-};
+const signupSchema = z
+  .object({
+    username: z.string().min(3),
+    email: z.email(),
+    password: z.string().min(8),
+  })
+  .strict();
 
-type SignupBody = {
-  username: string;
-  email: string;
-  password: string;
-};
+const loginSchema = z
+  .object({
+    identifier: z.string().min(1),
+    password: z.string().min(1),
+  })
+  .strict();
 
-type LoginBody = {
-  identifier: string;
-  password: string;
-};
-
-const users = new Map<string, User>();
-
-function isValidSignupBody(body: unknown): body is SignupBody {
-  if (typeof body !== "object" || body === null) return false;
-  const candidate = body as Record<string, unknown>;
+function isUniqueViolation(error: unknown): boolean {
   return (
-    typeof candidate["username"] === "string" &&
-    candidate["username"].length >= 3 &&
-    typeof candidate["email"] === "string" &&
-    candidate["email"].includes("@") &&
-    typeof candidate["password"] === "string" &&
-    candidate["password"].length >= 8
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    error.code === "P2002"
   );
 }
 
-function isValidLoginBody(body: unknown): body is LoginBody {
-  if (typeof body !== "object" || body === null) return false;
-  const candidate = body as Record<string, unknown>;
-  return (
-    typeof candidate["identifier"] === "string" &&
-    candidate["identifier"].length > 0 &&
-    typeof candidate["password"] === "string" &&
-    candidate["password"].length > 0
-  );
-}
+const signupValidator = zValidator("json", signupSchema, (result, c) => {
+  if (!result.success) {
+    return c.json({ error: "Invalid signup payload." }, 400);
+  }
+});
+
+const loginValidator = zValidator("json", loginSchema, (result, c) => {
+  if (!result.success) {
+    return c.json({ error: "Invalid login payload." }, 400);
+  }
+});
 
 const router: Hono = new Hono();
 
-router.post("/signup", async (c) => {
-  const body = await c.req.json().catch(() => null);
-  if (!isValidSignupBody(body)) {
-    return c.json({ error: "Invalid signup payload." }, 400);
-  }
+router.post("/signup", signupValidator, async (c) => {
+  const body = c.req.valid("json");
 
   const username = body.username.toLowerCase();
   const email = body.email.toLowerCase();
 
-  for (const user of users.values()) {
-    if (user.username === username || user.email === email) {
-      return c.json({ error: "Username or email already taken." }, 409);
-    }
-  }
-
   const salt = await genSalt();
   const passwordHash = await hash(body.password, salt);
-  const user: User = {
-    id: crypto.randomUUID(),
-    username,
-    email,
-    passwordHash,
-    createdAt: new Date().toISOString(),
-  };
-  users.set(user.id, user);
 
-  return c.json(
-    {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      createdAt: user.createdAt,
-    },
-    201,
-  );
+  try {
+    const user = await prisma.user.create({
+      data: { username, email, passwordHash },
+      select: { id: true, username: true, email: true, createdAt: true },
+    });
+    return c.json(user, 201);
+  } catch (error) {
+    if (isUniqueViolation(error)) {
+      return c.json({ error: "Username or email already taken." }, 409);
+    }
+    throw error;
+  }
 });
 
-router.post("/login", async (c) => {
-  const body = await c.req.json().catch(() => null);
-  if (!isValidLoginBody(body)) {
-    return c.json({ error: "Invalid login payload." }, 400);
-  }
+router.post("/login", loginValidator, async (c) => {
+  const body = c.req.valid("json");
 
   const identifier = body.identifier.toLowerCase();
-  let found: User | undefined;
-  for (const user of users.values()) {
-    if (user.username === identifier || user.email === identifier) {
-      found = user;
-      break;
-    }
-  }
+
+  const found = await prisma.user.findFirst({
+    where: { OR: [{ username: identifier }, { email: identifier }] },
+  });
   if (!found) {
     return c.json({ error: "Invalid credentials." }, 401);
   }

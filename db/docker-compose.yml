@@ -10,7 +10,7 @@ services:
     ports:
       - "${PORT:-3001}:5432"
     volumes:
-      - dvibd_pg_data:/var/lib/postgresql/data
+      - dvibd_pg_data:/var/lib/postgresql
       - ./init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test:

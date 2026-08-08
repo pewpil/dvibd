@@ -1,2 +1,7 @@
 .env
 dist/
+orm/*
+!orm/prisma/
+orm/prisma/*
+!orm/prisma/schema.prisma
+node_modules

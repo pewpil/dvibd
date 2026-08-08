@@ -10,6 +10,9 @@
 8. You do not have to run `npm run build` to check if it builds correctly because as we develop the gui, I am actively looking at the development mode of the site. I will mention if anything is wrong.
 9. You are not to put the title in the logo when designing unless you are explicityly being told.
 
+## api
+1. When writing typescript code. Take note of the compilerOptions, fmt and lint in the project's deno.json file.
+
 ## coding
 1. If some text are to be enclosed of either double (") or single (") quotes. You must use double quotes.
 
