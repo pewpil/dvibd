@@ -10,7 +10,7 @@ import About from './pages/dvibd/home/About.tsx'
 import Contact from './pages/dvibd/home/Contact.tsx'
 import Auth from './components/dvibd/auth/Auth.tsx'
 import Login from './components/dvibd/auth/Login.tsx'
-import Singup from './components/dvibd/auth/Singup.tsx'
+import Signup from './components/dvibd/auth/Signup.tsx'
 
 const root = document.getElementById('root')
 
@@ -26,7 +26,7 @@ render(
         </Route>
         <Route component={Auth}>
           <Route path="/login" component={Login} />
-          <Route path="/signup" component={Singup} />
+          <Route path="/signup" component={Signup} />
         </Route>
       </Route>
     </Router>

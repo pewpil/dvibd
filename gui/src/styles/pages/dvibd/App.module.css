@@ -7,6 +7,7 @@ div#app {
   --primary: #4f46e5;
   --primary-strong: #4338ca;
   --accent: #0ea5e9;
+  --danger: #dc2626;
   --hero-bg: linear-gradient(180deg, #eef1ff 0%, #ffffff 100%);
   --nav-bg: rgba(255, 255, 255, 0.85);
   --width: 76.5%;
@@ -63,6 +64,7 @@ div#app[data-theme="dark"] {
   --primary: #818cf8;
   --primary-strong: #a5b4fc;
   --accent: #38bdf8;
+  --danger: #f87171;
   --hero-bg: linear-gradient(180deg, #1c2040 0%, #0f1117 100%);
   --nav-bg: rgba(15, 17, 23, 0.85);
 }
@@ -77,6 +79,7 @@ div#app[data-theme="dark"] {
     --primary: #818cf8;
     --primary-strong: #a5b4fc;
     --accent: #38bdf8;
+    --danger: #f87171;
     --hero-bg: linear-gradient(180deg, #1c2040 0%, #0f1117 100%);
     --nav-bg: rgba(15, 17, 23, 0.85);
   }

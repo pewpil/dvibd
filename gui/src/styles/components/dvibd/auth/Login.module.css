@@ -60,6 +60,17 @@ main#login {
       &:hover {
         background: var(--primary-strong);
       }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+    }
+
+    > p#loginError {
+      margin-top: 1.5%;
+      font-size: 0.85rem;
+      color: var(--danger);
     }
   }
 

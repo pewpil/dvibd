@@ -5,3 +5,4 @@ orm/*
 orm/prisma/*
 !orm/prisma/schema.prisma
 node_modules
+test.http

@@ -1,4 +1,4 @@
-main#singup {
+main#signup {
   > h1 {
     font-size: 1.6rem;
   }
@@ -9,7 +9,7 @@ main#singup {
     color: var(--ink-soft);
   }
 
-  > form#singupForm {
+  > form#signupForm {
     margin-top: 2.5%;
     display: flex;
     flex-direction: column;
@@ -45,7 +45,7 @@ main#singup {
       }
     }
 
-    > button#singupSubmit {
+    > button#signupSubmit {
       margin-top: 0.5rem;
       padding: 0.75rem 1.75rem;
       border: none;
@@ -60,10 +60,21 @@ main#singup {
       &:hover {
         background: var(--primary-strong);
       }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+    }
+
+    > p#signupError {
+      margin-top: 1.5%;
+      font-size: 0.85rem;
+      color: var(--danger);
     }
   }
 
-  > p#singupSwitch {
+  > p#signupSwitch {
     margin-top: 2%;
     font-size: 0.9rem;
     color: var(--ink-soft);
