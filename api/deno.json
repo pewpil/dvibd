@@ -16,6 +16,7 @@
     "db:generate": "deno run -A --env-file npm:prisma generate",
     "db:push": "deno run -A --env-file npm:prisma db push",
     "db:migrate": "deno run -A --env-file npm:prisma migrate dev",
+    "db:reset": "deno run -A --env-file npm:prisma migrate reset --force",
     "db:studio": "deno run -A --env-file npm:prisma studio"
   },
   "imports": {
