@@ -12,6 +12,7 @@
 
 ## api
 1. When writing typescript code. Take note of the compilerOptions, fmt and lint in the project's deno.json file.
+2. Everytime you write an endpoint, above it should be url preceded with the request verb. For example: POST /auth/signup
 
 ## coding
 1. If some text are to be enclosed of either double (") or single (") quotes. You must use double quotes.

@@ -41,6 +41,7 @@ const loginValidator = zValidator("json", loginSchema, (result, c) => {
 
 const router: Hono = new Hono();
 
+// POST /auth/signup
 router.post("/signup", signupValidator, async (c) => {
   const body = c.req.valid("json");
 
@@ -64,6 +65,7 @@ router.post("/signup", signupValidator, async (c) => {
   }
 });
 
+// POST /auth/login
 router.post("/login", loginValidator, async (c) => {
   const body = c.req.valid("json");
 

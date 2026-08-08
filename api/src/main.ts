@@ -10,12 +10,12 @@ app.use(logger());
 app.use("/*", cors({ origin: config.corsOrigin }));
 app.route("/", routes);
 
+// GET /health
 app.get("/health", (c) =>
   c.json({
     name: "dvibd api",
     version: "0.0.1",
-  }),
-);
+  }));
 
 Deno.serve(
   {
