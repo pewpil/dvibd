@@ -3,6 +3,7 @@ import { z } from "@zod/zod";
 const DEFAULTS = {
   PORT: "3002",
   CORS_ORIGIN: "http://localhost:3000",
+  JWT_SECRET: "dvibd-dev-secret-change-me",
 } as const;
 
 const envSchema = z.object({
@@ -13,6 +14,7 @@ const envSchema = z.object({
       message: "PORT must be between 1 and 65535",
     }),
   CORS_ORIGIN: z.url(),
+  JWT_SECRET: z.string().min(16, "JWT_SECRET must be at least 16 characters"),
 });
 
 function hasEnvFile(): boolean {
@@ -38,9 +40,11 @@ function resolveEnv(name: keyof typeof DEFAULTS): string {
 const parsedEnv = envSchema.parse({
   PORT: resolveEnv("PORT"),
   CORS_ORIGIN: resolveEnv("CORS_ORIGIN"),
+  JWT_SECRET: resolveEnv("JWT_SECRET"),
 });
 
 export const config = {
   port: Number(parsedEnv.PORT),
   corsOrigin: parsedEnv.CORS_ORIGIN,
+  jwtSecret: parsedEnv.JWT_SECRET,
 };
