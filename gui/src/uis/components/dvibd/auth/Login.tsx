@@ -1,23 +1,25 @@
 import { A, useNavigate } from "@solidjs/router";
+<<<<<<< HEAD
 import { createSignal } from "solid-js";
+=======
+import { createEffect, createSignal, Show } from "solid-js";
+import { useAuth, type Session } from "../../../contexts/dvibd/AuthContext";
+>>>>>>> 655861d (used context for persisting logged-in state)
 import style from "../../../../styles/components/dvibd/auth/Login.module.css";
-
-interface Session {
-  user: {
-    id: string;
-    username: string;
-    email: string;
-  };
-  accessToken: string;
-  refreshToken: string;
-}
 
 function Login() {
   const navigate = useNavigate();
+  const { session, setSession } = useAuth();
   const [identifier, setIdentifier] = createSignal("");
   const [password, setPassword] = createSignal("");
   const [pending, setPending] = createSignal(false);
   const [error, setError] = createSignal("");
+
+  createEffect(() => {
+    if (session()) {
+      navigate("/", { replace: true });
+    }
+  });
 
   const handleSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
@@ -39,8 +41,8 @@ function Login() {
         setError(body?.error ?? "Unable to log in. Please try again.");
         return;
       }
-      const session = (await response.json()) as Session;
-      localStorage.setItem("dvibd.session", JSON.stringify(session));
+      const newSession = (await response.json()) as Session;
+      setSession(newSession);
       navigate("/", { replace: true });
     } catch {
       setError("Cannot reach the server. Please try again.");

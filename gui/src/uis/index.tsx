@@ -11,25 +11,28 @@ import Contact from './pages/dvibd/home/Contact.tsx'
 import Auth from './components/dvibd/auth/Auth.tsx'
 import Login from './components/dvibd/auth/Login.tsx'
 import Signup from './components/dvibd/auth/Signup.tsx'
+import { AuthProvider } from './contexts/dvibd/AuthContext.tsx'
 
 const root = document.getElementById('root')
 
 render(
   () => (
-    <Router>
-      <Route path="/" component={App}>
-        <Route path="/" component={Home}>
-          <Route path="/" component={Landing} />
-          <Route path="/products" component={Products} />
-          <Route path="/about" component={About} />
-          <Route path="/contact" component={Contact} />
+    <AuthProvider>
+      <Router>
+        <Route path="/" component={App}>
+          <Route path="/" component={Home}>
+            <Route path="/" component={Landing} />
+            <Route path="/products" component={Products} />
+            <Route path="/about" component={About} />
+            <Route path="/contact" component={Contact} />
+          </Route>
+          <Route component={Auth}>
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+          </Route>
         </Route>
-        <Route component={Auth}>
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
-        </Route>
-      </Route>
-    </Router>
+      </Router>
+    </AuthProvider>
   ),
   root!,
 )

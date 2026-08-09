@@ -1,25 +1,22 @@
 import { A, useNavigate } from "@solidjs/router";
-import { createSignal } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
+import { useAuth, type Session } from "../../../contexts/dvibd/AuthContext";
 import style from "../../../../styles/components/dvibd/auth/Signup.module.css";
-
-interface Session {
-  user: {
-    id: string;
-    username: string;
-    email: string;
-    createdAt: string;
-  };
-  accessToken: string;
-  refreshToken: string;
-}
 
 function Signup() {
   const navigate = useNavigate();
+  const { session, setSession } = useAuth();
   const [username, setUsername] = createSignal("");
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
   const [pending, setPending] = createSignal(false);
   const [error, setError] = createSignal("");
+
+  createEffect(() => {
+    if (session()) {
+      navigate("/", { replace: true });
+    }
+  });
 
   const handleSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
@@ -42,8 +39,8 @@ function Signup() {
         setError(body?.error ?? "Unable to sign up. Please try again.");
         return;
       }
-      const session = (await response.json()) as Session;
-      localStorage.setItem("dvibd.session", JSON.stringify(session));
+      const newSession = (await response.json()) as Session;
+      setSession(newSession);
       navigate("/", { replace: true });
     } catch {
       setError("Cannot reach the server. Please try again.");
@@ -106,4 +103,4 @@ function Signup() {
   );
 }
 
-export default Signup
+export default Signup;

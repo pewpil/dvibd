@@ -1,10 +1,11 @@
 import { A } from "@solidjs/router";
 import { createSignal, Show } from "solid-js";
 import logo from "../../../../assets/pages/dvibd/home/logo.svg";
+import { useAuth } from "../../../contexts/dvibd/AuthContext";
 import style from "../../../../styles/components/dvibd/home/NavBar.module.css";
 
 function NavBar() {
-  const [loggedIn] = createSignal(true);
+  const { session, logout } = useAuth();
   const [profileOpen, setProfileOpen] = createSignal(false);
 
   return (
@@ -28,7 +29,7 @@ function NavBar() {
           </li>
         </ul>
         <div id={style.navAuth}>
-          <Show when={!loggedIn()}>
+          <Show when={session() === null}>
             <A id={style.navLogIn} href="/login">
               Log in
             </A>
@@ -36,7 +37,7 @@ function NavBar() {
               Sign up
             </A>
           </Show>
-          <Show when={loggedIn()}>
+          <Show when={session() !== null}>
             <div id={style.navProfile}>
               <button
                 id={style.profileToggle}
@@ -46,11 +47,20 @@ function NavBar() {
                 aria-label="Profile"
               >
                 <img src="/profile-picture.svg" alt="profile picture" />
-                <span id={style.profileUsername}>@username</span>
+                <span id={style.profileUsername}>
+                  @{session()?.user.username}
+                </span>
               </button>
               <Show when={profileOpen()}>
                 <div id={style.profileMenu}>
-                  <button id={style.profileSignOut} type="button">
+                  <button
+                    id={style.profileSignOut}
+                    type="button"
+                    onClick={() => {
+                      setProfileOpen(false);
+                      logout();
+                    }}
+                  >
                     Sign out
                   </button>
                 </div>
