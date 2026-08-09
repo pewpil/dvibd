@@ -1,10 +1,6 @@
 import { A, useNavigate } from "@solidjs/router";
-<<<<<<< HEAD
-import { createSignal } from "solid-js";
-=======
-import { createEffect, createSignal, Show } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { useAuth, type Session } from "../../../contexts/dvibd/AuthContext";
->>>>>>> 655861d (used context for persisting logged-in state)
 import style from "../../../../styles/components/dvibd/auth/Login.module.css";
 
 function Login() {
