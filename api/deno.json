@@ -12,12 +12,7 @@
     "typecheck": "deno check src/",
     "fmt": "deno fmt",
     "fmt:check": "deno fmt --check",
-    "lint": "deno lint",
-    "db:generate": "deno run -A --env-file npm:prisma generate",
-    "db:push": "deno run -A --env-file npm:prisma db push",
-    "db:migrate": "deno run -A --env-file npm:prisma migrate dev",
-    "db:reset": "deno run -A --env-file npm:prisma migrate reset --force",
-    "db:studio": "deno run -A --env-file npm:prisma studio"
+    "lint": "deno lint"
   },
   "imports": {
     "@da/bcrypt": "jsr:@da/bcrypt@^1.0.1",
@@ -27,10 +22,7 @@
     "@prisma/client": "npm:@prisma/client@^7.9.1",
     "@types/pg": "npm:@types/pg@^8.20.4",
     "@zod/zod": "jsr:@zod/zod@^4.4.3",
-    "pg": "npm:pg@^8.22.0",
-    "prisma": "npm:prisma@^7.9.1",
-    "prisma/config": "npm:prisma@^7.9.1/config",
-    "zod": "npm:zod@^4.4.3"
+    "pg": "npm:pg@^8.22.0"
   },
   "compilerOptions": {
     "strict": true,
@@ -46,7 +38,7 @@
     "verbatimModuleSyntax": true
   },
   "fmt": {
-    "exclude": ["orm/generated/"],
+    "exclude": ["dist/", "src/generated/"],
     "lineWidth": 100,
     "indentWidth": 2,
     "singleQuote": false,
@@ -54,7 +46,7 @@
     "useTabs": false
   },
   "lint": {
-    "exclude": ["orm/generated/"],
+    "exclude": ["dist/", "src/generated/"],
     "rules": {
       "tags": ["recommended"],
       "include": [

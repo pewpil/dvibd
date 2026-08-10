@@ -5,19 +5,18 @@ import {
   useContext,
   type ParentProps,
 } from "solid-js";
+import type { User } from "../../../generated/browser.mts";
 
 const SESSION_KEY = "dvibd.session";
 
-export interface Session {
-  user: {
-    id: string;
-    username: string;
-    email: string;
-    createdAt?: string;
-  };
+export type Session = Omit<
+  User,
+  "passwordHash" | "refreshTokens" | "createdAt"
+> & {
+  createdAt: string;
   accessToken: string;
   refreshToken: string;
-}
+};
 
 interface AuthContextValue {
   session(): Session | null;

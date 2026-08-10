@@ -3,7 +3,7 @@ import { jwt, sign, verify } from "@hono/hono/jwt";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "@zod/zod";
 import { compare, genSalt, hash } from "jsr:@da/bcrypt@1.0.1";
-import { Prisma } from "../../orm/generated/prisma/client.mts";
+import { Prisma, type User } from "../generated/client.mts";
 import { config } from "../config.ts";
 import { prisma } from "../db.ts";
 
@@ -123,11 +123,12 @@ const logoutValidator = zValidator("json", logoutSchema, (result, c) => {
   }
 });
 
-const router: Hono<{ Variables: { jwtPayload: { sub?: string } } }> =
-  new Hono();
+const router: Hono<{ Variables: { jwtPayload: { sub?: string } } }> = new Hono();
 
 // POST /auth/signup
 router.post("/signup", signupValidator, async (c) => {
+  type PublicUser = Omit<User, "passwordHash" | "refreshTokens">;
+
   const body = c.req.valid("json");
 
   const username = body.username.toLowerCase();
@@ -136,7 +137,7 @@ router.post("/signup", signupValidator, async (c) => {
   const salt = await genSalt();
   const passwordHash = await hash(body.password, salt);
 
-  let user: { id: string; username: string; email: string; createdAt: Date };
+  let user: PublicUser;
   try {
     user = await prisma.user.create({
       data: { username, email, passwordHash },
@@ -152,23 +153,15 @@ router.post("/signup", signupValidator, async (c) => {
   const accessToken = await issueAccessToken(user.id);
 
   return c.json(
-    {
-      user: {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        createdAt: user.createdAt,
-      },
-      accessToken,
-      refreshToken: await issueRefreshToken(user.id),
-    },
+    { ...user, accessToken, refreshToken: await issueRefreshToken(user.id) },
     201,
   );
 });
 
 // POST /auth/login
 router.post("/login", loginValidator, async (c) => {
-  console.log("it ran");
+  type Account = Omit<User, "passwordHash" | "refreshTokens">;
+
   const body = c.req.valid("json");
 
   const identifier = body.identifier.toLowerCase();
@@ -187,16 +180,14 @@ router.post("/login", loginValidator, async (c) => {
 
   const accessToken = await issueAccessToken(found.id);
   const refreshToken = await issueRefreshToken(found.id);
+  const account: Account = {
+    id: found.id,
+    username: found.username,
+    email: found.email,
+    createdAt: found.createdAt,
+  };
 
-  return c.json({
-    user: {
-      id: found.id,
-      username: found.username,
-      email: found.email,
-    },
-    accessToken,
-    refreshToken,
-  });
+  return c.json({ ...account, accessToken, refreshToken });
 });
 
 // POST /auth/refresh
@@ -252,7 +243,7 @@ router.get(
     if (!user) {
       return c.json({ error: "User not found." }, 404);
     }
-    return c.json({ user });
+    return c.json(user);
   },
 );
 

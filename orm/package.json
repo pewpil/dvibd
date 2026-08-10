@@ -1,0 +1,18 @@
+{
+  "name": "@dvibd/orm",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "generate": "prisma generate",
+    "push": "prisma db push",
+    "migrate": "prisma migrate dev",
+    "reset": "prisma migrate reset --force",
+    "studio": "prisma studio"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "prisma": "^7.9.1",
+    "zod": "^4.4.3"
+  }
+}

@@ -1,7 +1,15 @@
-generator client {
+generator api-client {
   provider               = "prisma-client"
-  output                 = "../generated/prisma"
+  output                 = "../../api/src/generated"
   runtime                = "deno"
+  importFileExtension    = "mts"
+  generatedFileExtension = "mts"
+}
+
+generator gui-client {
+  provider               = "prisma-client"
+  output                 = "../../gui/src/generated"
+  runtime                = "workerd"
   importFileExtension    = "mts"
   generatedFileExtension = "mts"
 }
@@ -11,11 +19,11 @@ datasource db {
 }
 
 model User {
-  id           String          @id @default(cuid())
-  username     String          @unique
-  email        String          @unique
-  passwordHash String
-  createdAt    DateTime        @default(now())
+  id            String         @id @default(cuid())
+  username      String         @unique
+  email         String         @unique
+  passwordHash  String
+  createdAt     DateTime       @default(now())
   refreshTokens RefreshToken[]
 }
 

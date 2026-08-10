@@ -48,7 +48,7 @@ function NavBar() {
               >
                 <img src="/profile-picture.svg" alt="profile picture" />
                 <span id={style.profileUsername}>
-                  @{session()?.user.username}
+                  @{session()?.username}
                 </span>
               </button>
               <Show when={profileOpen()}>

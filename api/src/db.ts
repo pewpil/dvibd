@@ -1,5 +1,5 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../orm/generated/prisma/client.mts";
+import { PrismaClient } from "./generated/client.mts";
 
 const connectionString = Deno.env.get("DATABASE_URL") ??
   "postgresql://dvibd:dvibd@localhost:3001/dvibd";
