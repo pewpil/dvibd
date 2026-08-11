@@ -9,7 +9,7 @@
 7. Never use <>/</> or solidjs' <Framgment>
 8. You do not have to run `npm run build` to check if it builds correctly because as we develop the gui, I am actively looking at the development mode of the site. I will mention if anything is wrong.
 9. You are not to put the title in the logo when designing unless you are explicityly being told.
-10. gui codespace has to be completely SolidJS idiomatic. For example, use SolidJS's <Show> instead of TSX's && for conditional rendering of elements.
+10. gui codespace has to be completely SolidJS and SolidStart idiomatic. For example, use SolidJS's <Show> instead of TSX's && for conditional rendering of elements.
 
 ## api
 1. When writing typescript code. Take note of the compilerOptions, fmt and lint in the project's deno.json file.
