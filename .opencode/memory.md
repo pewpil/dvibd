@@ -1,5 +1,5 @@
 # Project Memory
-## gui Instructions
+## dvibd's and social's gui Instructions
 1. You should use a CSS Module and never CSS (except `index.css`) for a component/page's corresponding styling file imported as `style` in its TypeScriptXML file.
 2. Styling files should be written fully nested with its selector indicating the element's tag name and id/class with an immediate child selector (>) by default unless decendants are targeted by the style. For example: div#app { ... } and never #app { ... }. 
 3. Never use class for styling. Use id instead. Classes can be used if an element/component/page has style variants.
@@ -16,7 +16,7 @@
 2. Everytime you write an endpoint, above it should be url preceded with the request verb. For example: POST /auth/signup
 
 ## coding
-1. If some text are to be enclosed of either double (") or single (") quotes. You must use double quotes.
+1. If some text are to be enclosed of either double (") or single (') quotes. You must use double quotes.
 
 ## writing
 1. Refrain from using the em dash.

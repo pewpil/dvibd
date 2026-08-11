@@ -13,7 +13,7 @@
     "types": ["vite/client"],
     "isolatedModules": true,
     "paths": {
-      "~/*": ["./src/gui/*"]
+      "~/*": ["./src/*"]
     }
   }
 }
