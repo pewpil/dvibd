@@ -1,28 +1,35 @@
 import { createEffect, createSignal } from "solid-js";
+import { getRequestEvent, isServer } from "solid-js/web";
 import style from "../styles/components/ThemeToggle.module.css";
 
 const THEME_KEY = "dvibd-theme";
 
+function getCookieTheme(): "light" | "dark" {
+  const cookie = isServer
+    ? getRequestEvent()?.request.headers.get("cookie") ?? ""
+    : document.cookie;
+  const match = cookie.match(new RegExp(`(?:^|;\\s*)${THEME_KEY}=([^;]+)`));
+  return match?.[1] === "dark" ? "dark" : "light";
+}
+
 function ThemeToggle() {
-  const [theme, setTheme] = createSignal<"light" | "dark">("light");
+  const [theme, setTheme] = createSignal<"light" | "dark">(getCookieTheme());
 
   createEffect(() => {
-    const app = document.getElementById("app");
-    app?.setAttribute("data-theme", theme());
-    localStorage.setItem(THEME_KEY, theme());
+    if (isServer) return;
+    if (localStorage.getItem(THEME_KEY)) return;
+    setTheme(
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light",
+    );
   });
 
   createEffect(() => {
-    const saved = localStorage.getItem(THEME_KEY);
-    if (saved === "light" || saved === "dark") {
-      setTheme(saved);
-    } else {
-      setTheme(
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light",
-      );
-    }
+    if (isServer) return;
+    document.getElementById("app")?.setAttribute("data-theme", theme());
+    localStorage.setItem(THEME_KEY, theme());
+    document.cookie = `${THEME_KEY}=${theme()};path=/;max-age=31536000;samesite=lax`;
   });
 
   return (
