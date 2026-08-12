@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="dvibd logo">
+  <rect width="64" height="64" rx="18" fill="#4f46e5" />
+  <g fill="#ffffff">
+    <circle cx="26" cy="36" r="17" />
+    <circle cx="26" cy="36" r="8" fill="#4f46e5" />
+    <rect x="36" y="11" width="10" height="42" rx="5" />
+  </g>
+  <circle cx="51" cy="49" r="4" fill="#0ea5e9" />
+</svg>

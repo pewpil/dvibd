@@ -1,0 +1,35 @@
+li.trendItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0;
+  padding: 2.8% 0;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  > span:first-child {
+    margin-right: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  > p {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  > span:last-child {
+    margin-left: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+}

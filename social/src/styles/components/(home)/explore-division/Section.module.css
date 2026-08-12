@@ -1,0 +1,11 @@
+section.section {
+  padding: 1rem;
+  border: 0.0625rem solid var(--line);
+  border-radius: 15px;
+
+  > h2 {
+    margin-bottom: 0.9rem;
+    font-size: 1.05rem;
+    font-weight: 800;
+  }
+}
