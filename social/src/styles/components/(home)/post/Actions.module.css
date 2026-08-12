@@ -1,0 +1,60 @@
+footer#postActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  > button {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    > span#actionIcon {
+      display: flex;
+
+      > svg {
+        width: 1.4rem;
+        height: 1.4rem;
+      }
+    }
+
+    &:hover {
+      color: var(--primary);
+    }
+
+    &.activeLike {
+      color: #f43f5e;
+
+      &:hover {
+        color: #f43f5e;
+      }
+    }
+
+    &.activeRepost {
+      color: #22c55e;
+
+      &:hover {
+        color: #22c55e;
+      }
+    }
+
+    &.activeSave {
+      color: var(--primary);
+
+      &:hover {
+        color: var(--primary);
+      }
+    }
+
+    &.shareAction {
+      margin-left: 8%;
+    }
+  }
+}

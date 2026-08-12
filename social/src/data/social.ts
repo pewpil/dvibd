@@ -32,3 +32,55 @@ export const communities: Community[] = [
   { name: "Design Tokens", members: "9.3k members" },
   { name: "Indie Hacking", members: "15.7k members" },
 ];
+
+export interface Post {
+  id: number;
+  author: string;
+  handle: string;
+  time: string;
+  avatar?: string;
+  text: string;
+  media?: { count: number };
+  reply: number;
+  repost: number;
+  like: number;
+  save: number;
+}
+
+export const posts: Post[] = [
+  {
+    id: 1,
+    author: "Aria Chen",
+    handle: "ariachen",
+    time: "2h",
+    text: "Just shipped the new feed layout and it feels so much calmer. Slow social done right.",
+    media: { count: 1 },
+    reply: 12,
+    repost: 5,
+    like: 48,
+    save: 3,
+  },
+  {
+    id: 2,
+    author: "Marcus Lee",
+    handle: "marcuslee",
+    time: "5h",
+    text: "SolidStart v2 with fine-grained reactivity is genuinely a joy to build with.",
+    media: { count: 7 },
+    reply: 8,
+    repost: 22,
+    like: 130,
+    save: 15,
+  },
+  {
+    id: 3,
+    author: "Sofia Reyes",
+    handle: "sofia.reyes",
+    time: "8h",
+    text: "Spent the morning drawing icons. Lexend for headings, Rethink Sans for body — such a clean pairing.",
+    reply: 3,
+    repost: 1,
+    like: 27,
+    save: 9,
+  },
+];

@@ -1,6 +1,6 @@
 nav#sideNav {
   position: sticky;
-  top: 0;
+  top: 2.25vh;
   display: flex;
   flex-direction: column;
   gap: 1rem;

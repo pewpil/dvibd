@@ -1,0 +1,47 @@
+header#postHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  > img#postHeaderAvatar {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  > div#postHeaderMeta {
+    min-width: 0;
+
+    > p#postHeaderName {
+      font-weight: 600;
+    }
+
+    > p#postHeaderTime {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+    }
+  }
+
+  > button#postHeaderMore {
+    margin-left: auto;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--primary);
+    }
+
+    > span#moreIcon {
+      display: flex;
+
+      > svg {
+        width: 1.4rem;
+        height: 1.4rem;
+      }
+    }
+  }
+}

@@ -109,7 +109,7 @@ div#app {
     "Rethink Sans", Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
     "Helvetica Neue", sans-serif;
   --font-heading: "Lexend", "Rethink Sans", Gordita, Roboto, sans-serif;
-  height: 100vh;
+  min-height: 100vh;
   background: var(--bg);
   color: var(--ink);
   transition:
@@ -132,7 +132,7 @@ div#app[data-theme="dark"] {
 @media (prefers-color-scheme: dark) {
   div#app:not([data-theme="light"]) {
     --bg: #0c0d14;
-    --surface: rgba(255, 255, 255, 0.0125);
+    --surface: rgba(255, 255, 255, 0.02);
     --surface-strong: rgba(255, 255, 255, 0.1);
     --ink: #eef0f7;
     --ink-soft: #9aa1b8;

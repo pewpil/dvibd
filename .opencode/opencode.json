@@ -1,4 +1,19 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": [".opencode/memory.md", ".opencode/social.md"]
+  "instructions": [".opencode/memory.md", ".opencode/social.md"],
+  "model": "deepseek/deepseek-chat",
+  "provider": {
+    "deepseek": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "DeepSeek",
+      "options": {
+        "baseURL": "https://api.deepseek.com/v1",
+        "apiKey": "{file:deepseek.key}"
+      },
+      "models": {
+        "deepseek-chat": { "name": "DeepSeek Chat" },
+        "deepseek-reasoner": { "name": "DeepSeek Reasoner" }
+      }
+    }
+  }
 }
