@@ -2,8 +2,9 @@ div#homeLayout {
   max-width: var(--width);
   height: 100%;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: fit-content(7%) minmax(0, 1fr) 21%;
+display: grid;
+  grid-template-columns: fit-content(7%) minmax(0, 40rem) 20%;
+  justify-content: center;
   gap: 1rem;
 
   > nav,

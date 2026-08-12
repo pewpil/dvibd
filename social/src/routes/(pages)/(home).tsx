@@ -1,6 +1,7 @@
 import { For, ParentProps } from "solid-js";
 import { communities, suggestedUsers, trendingTopics } from "../../data/social";
 import SideNav from "../../components/SideNav";
+import ThemeToggle from "../../components/ThemeToggle";
 import Section from "../../components/(home)/explore-division/Section";
 import Trend from "../../components/(home)/explore-division/Trend";
 import User from "../../components/(home)/explore-division/user";
@@ -10,11 +11,20 @@ import style from "../../styles/pages/(home).module.css";
 export default function HomeLayout({ children }: ParentProps) {
   return (
     <div id={style.homeLayout}>
+      <ThemeToggle />
       <SideNav />
       <main id={style.feed}>{children}</main>
       <aside id={style.explore}>
         <form id={style.exploreSearch} role="search">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <circle cx="11" cy="11" r="7" />
             <path d="m20 20-4.2-4.2" />
           </svg>
@@ -29,9 +39,7 @@ export default function HomeLayout({ children }: ParentProps) {
         </Section>
         <Section title="Users">
           <ul>
-            <For each={suggestedUsers}>
-              {(user) => <User user={user} />}
-            </For>
+            <For each={suggestedUsers}>{(user) => <User user={user} />}</For>
           </ul>
         </Section>
         <Section title="Community">
