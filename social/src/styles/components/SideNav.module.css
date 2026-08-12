@@ -29,23 +29,24 @@ nav#sideNav {
         background: var(--primary-soft);
       }
 
-      > img {
+      > svg {
         height: 1.75rem;
         aspect-ratio: 1;
-        opacity: 0.55;
+        color: var(--ink-soft);
+        opacity: 0.8;
         transition:
-          opacity 0.2s ease,
-          filter 0.2s ease;
+          color 0.2s ease,
+          opacity 0.2s ease;
       }
 
-      &:hover > img {
+      &:hover > svg {
+        color: var(--ink);
         opacity: 1;
       }
 
-      &:global(.active) > img {
+      &:global(.active) > svg {
+        color: var(--primary);
         opacity: 1;
-        filter: brightness(0) invert(67.2%) sepia(31.1%) saturate(35.2%)
-          hue-rotate(204.8deg) brightness(1.794) contrast(0.356);
       }
     }
   }
