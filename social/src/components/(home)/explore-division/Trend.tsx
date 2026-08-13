@@ -9,7 +9,7 @@ export default function Trend({ topic }: TrendProps) {
   return (
     <li class={style.trendItem}>
       <span>{topic.rank}</span>
-      <p>{topic.tag}</p>
+      <p>{`#${topic.tag}`}</p>
       <span>{topic.posts}</span>
     </li>
   );

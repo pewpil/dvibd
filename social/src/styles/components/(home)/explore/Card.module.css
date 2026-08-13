@@ -1,0 +1,6 @@
+section#card {
+  padding: 1.25rem;
+  border: 0.0625rem solid var(--line);
+  border-radius: 15px;
+  background: var(--surface);
+}

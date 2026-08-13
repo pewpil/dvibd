@@ -7,8 +7,8 @@ export interface TrendingTopic {
 export const trendingTopics: TrendingTopic[] = [
   { rank: 1, tag: "dvibd", posts: "12.4k posts" },
   { rank: 2, tag: "SolidStart", posts: "8.1k posts" },
-  { rank: 3, tag: "Open Source", posts: "6.7k posts" },
-  { rank: 4, tag: "Web Dev", posts: "5.2k posts" },
+  { rank: 3, tag: "OpenSource", posts: "6.7k posts" },
+  { rank: 4, tag: "WebDev", posts: "5.2k posts" },
 ];
 
 export interface SuggestedUser {
@@ -31,6 +31,38 @@ export const communities: Community[] = [
   { name: "SolidJS", members: "24k members" },
   { name: "Design Tokens", members: "9.3k members" },
   { name: "Indie Hacking", members: "15.7k members" },
+];
+
+export const interestTags: string[] = [
+  "Technology",
+  "Design",
+  "Open Source",
+  "Web Dev",
+  "Communities",
+];
+
+export interface LifeEvent {
+  id: number;
+  title: string;
+  meta: string[];
+}
+
+export const lifeEvents: LifeEvent[] = [
+  {
+    id: 1,
+    title: "dvibd launches its public API",
+    meta: ["dvibd", "1.2k posts"],
+  },
+  {
+    id: 2,
+    title: "SolidStart v2 conference talks published",
+    meta: ["SolidStart", "840 posts"],
+  },
+  {
+    id: 3,
+    title: "Community fundraiser for open-source fonts",
+    meta: ["Design", "320 posts"],
+  },
 ];
 
 export interface Post {

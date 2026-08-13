@@ -1,0 +1,10 @@
+section#section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  > h2#sectionTitle {
+    font-size: 1.2rem;
+    font-weight: 800;
+  }
+}

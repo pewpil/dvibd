@@ -1,0 +1,111 @@
+div#exploreHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  > div#searchRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    > form#searchForm {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-grow: 1;
+      min-width: 0;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+
+      > svg {
+        width: 1.1rem;
+        height: 1.1rem;
+        flex-shrink: 0;
+      }
+
+      > input {
+        flex-grow: 1;
+        min-width: 0;
+        padding: 0.6rem 0;
+        border: none;
+        background: transparent;
+        color: var(--ink);
+        outline: none;
+
+        &::placeholder {
+          color: var(--ink-soft);
+        }
+      }
+    }
+
+    > button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.6rem;
+      height: 2.6rem;
+      flex-shrink: 0;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition:
+        color 0.2s ease,
+        background 0.2s ease;
+
+      &:hover {
+        color: var(--ink);
+      }
+
+      &.filterActive {
+        color: var(--primary);
+        border-color: var(--primary);
+        background: var(--primary-soft);
+      }
+
+      > span#filterIcon {
+        display: flex;
+
+        > svg {
+          width: 1.3rem;
+          height: 1.3rem;
+        }
+      }
+    }
+  }
+
+  > div#tagRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    > button {
+      padding: 0.4rem 0.9rem;
+      border: 0.0625rem solid var(--line);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink-soft);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+
+      &:hover {
+        color: var(--ink);
+        background: var(--primary-soft);
+      }
+
+      &.activeTag {
+        color: #fff;
+        background: var(--primary);
+        border-color: var(--primary);
+      }
+    }
+  }
+}

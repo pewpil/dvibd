@@ -1,0 +1,29 @@
+article#event {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 2.8% 0;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 0.0625rem solid var(--line);
+  }
+
+  > h3#eventTitle {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  > p#eventMeta {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+}
