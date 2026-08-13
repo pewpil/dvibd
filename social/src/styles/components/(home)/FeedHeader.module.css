@@ -3,38 +3,12 @@ header#feedHeader {
   top: 0;
   z-index: 1;
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
   padding: 0.75rem 1.5rem;
   border: 0.0625rem solid var(--line);
   border-radius: 15px;
   background: var(--surface);
-
-  > button {
-    flex: 1;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 15px;
-    background: transparent;
-    color: var(--ink-soft);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: center;
-    transition:
-      background 0.2s ease,
-      color 0.2s ease;
-
-    &:hover {
-      background: var(--primary-soft);
-      color: var(--ink);
-    }
-
-    &.activeTab {
-      background: var(--primary);
-      color: #fff;
-    }
-  }
 
   &.stuck {
     border-top-left-radius: 0;

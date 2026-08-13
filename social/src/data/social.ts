@@ -84,3 +84,141 @@ export const posts: Post[] = [
     save: 9,
   },
 ];
+
+export interface Notification {
+  id: number;
+  actor: string;
+  handle: string;
+  avatar?: string;
+  action: string;
+  time: string;
+}
+
+export const notifications: Notification[] = [
+  {
+    id: 1,
+    actor: "Marcus Lee",
+    handle: "marcuslee",
+    action: "liked your post",
+    time: "12m",
+  },
+  {
+    id: 2,
+    actor: "Sofia Reyes",
+    handle: "sofia.reyes",
+    action: "replied to your post",
+    time: "40m",
+  },
+  {
+    id: 3,
+    actor: "Aria Chen",
+    handle: "ariachen",
+    action: "started following you",
+    time: "2h",
+  },
+  {
+    id: 4,
+    actor: "dvibd",
+    handle: "dvibd",
+    action: "mentioned you in a community post",
+    time: "5h",
+  },
+  {
+    id: 5,
+    actor: "Liam Park",
+    handle: "liampark",
+    action: "liked your post",
+    time: "6h",
+  },
+  {
+    id: 6,
+    actor: "Noah Bennett",
+    handle: "noahb",
+    action: "reposted your post",
+    time: "7h",
+  },
+  {
+    id: 7,
+    actor: "Mia Ortiz",
+    handle: "mia.ortiz",
+    action: "started following you",
+    time: "9h",
+  },
+  {
+    id: 8,
+    actor: "Ethan Cole",
+    handle: "ethancole",
+    action: "replied to your post",
+    time: "11h",
+  },
+  {
+    id: 9,
+    actor: "Zoe Nakamura",
+    handle: "zoe.n",
+    action: "liked your comment",
+    time: "13h",
+  },
+  {
+    id: 10,
+    actor: "Owen Frost",
+    handle: "owenfrost",
+    action: "mentioned you in a post",
+    time: "15h",
+  },
+  {
+    id: 11,
+    actor: "Isla Romano",
+    handle: "isla.r",
+    action: "started following you",
+    time: "18h",
+  },
+  {
+    id: 12,
+    actor: "Caleb Singh",
+    handle: "calebs",
+    action: "liked your post",
+    time: "20h",
+  },
+  {
+    id: 13,
+    actor: "Ava Lindqvist",
+    handle: "ava.l",
+    action: "reposted your post",
+    time: "22h",
+  },
+  {
+    id: 14,
+    actor: "Theo Marchetti",
+    handle: "theom",
+    action: "replied to your post",
+    time: "1d",
+  },
+  {
+    id: 15,
+    actor: "Nora Haddad",
+    handle: "norah",
+    action: "started following you",
+    time: "1d",
+  },
+  {
+    id: 16,
+    actor: "Jonah Reyes",
+    handle: "jonahr",
+    action: "liked your post",
+    time: "1d",
+  },
+  {
+    id: 17,
+    actor: "Priya Anand",
+    handle: "priya.a",
+    action: "mentioned you in a community post",
+    time: "2d",
+  },
+  {
+    id: 18,
+    actor: "Felix Bauer",
+    handle: "felixb",
+    action: "reposted your post",
+    time: "2d",
+  },
+];

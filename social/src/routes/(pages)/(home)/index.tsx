@@ -1,10 +1,15 @@
 import { For } from "solid-js";
 import { posts } from "../../../data/social";
+import FeedHeader from "../../../components/(home)/FeedHeader";
+import FeedTabs from "../../../components/(home)/FeedTabs";
 import Hero from "../../../components/(home)/Hero";
 import Post from "../../../components/(home)/post/Post";
 
 export default function Home() {
   return [
+    <FeedHeader>
+      <FeedTabs tabs={["Discover", "Following"]} />
+    </FeedHeader>,
     <Hero />,
     <For each={posts}>
       {(post) => (
