@@ -1,9 +1,11 @@
 import { For } from "solid-js";
 import { posts } from "../../../data/social";
+import Hero from "../../../components/(home)/Hero";
 import Post from "../../../components/(home)/post/Post";
 
 export default function Home() {
-  return (
+  return [
+    <Hero />,
     <For each={posts}>
       {(post) => (
         <Post
@@ -19,6 +21,6 @@ export default function Home() {
           save={post.save}
         />
       )}
-    </For>
-  );
+    </For>,
+  ];
 }

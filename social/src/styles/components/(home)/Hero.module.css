@@ -1,0 +1,50 @@
+section#hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  padding: 4rem 3rem;
+
+  > h1#heroTitle {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  > p#heroText {
+    color: var(--ink-soft);
+    line-height: 1.5;
+    max-width: 80%;
+  }
+
+  > div#heroActions {
+    display: flex;
+    gap: 0.75rem;
+
+    > a {
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      font-weight: 600;
+      transition:
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+    > a#heroPrimary {
+      background: var(--primary);
+      color: #fff;
+
+      &:hover {
+        background: var(--primary-strong);
+      }
+    }
+
+    > a#heroSecondary {
+      border: 0.0625rem solid var(--line);
+
+      &:hover {
+        background: var(--primary-soft);
+      }
+    }
+  }
+}

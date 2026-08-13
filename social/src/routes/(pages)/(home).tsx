@@ -2,6 +2,7 @@ import { For, ParentProps } from "solid-js";
 import { communities, suggestedUsers, trendingTopics } from "../../data/social";
 import SideNav from "../../components/SideNav";
 import ThemeToggle from "../../components/ThemeToggle";
+import FeedHeader from "../../components/(home)/FeedHeader";
 import Section from "../../components/(home)/explore-division/Section";
 import Trend from "../../components/(home)/explore-division/Trend";
 import User from "../../components/(home)/explore-division/user";
@@ -13,7 +14,10 @@ export default function HomeLayout({ children }: ParentProps) {
     <div id={style.homeLayout}>
       <ThemeToggle />
       <SideNav />
-      <main id={style.feed}>{children}</main>
+      <main id={style.feed}>
+        <FeedHeader />
+        {children}
+      </main>
       <aside id={style.explore}>
         <form id={style.exploreSearch} role="search">
           <svg
