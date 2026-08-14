@@ -72,6 +72,7 @@ export interface Post {
   time: string;
   avatar?: string;
   text: string;
+  type: "stat" | "article";
   media?: { count: number };
   reply: number;
   repost: number;
@@ -86,6 +87,7 @@ export const posts: Post[] = [
     handle: "ariachen",
     time: "2h",
     text: "Just shipped the new feed layout and it feels so much calmer. Slow social done right.",
+    type: "stat",
     media: { count: 1 },
     reply: 12,
     repost: 5,
@@ -98,6 +100,7 @@ export const posts: Post[] = [
     handle: "marcuslee",
     time: "5h",
     text: "SolidStart v2 with fine-grained reactivity is genuinely a joy to build with.",
+    type: "article",
     media: { count: 7 },
     reply: 8,
     repost: 22,
@@ -110,6 +113,7 @@ export const posts: Post[] = [
     handle: "sofia.reyes",
     time: "8h",
     text: "Spent the morning drawing icons. Lexend for headings, Rethink Sans for body — such a clean pairing.",
+    type: "stat",
     reply: 3,
     repost: 1,
     like: 27,

@@ -4,10 +4,17 @@ import style from "../../styles/components/(home)/FeedTabs.module.css";
 interface FeedTabsProps {
   tabs: string[];
   initial?: string;
+  value?: string;
+  onChange?: (tab: string) => void;
 }
 
 export default function FeedTabs(props: FeedTabsProps) {
-  const [active, setActive] = createSignal(props.initial ?? props.tabs[0]);
+  const [internal, setInternal] = createSignal(props.initial ?? props.tabs[0]);
+  const active = () => props.value ?? internal();
+  const select = (tab: string) => {
+    if (props.onChange) props.onChange(tab);
+    else setInternal(tab);
+  };
 
   return (
     <div id={style.feedTabs}>
@@ -16,7 +23,7 @@ export default function FeedTabs(props: FeedTabsProps) {
           <button
             type="button"
             class={active() === tab ? style.activeTab : undefined}
-            onClick={() => setActive(tab)}
+            onClick={() => select(tab)}
           >
             {tab}
           </button>

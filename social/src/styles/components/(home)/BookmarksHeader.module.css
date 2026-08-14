@@ -1,0 +1,115 @@
+div#bookmarksHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  > div#titleRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > h1#headerTitle {
+      font-size: 1.5rem;
+    }
+
+    > button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.6rem;
+      height: 2.6rem;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition:
+        color 0.2s ease,
+        background 0.2s ease;
+
+      &:hover {
+        color: var(--primary);
+        background: var(--primary-soft);
+      }
+
+      > span#searchIcon {
+        display: flex;
+
+        > svg {
+          width: 1.3rem;
+          height: 1.3rem;
+        }
+      }
+    }
+  }
+
+  > div#searchRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    > form#searchForm {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-grow: 1;
+      min-width: 0;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+
+      > span#searchIcon {
+        display: flex;
+
+        > svg {
+          width: 1.1rem;
+          height: 1.1rem;
+        }
+      }
+
+      > input {
+        flex-grow: 1;
+        min-width: 0;
+        border: none;
+        background: transparent;
+        color: var(--ink);
+        outline: none;
+
+        &::placeholder {
+          color: var(--ink-soft);
+        }
+      }
+    }
+
+    > button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.6rem;
+      height: 2.6rem;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition:
+        color 0.2s ease,
+        background 0.2s ease;
+
+      &:hover {
+        color: var(--primary);
+        background: var(--primary-soft);
+      }
+
+      > span#searchIcon {
+        display: flex;
+
+        > svg {
+          width: 1.3rem;
+          height: 1.3rem;
+        }
+      }
+    }
+  }
+}
