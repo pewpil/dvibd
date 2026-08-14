@@ -6,7 +6,7 @@ import style from "../../../styles/components/(home)/explore/ExploreHeader.modul
 export default function ExploreHeader() {
   const [query, setQuery] = createSignal("");
   const [filterOpen, setFilterOpen] = createSignal(false);
-  const [activeTag, setActiveTag] = createSignal<string | null>(null);
+  const [activeTags, setActiveTags] = createSignal<Set<string>>(new Set());
 
   return (
     <div id={style.exploreHeader}>
@@ -48,9 +48,17 @@ export default function ExploreHeader() {
             {(tag) => (
               <button
                 type="button"
-                class={activeTag() === tag ? style.activeTag : undefined}
+                class={activeTags().has(tag) ? style.activeTag : undefined}
                 onClick={() =>
-                  setActiveTag(activeTag() === tag ? null : tag)
+                  setActiveTags((prev) => {
+                    const next = new Set(prev);
+                    if (next.has(tag)) {
+                      next.delete(tag);
+                    } else {
+                      next.add(tag);
+                    }
+                    return next;
+                  })
                 }
               >
                 {tag}

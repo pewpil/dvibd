@@ -39,6 +39,17 @@ export const interestTags: string[] = [
   "Open Source",
   "Web Dev",
   "Communities",
+  "Art",
+  "Music",
+  "Photography",
+  "Writing",
+  "Gaming",
+  "Science",
+  "Travel",
+  "Food",
+  "Health",
+  "Books",
+  "Nature",
 ];
 
 export interface LifeEvent {
