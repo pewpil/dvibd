@@ -69,22 +69,22 @@ function SideNav() {
     <nav id={style.sideNav} aria-label="Primary">
       <ul id={style.navList}>
         <li>
-          <A href="/" end aria-label="Home">
+          <A href="/" end aria-label="Home" data-tooltip="Home">
             <HomeIcon />
           </A>
         </li>
         <li>
-          <A href="/explore" aria-label="Explore">
+          <A href="/explore" aria-label="Explore" data-tooltip="Explore">
             <ExploreIcon />
           </A>
         </li>
         <li>
-          <A href="/notifications" aria-label="Notifications">
+          <A href="/notifications" aria-label="Notifications" data-tooltip="Notifications">
             <NotificationsIcon />
           </A>
         </li>
         <li>
-          <A href="/bookmarks" aria-label="Bookmarks">
+          <A href="/bookmarks" aria-label="Bookmarks" data-tooltip="Bookmarks">
             <BookmarksIcon />
           </A>
         </li>
@@ -94,12 +94,12 @@ function SideNav() {
         {/*   </A> */}
         {/* </li> */}
         <li>
-          <A href="/settings" aria-label="Settings">
+          <A href="/settings" aria-label="Settings" data-tooltip="Settings">
             <SettingsIcon />
           </A>
         </li>
       </ul>
-      <A id={style.navProfile} href="/profile" aria-label="Profile">
+      <A id={style.navProfile} href="/profile" aria-label="Profile" data-tooltip="Profile">
         <img src="/profile-picture.svg" alt="profile picture" />
       </A>
     </nav>
