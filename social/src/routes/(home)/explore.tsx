@@ -5,17 +5,17 @@ import {
   posts,
   suggestedUsers,
   trendingTopics,
-} from "../../../data/social";
-import FeedHeader from "../../../components/(home)/FeedHeader";
-import Card from "../../../components/(home)/explore/Card";
-import Community from "../../../components/(home)/explore-division/Community";
-import ExploreHeader from "../../../components/(home)/explore/ExploreHeader";
-import Section from "../../../components/(home)/explore/Section";
-import Post from "../../../components/(home)/post/Post";
-import Trend from "../../../components/(home)/explore-division/Trend";
-import User from "../../../components/(home)/explore-division/user";
-import WhatsHappening from "../../../components/(home)/explore/WhatsHappening";
-import style from "../../../styles/pages/(home)/explore.module.css";
+} from "../../data/social";
+import FeedHeader from "../../components/(home)/FeedHeader";
+import Card from "../../components/(home)/explore/Card";
+import Community from "../../components/(home)/explore-division/Community";
+import ExploreHeader from "../../components/(home)/explore/ExploreHeader";
+import Section from "../../components/(home)/explore/Section";
+import Post from "../../components/(home)/post/Post";
+import Trend from "../../components/(home)/explore-division/Trend";
+import User from "../../components/(home)/explore-division/user";
+import WhatsHappening from "../../components/(home)/explore/WhatsHappening";
+import style from "../../styles/pages/(home)/explore.module.css";
 
 export default function Explore() {
   return [

@@ -1,9 +1,9 @@
 import { createSignal, For, Show } from "solid-js";
-import { posts } from "../../../data/social";
-import FeedHeader from "../../../components/(home)/FeedHeader";
-import BookmarksHeader from "../../../components/(home)/BookmarksHeader";
-import Post from "../../../components/(home)/post/Post";
-import style from "../../../styles/pages/(home)/bookmarks.module.css";
+import { posts } from "../../data/social";
+import FeedHeader from "../../components/(home)/FeedHeader";
+import BookmarksHeader from "../../components/(home)/BookmarksHeader";
+import Post from "../../components/(home)/post/Post";
+import style from "../../styles/pages/(home)/bookmarks.module.css";
 
 export default function Bookmarks() {
   const [tab, setTab] = createSignal<"stat" | "article">("stat");

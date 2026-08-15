@@ -1,12 +1,12 @@
 import { For, ParentProps } from "solid-js";
-import { communities, suggestedUsers, trendingTopics } from "../../data/social";
-import SideNav from "../../components/SideNav";
-import ThemeToggle from "../../components/ThemeToggle";
-import Section from "../../components/(home)/explore-division/Section";
-import Trend from "../../components/(home)/explore-division/Trend";
-import User from "../../components/(home)/explore-division/user";
-import Community from "../../components/(home)/explore-division/Community";
-import style from "../../styles/pages/(home).module.css";
+import { communities, suggestedUsers, trendingTopics } from "../data/social";
+import SideNav from "../components/SideNav";
+import ThemeToggle from "../components/ThemeToggle";
+import Section from "../components/(home)/explore-division/Section";
+import Trend from "../components/(home)/explore-division/Trend";
+import User from "../components/(home)/explore-division/user";
+import Community from "../components/(home)/explore-division/Community";
+import style from "../styles/pages/(home).module.css";
 
 export default function HomeLayout({ children }: ParentProps) {
   return (

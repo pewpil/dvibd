@@ -33,6 +33,18 @@ export const communities: Community[] = [
   { name: "Indie Hacking", members: "15.7k members" },
 ];
 
+export interface CurrentUser {
+  name: string;
+  handle: string;
+  avatar: string;
+}
+
+export const currentUser: CurrentUser = {
+  name: "Sad And Dan",
+  handle: "sadanddan",
+  avatar: "/profile-picture.svg",
+};
+
 export const interestTags: string[] = [
   "Technology",
   "Design",

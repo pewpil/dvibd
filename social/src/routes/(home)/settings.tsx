@@ -1,6 +1,6 @@
-import FeedHeader from "../../../components/(home)/FeedHeader";
-import FeedTabs from "../../../components/(home)/FeedTabs";
-import style from "../../../styles/pages/(home)/settings.module.css";
+import FeedHeader from "../../components/(home)/FeedHeader";
+import FeedTabs from "../../components/(home)/FeedTabs";
+import style from "../../styles/pages/(home)/settings.module.css";
 
 export default function Settings() {
   return [

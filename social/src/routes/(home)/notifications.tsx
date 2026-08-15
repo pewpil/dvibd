@@ -1,9 +1,9 @@
 import { For } from "solid-js";
-import settingsIcon from "../../../assets/components/(home)/notification/settings.svg?raw";
-import { notifications } from "../../../data/social";
-import FeedHeader from "../../../components/(home)/FeedHeader";
-import FeedTabs from "../../../components/(home)/FeedTabs";
-import style from "../../../styles/pages/(home)/notifications.module.css";
+import settingsIcon from "../../assets/components/(home)/notification/settings.svg?raw";
+import { notifications } from "../../data/social";
+import FeedHeader from "../../components/(home)/FeedHeader";
+import FeedTabs from "../../components/(home)/FeedTabs";
+import style from "../../styles/pages/(home)/notifications.module.css";
 
 export default function Notifications() {
   return [

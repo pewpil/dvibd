@@ -1,4 +1,9 @@
+import { createSignal, Show } from "solid-js";
 import { A } from "@solidjs/router";
+import { currentUser } from "../data/social";
+import profileIcon from "../assets/components/(home)/sidenav/profile.svg?raw";
+import addAccountIcon from "../assets/components/(home)/sidenav/add-account.svg?raw";
+import signoutIcon from "../assets/components/(home)/sidenav/signout.svg?raw";
 import style from "../styles/components/SideNav.module.css";
 
 const iconProps = {
@@ -65,6 +70,8 @@ function SettingsIcon() {
 }
 
 function SideNav() {
+  const [menuOpen, setMenuOpen] = createSignal(false);
+
   return (
     <nav id={style.sideNav} aria-label="Primary">
       <ul id={style.navList}>
@@ -99,9 +106,58 @@ function SideNav() {
           </A>
         </li>
       </ul>
-      <A id={style.navProfile} href="/profile" aria-label="Profile" data-tooltip="Profile">
-        <img src="/profile-picture.svg" alt="profile picture" />
-      </A>
+      <button
+        type="button"
+        id={style.navProfile}
+        aria-haspopup="menu"
+        aria-expanded={menuOpen()}
+        aria-label="Account menu"
+        data-tooltip={`@${currentUser.handle}`}
+        onClick={() => setMenuOpen(!menuOpen())}
+      >
+        <img src={currentUser.avatar} alt="profile picture" />
+      </button>
+      <Show when={menuOpen()}>
+        {[
+          <div
+            id={style.menuBackdrop}
+            role="presentation"
+            onClick={() => setMenuOpen(false)}
+          />,
+          <div id={style.profileMenu} role="menu">
+          <A
+            href="/profile"
+            id={style.menuAccount}
+            role="menuitem"
+            onClick={() => setMenuOpen(false)}
+          >
+            <img src={currentUser.avatar} alt="" />
+            <span id={style.menuAccountText}>
+              <span id={style.menuName}>{currentUser.name}</span>
+              <span id={style.menuHandle}>@{currentUser.handle}</span>
+            </span>
+          </A>
+          <hr id={style.menuDivider} />
+          <A
+            href="/profile"
+            id={style.menuItem}
+            role="menuitem"
+            onClick={() => setMenuOpen(false)}
+          >
+            <span id={style.menuIcon} innerHTML={profileIcon} />
+            Go to profile
+          </A>
+          <button type="button" id={style.menuItem} role="menuitem">
+            <span id={style.menuIcon} innerHTML={addAccountIcon} />
+            Add another account
+          </button>
+          <button type="button" id={style.menuItem} role="menuitem">
+            <span id={style.menuIcon} innerHTML={signoutIcon} />
+            Sign out
+          </button>
+        </div>,
+        ]}
+      </Show>
     </nav>
   );
 }
