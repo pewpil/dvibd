@@ -37,12 +37,22 @@ export interface CurrentUser {
   name: string;
   handle: string;
   avatar: string;
+  cover: string;
+  bio: string;
+  website: string;
+  following: number;
+  followers: number;
 }
 
 export const currentUser: CurrentUser = {
   name: "Sad And Dan",
   handle: "sadanddan",
   avatar: "/profile-picture.svg",
+  cover: "/profile-cover.svg",
+  bio: "Building dvibd, a calmer social network for thoughtful writing and quiet sharing.",
+  website: "dvibd.com",
+  following: 1240,
+  followers: 8900,
 };
 
 export const interestTags: string[] = [
@@ -97,6 +107,8 @@ export interface Post {
   text: string;
   type: "stat" | "article";
   media?: { count: number };
+  likedByUser?: boolean;
+  replyTo?: string;
   reply: number;
   repost: number;
   like: number;
@@ -112,6 +124,7 @@ export const posts: Post[] = [
     text: "Just shipped the new feed layout and it feels so much calmer. Slow social done right.",
     type: "stat",
     media: { count: 1 },
+    likedByUser: true,
     reply: 12,
     repost: 5,
     like: 48,
@@ -137,10 +150,61 @@ export const posts: Post[] = [
     time: "8h",
     text: "Spent the morning drawing icons. Lexend for headings, Rethink Sans for body — such a clean pairing.",
     type: "stat",
+    likedByUser: true,
     reply: 3,
     repost: 1,
     like: 27,
     save: 9,
+  },
+  {
+    id: 4,
+    author: "Sad And Dan",
+    handle: "sadanddan",
+    time: "1h",
+    text: "Slow social means every post gets room to breathe. No feeds that punish you for stepping away.",
+    type: "stat",
+    media: { count: 3 },
+    reply: 4,
+    repost: 12,
+    like: 89,
+    save: 6,
+  },
+  {
+    id: 5,
+    author: "Sad And Dan",
+    handle: "sadanddan",
+    time: "3h",
+    text: "The profile page is coming together. Cover, card, and tabs that stick right under the header.",
+    type: "stat",
+    reply: 2,
+    repost: 1,
+    like: 21,
+    save: 0,
+  },
+  {
+    id: 6,
+    author: "Sad And Dan",
+    handle: "sadanddan",
+    time: "6h",
+    text: "We settled on the design tokens this week: Lexend for headings, Rethink Sans for body, one primary.",
+    type: "article",
+    reply: 1,
+    repost: 3,
+    like: 17,
+    save: 2,
+  },
+  {
+    id: 7,
+    author: "Sad And Dan",
+    handle: "sadanddan",
+    time: "9h",
+    replyTo: "ariachen",
+    text: "Completely agree. The calmer pace makes each post count more.",
+    type: "stat",
+    reply: 0,
+    repost: 0,
+    like: 5,
+    save: 0,
   },
 ];
 

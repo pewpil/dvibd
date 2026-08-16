@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="cover" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6d5dfc" />
+      <stop offset="100%" stop-color="#a098ff" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="200" fill="url(#cover)" />
+  <circle cx="560" cy="30" r="90" fill="rgba(255, 255, 255, 0.1)" />
+  <circle cx="90" cy="210" r="70" fill="rgba(255, 255, 255, 0.08)" />
+</svg>

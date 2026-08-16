@@ -1,0 +1,55 @@
+div#profileTabs {
+  display: flex;
+  border-left: 0.0625rem solid var(--line);
+  border-right: 0.0625rem solid var(--line);
+  border-bottom: 0.0625rem solid var(--line);
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+
+  > button {
+    position: relative;
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--ink);
+    }
+
+    &.activeTab {
+      color: var(--ink);
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 15%;
+        right: 15%;
+        bottom: 0;
+        height: 0.1875rem;
+        border-radius: 999px;
+        background: var(--primary);
+      }
+    }
+  }
+
+  &.inHeader {
+    margin-left: calc(-1rem - 0.0625rem);
+    margin-right: calc(-1rem - 0.0625rem);
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  &.hiddenTabs {
+    visibility: hidden;
+  }
+}

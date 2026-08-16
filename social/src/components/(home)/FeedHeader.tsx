@@ -1,7 +1,12 @@
 import { createSignal, onCleanup, onMount, ParentProps } from "solid-js";
 import style from "../../styles/components/(home)/FeedHeader.module.css";
 
-export default function FeedHeader(props: ParentProps) {
+interface FeedHeaderProps extends ParentProps {
+  noBottomBorder?: boolean;
+  ref?: (el: HTMLElement) => void;
+}
+
+export default function FeedHeader(props: FeedHeaderProps) {
   const [stuck, setStuck] = createSignal(false);
   let header!: HTMLElement;
 
@@ -12,11 +17,22 @@ export default function FeedHeader(props: ParentProps) {
     onCleanup(() => window.removeEventListener("scroll", onScroll));
   });
 
+  const headerClass = () =>
+    [
+      stuck() ? style.stuck : null,
+      props.noBottomBorder ? style.noBottomBorder : null,
+    ]
+      .filter(Boolean)
+      .join(" ");
+
   return (
     <header
       id={style.feedHeader}
-      ref={header}
-      class={stuck() ? style.stuck : undefined}
+      ref={(el) => {
+        header = el;
+        props.ref?.(el);
+      }}
+      class={headerClass()}
     >
       {props.children}
     </header>
