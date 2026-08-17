@@ -35,10 +35,15 @@ export default function AccountMenu(props: AccountMenuProps) {
         <span id={style.menuIcon} innerHTML={profileIcon} />
         Go to profile
       </A>
-      <button type="button" id={style.menuItem} role="menuitem">
+      <A
+        href="/login"
+        id={style.menuItem}
+        role="menuitem"
+        onClick={props.onClose}
+      >
         <span id={style.menuIcon} innerHTML={addAccountIcon} />
         Add another account
-      </button>
+      </A>
       <button type="button" id={style.menuItem} role="menuitem">
         <span id={style.menuIcon} innerHTML={signoutIcon} />
         Sign out

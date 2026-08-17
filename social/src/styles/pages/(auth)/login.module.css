@@ -1,0 +1,134 @@
+div#auth {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6%;
+  background: var(--bg);
+
+  > div#authInner {
+    width: 30%;
+    text-align: center;
+
+    > a#authBrand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.625rem;
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+      margin-bottom: 3%;
+
+      > img {
+        height: 2rem;
+        width: auto;
+        display: block;
+      }
+
+      > span#authBrandName {
+        > span#authBrandDot {
+          color: var(--primary);
+        }
+      }
+    }
+
+    > main#login {
+      padding: 2rem 2.5rem;
+      border: 0.0625rem solid var(--line);
+      border-radius: 15px;
+      background: var(--surface);
+      -webkit-backdrop-filter: blur(var(--blur));
+      backdrop-filter: blur(var(--blur));
+
+      > h1 {
+        font-size: 1.6rem;
+      }
+
+      > p {
+        margin-top: 1%;
+        font-size: 0.95rem;
+        color: var(--ink-soft);
+      }
+
+      > form#loginForm {
+        margin-top: 2.5%;
+        display: flex;
+        flex-direction: column;
+
+        > label {
+          display: flex;
+          flex-direction: column;
+          gap: 0.35rem;
+          padding-block: 0.5rem;
+          text-align: left;
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: var(--ink);
+
+          > input {
+            padding: 0.6rem 1.2rem;
+            border: 0.0625rem solid var(--line);
+            border-radius: 999px;
+            background: var(--surface-strong);
+            color: var(--ink);
+            font-size: 1rem;
+            font-weight: 400;
+            outline: none;
+            transition: border-color 0.2s ease;
+
+            &::placeholder {
+              color: var(--ink-soft);
+            }
+
+            &:focus {
+              border-color: var(--primary);
+            }
+          }
+        }
+
+        > button#loginSubmit {
+          width: 100%;
+          margin-top: 0.5rem;
+          padding: 0.6rem 1.2rem;
+          border: none;
+          border-radius: 999px;
+          background: var(--primary);
+          color: #fff;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s ease;
+
+          &:hover {
+            background: var(--primary-strong);
+          }
+        }
+      }
+
+      > p#loginSwitch {
+        margin-top: 2%;
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+
+        > a {
+          color: var(--primary);
+          font-weight: 600;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 47.5rem) {
+    > div#authInner {
+      width: 88%;
+    }
+  }
+}

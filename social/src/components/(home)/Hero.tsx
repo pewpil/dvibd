@@ -1,3 +1,4 @@
+import { A } from "@solidjs/router";
 import style from "../../styles/components/(home)/Hero.module.css";
 
 export default function Hero() {
@@ -9,12 +10,12 @@ export default function Hero() {
         posts from people and communities you care about.
       </p>
       <div id={style.heroActions}>
-        <a href="/auth/signup" id={style.heroPrimary}>
+        <A href="/signup" id={style.heroPrimary}>
           Create an account
-        </a>
-        <a href="/auth/login" id={style.heroSecondary}>
+        </A>
+        <A href="/login" id={style.heroSecondary}>
           Log in
-        </a>
+        </A>
       </div>
     </section>
   );

@@ -6,6 +6,7 @@ import style from "../../../../styles/components/dvibd/auth/Signup.module.css";
 function Signup() {
   const navigate = useNavigate();
   const { session, setSession } = useAuth();
+  const [fullName, setFullName] = createSignal("");
   const [username, setUsername] = createSignal("");
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
@@ -54,6 +55,17 @@ function Signup() {
       <h1>Create your account</h1>
       <p>Join dvibd and start connecting — it only takes a minute.</p>
       <form id={style.signupForm} onSubmit={handleSubmit}>
+        <label>
+          Full name
+          <input
+            type="text"
+            name="fullName"
+            placeholder="Your full name"
+            value={fullName()}
+            onInput={(event) => setFullName(event.currentTarget.value)}
+            required
+          />
+        </label>
         <label>
           Username
           <input
