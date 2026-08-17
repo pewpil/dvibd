@@ -17,6 +17,7 @@
 
 ## coding
 1. If some text are to be enclosed of either double (") or single (') quotes. You must use double quotes.
+2. social's runtime is Node, not Deno. Never use `deno check` for type checking the social app; use Node's typecheck instead (`npx tsc --noEmit` in the social directory).
 
 ## writing
 1. Refrain from using the em dash.

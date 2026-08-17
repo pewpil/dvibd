@@ -1,9 +1,7 @@
 import { createSignal, Show } from "solid-js";
 import { A } from "@solidjs/router";
 import { currentUser } from "../data/social";
-import profileIcon from "../assets/components/(home)/sidenav/profile.svg?raw";
-import addAccountIcon from "../assets/components/(home)/sidenav/add-account.svg?raw";
-import signoutIcon from "../assets/components/(home)/sidenav/signout.svg?raw";
+import AccountMenu from "./AccountMenu";
 import style from "../styles/components/SideNav.module.css";
 
 const iconProps = {
@@ -118,45 +116,7 @@ function SideNav() {
         <img src={currentUser.avatar} alt="profile picture" />
       </button>
       <Show when={menuOpen()}>
-        {[
-          <div
-            id={style.menuBackdrop}
-            role="presentation"
-            onClick={() => setMenuOpen(false)}
-          />,
-          <div id={style.profileMenu} role="menu">
-          <A
-            href="/profile"
-            id={style.menuAccount}
-            role="menuitem"
-            onClick={() => setMenuOpen(false)}
-          >
-            <img src={currentUser.avatar} alt="" />
-            <span id={style.menuAccountText}>
-              <span id={style.menuName}>{currentUser.name}</span>
-              <span id={style.menuHandle}>@{currentUser.handle}</span>
-            </span>
-          </A>
-          <hr id={style.menuDivider} />
-          <A
-            href="/profile"
-            id={style.menuItem}
-            role="menuitem"
-            onClick={() => setMenuOpen(false)}
-          >
-            <span id={style.menuIcon} innerHTML={profileIcon} />
-            Go to profile
-          </A>
-          <button type="button" id={style.menuItem} role="menuitem">
-            <span id={style.menuIcon} innerHTML={addAccountIcon} />
-            Add another account
-          </button>
-          <button type="button" id={style.menuItem} role="menuitem">
-            <span id={style.menuIcon} innerHTML={signoutIcon} />
-            Sign out
-          </button>
-        </div>,
-        ]}
+        <AccountMenu onClose={() => setMenuOpen(false)} />
       </Show>
     </nav>
   );

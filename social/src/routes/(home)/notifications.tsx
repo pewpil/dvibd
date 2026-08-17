@@ -3,6 +3,7 @@ import settingsIcon from "../../assets/components/(home)/notification/settings.s
 import { notifications } from "../../data/social";
 import FeedHeader from "../../components/(home)/FeedHeader";
 import FeedTabs from "../../components/(home)/FeedTabs";
+import NotificationItem from "../../components/(home)/notification/NotificationItem";
 import style from "../../styles/pages/(home)/notifications.module.css";
 
 export default function Notifications() {
@@ -25,21 +26,7 @@ export default function Notifications() {
     <ul id={style.notificationList}>
       <For each={notifications}>
         {(notification) => (
-          <li class={style.notificationItem}>
-            <img
-              src={notification.avatar ?? "/profile-picture.svg"}
-              alt={`${notification.actor} avatar`}
-            />
-            <div>
-              <p id={style.notificationText}>
-                <span id={style.notificationActor}>
-                  {notification.actor}
-                </span>{" "}
-                {notification.action}
-              </p>
-              <p id={style.notificationTime}>{notification.time}</p>
-            </div>
-          </li>
+          <NotificationItem notification={notification} />
         )}
       </For>
     </ul>,
