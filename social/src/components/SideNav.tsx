@@ -2,6 +2,7 @@ import { createSignal, Show } from "solid-js";
 import { A } from "@solidjs/router";
 import { currentUser } from "../data/social";
 import AccountMenu from "./AccountMenu";
+import { useAuth } from "../contexts/AuthContext";
 import style from "../styles/components/SideNav.module.css";
 
 const iconProps = {
@@ -67,12 +68,31 @@ function SettingsIcon() {
   );
 }
 
+function LoginIcon() {
+  return (
+    <svg {...iconProps}>
+      <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+      <path d="m10 17 5-5-5-5" />
+      <path d="M15 12H3" />
+    </svg>
+  );
+}
+
 function SideNav() {
   const [menuOpen, setMenuOpen] = createSignal(false);
+  const { loggedIn } = useAuth();
 
   return (
     <nav id={style.sideNav} aria-label="Primary">
-      <ul id={style.navList}>
+      <Show
+        when={loggedIn()}
+        fallback={
+          <A href="/login" id={style.navLogin} aria-label="Log in" data-tooltip="Log in">
+            <LoginIcon />
+          </A>
+        }
+      >
+        <ul id={style.navList}>
         <li>
           <A href="/" end aria-label="Home" data-tooltip="Home">
             <HomeIcon />
@@ -117,6 +137,7 @@ function SideNav() {
       </button>
       <Show when={menuOpen()}>
         <AccountMenu onClose={() => setMenuOpen(false)} />
+      </Show>
       </Show>
     </nav>
   );

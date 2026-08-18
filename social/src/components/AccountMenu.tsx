@@ -1,5 +1,6 @@
 import { A } from "@solidjs/router";
 import { currentUser } from "../data/social";
+import { useAuth } from "../contexts/AuthContext";
 import profileIcon from "../assets/components/(home)/sidenav/profile.svg?raw";
 import addAccountIcon from "../assets/components/(home)/sidenav/add-account.svg?raw";
 import signoutIcon from "../assets/components/(home)/sidenav/signout.svg?raw";
@@ -10,6 +11,7 @@ interface AccountMenuProps {
 }
 
 export default function AccountMenu(props: AccountMenuProps) {
+  const { logout } = useAuth();
   return [
     <div id={style.menuBackdrop} role="presentation" onClick={props.onClose} />,
     <div id={style.accountMenu} role="menu">
@@ -44,7 +46,15 @@ export default function AccountMenu(props: AccountMenuProps) {
         <span id={style.menuIcon} innerHTML={addAccountIcon} />
         Add another account
       </A>
-      <button type="button" id={style.menuItem} role="menuitem">
+      <button
+        type="button"
+        id={style.menuItem}
+        role="menuitem"
+        onClick={() => {
+          logout();
+          props.onClose();
+        }}
+      >
         <span id={style.menuIcon} innerHTML={signoutIcon} />
         Sign out
       </button>

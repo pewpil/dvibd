@@ -9,6 +9,12 @@ nav#sideNav {
   border: 0.0625rem solid var(--line);
   border-radius: 20px;
 
+  /* &:has(> a#navLogin) { */
+  /*   border: none; */
+  /*   border-radius: 0; */
+  /*   padding: 0; */
+  /* } */
+
   > ul#navList {
     display: flex;
     flex-direction: column;
@@ -123,6 +129,61 @@ nav#sideNav {
       width: 2rem;
       height: 2rem;
       border-radius: 50%;
+    }
+  }
+
+  > a#navLogin {
+    position: relative;
+    z-index: 41;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 15px;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: var(--primary-soft);
+    }
+
+    &::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translate(0.5rem, -50%);
+      white-space: nowrap;
+      padding: 0.3rem 0.6rem;
+      border-radius: 8px;
+      background: #16181f;
+      color: #fff;
+      font-size: 0.8rem;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease;
+      z-index: 1000;
+    }
+
+    &:hover::after {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    > svg {
+      height: 1.75rem;
+      aspect-ratio: 1;
+      color: var(--ink-soft);
+      opacity: 0.8;
+      transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    &:hover > svg {
+      color: var(--ink);
+      opacity: 1;
     }
   }
 

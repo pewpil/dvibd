@@ -1,15 +1,20 @@
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
 import { posts } from "../../data/social";
 import FeedHeader from "../../components/(home)/FeedHeader";
 import FeedTabs from "../../components/(home)/FeedTabs";
 import Hero from "../../components/(home)/Hero";
 import Post from "../../components/(home)/post/Post";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Home() {
+  const { loggedIn } = useAuth();
+
   return [
-    <FeedHeader>
-      <FeedTabs tabs={["Discover", "Following"]} />
-    </FeedHeader>,
+    <Show when={loggedIn()}>
+      <FeedHeader>
+        <FeedTabs tabs={["Discover", "Following"]} />
+      </FeedHeader>
+    </Show>,
     <Hero />,
     <For each={posts}>
       {(post) => (
