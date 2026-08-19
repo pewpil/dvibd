@@ -1,6 +1,7 @@
 import { createSignal } from "solid-js";
-import { A } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import ThemeToggle from "../../components/ThemeToggle";
+import { useAuth } from "../../contexts/AuthContext";
 import style from "../../styles/pages/(auth)/signup.module.css";
 
 export default function Signup() {
@@ -8,6 +9,13 @@ export default function Signup() {
   const [username, setUsername] = createSignal("");
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = (event: SubmitEvent) => {
+    event.preventDefault();
+    login().then(() => navigate("/"));
+  };
 
   return [
     <ThemeToggle />,
@@ -22,7 +30,7 @@ export default function Signup() {
         <main id={style.signup}>
           <h1>Create your account</h1>
           <p>Join social and start connecting. It only takes a minute.</p>
-        <form id={style.signupForm}>
+        <form id={style.signupForm} onSubmit={handleSubmit}>
           <label>
             Display name
             <input

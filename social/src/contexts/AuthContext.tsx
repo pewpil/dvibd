@@ -1,34 +1,42 @@
 import {
   createContext,
+  createResource,
   createSignal,
-  onMount,
   useContext,
   type ParentProps,
 } from "solid-js";
-
-const LOGGED_IN_KEY = "social.logged-in";
+import {
+  getAuthState,
+  login as loginRequest,
+  logout as logoutRequest,
+} from "../server/auth";
 
 interface AuthContextValue {
-  loggedIn(): boolean;
-  logout(): void;
+  loggedIn(): boolean | undefined;
+  login(): Promise<void>;
+  logout(): Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue>();
 
 function AuthProvider(props: ParentProps) {
-  const [loggedIn, setLoggedIn] = createSignal(false);
+  const [refresh, setRefresh] = createSignal(0);
+  const [loggedIn] = createResource(refresh, () => getAuthState());
 
-  onMount(() => {
-    setLoggedIn(localStorage.getItem(LOGGED_IN_KEY) === "true");
-  });
+  const login = async () => {
+    // Ignore diagnostic: await is actually needed here for user redirection page to load properly
+    await loginRequest();
+    setRefresh((value) => value + 1);
+  };
 
-  const logout = () => {
-    localStorage.removeItem(LOGGED_IN_KEY);
-    setLoggedIn(false);
+  const logout = async () => {
+    // Ignore diagnostic: await is actually needed here for user redirection page to load properly
+    await logoutRequest();
+    setRefresh((value) => value + 1);
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, logout }}>
+    <AuthContext.Provider value={{ loggedIn, login, logout }}>
       {props.children}
     </AuthContext.Provider>
   );

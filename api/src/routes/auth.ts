@@ -123,7 +123,8 @@ const logoutValidator = zValidator("json", logoutSchema, (result, c) => {
   }
 });
 
-const router: Hono<{ Variables: { jwtPayload: { sub?: string } } }> = new Hono();
+const router: Hono<{ Variables: { jwtPayload: { sub?: string } } }> =
+  new Hono();
 
 // POST /auth/signup
 router.post("/signup", signupValidator, async (c) => {

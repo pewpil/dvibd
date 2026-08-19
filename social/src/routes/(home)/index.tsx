@@ -15,7 +15,9 @@ export default function Home() {
         <FeedTabs tabs={["Discover", "Following"]} />
       </FeedHeader>
     </Show>,
-    <Hero />,
+    <Show when={!loggedIn()}>
+      <Hero />
+    </Show>,
     <For each={posts}>
       {(post) => (
         <Post

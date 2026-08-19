@@ -7,7 +7,10 @@ export default defineConfig({
   server: {
     port: 3003,
   },
-  plugins: [solidStart(),
-    nitro()
-  ]
+  plugins: [
+    solidStart({
+      middleware: "src/middleware.ts",
+    }),
+    nitro(),
+  ],
 });

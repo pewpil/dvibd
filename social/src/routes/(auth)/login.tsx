@@ -1,11 +1,19 @@
 import { createSignal } from "solid-js";
-import { A } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import ThemeToggle from "../../components/ThemeToggle";
+import { useAuth } from "../../contexts/AuthContext";
 import style from "../../styles/pages/(auth)/login.module.css";
 
 export default function Login() {
   const [identifier, setIdentifier] = createSignal("");
   const [password, setPassword] = createSignal("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = (event: SubmitEvent) => {
+    event.preventDefault();
+    login().then(() => navigate("/"));
+  };
 
   return [
     <ThemeToggle />,
@@ -20,7 +28,7 @@ export default function Login() {
         <main id={style.login}>
           <h1>Log in</h1>
           <p>Welcome back. Enter your details to continue.</p>
-          <form id={style.loginForm}>
+          <form id={style.loginForm} onSubmit={handleSubmit}>
             <label>
               Username or email
               <input

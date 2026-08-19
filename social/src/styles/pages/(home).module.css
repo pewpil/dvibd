@@ -1,7 +1,7 @@
 div#homeLayout {
   max-width: var(--width);
   margin: 0 auto;
-display: grid;
+  display: grid;
   grid-template-columns: fit-content(7%) minmax(0, 40rem) 20%;
   justify-content: center;
   gap: 1rem;

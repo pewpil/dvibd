@@ -87,57 +87,70 @@ function SideNav() {
       <Show
         when={loggedIn()}
         fallback={
-          <A href="/login" id={style.navLogin} aria-label="Log in" data-tooltip="Log in">
+          <A
+            href="/login"
+            id={style.navLogin}
+            aria-label="Log in"
+            data-tooltip="Log in"
+          >
             <LoginIcon />
           </A>
         }
       >
         <ul id={style.navList}>
-        <li>
-          <A href="/" end aria-label="Home" data-tooltip="Home">
-            <HomeIcon />
-          </A>
-        </li>
-        <li>
-          <A href="/explore" aria-label="Explore" data-tooltip="Explore">
-            <ExploreIcon />
-          </A>
-        </li>
-        <li>
-          <A href="/notifications" aria-label="Notifications" data-tooltip="Notifications">
-            <NotificationsIcon />
-          </A>
-        </li>
-        <li>
-          <A href="/bookmarks" aria-label="Bookmarks" data-tooltip="Bookmarks">
-            <BookmarksIcon />
-          </A>
-        </li>
-        {/* <li> */}
-        {/*   <A href="/profile" aria-label="Profile"> */}
-        {/*     <ProfileIcon /> */}
-        {/*   </A> */}
-        {/* </li> */}
-        <li>
-          <A href="/settings" aria-label="Settings" data-tooltip="Settings">
-            <SettingsIcon />
-          </A>
-        </li>
-      </ul>
-      <button
-        type="button"
-        id={style.navProfile}
-        aria-haspopup="menu"
-        aria-expanded={menuOpen()}
-        aria-label="Account menu"
-        data-tooltip={`@${currentUser.handle}`}
-        onClick={() => setMenuOpen(!menuOpen())}
-      >
-        <img src={currentUser.avatar} alt="profile picture" />
-      </button>
-      <Show when={menuOpen()}>
-        <AccountMenu onClose={() => setMenuOpen(false)} />
-      </Show>
+          <li>
+            <A href="/" end aria-label="Home" data-tooltip="Home">
+              <HomeIcon />
+            </A>
+          </li>
+          <li>
+            <A href="/explore" aria-label="Explore" data-tooltip="Explore">
+              <ExploreIcon />
+            </A>
+          </li>
+          <li>
+            <A
+              href="/notifications"
+              aria-label="Notifications"
+              data-tooltip="Notifications"
+            >
+              <NotificationsIcon />
+            </A>
+          </li>
+          <li>
+            <A
+              href="/bookmarks"
+              aria-label="Bookmarks"
+              data-tooltip="Bookmarks"
+            >
+              <BookmarksIcon />
+            </A>
+          </li>
+          {/* <li> */}
+          {/*   <A href="/profile" aria-label="Profile"> */}
+          {/*     <ProfileIcon /> */}
+          {/*   </A> */}
+          {/* </li> */}
+          <li>
+            <A href="/settings" aria-label="Settings" data-tooltip="Settings">
+              <SettingsIcon />
+            </A>
+          </li>
+        </ul>
+        <button
+          type="button"
+          id={style.navProfile}
+          aria-haspopup="menu"
+          aria-expanded={menuOpen()}
+          aria-label="Account menu"
+          data-tooltip={`@${currentUser.handle}`}
+          onClick={() => setMenuOpen(!menuOpen())}
+        >
+          <img src={currentUser.avatar} alt="profile picture" />
+        </button>
+        <Show when={menuOpen()}>
+          <AccountMenu onClose={() => setMenuOpen(false)} />
+        </Show>
       </Show>
     </nav>
   );

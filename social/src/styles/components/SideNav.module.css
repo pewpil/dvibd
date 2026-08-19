@@ -20,7 +20,7 @@ nav#sideNav {
     flex-direction: column;
     gap: 0.25rem;
 
-    > li > a {
+    > li > A {
       position: relative;
       display: flex;
       justify-content: center;
