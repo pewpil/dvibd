@@ -1,20 +1,36 @@
-import { createSignal } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import { A, useNavigate } from "@solidjs/router";
 import ThemeToggle from "../../components/ThemeToggle";
 import { useAuth } from "../../contexts/AuthContext";
 import style from "../../styles/pages/(auth)/signup.module.css";
 
 export default function Signup() {
-  const [fullName, setFullName] = createSignal("");
-  const [username, setUsername] = createSignal("");
-  const [email, setEmail] = createSignal("");
-  const [password, setPassword] = createSignal("");
-  const { login } = useAuth();
+  const [fullName, setFullName] = createSignal<string>("");
+  const [username, setUsername] = createSignal<string>("");
+  const [email, setEmail] = createSignal<string>("");
+  const [password, setPassword] = createSignal<string>("");
+  const [error, setError] = createSignal<string | undefined>(undefined);
+  const [pending, setPending] = createSignal<boolean>(false);
+  const { signup } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (event: SubmitEvent) => {
+  const handleSubmit = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault();
-    login().then(() => navigate("/"));
+    setPending(true);
+    setError(undefined);
+    try {
+      await signup({
+        displayName: fullName(),
+        username: username(),
+        email: email(),
+        password: password(),
+      });
+      navigate("/");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setPending(false);
+    }
   };
 
   return [
@@ -30,21 +46,24 @@ export default function Signup() {
         <main id={style.signup}>
           <h1>Create your account</h1>
           <p>Join social and start connecting. It only takes a minute.</p>
-        <form id={style.signupForm} onSubmit={handleSubmit}>
-          <label>
-            Display name
-            <input
-              type="text"
-              name="fullName"
-              placeholder="Your display name"
-              value={fullName()}
-              onInput={(event) => setFullName(event.currentTarget.value)}
-              required
-            />
-          </label>
-          <label>
-            Username
-            <input
+          <form id={style.signupForm} onSubmit={handleSubmit}>
+            <Show when={error() !== undefined}>
+              <p id={style.signupError}>{error()}</p>
+            </Show>
+            <label>
+              Display name
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Your display name"
+                value={fullName()}
+                onInput={(event) => setFullName(event.currentTarget.value)}
+                required
+              />
+            </label>
+            <label>
+              Username
+              <input
                 type="text"
                 name="username"
                 placeholder="Your username"
@@ -75,8 +94,8 @@ export default function Signup() {
                 required
               />
             </label>
-            <button id={style.signupSubmit} type="submit">
-              Sign up
+            <button id={style.signupSubmit} type="submit" disabled={pending()}>
+              {pending() ? "Signing up..." : "Sign up"}
             </button>
           </form>
           <p id={style.signupSwitch}>

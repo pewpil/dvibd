@@ -14,6 +14,14 @@ generator gui-client {
   generatedFileExtension = "mts"
 }
 
+generator social-client {
+  provider               = "prisma-client"
+  output                 = "../../social/src/server/generated"
+  runtime                = "nodejs"
+  importFileExtension    = "mts"
+  generatedFileExtension = "mts"
+}
+
 datasource db {
   provider = "postgresql"
 }
@@ -23,6 +31,7 @@ model User {
   username      String         @unique
   email         String         @unique
   passwordHash  String
+  displayName   String?
   createdAt     DateTime       @default(now())
   refreshTokens RefreshToken[]
 }

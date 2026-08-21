@@ -58,6 +58,17 @@ div#auth {
         display: flex;
         flex-direction: column;
 
+        > p#signupError {
+          margin-top: 2%;
+          padding: 0.6rem 1rem;
+          border: 0.0625rem solid var(--danger);
+          border-radius: 12px;
+          background: color-mix(in srgb, var(--danger) 10%, transparent);
+          color: var(--danger);
+          font-size: 0.9rem;
+          font-weight: 600;
+        }
+
         > label {
           display: flex;
           flex-direction: column;
@@ -104,6 +115,11 @@ div#auth {
 
           &:hover {
             background: var(--primary-strong);
+          }
+
+          &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
           }
         }
       }

@@ -1,5 +1,9 @@
 # `dvibd` Project Memory
 
+## Instruction Set Rules (all applications)
+1. Never modify the project memory / instruction files (e.g. `.opencode/social.md`, `.opencode/dvibd.md`) without explicit permission from the user.
+2. If a situation's only solution violates any instruction in the instruction set or something the user wants, stop and ask the user for permission before proceeding with the violating choice.
+
 ## Environment Variables Policy (all applications)
 1. Default values must be hardcoded in the codespace.
 2. `.env` files are strictly for production only.

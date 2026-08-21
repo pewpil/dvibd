@@ -1,18 +1,29 @@
-import { createSignal } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import { A, useNavigate } from "@solidjs/router";
 import ThemeToggle from "../../components/ThemeToggle";
 import { useAuth } from "../../contexts/AuthContext";
 import style from "../../styles/pages/(auth)/login.module.css";
 
 export default function Login() {
-  const [identifier, setIdentifier] = createSignal("");
-  const [password, setPassword] = createSignal("");
+  const [identifier, setIdentifier] = createSignal<string>("");
+  const [password, setPassword] = createSignal<string>("");
+  const [error, setError] = createSignal<string | undefined>(undefined);
+  const [pending, setPending] = createSignal<boolean>(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (event: SubmitEvent) => {
+  const handleSubmit = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault();
-    login().then(() => navigate("/"));
+    setPending(true);
+    setError(undefined);
+    try {
+      await login(identifier(), password());
+      navigate("/");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setPending(false);
+    }
   };
 
   return [
@@ -29,6 +40,9 @@ export default function Login() {
           <h1>Log in</h1>
           <p>Welcome back. Enter your details to continue.</p>
           <form id={style.loginForm} onSubmit={handleSubmit}>
+            <Show when={error() !== undefined}>
+              <p id={style.loginError}>{error()}</p>
+            </Show>
             <label>
               Username or email
               <input
@@ -51,8 +65,8 @@ export default function Login() {
                 required
               />
             </label>
-            <button id={style.loginSubmit} type="submit">
-              Log in
+            <button id={style.loginSubmit} type="submit" disabled={pending()}>
+              {pending() ? "Logging in..." : "Log in"}
             </button>
           </form>
           <p id={style.loginSwitch}>

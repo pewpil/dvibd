@@ -30,6 +30,13 @@
 
 ## Social App Notes
 
+### Auth architecture
+- social is a self-contained backend ecosystem: it never proxies or relays to `api/`. It shares only `orm/` (Prisma schema, generated client at `src/server/generated`, both extension properties "mts") and `db/` (Postgres).
+- Auth HTTP routes live directly in `src/routes/(auth)/` with no `/api` prefix. Page files (`login.tsx`, `signup.tsx`) must stay client-safe: their verb handlers live in the route group `(auth)/(endpoints)/` (e.g. `(endpoints)/login.ts` exports `POST /login`; group parens are stripped from the URL). Never import server-only modules (bcrypt, prisma, pg, h3) into a file with a default page component; Vite dev loads the whole graph in the browser. Pure API route files (`session.ts`, `refresh.ts`, `logout.ts`, `me.ts`) have no component and are safe. Endpoints: `POST /login`, `POST /signup`, `GET /session`, `POST /refresh`, `POST /logout`, `GET /me`.
+- Session strategy: refresh token (30 days) in httpOnly cookie `social.session`; access token (15 min) returned in the response body and kept in client memory. Every `GET /session` rotates the refresh token (old row deleted, new issued).
+- `src/middleware.ts` verifies the cookie into `locals.loggedIn` and guards `/notifications`, `/bookmarks`, `/settings`, `/profile` (redirect `/login`) and redirects authed users off `/login` and `/signup`.
+- Password hashing uses native `bcrypt`. Server modules: `config.ts` (env policy), `db.ts` (Prisma singleton), `tokens.ts`, `session.ts`, `user.ts` (`SafeUser`, `USER_SELECT`); `auth.ts` is the `"use server"` facade (`fetchSession`) so SSR renders correct auth state.
+
 ### Home page layout
 The home page is composed of 3 vertical divisions:
 
