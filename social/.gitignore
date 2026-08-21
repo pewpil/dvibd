@@ -28,3 +28,5 @@ gitignore
 Thumbs.db
 
 public/fonts/
+
+src/server/generated/
