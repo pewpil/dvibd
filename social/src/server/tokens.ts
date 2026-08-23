@@ -84,7 +84,9 @@ export async function verifyAccessToken(rawToken: string): Promise<string | null
   return payload.sub;
 }
 
-export async function rotateRefreshToken(rawToken: string): Promise<string | null> {
+export async function validateRefreshToken(
+  rawToken: string,
+): Promise<VerifiedRefreshToken | null> {
   const payload: JWTPayload | null = await verifyToken(rawToken);
   if (
     payload === null ||
@@ -104,6 +106,14 @@ export async function rotateRefreshToken(rawToken: string): Promise<string | nul
   ) {
     return null;
   }
-  await prisma.refreshToken.delete({ where: { id: record.id } });
-  return record.userId;
+  return { userId: record.userId, jti: record.jti };
+}
+
+export async function rotateRefreshToken(rawToken: string): Promise<string | null> {
+  const verified: VerifiedRefreshToken | null = await validateRefreshToken(rawToken);
+  if (verified === null) {
+    return null;
+  }
+  await prisma.refreshToken.delete({ where: { jti: verified.jti } });
+  return verified.userId;
 }

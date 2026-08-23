@@ -1,12 +1,11 @@
-import { getCookie, setCookie } from "h3";
+import { getCookie } from "h3";
 import { getRequestEvent } from "solid-js/web";
 import { prisma } from "./db";
 import {
   SESSION_COOKIE,
-  SESSION_COOKIE_OPTIONS,
   issueAccessToken,
-  issueRefreshToken,
-  rotateRefreshToken,
+  validateRefreshToken,
+  type VerifiedRefreshToken,
 } from "./tokens";
 import { USER_SELECT, type SafeUser } from "./user";
 
@@ -24,24 +23,17 @@ export async function readSession(): Promise<SessionPayload | null> {
   if (raw === undefined) {
     return null;
   }
-  const userId: string | null = await rotateRefreshToken(raw);
-  if (userId === null) {
+  const verified: VerifiedRefreshToken | null = await validateRefreshToken(raw);
+  if (verified === null) {
     return null;
   }
   const user = await prisma.user.findUnique({
-    where: { id: userId },
+    where: { id: verified.userId },
     select: USER_SELECT,
   });
   if (!user) {
     return null;
   }
-  const accessToken: string = await issueAccessToken(userId);
-  const refreshToken: string = await issueRefreshToken(userId);
-  setCookie(
-    event.nativeEvent,
-    SESSION_COOKIE,
-    refreshToken,
-    SESSION_COOKIE_OPTIONS,
-  );
+  const accessToken: string = await issueAccessToken(verified.userId);
   return { user: user, accessToken: accessToken };
 }

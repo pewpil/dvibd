@@ -1,9 +1,14 @@
 import { createMiddleware } from "@solidjs/start/middleware";
 import { getCookie } from "h3";
 import { getRequestEvent } from "solid-js/web";
-import { SESSION_COOKIE, verifyRefreshToken } from "./server/tokens";
+import {
+  SESSION_COOKIE,
+  validateRefreshToken,
+  VerifiedRefreshToken,
+} from "./server/tokens";
 
 const PROTECTED_PATHS: string[] = [
+  "/explore",
   "/notifications",
   "/bookmarks",
   "/settings",
@@ -23,7 +28,8 @@ export default createMiddleware([
       return;
     }
     const raw: string | undefined = getCookie(event, SESSION_COOKIE);
-    const verified = raw === undefined ? null : await verifyRefreshToken(raw);
+    const verified: VerifiedRefreshToken | null =
+      raw === undefined ? null : await validateRefreshToken(raw);
     requestEvent.locals.loggedIn = verified !== null;
 
     if (requestEvent.request.method !== "GET") {
