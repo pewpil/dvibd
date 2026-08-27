@@ -6,7 +6,7 @@ import style from "../../../../styles/components/dvibd/auth/Signup.module.css";
 function Signup() {
   const navigate = useNavigate();
   const { session, setSession } = useAuth();
-  const [fullName, setFullName] = createSignal("");
+  const [displayName, setDisplayName] = createSignal("");
   const [username, setUsername] = createSignal("");
   const [email, setEmail] = createSignal("");
   const [password, setPassword] = createSignal("");
@@ -31,6 +31,7 @@ function Signup() {
           username: username(),
           email: email(),
           password: password(),
+          displayName: displayName(),
         }),
       });
       if (!response.ok) {
@@ -59,10 +60,10 @@ function Signup() {
           Full name
           <input
             type="text"
-            name="fullName"
+            name="displayName"
             placeholder="Your full name"
-            value={fullName()}
-            onInput={(event) => setFullName(event.currentTarget.value)}
+            value={displayName()}
+            onInput={(event) => setDisplayName(event.currentTarget.value)}
             required
           />
         </label>

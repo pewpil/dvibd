@@ -15,6 +15,7 @@ const signupSchema = z
     username: z.string().min(3),
     email: z.email(),
     password: z.string().min(8),
+    displayName: z.string().min(1).max(50),
   })
   .strict();
 
@@ -141,8 +142,14 @@ router.post("/signup", signupValidator, async (c) => {
   let user: PublicUser;
   try {
     user = await prisma.user.create({
-      data: { username, email, passwordHash },
-      select: { id: true, username: true, email: true, createdAt: true },
+      data: { username, email, passwordHash, displayName: body.displayName },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        displayName: true,
+        createdAt: true,
+      },
     });
   } catch (error) {
     if (isUniqueViolation(error)) {
@@ -185,6 +192,7 @@ router.post("/login", loginValidator, async (c) => {
     id: found.id,
     username: found.username,
     email: found.email,
+    displayName: found.displayName,
     createdAt: found.createdAt,
   };
 
@@ -239,7 +247,13 @@ router.get(
     }
     const user = await prisma.user.findUnique({
       where: { id: payload.sub },
-      select: { id: true, username: true, email: true, createdAt: true },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        displayName: true,
+        createdAt: true,
+      },
     });
     if (!user) {
       return c.json({ error: "User not found." }, 404);

@@ -5,7 +5,7 @@
   "nodeModulesDir": "auto",
   "exclude": ["dist/"],
   "tasks": {
-    "dev": "deno run -A --watch --env-file src/main.ts",
+    "dev": "deno run -A --watch src/main.ts",
     "start": "deno run -A --env-file src/main.ts",
     "compile": "deno compile -A --output dist/dvibd-api src/main.ts",
     "check": "deno check src/",
