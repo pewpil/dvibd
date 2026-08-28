@@ -39,5 +39,5 @@ pnpm-debug.log*
 *.vite*
 
 # ORM
-api/src/orm/generated
-api/src/orm/migrations
+dvibd/api/src/generated
+dvibd/gui/src/generated

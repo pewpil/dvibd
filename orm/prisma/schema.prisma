@@ -1,6 +1,6 @@
 generator api-client {
   provider               = "prisma-client"
-  output                 = "../../api/src/generated"
+  output                 = "../../dvibd/api/src/generated"
   runtime                = "deno"
   importFileExtension    = "mts"
   generatedFileExtension = "mts"
@@ -8,7 +8,7 @@ generator api-client {
 
 generator gui-client {
   provider               = "prisma-client"
-  output                 = "../../gui/src/generated"
+  output                 = "../../dvibd/gui/src/generated"
   runtime                = "workerd"
   importFileExtension    = "mts"
   generatedFileExtension = "mts"

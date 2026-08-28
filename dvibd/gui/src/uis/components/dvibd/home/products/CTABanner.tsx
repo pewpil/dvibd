@@ -1,5 +1,5 @@
-import { A } from '@solidjs/router'
-import style from '../../../../../styles/components/dvibd/home/products/CTABanner.module.css'
+import { A } from "@solidjs/router";
+import style from "../../../../../styles/components/dvibd/home/products/CTABanner.module.css";
 
 function CTABanner() {
   return (
@@ -20,7 +20,7 @@ function CTABanner() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default CTABanner
+export default CTABanner;
