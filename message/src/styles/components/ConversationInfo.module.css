@@ -1,0 +1,441 @@
+aside#conversationInfo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  overflow-y: auto;
+
+  > header#infoHeader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5% 6%;
+    border-bottom: 0.0625rem solid var(--line);
+    flex-shrink: 0;
+
+    > h2#infoTitle {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    > button#closeInfoButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all 0.18s ease;
+
+      &:hover {
+        background: var(--surface-hover);
+        color: var(--ink);
+      }
+
+      > svg {
+        width: 1.15rem;
+        height: 1.15rem;
+      }
+    }
+  }
+
+  > div#infoScrollContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 6%;
+    gap: 1.5rem;
+
+    > div#profileCard {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 6% 4%;
+      background: var(--surface-strong);
+      border: 0.0625rem solid var(--line);
+      border-radius: 16px;
+      gap: 0.4rem;
+
+      > img#profileAvatar {
+        width: 4.5rem;
+        height: 4.5rem;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 0.4rem;
+        border: 0.1875rem solid var(--primary-soft);
+      }
+
+      > h3#profileName {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      > span#profileSubtitle {
+        font-size: 0.8rem;
+        color: var(--ink-soft);
+        font-weight: 500;
+      }
+
+      > p#profileBio {
+        font-size: 0.8125rem;
+        color: var(--ink-soft);
+        line-height: 1.4;
+        margin-top: 0.4rem;
+      }
+
+      > div#quickActions {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 6%;
+        margin-top: 0.8rem;
+
+        > button.quickActionButton {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.25rem;
+          padding: 3% 4%;
+          border: none;
+          border-radius: 10px;
+          background: var(--surface);
+          color: var(--ink);
+          font-size: 0.725rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.18s ease;
+
+          &:hover {
+            background: var(--primary-soft);
+            color: var(--primary);
+          }
+
+          > svg {
+            width: 1.15rem;
+            height: 1.15rem;
+          }
+        }
+      }
+    }
+
+    > section#participantsSection {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      > h4#sectionTitle {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--ink-soft);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      > ul#participantsList {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        > li#participantItem {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 3% 4%;
+          background: var(--surface-strong);
+          border: 0.0625rem solid var(--line);
+          border-radius: 10px;
+
+          > div#participantDetails {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            min-width: 0;
+
+            > img#participantAvatar {
+              width: 2rem;
+              height: 2rem;
+              border-radius: 50%;
+              object-fit: cover;
+              flex-shrink: 0;
+            }
+
+            > div#participantMeta {
+              display: flex;
+              flex-direction: column;
+              min-width: 0;
+
+              > span#participantName {
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--ink);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+
+              > span#participantHandle {
+                font-size: 0.725rem;
+                color: var(--ink-soft);
+              }
+            }
+          }
+
+          > span#roleBadge {
+            padding: 0.15rem 0.45rem;
+            border-radius: 6px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            flex-shrink: 0;
+          }
+        }
+      }
+    }
+
+    > section#sharedFilesSection {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      > h4#sectionTitle {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--ink-soft);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      > ul#sharedFilesList {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+
+        > li#sharedFileItem {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 3% 4%;
+          background: var(--surface-strong);
+          border: 0.0625rem solid var(--line);
+          border-radius: 10px;
+
+          > div#fileInfo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            min-width: 0;
+
+            > span#fileExtBadge {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 2.2rem;
+              height: 2.2rem;
+              border-radius: 8px;
+              background: var(--primary-soft);
+              color: var(--primary);
+              font-size: 0.65rem;
+              font-weight: 700;
+              flex-shrink: 0;
+            }
+
+            > div#fileMeta {
+              display: flex;
+              flex-direction: column;
+              min-width: 0;
+
+              > span#fileName {
+                font-size: 0.825rem;
+                font-weight: 600;
+                color: var(--ink);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+
+              > span#fileSubtext {
+                font-size: 0.7rem;
+                color: var(--ink-soft);
+              }
+            }
+          }
+
+          > button#downloadButton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.75rem;
+            height: 1.75rem;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--ink-soft);
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.18s ease;
+
+            &:hover {
+              background: var(--surface-hover);
+              color: var(--primary);
+            }
+
+            > svg {
+              width: 1rem;
+              height: 1rem;
+            }
+          }
+        }
+      }
+    }
+
+    > section#sharedLinksSection {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      > h4#sectionTitle {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--ink-soft);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      > ul#sharedLinksList {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+
+        > li#sharedLinkItem {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          padding: 3% 4%;
+          background: var(--surface-strong);
+          border: 0.0625rem solid var(--line);
+          border-radius: 10px;
+          text-decoration: none;
+          color: inherit;
+          transition: background 0.18s ease;
+
+          &:hover {
+            background: var(--surface-hover);
+          }
+
+          > span#linkIconBadge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--primary);
+            flex-shrink: 0;
+
+            > svg {
+              width: 1rem;
+              height: 1rem;
+            }
+          }
+
+          > div#linkMeta {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+
+            > span#linkTitle {
+              font-size: 0.8125rem;
+              font-weight: 600;
+              color: var(--ink);
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            > span#linkDomain {
+              font-size: 0.7rem;
+              color: var(--ink-soft);
+            }
+          }
+        }
+      }
+    }
+
+    > section#settingsSection {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      > div#encryptionNotice {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 3.5% 4%;
+        border-radius: 10px;
+        background: var(--primary-soft);
+        color: var(--primary-strong);
+
+        > svg {
+          width: 1.15rem;
+          height: 1.15rem;
+          flex-shrink: 0;
+        }
+
+        > span#encryptionText {
+          font-size: 0.75rem;
+          font-weight: 600;
+        }
+      }
+
+      > button#dangerActionButton {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 3.5% 4%;
+        border: 0.0625rem solid var(--danger);
+        border-radius: 10px;
+        background: transparent;
+        color: var(--danger);
+        font-size: 0.825rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.18s ease;
+
+        &:hover {
+          background: var(--danger);
+          color: #ffffff;
+        }
+
+        > svg {
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+    }
+  }
+}

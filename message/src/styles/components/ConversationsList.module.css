@@ -1,0 +1,255 @@
+section#conversations {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-right: 0.0625rem solid var(--line);
+  overflow: hidden;
+
+  > header#conversationsHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 5% 5% 3% 5%;
+    border-bottom: 0.0625rem solid var(--line);
+
+    > div#titleRow {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      > h1#conversationsTitle {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      > button#newConversationButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 12%;
+        aspect-ratio: 1;
+        border: none;
+        border-radius: 8px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        cursor: pointer;
+        transition: background 0.18s ease;
+
+        &:hover {
+          background: var(--primary);
+          color: #ffffff;
+        }
+
+        > svg {
+          width: 55%;
+          height: 55%;
+        }
+      }
+    }
+
+    > form#searchForm {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 3%;
+      padding: 3% 4%;
+      border: 0.0625rem solid var(--line);
+      border-radius: 10px;
+      background: var(--surface-strong);
+
+      > svg {
+        width: 1rem;
+        height: 1rem;
+        flex-shrink: 0;
+        color: var(--ink-soft);
+      }
+
+      > input#searchInput {
+        width: 100%;
+        border: none;
+        background: transparent;
+        color: var(--ink);
+        font-size: 0.875rem;
+        outline: none;
+
+        &::placeholder {
+          color: var(--ink-soft);
+        }
+      }
+    }
+
+    > div#filterTabs {
+      width: 100%;
+      display: flex;
+      gap: 2%;
+
+      > button.tabItem {
+        flex: 1;
+        padding: 3% 1%;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--ink-soft);
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.18s ease;
+
+        &:hover {
+          background: var(--surface-hover);
+          color: var(--ink);
+        }
+      }
+
+      > button.activeTab {
+        flex: 1;
+        padding: 3% 1%;
+        border: none;
+        border-radius: 8px;
+        background: var(--primary);
+        color: #ffffff;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    }
+  }
+
+  > ul#conversationsList {
+    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 3% 2%;
+    gap: 1%;
+
+    > li#conversationItem {
+      width: 100%;
+
+      > button#conversationButton {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 4%;
+        padding: 3.5% 4%;
+        border: none;
+        border-radius: 12px;
+        background: transparent;
+        cursor: pointer;
+        text-align: left;
+        transition: background 0.18s ease;
+
+        &:hover {
+          background: var(--surface-hover);
+        }
+
+        &.activeConversation {
+          background: var(--primary-soft);
+        }
+
+        > div#avatarContainer {
+          position: relative;
+          width: 14%;
+          aspect-ratio: 1;
+          flex-shrink: 0;
+
+          > img#avatarImage {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          > span#presenceDot {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 28%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 0.125rem solid var(--surface-strong);
+
+            &.online {
+              background: var(--success);
+            }
+
+            &.idle {
+              background: var(--idle);
+            }
+
+            &.offline {
+              background: var(--ink-soft);
+            }
+          }
+        }
+
+        > div#conversationContent {
+          width: 82%;
+          display: flex;
+          flex-direction: column;
+          gap: 0.2rem;
+          min-width: 0;
+
+          > div#conversationTopLine {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            > span#conversationTitle {
+              font-size: 0.925rem;
+              font-weight: 600;
+              color: var(--ink);
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            > time#conversationTimestamp {
+              font-size: 0.75rem;
+              color: var(--ink-soft);
+              flex-shrink: 0;
+            }
+          }
+
+          > div#conversationBottomLine {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4%;
+
+            > p#lastMessageSnippet {
+              font-size: 0.8125rem;
+              color: var(--ink-soft);
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            > span#unreadBadge {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              min-width: 1.25rem;
+              height: 1.25rem;
+              padding: 0 0.35rem;
+              border-radius: 10px;
+              background: var(--primary);
+              color: #ffffff;
+              font-size: 0.725rem;
+              font-weight: 700;
+              flex-shrink: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

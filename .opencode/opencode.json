@@ -1,6 +1,14 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": [".opencode/instructions.md", ".opencode/dvibd.md", ".opencode/social.md"],
+  "instructions": [
+    ".opencode/instructions.md",
+    ".opencode/memory.md",
+    ".opencode/dvibd.md",
+    ".opencode/social.md",
+    ".opencode/message.md",
+    ".opencode/orm.md",
+    ".opencode/db.md"
+  ],
   "model": "opencode/x-preview-f-free",
   "provider": {
     "opencode": {

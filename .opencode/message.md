@@ -1,22 +1,35 @@
-# `message` App Notes
+# `message` Project Context
 
-## gui
+This file contains context specific to the `message` application. Global standards and instructions live in `.opencode/instructions.md`.
 
-1. You should use a CSS Module and never CSS (except `index.css`) for a component/page's corresponding styling file imported as `style` in its TypeScriptXML file.
-2. Styling files should be written fully nested with its selector indicating the element's tag name and id/class with an immediate child selector (>) by default unless decendants are targeted by the style. For example: div#app { ... } and never #app { ... }. 
-3. Never use class for styling. Use id instead. Classes can be used if an element/component/page has style variants.
-4. Everyime you make a component or a page, its most ancestor element should be a HTML container semantic tag that best represent its content. If none can be chosen out of the semantic html container elements, <div> may be used.
-5. id's and classes of elements should be in camel case from its component/page's corresponding CSS Module.
-6. Always % for sizing, dimension or spacing units so that it's proportional to its parent element. You can only use rem but for font-sizes only. Except for the following in which you are allowed to use px: border-radius.
-7. Never use <>/</> or ReactJS' equivalent of SolidJS' <Framgment>
-8. You do not have to run `npm run build` to check if it builds correctly because as we develop the gui, I am actively looking at the development mode of the site. I will mention if anything is wrong.
-9. You are not to put the title in the logo when designing unless you are explicityly being told.
-10. gui codespace has to be completely ReactJS and NextJS idiomatic.
+## Application Overview
+- **Framework & Runtime**: Next.js (App Router, React 19), running on Node (`npx tsc --noEmit` in `message/`).
+- **File Mirroring**:
+  - `src/app/` and `src/styles/app/` mirror each other (e.g. `src/app/(messages)/conversations/page.tsx` <-> `src/styles/app/(messages)/conversations.module.css` or co-located `page.module.css` / `layout.module.css`).
+  - `src/components/` and `src/styles/components/` mirror each other (e.g. `src/components/(messages)/ConversationList.tsx` <-> `src/styles/components/(messages)/ConversationList.module.css`).
 
-### Architecture
-- The Message app is a separate app within the `dvibd` workspace. It is distinct from `social`; `social`'s left nav intentionally omits messages because messaging lives here.
-- It shares `orm/` (Prisma schema, generated client) and `db/` (Postgres) with the other apps in the project. It does not define its own schema.
-- Follow the same self-contained backend pattern as `social` where applicable: auth HTTP routes live directly under `src/routes/(auth)/` with no `/api` prefix; page files stay client-safe (verb handlers live in `(auth)/(endpoints)/`), and server-only modules (bcrypt, prisma, pg, h3) must never be imported into a file with a default page component.
+## Auth Architecture
+- `message` is a self-contained backend ecosystem: it never proxies or relays to `api/`. It shares only `orm/` (Prisma client) and `db/` (Postgres).
+- Auth HTTP routes live directly under `src/app/(auth)/` as Next.js Route Handlers (e.g. `src/app/(auth)/(endpoints)/login/route.ts` or `src/app/(auth)/login/route.ts` exporting `POST /login`; group parens are stripped from the URL).
+- Page files (`login/page.tsx`, `signup/page.tsx`) must stay client-safe: route logic and verb handlers live in `route.ts` or dedicated server modules. Never import server-only modules (`bcrypt`, `prisma`, `pg`) into Client Components (`"use client"`).
+- Pure Route Handler files (`session/route.ts`, `refresh/route.ts`, `logout/route.ts`, `me/route.ts`) have no component and are safe.
+- Endpoints: `POST /login`, `POST /signup`, `GET /session`, `POST /refresh`, `POST /logout`, `GET /me`, plus message endpoints (`POST /conversations`, `GET /conversations/:id/messages`, `POST /messages`).
+- Session strategy: refresh token (30 days) in httpOnly cookie `message.session`; access token (15 min) returned in the response body and kept in client memory. Every `GET /session` rotates the refresh token (old row deleted, new issued).
+- `src/middleware.ts` verifies the session cookie, guards protected paths (`/conversations`, `/messages`, `/settings`, `/profile` redirect to `/login`), and redirects authed users off `/login` and `/signup`.
+- Password hashing uses native `bcrypt`. Server modules: `config.ts` (env policy), `db.ts` (Prisma singleton), `tokens.ts`, `session.ts`, `user.ts` (`SafeUser`, `USER_SELECT`); `auth.ts` provides server helpers for SSR and Server Components.
 
-### Layout
-- [Document the Message app's page/component layout as development proceeds, mirroring the structure used in `social` (side nav, main content, and any secondary rail) and its CSS Module conventions above.]
+## Message App Layout
+The message application layout is composed of 3 vertical divisions inside `div#messageLayout`, laid out as a proportional grid or flex container:
+- **Left division**: `section#conversations` (or `aside#conversations`), referred to as Conversations. Displays all conversations the user is part of:
+  - 1-on-1 direct conversations with another user that the user is interacting with.
+  - Conversation channels from a community.
+  - Includes a search bar, filter tabs (e.g. Direct, Channels, Unread), and new conversation trigger.
+- **Center division**: `main#currentConversation` (or `main#chatWindow`), referred to as the Current Conversation. Displays the active conversation thread:
+  - Header: conversation partner or channel details, active presence/status indicator, and call/action buttons.
+  - Message stream: scrollable message thread with message bubbles, timestamps, sender details, and delivery/read receipts.
+  - Composer: input area with attachment upload actions, text input, emoji trigger, and send button.
+- **Right division**: `aside#conversationInfo` (or `aside#conversationDetails`), referred to as Conversation Info. Displays detailed information about the current conversation:
+  - User profile or community channel details and description.
+  - Participant/member list.
+  - Shared media, documents, links, and files.
+  - Conversation settings, notification/mute toggles, and conversation actions.
