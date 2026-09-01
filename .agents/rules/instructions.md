@@ -27,7 +27,7 @@ This file is the authoritative source of repository-wide standards that must be 
 2. **Module ID Scoping**: CSS Modules scope id selectors too. Always bind the module as `style` and reference elements through it: `id={style.navBar}` for a selector written `nav#navBar`. Never use raw unhashed ids (`id="navBar"`), and never import a module solely for side effects.
 3. **Selector Nesting**: Write styling files fully nested with the selector indicating tag name and id/class with an immediate child selector (`>`) by default (e.g. `div#app { ... }` and never `#app { ... }`). Target descendants without `>` only when necessary.
 4. **IDs for Styling**: Never use `class` for styling. Use `id` instead. `class` is permitted only for style variants.
-5. **Semantic Containers**: The outermost/ancestor element of every component or page must be an appropriate semantic HTML container tag. Use `<div>` only if no semantic container applies.
+5. **Semantic HTML Containers as Root**: Every time you make a component or a page, its most ancestor / root element must be the semantic HTML container element (`<main>`, `<nav>`, `<header>`, `<footer>`, `<section>`, `<aside>`, `<article>`, `<form>`, etc.) that best describes and represents its content. If none can be chosen out of the semantic HTML container elements, `<div>` may be used.
 6. **Naming**: Element ids and classes must be camelCase, matching selectors in the CSS Module.
 7. **Units & Proportions**: Always use `%` for sizing, dimension, and spacing units so elements are proportional to their parent. Use `rem` for font-sizes and media queries. Use `px` only for `border-radius`.
 8. **Fragments Disallowed**: Never use `<>`/`</>` or framework `<Fragment>` components.

@@ -27,7 +27,7 @@ This file is the authoritative source of repository-wide standards that must be 
 2. CSS Modules scope id selectors too. Always bind the module as `style` and reference elements through it (`id={style.navBar}` for a selector `nav#navBar`). Never use a raw unhashed id (`id="navBar"`), and never import a module only for side effects.
 3. Selectors are fully nested: `tag#id` (or `tag.class`) with immediate child `>` by default; target descendants only when needed (e.g. `div#app { ... }` and never `#app { ... }`).
 4. Never use class for styling; use id. Classes only for style variants.
-5. The ancestor element of any component/page must be the most appropriate semantic HTML container; use `<div>` only if none fits.
+5. Every time you make a component or a page, its most ancestor / root element must be the semantic HTML container element (`<main>`, `<nav>`, `<header>`, `<footer>`, `<section>`, `<aside>`, `<article>`, `<form>`, etc.) that best represents and describes its content. If none can be chosen out of the semantic HTML container elements, `<div>` may be used.
 6. Element ids and classes are camelCase, taken from the component's CSS Module.
 7. Sizing, dimension, and spacing units must always use `%` so elements are proportional to their parent. Use `rem` for font-sizes and media-query breakpoints. Use `px` only for `border-radius`.
 8. Never use `<>`/`</>` fragments or SolidJS/React `<Fragment>`.
