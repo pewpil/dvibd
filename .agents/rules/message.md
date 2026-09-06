@@ -18,17 +18,17 @@ This file contains context specific to the `message` application. Global standar
 - `src/middleware.ts` verifies the session cookie, guards protected paths (`/conversations`, `/messages`, `/settings`, `/profile` redirect to `/login`), and redirects authenticated users away from `/login` and `/signup`.
 - Password hashing uses native `bcrypt`. Server modules: `config.ts` (env policy), `db.ts` (Prisma singleton), `tokens.ts`, `session.ts`, `user.ts` (`SafeUser`, `USER_SELECT`); `auth.ts` provides server helpers for SSR and Server Components.
 
-## Message App Layout
-The message application layout is composed of 3 vertical divisions inside `div#messageLayout`, laid out as a proportional grid or flex container:
-- **Left division**: `section#conversations` (or `aside#conversations`), referred to as Conversations. Displays all conversations the user is part of:
+## Message App Layout Divisions
+The message application layout is composed of 3 vertical divisions inside `main#messageLayout`:
+- **Left division (`conversations`)**: `section#conversations` (referred to as **conversations**). Displays all conversations the user is part of:
   - 1-on-1 direct conversations with another user that the user is interacting with.
   - Conversation channels from a community.
   - Includes a search bar, filter tabs (e.g. Direct, Channels, Unread), and new conversation trigger.
-- **Center division**: `main#currentConversation` (or `main#chatWindow`), referred to as the Current Conversation. Displays the active conversation thread:
+- **Center division (`current`)**: `section#current` (referred to as **current**). Displays the active conversation thread:
   - Header: conversation partner or channel details, active presence/status indicator, and call/action buttons.
   - Message stream: scrollable message thread with message bubbles, timestamps, sender details, and delivery/read receipts.
   - Composer: input area with attachment upload actions, text input, emoji trigger, and send button.
-- **Right division**: `aside#conversationInfo` (or `aside#conversationDetails`), referred to as Conversation Info. Displays detailed information about the current conversation:
+- **Right division (`information`)**: `aside#information` (referred to as **information**). Displays detailed information about the current conversation:
   - User profile or community channel details and description.
   - Participant/member list.
   - Shared media, documents, links, and files.
