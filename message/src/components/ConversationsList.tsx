@@ -92,7 +92,7 @@ export default function ConversationsList(props: ConversationsListProps): ReactN
             aria-label="Search conversations"
           />
         </form>
-        <div id={style.filterTabs} role="tablist">
+        <nav id={style.filterTabs} role="tablist">
           {tabs.map((tab: string): ReactNode => {
             const isSelected: boolean = props.activeTab === tab;
             return (
@@ -108,7 +108,7 @@ export default function ConversationsList(props: ConversationsListProps): ReactN
               </button>
             );
           })}
-        </div>
+        </nav>
       </header>
       <ul id={style.conversationsList}>
         {filteredConversations.map((conv: Conversation): ReactNode => {

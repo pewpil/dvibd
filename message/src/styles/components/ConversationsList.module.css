@@ -1,10 +1,12 @@
 section#conversations {
   width: 100%;
-  height: 100%;
+  height: 95%;
+  margin: auto 0;
   display: flex;
   flex-direction: column;
-  background: var(--surface);
-  border-right: 0.0625rem solid var(--line);
+  background: transparent;
+  border: 0.0625rem solid var(--line);
+  border-radius: 20px;
   overflow: hidden;
 
   > header#conversationsHeader {
@@ -83,7 +85,7 @@ section#conversations {
       }
     }
 
-    > div#filterTabs {
+    > nav#filterTabs {
       width: 100%;
       display: flex;
       gap: 2%;

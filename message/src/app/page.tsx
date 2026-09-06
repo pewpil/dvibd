@@ -3,13 +3,9 @@
 import { useState, type ReactNode } from "react";
 import ConversationsList from "../components/ConversationsList";
 import CurrentConversation from "../components/CurrentConversation";
-import ConversationInfo from "../components/ConversationInfo";
 import {
   fallbackConversations,
   fallbackMessages,
-  fallbackParticipants,
-  fallbackSharedFiles,
-  fallbackSharedLinks,
   currentUser,
   type Conversation,
   type Message,
@@ -22,7 +18,6 @@ export default function MessagePage(): ReactNode {
   const [messages, setMessages] = useState<Message[]>(fallbackMessages);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeTab, setActiveTab] = useState<string>("All");
-  const [showInfo, setShowInfo] = useState<boolean>(true);
 
   const activeConversation: Conversation =
     conversations.find((c: Conversation): boolean => c.id === activeConversationId) ??
@@ -69,12 +64,8 @@ export default function MessagePage(): ReactNode {
     );
   };
 
-  const handleToggleInfo = (): void => {
-    setShowInfo((prev: boolean): boolean => !prev);
-  };
-
   return (
-    <div id={style.messageLayout}>
+    <main id={style.messageLayout}>
       <ConversationsList
         conversations={conversations}
         activeId={activeConversationId}
@@ -88,17 +79,7 @@ export default function MessagePage(): ReactNode {
         conversation={activeConversation}
         messages={messages}
         onSendMessage={handleSendMessage}
-        onToggleInfo={handleToggleInfo}
       />
-      {showInfo ? (
-        <ConversationInfo
-          conversation={activeConversation}
-          participants={fallbackParticipants}
-          sharedFiles={fallbackSharedFiles}
-          sharedLinks={fallbackSharedLinks}
-          onClose={handleToggleInfo}
-        />
-      ) : null}
-    </div>
+    </main>
   );
 }

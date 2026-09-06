@@ -17,7 +17,7 @@ export default function ConversationInfo(props: ConversationInfoProps): ReactNod
     : "Product Designer on the dvibd design system. Available weekdays for UI/UX reviews and discussions.";
 
   return (
-    <aside id={style.conversationInfo}>
+    <aside id={style.information}>
       <header id={style.infoHeader}>
         <h2 id={style.infoTitle}>Details</h2>
         {props.onClose ? (
@@ -44,7 +44,7 @@ export default function ConversationInfo(props: ConversationInfoProps): ReactNod
       </header>
 
       <div id={style.infoScrollContent}>
-        <div id={style.profileCard}>
+        <section id={style.profileCard}>
           <img
             id={style.profileAvatar}
             src={props.conversation.avatar}
@@ -58,7 +58,7 @@ export default function ConversationInfo(props: ConversationInfoProps): ReactNod
           </span>
           <p id={style.profileBio}>{bioText}</p>
 
-          <div id={style.quickActions}>
+          <nav id={style.quickActions}>
             <button
               type="button"
               className={style.quickActionButton}
@@ -117,8 +117,8 @@ export default function ConversationInfo(props: ConversationInfoProps): ReactNod
               </svg>
               Export
             </button>
-          </div>
-        </div>
+          </nav>
+        </section>
 
         <section id={style.participantsSection}>
           <h4 id={style.sectionTitle}>

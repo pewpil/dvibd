@@ -5,3 +5,4 @@ build
 .DS_Store
 *.tsbuildinfo
 next-env.d.ts
+public/fonts/

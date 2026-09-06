@@ -1,10 +1,12 @@
-main#currentConversation {
+section#current {
   width: 100%;
-  height: 100%;
+  height: 95%;
+  margin: auto 0;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
-  border-right: 0.0625rem solid var(--line);
+  background: transparent;
+  border: 0.0625rem solid var(--line);
+  border-radius: 20px;
   overflow: hidden;
 
   > header#conversationHeader {
@@ -12,8 +14,8 @@ main#currentConversation {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 2.5% 4%;
-    background: var(--surface);
+    padding: 3% 4%;
+    background: transparent;
     border-bottom: 0.0625rem solid var(--line);
     flex-shrink: 0;
 
@@ -74,11 +76,10 @@ main#currentConversation {
         background: transparent;
         color: var(--ink-soft);
         cursor: pointer;
-        transition: all 0.18s ease;
+        transition: color 0.18s ease;
 
         &:hover {
-          background: var(--surface-hover);
-          color: var(--ink);
+          color: var(--primary);
         }
 
         > svg {
@@ -97,6 +98,7 @@ main#currentConversation {
     flex-direction: column;
     padding: 3% 4%;
     gap: 1rem;
+    background: transparent;
 
     > div#dateSeparator {
       width: 100%;
@@ -104,12 +106,11 @@ main#currentConversation {
       align-items: center;
       justify-content: center;
       margin: 1% 0;
+      background: transparent;
 
-      > span#dateText {
+      > time#dateText {
         padding: 0.25rem 0.75rem;
-        border-radius: 12px;
-        background: var(--surface);
-        border: 0.0625rem solid var(--line);
+        background: transparent;
         color: var(--ink-soft);
         font-size: 0.75rem;
         font-weight: 600;
@@ -121,21 +122,21 @@ main#currentConversation {
       display: flex;
       flex-direction: column;
       gap: 0.85rem;
+      background: transparent;
 
       > li#messageItem {
         display: flex;
         align-items: flex-end;
         gap: 0.6rem;
-        max-width: 72%;
+        max-width: 80%;
+        background: transparent;
 
         &.incoming {
           align-self: flex-start;
 
-          > div#bubbleContainer {
-            background: var(--surface-strong);
+          > article#bubbleContainer {
+            background: transparent;
             color: var(--ink);
-            border-bottom-left-radius: 4px;
-            border: 0.0625rem solid var(--line);
           }
         }
 
@@ -143,10 +144,10 @@ main#currentConversation {
           align-self: flex-end;
           flex-direction: row-reverse;
 
-          > div#bubbleContainer {
-            background: var(--primary);
-            color: #ffffff;
-            border-bottom-right-radius: 4px;
+          > article#bubbleContainer {
+            background: transparent;
+            color: var(--ink);
+            align-items: flex-end;
           }
         }
 
@@ -159,18 +160,18 @@ main#currentConversation {
           margin-bottom: 0.2rem;
         }
 
-        > div#bubbleContainer {
+        > article#bubbleContainer {
           display: flex;
           flex-direction: column;
-          gap: 0.4rem;
-          padding: 0.75rem 0.95rem;
-          border-radius: 16px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+          gap: 0.3rem;
+          padding: 0.25rem 0;
+          background: transparent;
 
           > span#senderName {
             font-size: 0.75rem;
             font-weight: 700;
             color: var(--primary-strong);
+            background: transparent;
           }
 
           > div#mediaAttachment {
@@ -180,6 +181,7 @@ main#currentConversation {
             gap: 0.3rem;
             border-radius: 10px;
             overflow: hidden;
+            background: transparent;
 
             > img#mediaImage {
               width: 100%;
@@ -191,6 +193,8 @@ main#currentConversation {
             > span#mediaName {
               font-size: 0.75rem;
               opacity: 0.85;
+              color: var(--ink-soft);
+              background: transparent;
             }
           }
 
@@ -198,6 +202,7 @@ main#currentConversation {
             font-size: 0.915rem;
             line-height: 1.45;
             word-break: break-word;
+            background: transparent;
           }
 
           > div#metaRow {
@@ -205,15 +210,19 @@ main#currentConversation {
             align-items: center;
             justify-content: flex-end;
             gap: 0.3rem;
+            background: transparent;
 
             > time#messageTime {
               font-size: 0.685rem;
-              opacity: 0.75;
+              color: var(--ink-soft);
+              background: transparent;
             }
 
             > span#receiptIcon {
               display: flex;
               align-items: center;
+              color: var(--primary);
+              background: transparent;
 
               > svg {
                 width: 0.85rem;
@@ -229,7 +238,7 @@ main#currentConversation {
   > footer#composer {
     width: 100%;
     padding: 2.5% 4%;
-    background: var(--surface);
+    background: transparent;
     border-top: 0.0625rem solid var(--line);
     flex-shrink: 0;
 
@@ -238,10 +247,8 @@ main#currentConversation {
       display: flex;
       align-items: center;
       gap: 1.5%;
-      padding: 1.5% 2%;
-      background: var(--surface-strong);
-      border: 0.0625rem solid var(--line);
-      border-radius: 24px;
+      padding: 1% 0;
+      background: transparent;
 
       > button.toolButton {
         display: flex;
@@ -255,10 +262,9 @@ main#currentConversation {
         color: var(--ink-soft);
         cursor: pointer;
         flex-shrink: 0;
-        transition: all 0.18s ease;
+        transition: color 0.18s ease;
 
         &:hover {
-          background: var(--surface-hover);
           color: var(--primary);
         }
 
@@ -290,24 +296,24 @@ main#currentConversation {
         height: 2.25rem;
         border: none;
         border-radius: 50%;
-        background: var(--primary);
-        color: #ffffff;
+        background: transparent;
+        color: var(--primary);
         cursor: pointer;
         flex-shrink: 0;
-        transition: background 0.18s ease;
+        transition: color 0.18s ease;
 
         &:hover {
-          background: var(--primary-strong);
+          color: var(--primary-strong);
         }
 
         &:disabled {
-          opacity: 0.5;
+          opacity: 0.4;
           cursor: not-allowed;
         }
 
         > svg {
-          width: 1.1rem;
-          height: 1.1rem;
+          width: 1.15rem;
+          height: 1.15rem;
         }
       }
     }

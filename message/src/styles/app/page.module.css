@@ -1,28 +1,15 @@
-div#messageLayout {
-  width: 100%;
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 26% 48% 26%;
-  background: var(--bg);
-  overflow: hidden;
-}
-
-@media (max-width: 64rem) {
-  div#messageLayout {
-    grid-template-columns: 32% 68%;
-  }
-
-  div#messageLayout > aside {
-    display: none;
-  }
+main#messageLayout {
+  width: 52%;
+  max-width: 42rem;
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 47.5rem) {
-  div#messageLayout {
-    grid-template-columns: 100%;
-  }
-
-  div#messageLayout > aside {
-    display: none;
+  main#messageLayout {
+    width: 100%;
+    max-width: 100%;
   }
 }

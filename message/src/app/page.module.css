@@ -1,28 +1,20 @@
-div#messageLayout {
-  width: 100%;
+main#messageLayout {
+  width: 64%;
   height: 100vh;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 26% 48% 26%;
-  background: var(--bg);
+  grid-template-columns: 33% 65%;
+  gap: 1%;
   overflow: hidden;
 }
 
-@media (max-width: 64rem) {
-  div#messageLayout {
-    grid-template-columns: 32% 68%;
-  }
-
-  div#messageLayout > aside {
-    display: none;
-  }
-}
-
 @media (max-width: 47.5rem) {
-  div#messageLayout {
+  main#messageLayout {
+    width: 100%;
     grid-template-columns: 100%;
   }
 
-  div#messageLayout > aside {
+  main#messageLayout > section:first-child {
     display: none;
   }
 }

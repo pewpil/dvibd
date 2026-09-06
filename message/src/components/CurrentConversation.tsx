@@ -6,7 +6,7 @@ interface CurrentConversationProps {
   conversation: Conversation;
   messages: Message[];
   onSendMessage: (text: string) => void;
-  onToggleInfo: () => void;
+  onToggleInfo?: () => void;
 }
 
 export default function CurrentConversation(props: CurrentConversationProps): ReactNode {
@@ -36,7 +36,7 @@ export default function CurrentConversation(props: CurrentConversationProps): Re
       : "Offline";
 
   return (
-    <main id={style.currentConversation}>
+    <section id={style.current}>
       <header id={style.conversationHeader}>
         <div id={style.headerEntity}>
           <img
@@ -103,32 +103,34 @@ export default function CurrentConversation(props: CurrentConversationProps): Re
               <path d="m21 21-4.3-4.3" />
             </svg>
           </button>
-          <button
-            type="button"
-            className={style.actionButton}
-            onClick={props.onToggleInfo}
-            aria-label="Conversation details"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+          {props.onToggleInfo ? (
+            <button
+              type="button"
+              className={style.actionButton}
+              onClick={props.onToggleInfo}
+              aria-label="Conversation details"
             >
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="16" x2="12" y2="12" />
-              <line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+            </button>
+          ) : null}
         </div>
       </header>
 
       <section id={style.messageStream}>
         <div id={style.dateSeparator}>
-          <span id={style.dateText}>Today</span>
+          <time id={style.dateText}>Today</time>
         </div>
         <ol id={style.messageList}>
           {props.messages.map((msg: Message): ReactNode => {
@@ -144,7 +146,7 @@ export default function CurrentConversation(props: CurrentConversationProps): Re
                     alt={msg.senderName}
                   />
                 ) : null}
-                <div id={style.bubbleContainer}>
+                <article id={style.bubbleContainer}>
                   {!isOutgoing && props.conversation.type === "channel" ? (
                     <span id={style.senderName}>{msg.senderName}</span>
                   ) : null}
@@ -179,7 +181,7 @@ export default function CurrentConversation(props: CurrentConversationProps): Re
                       </span>
                     ) : null}
                   </div>
-                </div>
+                </article>
               </li>
             );
           })}
@@ -273,6 +275,6 @@ export default function CurrentConversation(props: CurrentConversationProps): Re
           </button>
         </form>
       </footer>
-    </main>
+    </section>
   );
 }
