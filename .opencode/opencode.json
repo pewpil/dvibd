@@ -8,19 +8,5 @@
     ".opencode/message.md",
     ".opencode/orm.md",
     ".opencode/db.md"
-  ],
-  "model": "opencode/x-preview-f-free",
-  "plugin": ["opencode-antigravity-auth@beta"],
-  "provider": {
-    "opencode": {
-      "options": {
-        "apiKey": "{file:opencode.key}"
-      }
-    },
-    "opencode-go": {
-      "options": {
-        "apiKey": "{file:opencode.key}"
-      }
-    }
-  }
+  ]
 }
