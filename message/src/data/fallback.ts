@@ -60,6 +60,7 @@ export interface Participant {
   handle: string;
   avatar: string;
   role: string;
+  bio: string;
   status: "online" | "offline" | "idle";
 }
 
@@ -230,6 +231,7 @@ export const fallbackParticipants: Participant[] = [
     handle: "elena",
     avatar: "/profile-picture.svg",
     role: "Product Designer",
+    bio: "Product Designer on the dvibd design system. Available weekdays for UI/UX reviews and discussions.",
     status: "online",
   },
   {
@@ -238,6 +240,7 @@ export const fallbackParticipants: Participant[] = [
     handle: "alexrivera",
     avatar: "/profile-picture.svg",
     role: "Software Engineer",
+    bio: "Full-stack developer working on dvibd platform.",
     status: "online",
   },
 ];

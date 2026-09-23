@@ -1,11 +1,43 @@
 main#messageLayout {
-  width: 64%;
+  width: 78%;
   height: 100vh;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 33% 65%;
+  --conversation-list-width: 28%;
+  grid-template-columns:
+    var(--conversation-list-width)
+    minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: 1%;
   overflow: hidden;
+}
+
+div#conversationArea {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  min-width: 0;
+  gap: 1%;
+
+  > section {
+    width: 100%;
+    min-width: 0;
+  }
+
+  &.infoOpen {
+    --section-width: 64%;
+
+    > section {
+      width: var(--section-width);
+    }
+
+    > aside {
+      width: calc(100% - var(--section-width) - 1%);
+      min-width: 0;
+      min-height: 0;
+    }
+  }
 }
 
 @media (max-width: 47.5rem) {
@@ -15,6 +47,10 @@ main#messageLayout {
   }
 
   main#messageLayout > section:first-child {
+    display: none;
+  }
+
+  div#conversationArea > aside {
     display: none;
   }
 }

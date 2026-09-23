@@ -1,5 +1,10 @@
 import type { ReactNode } from "react";
-import type { Conversation, Participant, SharedFile, SharedLink } from "../data/fallback";
+import type {
+  Conversation,
+  Participant,
+  SharedFile,
+  SharedLink,
+} from "../data/fallback";
 import style from "../styles/components/ConversationInfo.module.css";
 
 interface ConversationInfoProps {
@@ -7,6 +12,7 @@ interface ConversationInfoProps {
   participants: Participant[];
   sharedFiles: SharedFile[];
   sharedLinks: SharedLink[];
+  participant?: Participant;
   onClose?: () => void;
 }
 
@@ -14,7 +20,8 @@ export default function ConversationInfo(props: ConversationInfoProps): ReactNod
   const isChannel: boolean = props.conversation.type === "channel";
   const bioText: string = isChannel
     ? props.conversation.subtitle
-    : "Product Designer on the dvibd design system. Available weekdays for UI/UX reviews and discussions.";
+    : (props.participant?.bio ??
+      "Product Designer on the dvibd design system. Available weekdays for UI/UX reviews and discussions.");
 
   return (
     <aside id={style.information}>
@@ -47,14 +54,19 @@ export default function ConversationInfo(props: ConversationInfoProps): ReactNod
         <section id={style.profileCard}>
           <img
             id={style.profileAvatar}
-            src={props.conversation.avatar}
-            alt={props.conversation.title}
+            src={props.participant?.avatar ?? props.conversation.avatar}
+            alt={props.participant?.name ?? props.conversation.title}
           />
-          <h3 id={style.profileName}>{props.conversation.title}</h3>
+          <h3 id={style.profileName}>
+            {props.participant?.name ?? props.conversation.title}
+          </h3>
           <span id={style.profileSubtitle}>
             {isChannel
               ? `${props.conversation.communityName} • ${props.conversation.memberCount} members`
-              : `@${props.conversation.title.toLowerCase().replace(/\s+/g, "")} • ${props.conversation.subtitle}`}
+              : `@${
+                  props.participant?.handle ??
+                  props.conversation.title.toLowerCase().replace(/\s+/g, "")
+                } • ${props.participant?.role ?? props.conversation.subtitle}`}
           </span>
           <p id={style.profileBio}>{bioText}</p>
 
