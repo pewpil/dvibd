@@ -1,4 +1,9 @@
-import { useState, type ReactNode, type FormEvent, type ChangeEvent } from "react";
+import {
+  useState,
+  type ReactNode,
+  type SubmitEvent,
+  type ChangeEvent,
+} from "react";
 import type { Conversation, Message } from "../data/fallback";
 import style from "../styles/components/CurrentConversation.module.css";
 
@@ -9,14 +14,16 @@ interface CurrentConversationProps {
   onToggleInfo?: () => void;
 }
 
-export default function CurrentConversation(props: CurrentConversationProps): ReactNode {
+export default function CurrentConversation(
+  props: CurrentConversationProps,
+): ReactNode {
   const [inputText, setInputText] = useState<string>("");
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setInputText(event.target.value);
   };
 
-  const handleFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleFormSubmit = (event: SubmitEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const trimmed: string = inputText.trim();
     if (trimmed.length === 0) {
@@ -30,10 +37,10 @@ export default function CurrentConversation(props: CurrentConversationProps): Re
     props.conversation.type === "channel"
       ? `${props.conversation.memberCount} members in community`
       : props.conversation.presenceStatus === "online"
-      ? "Online"
-      : props.conversation.presenceStatus === "idle"
-      ? "Away"
-      : "Offline";
+        ? "Online"
+        : props.conversation.presenceStatus === "idle"
+          ? "Away"
+          : "Offline";
 
   return (
     <section id={style.current}>
@@ -135,7 +142,9 @@ export default function CurrentConversation(props: CurrentConversationProps): Re
         <ol id={style.messageList}>
           {props.messages.map((msg: Message): ReactNode => {
             const isOutgoing: boolean = msg.isOutgoing;
-            const itemClass: string = isOutgoing ? style.outgoing : style.incoming;
+            const itemClass: string = isOutgoing
+              ? style.outgoing
+              : style.incoming;
 
             return (
               <li key={msg.id} id={style.messageItem} className={itemClass}>
