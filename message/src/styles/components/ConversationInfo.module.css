@@ -5,17 +5,17 @@ aside#information {
   display: flex;
   flex-direction: column;
   background: transparent;
-  border: 0.0625rem solid var(--line);
-  border-radius: 20px;
   overflow-y: auto;
 
   > header#infoHeader {
-    width: 100%;
+    margin: 1.5vh 2.5% 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5% 6%;
-    border-bottom: 0.0625rem solid var(--line);
+    padding: 3.5% 3%;
+    background: var(--surface);
+    border: 0.0625rem solid var(--line);
+    border-radius: 15px;
     flex-shrink: 0;
 
     > h2#infoTitle {
@@ -63,7 +63,7 @@ aside#information {
       align-items: center;
       text-align: center;
       padding: 6% 4%;
-      background: var(--surface-strong);
+      background: var(--surface);
       border: 0.0625rem solid var(--line);
       border-radius: 16px;
       gap: 0.4rem;
@@ -111,7 +111,7 @@ aside#information {
           padding: 3% 4%;
           border: none;
           border-radius: 10px;
-          background: var(--surface);
+          background: var(--surface-strong);
           color: var(--ink);
           font-size: 0.725rem;
           font-weight: 600;
@@ -157,7 +157,7 @@ aside#information {
           align-items: center;
           justify-content: space-between;
           padding: 3% 4%;
-          background: var(--surface-strong);
+          background: var(--surface);
           border: 0.0625rem solid var(--line);
           border-radius: 10px;
 
@@ -235,7 +235,7 @@ aside#information {
           align-items: center;
           justify-content: space-between;
           padding: 3% 4%;
-          background: var(--surface-strong);
+          background: var(--surface);
           border: 0.0625rem solid var(--line);
           border-radius: 10px;
 
@@ -334,7 +334,7 @@ aside#information {
           align-items: center;
           gap: 0.6rem;
           padding: 3% 4%;
-          background: var(--surface-strong);
+          background: var(--surface);
           border: 0.0625rem solid var(--line);
           border-radius: 10px;
           text-decoration: none;
@@ -352,7 +352,7 @@ aside#information {
             width: 2rem;
             height: 2rem;
             border-radius: 8px;
-            background: var(--surface);
+            background: var(--surface-strong);
             color: var(--primary);
             flex-shrink: 0;
 
