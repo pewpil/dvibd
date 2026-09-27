@@ -5,10 +5,10 @@ aside#information {
   display: flex;
   flex-direction: column;
   background: transparent;
-  overflow-y: auto;
+  overflow: hidden;
 
   > header#infoHeader {
-    margin: 1.5vh 2.5% 0;
+    margin-bottom: 3.5%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -51,9 +51,12 @@ aside#information {
 
   > div#infoScrollContent {
     width: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    padding: 6%;
+    /* padding: 6%; */
     gap: 1.5rem;
 
     > section#profileCard {

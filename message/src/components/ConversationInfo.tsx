@@ -16,7 +16,9 @@ interface ConversationInfoProps {
   onClose?: () => void;
 }
 
-export default function ConversationInfo(props: ConversationInfoProps): ReactNode {
+export default function ConversationInfo(
+  props: ConversationInfoProps,
+): ReactNode {
   const isChannel: boolean = props.conversation.type === "channel";
   const bioText: string = isChannel
     ? props.conversation.subtitle

@@ -4,11 +4,12 @@ main#messageLayout {
   margin: 0 auto;
   display: grid;
   --conversation-list-width: 28%;
+  --gap: 1.5em; /* not in % so that it is consitent between <ConversationList> and div#conversationArea AND div#conversationArea */
   grid-template-columns:
     var(--conversation-list-width)
     minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
-  gap: 1%;
+  gap: var(--gap);
   overflow: hidden;
 }
 
@@ -18,7 +19,7 @@ div#conversationArea {
   min-height: 0;
   display: flex;
   min-width: 0;
-  gap: 1%;
+  gap: var(--gap);
 
   > section {
     width: 100%;
