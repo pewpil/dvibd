@@ -1,6 +1,6 @@
 # `message` Project Context
 
-This file contains context specific to the `message` application. Global standards and instructions live in `.opencode/instructions.md`.
+This file contains context specific to the `message` application. Repository-wide standards and instructions live in the repository root `AGENTS.md`.
 
 ## Application Overview
 - **Framework & Runtime**: Next.js (App Router, React 19), running on Node (`npx tsc --noEmit` in `message/`).

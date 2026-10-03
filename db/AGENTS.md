@@ -1,5 +1,7 @@
 # `db` Rules & Guidelines
 
+Repository-wide standards and instructions live in the repository root `AGENTS.md`.
+
 ## Database Service
 - The local test PostgreSQL database is managed via Docker Compose in `db/docker-compose.yml`.
 - Database version: `postgres:18-alpine`.

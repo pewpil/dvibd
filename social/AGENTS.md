@@ -1,6 +1,6 @@
 # `social` Project Context
 
-This file contains context specific to the `social` application. Global standards and instructions live in `.agents/rules/instructions.md`.
+This file contains context specific to the `social` application. Repository-wide standards and instructions live in the repository root `AGENTS.md`.
 
 ## Application Overview
 - **Framework & Runtime**: SolidStart with Vite, running on Node (`npx tsc --noEmit` in `social/`).

@@ -1,5 +1,7 @@
 # `orm` Rules & Guidelines
 
+Repository-wide standards and instructions live in the repository root `AGENTS.md`.
+
 ## Single Source of Truth
 - `orm/` is the single source of truth for the database schema across the entire `dvibd` repository.
 - Individual apps (`dvibd/api`, `dvibd/gui`, `social`, `message`) are clients of this ORM and do not define their own schema.

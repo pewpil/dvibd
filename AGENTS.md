@@ -1,22 +1,22 @@
 # `dvibd` Project Instructions
 
-This file is the authoritative source of repository-wide standards that must be complied with. App-specific contexts live in `.opencode/dvibd.md` (`dvibd` gui/api), `.opencode/social.md` (`social`), `.opencode/message.md` (`message`), `.opencode/orm.md` (shared ORM), and `.opencode/db.md` (database service). Contexts to remember live in `.opencode/memory.md`.
+This file is the authoritative source of repository-wide standards that must be complied with. App-specific context lives in the workspace-scoped `AGENTS.md` files: `dvibd/AGENTS.md` (`dvibd` gui/api), `social/AGENTS.md` (`social`), `message/AGENTS.md` (`message`), `orm/AGENTS.md` (shared ORM), and `db/AGENTS.md` (database service). Contexts to remember live in the Workspace Memory section below.
 
 ## Repository Layout
 - `dvibd/`: the main gui + api workspace (Deno API, workerd/Vite GUI).
 - `social/`: a standalone SolidStart app (self-contained backend, Node runtime).
 - `message/`: a standalone Next.js App Router app (self-contained backend, Node runtime).
 - `orm/`: shared Prisma schema, migrations, and generated clients (package `@dvibd/orm`). The apps are clients of this ORM; they do not define their own schema.
-- `db/`: local test Postgres via docker-compose (see `.opencode/db.md`).
-- `.opencode/`: agent configuration, memory, and instructions.
+- `db/`: local test Postgres via docker-compose (see `db/AGENTS.md`).
+- `.opencode/`: OpenCode project configuration.
+- `.agents/`: agent skills.
 
 ## Cross-Cutting Coding Standards
 1. Use double quotes (`"`) for any string literal, never single quotes.
 2. Write fully-typed TypeScript and TypeScriptXML code. No variable, parameter, or function may be declared without an explicit type (return types included).
 3. Do not add code comments unless explicitly asked.
 4. Refrain from using the em dash in any written output or content.
-5. Never commit secrets or API keys. Secrets that must live on disk go in a `.opencode/*.key` file (gitignored) and are referenced from `opencode.json` via `{file:*.key}` substitution. The active one is `opencode.key` (OpenCode Zen API key).
-6. Before editing a file, follow its existing conventions (naming, framework idioms, lint/fmt config). Mimic neighboring code.
+5. Never commit secrets or API keys. A secret that must live on disk belongs in a gitignored `*.key` file next to the configuration that references it, and is pulled in through `{file:*.key}` substitution. Never inline a key value in `opencode.json`.
 
 ## Runtime & Typecheck Standards (Deno vs Node)
 - `dvibd/api` runtime is Deno. Respect `compilerOptions`, `fmt`, and `lint` in its `deno.json`. Type check with `deno check src/main.ts`.
@@ -29,7 +29,7 @@ This file is the authoritative source of repository-wide standards that must be 
 4. Never use class for styling; use id. Classes only for style variants.
 5. Every time you make a component or a page, its most ancestor / root element must be the semantic HTML container element (`<main>`, `<nav>`, `<header>`, `<footer>`, `<section>`, `<aside>`, `<article>`, `<form>`, etc.) that best represents and describes its content. If none can be chosen out of the semantic HTML container elements, `<div>` may be used.
 6. Element ids and classes are camelCase, taken from the component's CSS Module.
-7. Sizing, dimension, and spacing units must always use `%` so elements are proportional to their parent. Use `rem` for font-sizes and media-query breakpoints. Use `px` only for `border-radius`.
+7. Sizing, dimension, and spacing units must always use `%` so elements are proportional to their parent. Use `rem` for font-sizes, media-query breakpoints, gaps, borders, shadows, and blur. Use `px` only for `border-radius`.
 8. Never use `<>`/`</>` fragments or SolidJS/React `<Fragment>`.
 9. Do not put the title in the logo unless explicitly told.
 10. You do not have to run `npm run build` to check if it builds correctly during active development.
@@ -68,3 +68,26 @@ Every application must be written strictly idiomatic to its underlying framework
 - Whenever the schema is modified, regenerate clients from `orm/` (`npm run generate`).
 - Run database migrations from `orm/` (`npx prisma migrate dev`).
 - Manage the local Postgres service via `db/docker-compose.yml`.
+
+## Workspace Memory
+This section holds persistent memory, learned rules, and calibration contexts across the `dvibd` repository.
+
+### Viewport Percentage Calibration
+- When converting px to %, the user's browser viewport is the primary reference so sizing cascades proportionally to descendants (percentage sizing is relative to parent).
+- Calibrate the % value so it corresponds to the pixel size relative to the target viewport:
+  - **1440px Desktop Viewport**:
+    - `120px` -> `8.3%`
+    - `56px` -> `3.9%`
+    - `48px` -> `3.3%`
+    - `40px` -> `2.8%`
+    - `24px` (`--space`) -> `1.7%` (widened to `6%` so page content does not hug viewport edges)
+    - `1100px` (`--width`) -> `76.5%`
+    - `16px` fixed toggle top -> `1.8%` of viewport height
+  - **760px Mobile Viewport**:
+    - `64px` -> `8.4%`
+- For the units policy itself, see GUI standard 7 above.
+
+### Monorepo Context Memory
+- **Self-Contained Backend Ecosystems**: Both `social` and `message` maintain independent self-contained backends with their own auth routes, session tokens, and middleware. They never proxy or relay through `dvibd/api`.
+- **Database Centralization**: All apps share the single PostgreSQL instance in `db/` and derive their Prisma clients from `orm/prisma/schema.prisma`.
+- **App Boundary**: The `social` app left navigation intentionally omits messages because all messaging functionality lives in the standalone `message` app.

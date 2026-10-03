@@ -1,6 +1,6 @@
 # `dvibd` Project Context
 
-This file contains context specific to the `dvibd` workspace (`api` and `gui`). Global standards and instructions live in `.agents/rules/instructions.md`.
+This file contains context specific to the `dvibd` workspace (`api` and `gui`). Repository-wide standards and instructions live in the repository root `AGENTS.md`.
 
 ## Workspace Structure
 - `dvibd/api`: Backend API service running on Deno.
