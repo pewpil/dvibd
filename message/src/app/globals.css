@@ -1,3 +1,15 @@
+@import "@fontsource-variable/rethink-sans/wght.css";
+@import "@fontsource-variable/rethink-sans/wght-italic.css";
+@import "@fontsource-variable/lexend/wght.css";
+
+:root {
+  --font-body:
+    "Rethink Sans Variable", system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-heading:
+    "Lexend Variable", "Rethink Sans Variable", system-ui, sans-serif;
+}
+
 *,
 *::before,
 *::after {
@@ -30,45 +42,10 @@ body {
   min-height: 100%;
 }
 
-@font-face {
-  font-family: "Rethink Sans";
-  font-style: normal;
-  font-weight: 400 800;
-  font-display: swap;
-  src: url("/fonts/rethink-sans-latin.woff2") format("woff2");
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
-    U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: "Rethink Sans";
-  font-style: italic;
-  font-weight: 400 800;
-  font-display: swap;
-  src: url("/fonts/rethink-sans-latin-italic.woff2") format("woff2");
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
-    U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: "Lexend";
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("/fonts/lexend-latin.woff2") format("woff2");
-  unicode-range:
-    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
-    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
-    U+2215, U+FEFF, U+FFFD;
-}
-
 body {
   margin: 0;
   font-family: var(--font-body);
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -129,10 +106,6 @@ div#app {
   --danger: #dc2626;
   --blur: 1rem;
   --width: 76.5%;
-  --font-body:
-    "Rethink Sans", Gordita, Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-    "Helvetica Neue", sans-serif;
-  --font-heading: "Lexend", "Rethink Sans", Gordita, Roboto, sans-serif;
   min-height: 100vh;
   background: var(--bg);
   color: var(--ink);
