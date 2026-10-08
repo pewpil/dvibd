@@ -41,3 +41,7 @@ pnpm-debug.log*
 # ORM
 dvibd/api/src/generated
 dvibd/gui/src/generated
+
+# Agent skills
+# Regenerable from the tracked skills-lock.json. See AGENTS.md > ORM & DB Standards > Prisma Skills.
+.agents/skills/

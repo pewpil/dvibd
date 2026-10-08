@@ -9,7 +9,7 @@ This file is the authoritative source of repository-wide standards that must be 
 - `orm/`: shared Prisma schema, migrations, and generated clients (package `@dvibd/orm`). The apps are clients of this ORM; they do not define their own schema.
 - `db/`: local test Postgres via docker-compose (see `db/AGENTS.md`).
 - `.opencode/`: OpenCode project configuration.
-- `.agents/`: agent skills.
+- `.agents/skills/`: Prisma ORM agent skills. Gitignored and fully regenerable; `skills-lock.json` at the repository root is the tracked source of truth. See ORM & DB Standards below.
 
 ## Cross-Cutting Coding Standards
 1. Use double quotes (`"`) for any string literal, never single quotes.
@@ -19,8 +19,17 @@ This file is the authoritative source of repository-wide standards that must be 
 5. Never commit secrets or API keys. A secret that must live on disk belongs in a gitignored `*.key` file next to the configuration that references it, and is pulled in through `{file:*.key}` substitution. Never inline a key value in `opencode.json`.
 
 ## Runtime & Typecheck Standards (Deno vs Node)
-- `dvibd/api` runtime is Deno. Respect `compilerOptions`, `fmt`, and `lint` in its `deno.json`. Type check with `deno check src/main.ts`.
-- `dvibd/gui`, `social`, and `message` run on Node. Never run `deno check` in them; type check with TypeScript in their respective directories (`npx tsc --noEmit` or `npx tsc -b`).
+- `dvibd/api` runtime is Deno. Respect `compilerOptions`, `fmt`, and `lint` in its `deno.json`.
+- `dvibd/gui`, `social`, and `message` run on Node. Never run `deno check` in them.
+
+### Typecheck Matrix
+
+| Workspace | Runtime | Command |
+| --- | --- | --- |
+| `dvibd/api` | Deno | `cd dvibd/api && deno check src/main.ts` |
+| `dvibd/gui` | Node / Vite | `cd dvibd/gui && npx tsc -b` |
+| `social` | Node / SolidStart | `cd social && npx tsc --noEmit` |
+| `message` | Node / Next.js | `cd message && npx tsc --noEmit` |
 
 ## GUI Standards
 1. Use a CSS Module (never plain CSS except `globals.css` / `index.css` / `app.css`) imported as `style` in the TSX file.
@@ -64,10 +73,37 @@ Every application must be written strictly idiomatic to its underlying framework
 - Keep APIs idiomatic to their respective framework and runtime.
 
 ## ORM & DB Standards
-- `orm/prisma/schema.prisma` is the single source of truth for the database schema.
-- Whenever the schema is modified, regenerate clients from `orm/` (`npm run generate`).
-- Run database migrations from `orm/` (`npx prisma migrate dev`).
-- Manage the local Postgres service via `db/docker-compose.yml`.
+
+### Schema & Clients
+- `orm/prisma/schema.prisma` is the single source of truth for the database schema. The apps are clients of this ORM and do not define their own schema.
+- Keep every generator block intact when editing the schema: `api-client` (outputs to `../../dvibd/api/src/generated`), `gui-client` (outputs to `../../dvibd/gui/src/generated`), and `social-client` (outputs to `../../social/src/server/generated`).
+- Whenever the schema is modified, regenerate all client packages from `orm/`:
+  ```bash
+  cd orm && npm run generate
+  ```
+- After regenerating, verify the client consumers typecheck: `cd dvibd/api && deno check src/main.ts` and `cd social && npx tsc --noEmit`.
+
+### Migrations
+- Migrations live under `orm/prisma/migrations/`.
+- Create and apply a migration during local development from `orm/`:
+  ```bash
+  cd orm && npx prisma migrate dev --name <migration_name>
+  ```
+
+### Database Service
+- The local Postgres service is managed via `db/docker-compose.yml`. Start, stop, log, and health-check commands live in `db/AGENTS.md`.
+- Never point OpenCode at a new or scaffolded Prisma project. This repository already owns its schema and clients; work only through the `orm/` scripts above.
+
+### Prisma Skills
+`.agents/skills/` is gitignored because it is regenerable. `skills-lock.json` at the repository root is the tracked source of truth and pins all ten Prisma skills.
+
+Before any Prisma schema, migration, client, or query work, run this from the repository root:
+
+```bash
+npx --yes skills@1.5.14 experimental_install
+```
+
+Run it unconditionally. It is idempotent and self-healing: it restores all ten skills from `skills-lock.json` when the directory is absent (fresh clone, clean checkout, `git clean -xfd`), and does nothing harmful when they are already present. Do not pre-check whether the directory exists; do not run `skills add`, `prisma init`, or scaffold a Prisma project to obtain them.
 
 ## Workspace Memory
 This section holds persistent memory, learned rules, and calibration contexts across the `dvibd` repository.

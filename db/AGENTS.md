@@ -24,7 +24,15 @@ Repository-wide standards and instructions live in the repository root `AGENTS.m
   ```bash
   cd db && docker compose down
   ```
+- Stop and remove data volumes:
+  ```bash
+  cd db && docker compose down -v
+  ```
 - Check health:
   ```bash
   cd db && docker compose ps
+  ```
+- Follow logs:
+  ```bash
+  cd db && docker compose logs -f
   ```
