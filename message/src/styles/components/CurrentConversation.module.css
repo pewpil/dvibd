@@ -251,7 +251,7 @@ section#current {
     > form#composerForm {
       width: 100%;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: 1.5%;
       padding: 1% 3%;
       background: var(--surface);
@@ -282,14 +282,20 @@ section#current {
         }
       }
 
-      > input#messageInput {
+      > textarea#messageInput {
         flex: 1;
+        min-width: 0;
+        max-height: 8rem;
         border: none;
         background: transparent;
         color: var(--ink);
         font-size: 0.925rem;
+        line-height: 1.45;
         padding: 0.4rem 0.2rem;
         outline: none;
+        resize: none;
+        overflow-y: auto;
+        word-break: break-word;
 
         &::placeholder {
           color: var(--ink-soft);

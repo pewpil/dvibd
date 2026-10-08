@@ -1,8 +1,11 @@
 import {
   useState,
+  useRef,
+  useEffect,
   type ReactNode,
   type SubmitEvent,
   type ChangeEvent,
+  type KeyboardEvent,
 } from "react";
 import type { Conversation, Message } from "../data/fallback";
 import style from "../styles/components/CurrentConversation.module.css";
@@ -18,9 +21,34 @@ export default function CurrentConversation(
   props: CurrentConversationProps,
 ): ReactNode {
   const [inputText, setInputText] = useState<string>("");
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  useEffect((): void => {
+    const element: HTMLTextAreaElement | null = inputRef.current;
+    if (element === null) {
+      return;
+    }
+    element.style.height = "auto";
+    element.style.height = `${element.scrollHeight}px`;
+  }, [inputText]);
+
+  const handleInputChange = (
+    event: ChangeEvent<HTMLTextAreaElement>,
+  ): void => {
     setInputText(event.target.value);
+  };
+
+  const handleInputKeyDown = (
+    event: KeyboardEvent<HTMLTextAreaElement>,
+  ): void => {
+    if (event.key !== "Enter" || event.shiftKey) {
+      return;
+    }
+    if (event.nativeEvent.isComposing) {
+      return;
+    }
+    event.preventDefault();
+    event.currentTarget.form?.requestSubmit();
   };
 
   const handleFormSubmit = (event: SubmitEvent<HTMLFormElement>): void => {
@@ -235,12 +263,14 @@ export default function CurrentConversation(
               <polyline points="21 15 16 10 5 21" />
             </svg>
           </button>
-          <input
+          <textarea
             id={style.messageInput}
-            type="text"
+            ref={inputRef}
+            rows={1}
             placeholder="Type a message..."
             value={inputText}
             onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
             aria-label="Message text"
           />
           <button
