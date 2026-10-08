@@ -19,7 +19,7 @@ aside#information {
     flex-shrink: 0;
 
     > h2#infoTitle {
-      font-size: 1.15rem;
+      font-size: 1.2379rem;
       font-weight: 700;
       color: var(--ink);
     }
@@ -81,19 +81,19 @@ aside#information {
       }
 
       > h3#profileName {
-        font-size: 1.1rem;
+        font-size: 1.1841rem;
         font-weight: 700;
         color: var(--ink);
       }
 
       > span#profileSubtitle {
-        font-size: 0.8rem;
+        font-size: 0.8612rem;
         color: var(--ink-soft);
         font-weight: 500;
       }
 
       > p#profileBio {
-        font-size: 0.8125rem;
+        font-size: 0.8746rem;
         color: var(--ink-soft);
         line-height: 1.4;
         margin-top: 0.4rem;
@@ -116,7 +116,7 @@ aside#information {
           border-radius: 10px;
           background: var(--surface-strong);
           color: var(--ink);
-          font-size: 0.725rem;
+          font-size: 0.7804rem;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.18s ease;
@@ -141,7 +141,7 @@ aside#information {
       gap: 0.75rem;
 
       > h4#sectionTitle {
-        font-size: 0.85rem;
+        font-size: 0.915rem;
         font-weight: 700;
         color: var(--ink-soft);
         text-transform: uppercase;
@@ -184,7 +184,7 @@ aside#information {
               min-width: 0;
 
               > span#participantName {
-                font-size: 0.85rem;
+                font-size: 0.915rem;
                 font-weight: 600;
                 color: var(--ink);
                 white-space: nowrap;
@@ -193,7 +193,7 @@ aside#information {
               }
 
               > span#participantHandle {
-                font-size: 0.725rem;
+                font-size: 0.7804rem;
                 color: var(--ink-soft);
               }
             }
@@ -204,7 +204,7 @@ aside#information {
             border-radius: 6px;
             background: var(--primary-soft);
             color: var(--primary);
-            font-size: 0.7rem;
+            font-size: 0.7535rem;
             font-weight: 600;
             flex-shrink: 0;
           }
@@ -219,7 +219,7 @@ aside#information {
       gap: 0.75rem;
 
       > h4#sectionTitle {
-        font-size: 0.85rem;
+        font-size: 0.915rem;
         font-weight: 700;
         color: var(--ink-soft);
         text-transform: uppercase;
@@ -257,7 +257,7 @@ aside#information {
               border-radius: 8px;
               background: var(--primary-soft);
               color: var(--primary);
-              font-size: 0.65rem;
+              font-size: 0.6997rem;
               font-weight: 700;
               flex-shrink: 0;
             }
@@ -268,7 +268,7 @@ aside#information {
               min-width: 0;
 
               > span#fileName {
-                font-size: 0.825rem;
+                font-size: 0.915rem;
                 font-weight: 600;
                 color: var(--ink);
                 white-space: nowrap;
@@ -277,7 +277,7 @@ aside#information {
               }
 
               > span#fileSubtext {
-                font-size: 0.7rem;
+                font-size: 0.7535rem;
                 color: var(--ink-soft);
               }
             }
@@ -318,7 +318,7 @@ aside#information {
       gap: 0.75rem;
 
       > h4#sectionTitle {
-        font-size: 0.85rem;
+        font-size: 0.915rem;
         font-weight: 700;
         color: var(--ink-soft);
         text-transform: uppercase;
@@ -371,7 +371,7 @@ aside#information {
             min-width: 0;
 
             > span#linkTitle {
-              font-size: 0.8125rem;
+              font-size: 0.8746rem;
               font-weight: 600;
               color: var(--ink);
               white-space: nowrap;
@@ -380,7 +380,7 @@ aside#information {
             }
 
             > span#linkDomain {
-              font-size: 0.7rem;
+              font-size: 0.7535rem;
               color: var(--ink-soft);
             }
           }
@@ -411,7 +411,7 @@ aside#information {
         }
 
         > span#encryptionText {
-          font-size: 0.75rem;
+          font-size: 0.8074rem;
           font-weight: 600;
         }
       }
@@ -427,7 +427,7 @@ aside#information {
         border-radius: 10px;
         background: transparent;
         color: var(--danger);
-        font-size: 0.825rem;
+        font-size: 0.8881rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.18s ease;
