@@ -3,7 +3,7 @@
 This file is the authoritative source of repository-wide standards that must be complied with. App-specific context lives in the workspace-scoped `AGENTS.md` files: `dvibd/AGENTS.md` (`dvibd` gui/api), `social/AGENTS.md` (`social`), `message/AGENTS.md` (`message`), `orm/AGENTS.md` (shared ORM), and `db/AGENTS.md` (database service). Contexts to remember live in the Workspace Memory section below.
 
 ## Repository Layout
-- `dvibd/`: the main gui + api workspace (Deno API, workerd/Vite GUI).
+- `dvibd/`: the main gui + api workspace (Deno API, client-side Vite/SolidJS GUI).
 - `social/`: a standalone SolidStart app (self-contained backend, Node runtime).
 - `message/`: a standalone Next.js App Router app (self-contained backend, Node runtime).
 - `orm/`: shared Prisma schema, migrations, and generated clients (package `@dvibd/orm`). The apps are clients of this ORM; they do not define their own schema.
@@ -48,11 +48,14 @@ This file is the authoritative source of repository-wide standards that must be 
 ## Framework Idiomatic Principles (Complete Compliance Required)
 Every application must be written strictly idiomatic to its underlying framework across all layers (components, reactivity, routing, data fetching, mutations, cookies, and server/client boundaries):
 
-### SolidStart & SolidJS (`social` and `dvibd/gui`)
+### SolidJS Core (`social` and `dvibd/gui`)
 - **Fine-Grained Reactivity**: Use `createSignal`, `createMemo`, `createEffect`, `onMount`, `onCleanup`.
 - **Never Destructure Props**: Prop destructuring breaks Solid reactivity. Access props directly as `props.propName` or use `splitProps` / `mergeProps`.
 - **Control Flow Components**: Use built-in Solid flow primitives: `<Show when={...} fallback={...}>` (never JSX `&&` / `||`), `<For each={...}>` for reactive list rendering (never array `.map()`), `<Index each={...}>` for primitive item lists, and `<Switch>`/`<Match>` for multi-condition branching.
-- **Routing & Links**: Use `@solidjs/router` components (`<A>`, `<Navigate>`, `useNavigate`, `useLocation`, `useParams`, `useSearchParams`).
+- **Routing & Links**: Use `@solidjs/router` components (`<A>`, `<Navigate>`, `useNavigate`, `useLocation`, `useParams`, `useSearchParams`). `social` uses file-based routes; `dvibd/gui` wires `Router` and `Route` declaratively in `src/uis/index.tsx`.
+
+### SolidStart (`social` only)
+`dvibd/gui` is not SolidStart and has no server runtime, so everything in this subsection applies to `social` alone.
 - **Data & Mutations**: Use SolidStart `query`, `createAsync`, `cache`, and `action` / `<Form>`.
 - **Server Boundaries & Cookies**: Server functions use `"use server"`. Never import server-only packages into client-bundled files. Access request events via `getRequestEvent()` and manage cookies via `h3` (`getCookie`, `setCookie`, `deleteCookie`).
 - **Metadata**: Use `@solidjs/meta` (`<Title>`, `<Meta>`).

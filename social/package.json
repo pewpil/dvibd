@@ -1,5 +1,5 @@
 {
-  "name": "example-basic",
+  "name": "social",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
