@@ -35,3 +35,23 @@ Because the aside is conditional, layout work must handle the two-child case (`s
 
 ## Endpoint Standards
 There are no endpoints yet. When adding them, document each one above its handler with the HTTP verb and URL (e.g. `POST /login`, `GET /conversations/:id/messages`) per the repository root `AGENTS.md`.
+
+## Agent Skills and This App's Stack
+The repository root `.agents/skills/` carries three Vercel skills that exist for this app. Restore them with the repository root restore command documented in the root `AGENTS.md`; they are registered repo-wide, so apply them only when working in `message/`.
+
+- `vercel-react-best-practices` and `vercel-composition-patterns` fit this app directly: it is React 19 on the Next.js App Router.
+- `web-design-guidelines` is a review-time wrapper that fetches its rules from a remote URL on every use, so it needs `webfetch` approval each time.
+
+**This app does not use Tailwind CSS.** No Tailwind config or import exists anywhere in the repository, and all three Node apps style through CSS Modules. `web-design-guidelines` phrases many of its rules as Tailwind utilities, so translate rather than apply them literally:
+
+| Guideline says | Equivalent here |
+| --- | --- |
+| `focus-visible:ring-*` | `:focus-visible { outline: ... }` in the component's module |
+| `hover:`, `truncate` | `:hover {}`, `text-overflow` with `overflow` and `white-space` |
+| `min-w-0` | `min-width: 0` (still the correct fix for flex children refusing to shrink) |
+| `line-clamp-*`, `break-words` | `-webkit-line-clamp` with `display: -webkit-box`, `overflow-wrap` |
+| `content-visibility: auto` | the raw `content-visibility` property |
+
+**Framework-specific rules to disregard here.** The `web-design-guidelines` Hydration Safety section assumes React's controlled-input model and `suppressHydrationWarning`, and its state-sync rule suggests **nuqs**, which is a React library. Apply the platform-level guidance (ARIA, focus states, `prefers-reduced-motion`, `Intl.*`, semantic HTML) as written, and treat the React-specific items as advisory only.
+
+**Local standards win on conflict.** The repository root `AGENTS.md` GUI standards override two guideline preferences: this repo requires ids rather than classes for styling, and requires `rem` for font sizes, gaps, and media-query breakpoints. Prefer those when the two disagree.

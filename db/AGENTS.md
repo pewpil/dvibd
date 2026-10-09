@@ -2,6 +2,9 @@
 
 Repository-wide standards and instructions live in the repository root `AGENTS.md`.
 
+## Scope
+This is a Docker Compose service running `postgres:18-alpine`. It is not a web application and has no Node dependency, no build step, and no front-end framework: no React, Next.js, SolidJS, or Tailwind. UI skills such as `web-design-guidelines` do not apply. Only the database service commands below and the Prisma skills are relevant.
+
 ## Database Service
 - The local test PostgreSQL database is managed via Docker Compose in `db/docker-compose.yml`.
 - Database version: `postgres:18-alpine`.

@@ -101,7 +101,7 @@ Every application must be written strictly idiomatic to its underlying framework
 - Never point OpenCode at a new or scaffolded Prisma project. This repository already owns its schema and clients; work only through the `orm/` scripts above.
 
 ### Prisma Skills
-`.agents/skills/` is gitignored because it is regenerable. `skills-lock.json` at the repository root is the tracked source of truth and pins all ten Prisma skills.
+`.agents/skills/` is gitignored because it is regenerable. `skills-lock.json` at the repository root is the tracked source of truth and pins all thirteen skills.
 
 Before any Prisma schema, migration, client, or query work, run this from the repository root:
 
@@ -109,7 +109,17 @@ Before any Prisma schema, migration, client, or query work, run this from the re
 npx --yes skills@1.5.14 experimental_install
 ```
 
-Run it unconditionally. It is idempotent and self-healing: it restores all ten skills from `skills-lock.json` when the directory is absent (fresh clone, clean checkout, `git clean -xfd`), and does nothing harmful when they are already present. Do not pre-check whether the directory exists; do not run `skills add`, `prisma init`, or scaffold a Prisma project to obtain them.
+Run it unconditionally. It is idempotent and self-healing: it restores every skill from `skills-lock.json` when the directory is absent (fresh clone, clean checkout, `git clean -xfd`), and does nothing harmful when they are already present. Do not pre-check whether the directory exists; do not run `skills add`, `prisma init`, or scaffold a Prisma project to obtain them.
+
+Ten of the thirteen are Prisma skills from `prisma/skills` and apply repository-wide. The other three come from `vercel-labs/agent-skills` and are intended only for `message`, which is the one React and Next.js app here:
+
+| Skill | Applies to |
+| --- | --- |
+| `vercel-react-best-practices` | `message` |
+| `vercel-composition-patterns` | `message` |
+| `web-design-guidelines` | `message` |
+
+They are installed repo-wide because skill discovery is resolved from the working directory, and this repository is always worked on from its root. Do not apply the React skills to `dvibd/gui` or `social`, which are SolidJS. See `message/AGENTS.md` for the Tailwind and CSS Modules translation notes that `web-design-guidelines` requires.
 
 ## Workspace Memory
 This section holds persistent memory, learned rules, and calibration contexts across the `dvibd` repository.

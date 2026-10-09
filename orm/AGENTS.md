@@ -2,6 +2,9 @@
 
 Repository-wide standards and instructions live in the repository root `AGENTS.md`.
 
+## Scope
+This is a Node tooling package (`@dvibd/orm`), not a web application. It contains no UI, so no front-end frameworks are present or relevant: there is no React, Next.js, SolidJS, Tailwind, or any CSS of its own. UI-oriented skills such as `web-design-guidelines` and the React skills from `vercel-labs/agent-skills` do not apply here. The only skills that apply are the Prisma ones.
+
 ## Single Source of Truth
 - `orm/` is the single source of truth for the database schema across the entire `dvibd` repository.
 - Individual apps (`dvibd/api`, `dvibd/gui`, `social`, `message`) are clients of this ORM and do not define their own schema.
