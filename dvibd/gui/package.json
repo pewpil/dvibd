@@ -13,10 +13,13 @@
     "@solidjs/router": "^1.0.0",
     "solid-js": "^1.9.14"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "devDependencies": {
     "@prisma/client": "^7.9.1",
-    "@types/node": "^24.13.3",
-    "typescript": "~6.0.2",
+    "@types/node": "^24.19.1",
+    "typescript": "^7.0.2",
     "vite": "^8.2.0",
     "vite-plugin-solid": "^2.11.13"
   }

@@ -21,6 +21,9 @@ This file is the authoritative source of repository-wide standards that must be 
 ## Runtime & Typecheck Standards (Deno vs Node)
 - `dvibd/api` runtime is Deno. Respect `compilerOptions`, `fmt`, and `lint` in its `deno.json`.
 - `dvibd/gui`, `social`, and `message` run on Node. Never run `deno check` in them.
+- **Node Version Policy**: every Node workspace targets the latest Node.js **LTS** release, currently Node 24 ("Krypton"). Node 26 and other Current or EOL lines are out of policy. Each Node workspace declares `"engines": { "node": ">=24" }`, and `@types/node` is pinned to the matching `24.x` line so the types reflect the oldest supported runtime rather than whatever happens to be installed. Do not bump Node majors until a newer line reaches LTS; when one does, update `engines` and `@types/node` together across `dvibd/gui`, `social`, `message`, and `orm`.
+- **This policy does not apply to `dvibd/api`.** It runs on Deno and is governed by `dvibd/api/deno.json`, not by Node `engines`. Never add `engines` or `@types/node` there, and do not type-check it with `tsc`.
+- **TypeScript Version Policy**: TypeScript has no LTS concept, so every Node workspace tracks the latest release, currently `^7.0.2`. Keep it aligned across all of them.
 
 ### Typecheck Matrix
 
