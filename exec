@@ -1,0 +1,395 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+STATE_DIR="$ROOT/.exec"
+LOG_DIR="$STATE_DIR/logs"
+READY_TIMEOUT="${EXEC_READY_TIMEOUT:-45}"
+STOP_TIMEOUT="${EXEC_STOP_TIMEOUT:-10}"
+
+APP_NAMES=(db dvibd-api dvibd-gui social message)
+
+declare -A APP_DIR=(
+  ["db"]="db"
+  ["dvibd-api"]="dvibd/api"
+  ["dvibd-gui"]="dvibd/gui"
+  ["social"]="social"
+  ["message"]="message"
+)
+
+declare -A APP_PORT=(
+  ["db"]="3001"
+  ["dvibd-api"]="3002"
+  ["dvibd-gui"]="3000"
+  ["social"]="3003"
+  ["message"]="3005"
+)
+
+declare -A APP_LABEL=(
+  ["db"]="Postgres"
+  ["dvibd-api"]="Hono API"
+  ["dvibd-gui"]="Vite GUI"
+  ["social"]="SolidStart"
+  ["message"]="Next.js"
+)
+
+declare -A APP_CMD=(
+  ["db"]="docker compose up -d"
+  ["dvibd-api"]="deno task dev"
+  ["dvibd-gui"]="npm run dev"
+  ["social"]="npm run dev"
+  ["message"]="npm run dev"
+)
+
+usage() {
+  cat <<'EOF'
+usage: exec on|off|check [flags]
+
+subcommands
+  on       start the selected apps in the background
+  off      stop the selected apps
+  check    report the state of every app
+
+flags
+  --db           Postgres service via docker compose   port 3001
+  --dvibd-api    dvibd/api, deno task dev              port 3002
+  --dvibd-gui    dvibd/gui, npm run dev                port 3000
+  --social       social, npm run dev                   port 3003
+  --message      message, npm run dev                  port 3005
+  --all          every app listed above
+
+The dvibd prefix keeps the workspace scoped apps distinct from the
+top level apps that share their name, so more can be added later.
+
+With no flags, on and off apply to every app, and check reports
+every app.
+
+examples
+  ./exec on --dvibd-api --dvibd-gui
+  ./exec on
+  ./exec off
+  ./exec off --message
+  ./exec check
+
+state lives in .exec, logs are in .exec/logs/<app>.log
+EOF
+}
+
+compose() {
+  docker compose -f "$ROOT/db/docker-compose.yml" --project-directory "$ROOT/db" "$@"
+}
+
+port_open() {
+  local port="$1"
+  local host
+  for host in 127.0.0.1 ::1 localhost; do
+    if timeout 1 bash -c "exec 3<>/dev/tcp/$host/$port" 2>/dev/null; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+docker_queryable() {
+  docker info >/dev/null 2>&1
+}
+
+db_running() {
+  docker_queryable &&
+    [[ "$(docker inspect -f '{{.State.Running}}' dvibd-db 2>/dev/null)" == "true" ]]
+}
+
+pid_alive() {
+  local pid="$1"
+  [[ -n "$pid" ]] && kill -0 "$pid" 2>/dev/null
+}
+
+read_pid() {
+  local file="$1"
+  [[ -f "$file" ]] || return 1
+  local pid
+  pid="$(tr -d '[:space:]' <"$file")"
+  [[ "$pid" =~ ^[0-9]+$ ]] || return 1
+  printf '%s' "$pid"
+}
+
+state_of() {
+  local app="$1"
+  local port="${APP_PORT[$app]}"
+
+  if [[ "$app" == "db" ]]; then
+    if db_running; then
+      printf 'running   docker container dvibd-db'
+    elif ! docker_queryable; then
+      if port_open "$port"; then
+        printf 'running   port %s (docker socket not queryable)' "$port"
+      else
+        printf 'stopped   docker socket not queryable'
+      fi
+    elif port_open "$port"; then
+      printf 'untracked port %s in use, container not found' "$port"
+    else
+      printf 'stopped'
+    fi
+    return
+  fi
+
+  local pid
+  if pid="$(read_pid "$STATE_DIR/$app.pid")" && pid_alive "$pid"; then
+    printf 'running   pid %s' "$pid"
+  elif port_open "$port"; then
+    printf 'untracked port %s in use by a process exec did not start' "$port"
+  else
+    printf 'stopped'
+  fi
+}
+
+await_port() {
+  local app="$1"
+  local port="$2"
+  local pidfile="$3"
+  local waited=0
+
+  while (($waited < READY_TIMEOUT)); do
+    if port_open "$port"; then
+      local pid="container dvibd-db"
+      local file_pid
+      if [[ -n "$pidfile" ]] && file_pid="$(read_pid "$pidfile" 2>/dev/null)"; then
+        pid="pid $file_pid"
+      fi
+      printf '%-10s %-16s ready   %s\n' "$app" "port $port" "$pid"
+      return 0
+    fi
+
+    if [[ -n "$pidfile" ]]; then
+      local live
+      if ! live="$(read_pid "$pidfile" 2>/dev/null)" || ! pid_alive "$live"; then
+        printf '%-10s %-16s exited during startup, see %s\n' \
+          "$app" "port $port" "$LOG_DIR/$app.log"
+        return 1
+      fi
+    fi
+
+    sleep 1
+    waited=$((waited + 1))
+  done
+
+  printf '%-10s %-16s not ready after %ss, see %s\n' \
+    "$app" "port $port" "$READY_TIMEOUT" "$LOG_DIR/$app.log"
+  return 1
+}
+
+start_app() {
+  local app="$1"
+  local port="${APP_PORT[$app]}"
+  local pidfile="$STATE_DIR/$app.pid"
+  local logfile="$LOG_DIR/$app.log"
+
+  mkdir -p "$LOG_DIR"
+
+  if [[ "$app" == "db" ]]; then
+    if ! docker_queryable; then
+      printf '%-10s %-16s cannot reach the docker socket, try: sudo ./exec on --db\n' \
+        "$app" "port $port"
+      return 1
+    fi
+    if db_running; then
+      printf '%-10s %-16s already running\n' "$app" "port $port"
+      return 0
+    fi
+    if port_open "$port"; then
+      printf '%-10s %-16s in use by something exec did not start\n' "$app" "port $port"
+      return 1
+    fi
+    if ! compose up -d >"$logfile" 2>&1; then
+      printf '%-10s %-16s failed to start, see %s\n' "$app" "port $port" "$logfile"
+      return 1
+    fi
+    await_port "$app" "$port" ""
+    return
+  fi
+
+  local pid
+  if pid="$(read_pid "$pidfile")" && pid_alive "$pid"; then
+    printf '%-10s %-16s already running, pid %s\n' "$app" "port $port" "$pid"
+    return 0
+  fi
+  rm -f "$pidfile"
+
+  if port_open "$port"; then
+    printf '%-10s %-16s in use by something exec did not start\n' "$app" "port $port"
+    return 1
+  fi
+
+  local -a argv
+  read -r -a argv <<<"${APP_CMD[$app]}"
+
+  : >"$logfile"
+  setsid bash -c 'cd "$1" && echo $$ >"$2" && shift 2 && exec "$@"' \
+    _ "$ROOT/${APP_DIR[$app]}" "$pidfile" "${argv[@]}" >"$logfile" 2>&1 &
+
+  await_port "$app" "$port" "$pidfile"
+}
+
+stop_app() {
+  local app="$1"
+  local port="${APP_PORT[$app]}"
+  local pidfile="$STATE_DIR/$app.pid"
+
+  if [[ "$app" == "db" ]]; then
+    if ! docker_queryable; then
+      printf '%-10s %-16s cannot reach the docker socket, try: sudo ./exec off --db\n' \
+        "$app" "port $port"
+      return 1
+    fi
+    if ! db_running; then
+      printf '%-10s %-16s already stopped\n' "$app" "port $port"
+      return 0
+    fi
+    if compose down >"$LOG_DIR/$app.log" 2>&1; then
+      printf '%-10s %-16s stopped\n' "$app" "port $port"
+    else
+      printf '%-10s %-16s failed to stop, see %s\n' "$app" "port $port" "$LOG_DIR/$app.log"
+      return 1
+    fi
+    return
+  fi
+
+  local pid
+  if ! pid="$(read_pid "$pidfile")"; then
+    rm -f "$pidfile"
+    if port_open "$port"; then
+      printf '%-10s %-16s no pid file, port %s in use, left alone\n' "$app" "port $port"
+    else
+      printf '%-10s %-16s already stopped\n' "$app" "port $port"
+    fi
+    return 0
+  fi
+
+  if ! pid_alive "$pid"; then
+    rm -f "$pidfile"
+    printf '%-10s %-16s already stopped\n' "$app" "port $port"
+    return 0
+  fi
+
+  kill -TERM -- "-$pid" 2>/dev/null || kill -TERM "$pid" 2>/dev/null || true
+
+  local waited=0
+  while (($waited < STOP_TIMEOUT)) && pid_alive "$pid"; do
+    sleep 1
+    waited=$((waited + 1))
+  done
+
+  if pid_alive "$pid"; then
+    kill -KILL -- "-$pid" 2>/dev/null || kill -KILL "$pid" 2>/dev/null || true
+    sleep 1
+  fi
+
+  rm -f "$pidfile"
+
+  if pid_alive "$pid"; then
+    printf '%-10s %-16s still alive on pid %s\n' "$app" "port $port" "$pid"
+    return 1
+  fi
+
+  printf '%-10s %-16s stopped\n' "$app" "port $port"
+}
+
+check_all() {
+  printf '%-10s %-6s %-11s %-52s %s\n' "APP" "PORT" "LABEL" "STATE" "LOG"
+  local app
+  for app in "${APP_NAMES[@]}"; do
+    printf '%-10s %-6s %-11s %-52s %s\n' \
+      "$app" "${APP_PORT[$app]}" "${APP_LABEL[$app]}" "$(state_of "$app")" "$LOG_DIR/$app.log"
+  done
+}
+
+resolve_targets() {
+  local -A wanted=()
+  local all=0
+  local arg
+
+  for arg in "$@"; do
+    case "$arg" in
+      --all) all=1 ;;
+      --db) wanted[db]=1 ;;
+      --dvibd-api) wanted[dvibd-api]=1 ;;
+      --dvibd-gui) wanted[dvibd-gui]=1 ;;
+      --social) wanted[social]=1 ;;
+      --message) wanted[message]=1 ;;
+      *) printf 'exec: unknown flag %s\n\n' "$arg" >&2; usage >&2; return 2 ;;
+    esac
+  done
+
+  if ((all)); then
+    for arg in "${APP_NAMES[@]}"; do
+      wanted[$arg]=1
+    done
+  fi
+
+  TARGETS=()
+  local app
+  for app in "${APP_NAMES[@]}"; do
+    if [[ -n "${wanted[$app]:-}" ]]; then
+      TARGETS+=("$app")
+    fi
+  done
+}
+
+main() {
+  local subcommand="${1:-}"
+
+  case "$subcommand" in
+    on | off | check) shift ;;
+    "" | -h | --help | help)
+      usage
+      [[ -n "$subcommand" ]] && exit 0
+      exit 2
+      ;;
+    *)
+      printf 'exec: unknown subcommand %s\n\n' "$subcommand" >&2
+      usage >&2
+      exit 2
+      ;;
+  esac
+
+  if [[ "$subcommand" == "check" && "$#" -eq 0 ]]; then
+    check_all
+    return 0
+  fi
+
+  TARGETS=()
+  resolve_targets "$@"
+  local status=0
+  local app
+
+  case "$subcommand" in
+    on)
+      if ((${#TARGETS[@]} == 0)); then
+        TARGETS=("${APP_NAMES[@]}")
+      fi
+      for app in "${TARGETS[@]}"; do
+        start_app "$app" || status=1
+      done
+      ;;
+    off)
+      if ((${#TARGETS[@]} == 0)); then
+        TARGETS=("${APP_NAMES[@]}")
+      fi
+      for app in "${TARGETS[@]}"; do
+        stop_app "$app" || status=1
+      done
+      ;;
+    check)
+      for app in "${TARGETS[@]}"; do
+        printf '%-10s %-6s %-11s %s\n' \
+          "$app" "${APP_PORT[$app]}" "${APP_LABEL[$app]}" "$(state_of "$app")"
+      done
+      ;;
+  esac
+
+  return "$status"
+}
+
+main "$@"
