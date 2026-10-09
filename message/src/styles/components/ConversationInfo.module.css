@@ -7,24 +7,25 @@ aside#information {
   background: transparent;
   overflow: hidden;
 
-  > header#infoHeader {
-    margin-bottom: 3.5%;
+  > section#profileCard {
+    position: relative;
+    flex-shrink: 0;
+    margin-bottom: 1.5rem;
+    width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 3.5% 3%;
+    text-align: center;
+    padding: 6% 4%;
     background: var(--surface);
     border: 0.0625rem solid var(--line);
-    border-radius: 15px;
-    flex-shrink: 0;
-
-    > h2#infoTitle {
-      font-size: 1.2379rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
+    border-radius: 16px;
+    gap: 0.4rem;
 
     > button#closeInfoButton {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -47,6 +48,68 @@ aside#information {
         height: 1.15rem;
       }
     }
+
+    > img#profileAvatar {
+      width: 4.5rem;
+      height: 4.5rem;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 0.4rem;
+      border: 0.1875rem solid var(--primary-soft);
+    }
+
+    > h3#profileName {
+      font-size: 1.1841rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    > span#profileSubtitle {
+      font-size: 0.8612rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+
+    > p#profileBio {
+      font-size: 0.8746rem;
+      color: var(--ink-soft);
+      line-height: 1.4;
+      margin-top: 0.4rem;
+    }
+
+    > nav#quickActions {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 6%;
+      margin-top: 0.8rem;
+
+      > button.quickActionButton {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 3% 4%;
+        border: none;
+        border-radius: 10px;
+        background: var(--surface-strong);
+        color: var(--ink);
+        font-size: 0.7804rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.18s ease;
+
+        &:hover {
+          background: var(--primary-soft);
+          color: var(--primary);
+        }
+
+        > svg {
+          width: 1.15rem;
+          height: 1.15rem;
+        }
+      }
+    }
   }
 
   > div#infoScrollContent {
@@ -58,81 +121,6 @@ aside#information {
     flex-direction: column;
     /* padding: 6%; */
     gap: 1.5rem;
-
-    > section#profileCard {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 6% 4%;
-      background: var(--surface);
-      border: 0.0625rem solid var(--line);
-      border-radius: 16px;
-      gap: 0.4rem;
-
-      > img#profileAvatar {
-        width: 4.5rem;
-        height: 4.5rem;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 0.4rem;
-        border: 0.1875rem solid var(--primary-soft);
-      }
-
-      > h3#profileName {
-        font-size: 1.1841rem;
-        font-weight: 700;
-        color: var(--ink);
-      }
-
-      > span#profileSubtitle {
-        font-size: 0.8612rem;
-        color: var(--ink-soft);
-        font-weight: 500;
-      }
-
-      > p#profileBio {
-        font-size: 0.8746rem;
-        color: var(--ink-soft);
-        line-height: 1.4;
-        margin-top: 0.4rem;
-      }
-
-      > nav#quickActions {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        gap: 6%;
-        margin-top: 0.8rem;
-
-        > button.quickActionButton {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.25rem;
-          padding: 3% 4%;
-          border: none;
-          border-radius: 10px;
-          background: var(--surface-strong);
-          color: var(--ink);
-          font-size: 0.7804rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.18s ease;
-
-          &:hover {
-            background: var(--primary-soft);
-            color: var(--primary);
-          }
-
-          > svg {
-            width: 1.15rem;
-            height: 1.15rem;
-          }
-        }
-      }
-    }
 
     > section#participantsSection {
       width: 100%;

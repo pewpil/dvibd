@@ -27,8 +27,7 @@ export default function ConversationInfo(
 
   return (
     <aside id={style.information}>
-      <header id={style.infoHeader}>
-        <h2 id={style.infoTitle}>Details</h2>
+      <section id={style.profileCard}>
         {props.onClose ? (
           <button
             type="button"
@@ -50,90 +49,87 @@ export default function ConversationInfo(
             </svg>
           </button>
         ) : null}
-      </header>
+        <img
+          id={style.profileAvatar}
+          src={props.participant?.avatar ?? props.conversation.avatar}
+          alt={props.participant?.name ?? props.conversation.title}
+        />
+        <h3 id={style.profileName}>
+          {props.participant?.name ?? props.conversation.title}
+        </h3>
+        <span id={style.profileSubtitle}>
+          {isChannel
+            ? `${props.conversation.communityName} • ${props.conversation.memberCount} members`
+            : `@${
+                props.participant?.handle ??
+                props.conversation.title.toLowerCase().replace(/\s+/g, "")
+              } • ${props.participant?.role ?? props.conversation.subtitle}`}
+        </span>
+        <p id={style.profileBio}>{bioText}</p>
+
+        <nav id={style.quickActions}>
+          <button
+            type="button"
+            className={style.quickActionButton}
+            aria-label="Mute notifications"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+            Mute
+          </button>
+          <button
+            type="button"
+            className={style.quickActionButton}
+            aria-label="Search files"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+            Search
+          </button>
+          <button
+            type="button"
+            className={style.quickActionButton}
+            aria-label="Export conversation"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Export
+          </button>
+        </nav>
+      </section>
 
       <div id={style.infoScrollContent}>
-        <section id={style.profileCard}>
-          <img
-            id={style.profileAvatar}
-            src={props.participant?.avatar ?? props.conversation.avatar}
-            alt={props.participant?.name ?? props.conversation.title}
-          />
-          <h3 id={style.profileName}>
-            {props.participant?.name ?? props.conversation.title}
-          </h3>
-          <span id={style.profileSubtitle}>
-            {isChannel
-              ? `${props.conversation.communityName} • ${props.conversation.memberCount} members`
-              : `@${
-                  props.participant?.handle ??
-                  props.conversation.title.toLowerCase().replace(/\s+/g, "")
-                } • ${props.participant?.role ?? props.conversation.subtitle}`}
-          </span>
-          <p id={style.profileBio}>{bioText}</p>
-
-          <nav id={style.quickActions}>
-            <button
-              type="button"
-              className={style.quickActionButton}
-              aria-label="Mute notifications"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              Mute
-            </button>
-            <button
-              type="button"
-              className={style.quickActionButton}
-              aria-label="Search files"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.3-4.3" />
-              </svg>
-              Search
-            </button>
-            <button
-              type="button"
-              className={style.quickActionButton}
-              aria-label="Export conversation"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              Export
-            </button>
-          </nav>
-        </section>
-
         <section id={style.participantsSection}>
           <h4 id={style.sectionTitle}>
             {isChannel ? "Channel Members" : "Participants"}
