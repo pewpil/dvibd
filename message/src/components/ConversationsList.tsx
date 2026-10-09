@@ -1,5 +1,6 @@
-import type { ReactNode, ChangeEvent, FormEvent } from "react";
+import { useRef, type ReactNode, ChangeEvent, type FormEvent } from "react";
 import type { Conversation } from "../data/fallback";
+import { useStuckScroll } from "../hooks/useStuckScroll";
 import style from "../styles/components/ConversationsList.module.css";
 
 interface ConversationsListProps {
@@ -14,6 +15,9 @@ interface ConversationsListProps {
 
 export default function ConversationsList(props: ConversationsListProps): ReactNode {
   const tabs: string[] = ["All", "Direct", "Channels", "Unread"];
+  const rootRef = useRef<HTMLElement | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const stuck: boolean = useStuckScroll(rootRef, headerRef);
 
   const handleSearchInput = (event: ChangeEvent<HTMLInputElement>): void => {
     props.onSearchChange(event.target.value);
@@ -48,8 +52,12 @@ export default function ConversationsList(props: ConversationsListProps): ReactN
   );
 
   return (
-    <section id={style.conversations}>
-      <header id={style.conversationsHeader}>
+    <section id={style.conversations} ref={rootRef}>
+      <header
+        id={style.conversationsHeader}
+        ref={headerRef}
+        className={stuck ? style.stuck : undefined}
+      >
         <div id={style.titleRow}>
           <h1 id={style.conversationsTitle}>Conversations</h1>
           <button

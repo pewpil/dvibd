@@ -1,15 +1,27 @@
 section#conversations {
   width: 100%;
-  height: 95%;
-  margin: auto 0;
+  height: 100%;
+  margin: 0;
+  padding-bottom: 2.5vh;
+  box-sizing: border-box;
   display: flex;
-  gap: 1.5%;
   flex-direction: column;
   background: transparent;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &::before {
+    content: "";
+    display: block;
+    flex: none;
+    height: 2.5vh;
+  }
 
   > header#conversationsHeader {
     /* margin: 1.5vh 2.5% 0; */
+    position: sticky;
+    top: 0;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -18,6 +30,13 @@ section#conversations {
     border: 0.0625rem solid var(--line);
     border-radius: 15px;
     flex-shrink: 0;
+
+    &.stuck {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      -webkit-backdrop-filter: blur(var(--blur));
+      backdrop-filter: blur(var(--blur));
+    }
 
     > div#titleRow {
       width: 100%;
@@ -126,8 +145,8 @@ section#conversations {
 
   > ul#conversationsList {
     width: 100%;
-    flex: 1;
-    overflow-y: auto;
+    flex: none;
+    margin-top: 1.5%;
     display: flex;
     flex-direction: column;
     /* padding: 3% 2%; */

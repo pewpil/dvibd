@@ -8,6 +8,7 @@ import {
   type KeyboardEvent,
 } from "react";
 import type { Conversation, Message } from "../data/fallback";
+import { useStuckScroll } from "../hooks/useStuckScroll";
 import style from "../styles/components/CurrentConversation.module.css";
 
 interface CurrentConversationProps {
@@ -22,6 +23,9 @@ export default function CurrentConversation(
 ): ReactNode {
   const [inputText, setInputText] = useState<string>("");
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const rootRef = useRef<HTMLElement | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const stuck: boolean = useStuckScroll(rootRef, headerRef);
 
   useEffect((): void => {
     const element: HTMLTextAreaElement | null = inputRef.current;
@@ -71,8 +75,12 @@ export default function CurrentConversation(
           : "Offline";
 
   return (
-    <section id={style.current}>
-      <header id={style.conversationHeader}>
+    <section id={style.current} ref={rootRef}>
+      <header
+        id={style.conversationHeader}
+        ref={headerRef}
+        className={stuck ? style.stuck : undefined}
+      >
         <div id={style.headerEntity}>
           <img
             id={style.headerAvatar}

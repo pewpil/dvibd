@@ -1,10 +1,11 @@
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import type {
   Conversation,
   Participant,
   SharedFile,
   SharedLink,
 } from "../data/fallback";
+import { useStuckScroll } from "../hooks/useStuckScroll";
 import style from "../styles/components/ConversationInfo.module.css";
 
 interface ConversationInfoProps {
@@ -20,14 +21,21 @@ export default function ConversationInfo(
   props: ConversationInfoProps,
 ): ReactNode {
   const isChannel: boolean = props.conversation.type === "channel";
+  const rootRef = useRef<HTMLElement | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const stuck: boolean = useStuckScroll(rootRef, headerRef);
   const bioText: string = isChannel
     ? props.conversation.subtitle
     : (props.participant?.bio ??
       "Product Designer on the dvibd design system. Available weekdays for UI/UX reviews and discussions.");
 
   return (
-    <aside id={style.information}>
-      <section id={style.profileCard}>
+    <aside id={style.information} ref={rootRef}>
+      <section
+        id={style.profileCard}
+        ref={headerRef}
+        className={stuck ? style.stuck : undefined}
+      >
         {props.onClose ? (
           <button
             type="button"
