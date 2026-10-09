@@ -46,5 +46,7 @@ dvibd/gui/src/generated
 .exec/
 
 # Agent skills
-# Regenerable from the tracked skills-lock.json. See AGENTS.md > ORM & DB Standards > Prisma Skills.
-.agents/skills/
+# Most are regenerable from the tracked skills-lock.json. See AGENTS.md > ORM & DB Standards > Prisma Skills.
+# Hand-written skills are tracked and must NOT be removed. Add them here as exceptions.
+.agents/skills/*
+!.agents/skills/sticky-scroll-headers/

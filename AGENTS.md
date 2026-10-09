@@ -9,7 +9,7 @@ This file is the authoritative source of repository-wide standards that must be 
 - `orm/`: shared Prisma schema, migrations, and generated clients (package `@dvibd/orm`). The apps are clients of this ORM; they do not define their own schema.
 - `db/`: local test Postgres via docker-compose (see `db/AGENTS.md`).
 - `.opencode/`: OpenCode project configuration.
-- `.agents/skills/`: Prisma ORM agent skills. Gitignored and fully regenerable; `skills-lock.json` at the repository root is the tracked source of truth. See ORM & DB Standards below.
+- `.agents/skills/`: agent skills. Most are Prisma or Vercel skills that are gitignored and fully regenerable; `skills-lock.json` at the repository root is the tracked source of truth. Hand-written skills such as `sticky-scroll-headers` are tracked in git instead. See ORM & DB Standards below.
 
 ## Cross-Cutting Coding Standards
 1. Use double quotes (`"`) for any string literal, never single quotes.
@@ -101,7 +101,7 @@ Every application must be written strictly idiomatic to its underlying framework
 - Never point OpenCode at a new or scaffolded Prisma project. This repository already owns its schema and clients; work only through the `orm/` scripts above.
 
 ### Prisma Skills
-`.agents/skills/` is gitignored because it is regenerable. `skills-lock.json` at the repository root is the tracked source of truth and pins all thirteen skills.
+`skills-lock.json` at the repository root is the tracked source of truth and pins all thirteen third-party skills. Those thirteen are gitignored because they are regenerable. A fourteenth skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
 
 Before any Prisma schema, migration, client, or query work, run this from the repository root:
 
@@ -120,6 +120,11 @@ Ten of the thirteen are Prisma skills from `prisma/skills` and apply repository-
 | `web-design-guidelines` | `message` |
 
 They are installed repo-wide because skill discovery is resolved from the working directory, and this repository is always worked on from its root. Do not apply the React skills to `dvibd/gui` or `social`, which are SolidJS. See `message/AGENTS.md` for the Tailwind and CSS Modules translation notes that `web-design-guidelines` requires.
+
+### Hand-Written Skills
+`sticky-scroll-headers` covers headers that scroll with their content and pin to the top of their scrollport. It documents the working implementations in `social/src/components/(home)/FeedHeader.tsx` (SolidJS, viewport scroller) and `message/src/hooks/useStuckScroll.ts` (React, per-column scroller), plus the failure modes that produce each distinct wrong behavior. It applies to `message` and `social`.
+
+Unlike the thirteen above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
 
 ## Workspace Memory
 This section holds persistent memory, learned rules, and calibration contexts across the `dvibd` repository.
