@@ -3,33 +3,35 @@
 This file contains context specific to the `message` application. Repository-wide standards and instructions live in the repository root `AGENTS.md`.
 
 ## Application Overview
-- **Framework & Runtime**: Next.js (App Router, React 19), running on Node (`npx tsc --noEmit` in `message/`).
-- **File Mirroring**:
-  - `src/app/` and `src/styles/app/` mirror each other (e.g. `src/app/(messages)/conversations/page.tsx` <-> `src/styles/app/(messages)/conversations.module.css` or co-located `page.module.css` / `layout.module.css`).
-  - `src/components/` and `src/styles/components/` mirror each other (e.g. `src/components/(messages)/ConversationList.tsx` <-> `src/styles/components/(messages)/ConversationList.module.css`).
+- **Framework & Runtime**: Next.js 16 (App Router, React 19), running on Node. Type check with `npx tsc --noEmit` or `npm run typecheck` from `message/`.
+- **Dev Port**: `3005`, set in the `dev` and `start` scripts (`next dev -p 3005`).
+- **Root Layout**: `src/app/layout.tsx` is a Server Component. It exports `metadata` (`title: "Message"`, `description: "dvibd messaging"`) and renders `<html lang="en">`, `<body>`, and a `<div id="app">` wrapper.
+- **No Backend Yet**: This app has no backend, no API routes, and no database access. `message/package.json` declares only `next`, `react`, and `react-dom` at runtime, with no Prisma client and no auth library.
 
-## Auth Architecture
-- `message` is a self-contained backend ecosystem: it never proxies or relays to `api/`. It shares only `orm/` (Prisma client) and `db/` (Postgres).
-- Auth HTTP routes live directly under `src/app/(auth)/` as Next.js Route Handlers (e.g. `src/app/(auth)/(endpoints)/login/route.ts` or `src/app/(auth)/login/route.ts` exporting `POST /login`; group parens are stripped from the URL).
-- Page files (`login/page.tsx`, `signup/page.tsx`) must stay client-safe: route logic and verb handlers live in `route.ts` or dedicated server modules. Never import server-only modules (`bcrypt`, `prisma`, `pg`) into Client Components (`"use client"`).
-- Pure Route Handler files (`session/route.ts`, `refresh/route.ts`, `logout/route.ts`, `me/route.ts`) have no component and are safe.
-- Endpoints: `POST /login`, `POST /signup`, `GET /session`, `POST /refresh`, `POST /logout`, `GET /me`, plus message endpoints (`POST /conversations`, `GET /conversations/:id/messages`, `POST /messages`).
-- Session strategy: refresh token (30 days) in httpOnly cookie `message.session`; access token (15 min) returned in the response body and kept in client memory. Every `GET /session` rotates the refresh token (old row deleted, new issued).
-- `src/middleware.ts` verifies the session cookie, guards protected paths (`/conversations`, `/messages`, `/settings`, `/profile` redirect to `/login`), and redirects authed users off `/login` and `/signup`.
-- Password hashing uses native `bcrypt`. Server modules: `config.ts` (env policy), `db.ts` (Prisma singleton), `tokens.ts`, `session.ts`, `user.ts` (`SafeUser`, `USER_SELECT`); `auth.ts` provides server helpers for SSR and Server Components.
+## Current Implementation State
+The app is a single client-rendered screen, not a set of routes:
+- `src/app/page.tsx` is the only route. It is a Client Component (`"use client"`) named `MessagePage`.
+- `src/app/layout.tsx` is the only layout.
+- There are no route groups anywhere under `src/app/`. The `(messages)` and `(auth)` groups described in earlier drafts do not exist.
+- No `src/middleware.ts`, no `route.ts` handlers, and no `api/` directory.
+- `src/components/` holds three components, all flat, with no subdirectory: `ConversationsList.tsx`, `CurrentConversation.tsx`, `ConversationInfo.tsx`.
+- `src/data/fallback.ts` supplies all data as static fixtures: `currentUser`, `fallbackConversations`, `fallbackMessages`, `fallbackParticipants`, `fallbackSharedFiles`, `fallbackSharedLinks`. Conversation switching and message sending are local `useState` updates against that fixture data. Replace this module when a real backend lands.
 
-## Message App Layout Divisions
-The message application layout is composed of 3 vertical divisions inside `main#messageLayout`:
-- **Left division (`conversations`)**: `section#conversations` (referred to as **conversations**). Displays all conversations the user is part of:
-  - 1-on-1 direct conversations with another user that the user is interacting with.
-  - Conversation channels from a community.
-  - Includes a search bar, filter tabs (e.g. Direct, Channels, Unread), and new conversation trigger.
-- **Center division (`current`)**: `section#current` (referred to as **current**). Displays the active conversation thread:
-  - Header: conversation partner or channel details, active presence/status indicator, and call/action buttons.
-  - Message stream: scrollable message thread with message bubbles, timestamps, sender details, and delivery/read receipts.
-  - Composer: input area with attachment upload actions, text input, emoji trigger, and send button.
-- **Right division (`information`)**: `aside#information` (referred to as **information**). Displays detailed information about the current conversation:
-  - User profile or community channel details and description.
-  - Participant/member list.
-  - Shared media, documents, links, and files.
-  - Conversation settings, notification/mute toggles, and conversation actions.
+## File Mirroring
+The app uses both sanctioned patterns, so match whichever the neighbouring file uses:
+- **Co-located** for routes. `src/app/page.tsx` imports `./page.module.css`, the co-located `src/app/page.module.css`.
+- **Mirrored** for components. Every component under `src/components/` has a same-named module under `src/styles/components/` (e.g. `src/components/ConversationsList.tsx` <-> `src/styles/components/ConversationsList.module.css`), imported as `../styles/components/ConversationsList.module.css`.
+- **Known stale duplicate**: `src/styles/app/page.module.css` exists but nothing imports it, and it differs from the co-located `src/app/page.module.css` that the page actually uses. Do not edit it as though it were live; remove it once you confirm the co-located file is the only one wanted.
+- Global styles are `src/app/globals.css`, imported once by `src/app/layout.tsx`.
+
+## Message App Layout Structure
+`src/app/page.tsx` renders `main#messageLayout` (from `page.module.css`, referenced as `id={style.messageLayout}`) containing two direct children:
+- **Left division**: `ConversationsList` renders `section#conversations`. Lists every conversation the user belongs to, covering 1-on-1 direct conversations and community channels, plus a search bar, filter tabs (`All`, and tabs for Direct / Channels / Unread), and a new-conversation trigger.
+- **Right division**: `div#conversationArea`, which carries the `infoOpen` class variant to toggle width. It contains:
+  - `CurrentConversation` renders `section#current`: the active thread, with a header (partner or channel details, presence status, action buttons), the message stream (bubbles, timestamps, sender details, delivery and read receipts), and the composer (attachment actions, text input, emoji trigger, send button).
+  - `ConversationInfo` renders `aside#information`, rendered **only when `infoOpen` is true**. Holds the partner or channel profile and description, the participant list, shared media and documents and links and files, and conversation settings, notification and mute toggles, and conversation actions.
+
+Because the aside is conditional, layout work must handle the two-child case (`section#conversations` plus `section#current`) as well as the three-child case.
+
+## Endpoint Standards
+There are no endpoints yet. When adding them, document each one above its handler with the HTTP verb and URL (e.g. `POST /login`, `GET /conversations/:id/messages`) per the repository root `AGENTS.md`.
