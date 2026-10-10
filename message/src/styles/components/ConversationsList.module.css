@@ -150,7 +150,7 @@ section#conversations {
     display: flex;
     flex-direction: column;
     /* padding: 3% 2%; */
-    gap: 1.5%;
+    gap: 0.5%;
 
     > li#conversationItem {
       width: 100%;
