@@ -36,6 +36,14 @@ export default function CurrentConversation(
     element.style.height = `${element.scrollHeight}px`;
   }, [inputText]);
 
+  useEffect((): void => {
+    const element: HTMLElement | null = rootRef.current;
+    if (element === null) {
+      return;
+    }
+    element.scrollTop = element.scrollHeight;
+  }, [props.messages]);
+
   const handleInputChange = (
     event: ChangeEvent<HTMLTextAreaElement>,
   ): void => {

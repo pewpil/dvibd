@@ -115,6 +115,7 @@ section#current {
     display: flex;
     flex-direction: column;
     /* padding: 3% 4%; */
+    padding-bottom: 1.5rem;
     gap: 1rem;
     background: transparent;
 
@@ -260,10 +261,11 @@ section#current {
   }
 
   > footer#composer {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
     width: 100%;
-    /* padding: 2.5% 4%; */
     background: transparent;
-    /* border-top: 0.0625rem solid var(--line); */
     border: none;
     flex-shrink: 0;
 
@@ -274,6 +276,8 @@ section#current {
       gap: 1.5%;
       padding: 1% 3%;
       background: var(--surface);
+      -webkit-backdrop-filter: blur(var(--blur));
+      backdrop-filter: blur(var(--blur));
       border: 0.0625rem solid var(--line);
       border-radius: 14px;
 
