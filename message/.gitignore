@@ -6,3 +6,6 @@ build
 *.tsbuildinfo
 next-env.d.ts
 public/fonts/
+
+# ORM
+src/server/generated

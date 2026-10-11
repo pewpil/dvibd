@@ -101,7 +101,7 @@ Every application must be written strictly idiomatic to its underlying framework
 - Never point OpenCode at a new or scaffolded Prisma project. This repository already owns its schema and clients; work only through the `orm/` scripts above.
 
 ### Prisma Skills
-`skills-lock.json` at the repository root is the tracked source of truth and pins all thirteen third-party skills. Those thirteen are gitignored because they are regenerable. A fourteenth skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
+`skills-lock.json` at the repository root is the tracked source of truth and pins all fifteen third-party skills. Those fifteen are gitignored because they are regenerable. A sixteenth skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
 
 Before any Prisma schema, migration, client, or query work, run this from the repository root:
 
@@ -111,20 +111,27 @@ npx --yes skills@1.5.14 experimental_install
 
 Run it unconditionally. It is idempotent and self-healing: it restores every skill from `skills-lock.json` when the directory is absent (fresh clone, clean checkout, `git clean -xfd`), and does nothing harmful when they are already present. Do not pre-check whether the directory exists; do not run `skills add`, `prisma init`, or scaffold a Prisma project to obtain them.
 
-Ten of the thirteen are Prisma skills from `prisma/skills` and apply repository-wide. The other three come from `vercel-labs/agent-skills` and are intended only for `message`, which is the one React and Next.js app here:
+All fifteen live in the repository-level `.agents/skills/` directory and are discovered in every session, regardless of which app you are working on. Nothing is scoped to a single app directory, because skill discovery is resolved from the working directory and this repository is always worked on from its root. The table below therefore records **which frameworks each skill is valid for**, not which folder it lives in. A future app that adopts one of these frameworks picks the matching skills up automatically, with no reinstall.
 
-| Skill | Applies to |
-| --- | --- |
-| `vercel-react-best-practices` | `message` |
-| `vercel-composition-patterns` | `message` |
-| `web-design-guidelines` | `message` |
+| Skill | Source | Valid for |
+| --- | --- | --- |
+| `api-and-interface-design` | `addyosmani/agent-skills` | any app, any framework |
+| the ten `prisma-*` skills | `prisma/skills` | any app using Prisma |
+| `vercel-react-best-practices` | `vercel-labs/agent-skills` | React and Next.js apps |
+| `vercel-composition-patterns` | `vercel-labs/agent-skills` | React and Next.js apps |
+| `web-design-guidelines` | `vercel-labs/agent-skills` | any web UI, with React-specific notes |
+| `nextjs-app-router-patterns` | `wshobson/agents` | Next.js App Router apps |
 
-They are installed repo-wide because skill discovery is resolved from the working directory, and this repository is always worked on from its root. Do not apply the React skills to `dvibd/gui` or `social`, which are SolidJS. See `message/AGENTS.md` for the Tailwind and CSS Modules translation notes that `web-design-guidelines` requires.
+`message` is currently the only React and Next.js app, so the four React and Next.js skills apply to it today and to any future app built on those frameworks. Do **not** apply them to `dvibd/gui` or `social`, which are SolidJS: that is a framework mismatch, not a directory boundary. `nextjs-app-router-patterns` covers route handlers, Server Components, streaming, and parallel routes, which `message` now has and should be used there as it grows.
+
+`web-design-guidelines` is framework agnostic in its platform-level rules (ARIA, focus states, `prefers-reduced-motion`, `Intl.*`, semantic HTML) and is useful for `dvibd/gui` and `social` too. Only its React-specific sections and its Tailwind class syntax do not translate to SolidJS and CSS Modules. See `dvibd/AGENTS.md` and `social/AGENTS.md` for those notes.
+
+`api-and-interface-design` applies to every endpoint and module boundary here: `dvibd/api`, the `social` endpoints, and the `message` endpoints. One caution: it recommends branded types for IDs, while this repository currently types IDs as plain `string`, so treat that as a deliberate change rather than a silent one.
 
 ### Hand-Written Skills
 `sticky-scroll-headers` covers headers that scroll with their content and pin to the top of their scrollport. It documents the working implementations in `social/src/components/(home)/FeedHeader.tsx` (SolidJS, viewport scroller) and `message/src/hooks/useStuckScroll.ts` (React, per-column scroller), plus the failure modes that produce each distinct wrong behavior. It applies to `message` and `social`.
 
-Unlike the thirteen above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
+Unlike the fifteen above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
 
 ## Workspace Memory
 This section holds persistent memory, learned rules, and calibration contexts across the `dvibd` repository.

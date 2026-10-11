@@ -5,17 +5,27 @@ This file contains context specific to the `message` application. Repository-wid
 ## Application Overview
 - **Framework & Runtime**: Next.js 16 (App Router, React 19), running on Node. Type check with `npx tsc --noEmit` or `npm run typecheck` from `message/`.
 - **Dev Port**: `3005`, set in the `dev` and `start` scripts (`next dev -p 3005`).
-- **Root Layout**: `src/app/layout.tsx` is a Server Component. It exports `metadata` (`title: "Message"`, `description: "dvibd messaging"`) and renders `<html lang="en">`, `<body>`, and a `<div id="app">` wrapper.
-- **No Backend Yet**: This app has no backend, no API routes, and no database access. `message/package.json` declares only `next`, `react`, and `react-dom` at runtime, with no Prisma client and no auth library.
+- **Root Layout**: `src/app/layout.tsx` is a Server Component. It exports `metadata` (`title: "Message"`, `description: "dvibd messaging"`) and renders `<html lang="en">`, `<body>`, and a `<div id="app">` wrapper that wraps children in `AuthProvider`.
+- **Auth**: this app has its own backend and shares only `orm/` (Prisma) and `db/` (Postgres) with the rest of the repository. It never proxies through `dvibd/api/`.
+
+## Auth Architecture
+- `src/proxy.ts` is the route guard (**not** `middleware.ts`; Next.js 16 renamed the convention, and the edge runtime is unavailable in `proxy`). It validates the session cookie and redirects anonymous visitors to `/login` with a `?from=` hint, bounces authenticated visitors away from `/login` and `/signup`, and excludes `/endpoints/*` plus static assets.
+- Route Handlers live under `src/app/(auth)/endpoints/<name>/route.ts`. The group segment `(auth)` and the folder segment `(endpoints)` are both stripped from the URL, so the files resolve to `/endpoints/login` and friends.
+- Endpoints: `POST /endpoints/login`, `POST /endpoints/signup`, `GET /endpoints/session`, `POST /endpoints/logout`.
+- Server modules are in `src/server/`: `config.ts` (zod-validated env with dev defaults), `db.ts` (Prisma client with a dev-mode global singleton), `tokens.ts` (JWS issue/verify, refresh-token rotation), `session.ts` (`readSession`), `user.ts` (`SafeUser`, `USER_SELECT`), `auth.ts` (`server-only` facade).
+- Session strategy: refresh token (30 days) in the httpOnly cookie `message.session`; access token (15 min) returned in the response body and kept in client memory.
+- `src/contexts/AuthContext.tsx` is the client provider. Page files must stay client-safe: never import `src/server/*` into a Client Component. Route Handlers may.
+- Password hashing uses native `bcrypt`. `tsconfig.json` sets `allowImportingTsExtensions` so the generated `.mts` client can be imported.
+- The ORM generator for this app is `message-client`, outputting `src/server/generated` (gitignored). Regenerate with `cd orm && npm run generate`.
 
 ## Current Implementation State
-The app is a single client-rendered screen, not a set of routes:
-- `src/app/page.tsx` is the only route. It is a Client Component (`"use client"`) named `MessagePage`.
-- `src/app/layout.tsx` is the only layout.
-- There are no route groups anywhere under `src/app/`. The `(messages)` and `(auth)` groups described in earlier drafts do not exist.
-- No `src/middleware.ts`, no `route.ts` handlers, and no `api/` directory.
+- `src/app/page.tsx` is the message layout. It is a Client Component (`"use client"`) named `MessagePage`, and is the only unguarded page.
+- `src/app/(auth)/login/page.tsx` and `src/app/(auth)/signup/page.tsx` are the auth pages. Both are Client Components. The login page wraps its form in `<Suspense>` because it reads `useSearchParams`, which Next.js 16 requires for static prerendering.
+- `src/app/(auth)/endpoints/` holds the four Route Handlers listed under Auth Architecture.
+- There is no `src/middleware.ts`. The guard is `src/proxy.ts`.
 - `src/components/` holds three components, all flat, with no subdirectory: `ConversationsList.tsx`, `CurrentConversation.tsx`, `ConversationInfo.tsx`.
-- `src/data/fallback.ts` supplies all data as static fixtures: `currentUser`, `fallbackConversations`, `fallbackMessages`, `fallbackParticipants`, `fallbackSharedFiles`, `fallbackSharedLinks`. Conversation switching and message sending are local `useState` updates against that fixture data. Replace this module when a real backend lands.
+- `src/hooks/useStuckScroll.ts` is shared by all three columns; see the `sticky-scroll-headers` skill.
+- `src/data/fallback.ts` supplies conversation data as static fixtures: `currentUser`, `fallbackConversations`, `fallbackMessages`, `fallbackParticipants`, `fallbackSharedFiles`, `fallbackSharedLinks`. Conversation switching and message sending are local `useState` updates against that fixture data. Replace this module when the conversation backend lands. Auth is real; conversations are not yet.
 
 ## File Mirroring
 The app uses both sanctioned patterns, so match whichever the neighbouring file uses:
@@ -34,13 +44,19 @@ The app uses both sanctioned patterns, so match whichever the neighbouring file 
 Because the aside is conditional, layout work must handle the two-child case (`section#conversations` plus `section#current`) as well as the three-child case.
 
 ## Endpoint Standards
-There are no endpoints yet. When adding them, document each one above its handler with the HTTP verb and URL (e.g. `POST /login`, `GET /conversations/:id/messages`) per the repository root `AGENTS.md`.
+Auth endpoints are listed under Auth Architecture. Each handler carries a comment above it giving the verb and URL, e.g. `// POST /endpoints/login`. Do the same for any new endpoint, per the repository root `AGENTS.md`. Conversation endpoints do not exist yet; when they land they will be `POST /conversations`, `GET /conversations/:id/messages`, and `POST /messages`.
 
 ## Agent Skills and This App's Stack
 The repository root `.agents/skills/` carries three Vercel skills that exist for this app. Restore them with the repository root restore command documented in the root `AGENTS.md`; they are registered repo-wide, so apply them only when working in `message/`.
 
-- `vercel-react-best-practices` and `vercel-composition-patterns` fit this app directly: it is React 19 on the Next.js App Router.
+All skills are installed in the repository-level `.agents/skills/` and are discovered in every session, so none of them are scoped to this directory. Five are relevant here, selected by framework rather than by folder. This app is React 19 on the Next.js App Router, which makes it the current match for the React and Next.js skills:
+
+- `vercel-react-best-practices` and `vercel-composition-patterns` fit this app directly.
+- `nextjs-app-router-patterns` covers route handlers, Server Components, streaming, and parallel routes. This app now has Route Handlers under `src/app/(auth)/endpoints/`, so use it when adding endpoints or routes.
 - `web-design-guidelines` is a review-time wrapper that fetches its rules from a remote URL on every use, so it needs `webfetch` approval each time.
+- `api-and-interface-design` is framework agnostic and applies to every endpoint here.
+
+The four React and Next.js skills are valid for this app because of the framework, and would be valid for any future React or Next.js app in this repository with no reinstall. They must not be applied to `dvibd/gui` or `social`, which are SolidJS.
 
 **This app does not use Tailwind CSS.** No Tailwind config or import exists anywhere in the repository, and all three Node apps style through CSS Modules. `web-design-guidelines` phrases many of its rules as Tailwind utilities, so translate rather than apply them literally:
 

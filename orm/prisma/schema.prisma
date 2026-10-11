@@ -22,6 +22,14 @@ generator social-client {
   generatedFileExtension = "mts"
 }
 
+generator message-client {
+  provider               = "prisma-client"
+  output                 = "../../message/src/server/generated"
+  runtime                = "nodejs"
+  importFileExtension    = "mts"
+  generatedFileExtension = "mts"
+}
+
 datasource db {
   provider = "postgresql"
 }
