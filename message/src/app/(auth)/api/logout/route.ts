@@ -6,7 +6,7 @@ import {
   rotateRefreshToken,
 } from "../../../../server/tokens";
 
-// POST /logout
+// POST /api/logout
 export async function POST(): Promise<Response> {
   const cookieStore: Awaited<ReturnType<typeof cookies>> = await cookies();
   const raw: string | undefined = cookieStore.get(SESSION_COOKIE)?.value;

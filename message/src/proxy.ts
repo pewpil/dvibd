@@ -3,10 +3,10 @@ import { SESSION_COOKIE, validateRefreshToken } from "./server/tokens";
 
 const AUTH_PAGES: string[] = ["/login", "/signup"];
 const AUTH_ENDPOINTS: string[] = [
-  "/endpoints/login",
-  "/endpoints/signup",
-  "/endpoints/session",
-  "/endpoints/logout",
+  "/api/login",
+  "/api/signup",
+  "/api/session",
+  "/api/logout",
 ];
 
 function isPublic(pathname: string): boolean {

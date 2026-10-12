@@ -31,7 +31,7 @@ function fail(message: string, status: number): Response {
   return Response.json({ error: message }, { status: status });
 }
 
-// POST /signup
+// POST /api/signup
 export async function POST(request: Request): Promise<Response> {
   let body: unknown;
   try {

@@ -63,7 +63,7 @@ export function AuthProvider(props: { children: ReactNode }): ReactNode {
 
   const refetch = useCallback(async (): Promise<void> => {
     try {
-      const response: Response = await fetch("/session", { cache: "no-store" });
+      const response: Response = await fetch("/api/session", { cache: "no-store" });
       if (!response.ok) {
         setUser(null);
         return;
@@ -87,7 +87,7 @@ export function AuthProvider(props: { children: ReactNode }): ReactNode {
 
   const login = useCallback(
     async (identifier: string, password: string): Promise<void> => {
-      await requestAuth("/login", {
+      await requestAuth("/api/login", {
         identifier: identifier,
         password: password,
       });
@@ -98,7 +98,7 @@ export function AuthProvider(props: { children: ReactNode }): ReactNode {
 
   const signup = useCallback(
     async (input: SignupInput): Promise<void> => {
-      await requestAuth("/signup", {
+      await requestAuth("/api/signup", {
         displayName: input.displayName,
         username: input.username,
         email: input.email,
@@ -110,7 +110,7 @@ export function AuthProvider(props: { children: ReactNode }): ReactNode {
   );
 
   const logout = useCallback(async (): Promise<void> => {
-    await requestAuth("/logout");
+    await requestAuth("/api/logout");
     setUser(null);
   }, []);
 
