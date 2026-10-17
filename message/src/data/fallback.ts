@@ -7,6 +7,7 @@ export interface User {
   bio: string;
   role: string;
   email: string;
+  website: string;
 }
 
 export interface Conversation {
@@ -82,6 +83,7 @@ export const currentUser: User = {
   bio: "Full-stack developer working on dvibd platform.",
   role: "Software Engineer",
   email: "alex.rivera@dvibd.dev",
+  website: "alexrivera.dev",
 };
 
 export const fallbackConversations: Conversation[] = [

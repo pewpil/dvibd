@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import AppRail from "../components/AppRail";
 import ConversationsList from "../components/ConversationsList";
+import AccountPanel from "../components/AccountPanel";
 import CurrentConversation from "../components/CurrentConversation";
 import ConversationInfo from "../components/ConversationInfo";
 import {
@@ -19,6 +20,9 @@ import {
   type Participant,
 } from "../data/fallback";
 import style from "./page.module.css";
+
+const ACCOUNT_SOURCE: string = "account";
+const DIRECT_SOURCE: string = "direct";
 
 function getOtherParticipant(conversation: Conversation): Participant {
   const known: Participant | undefined = fallbackParticipants.find(
@@ -64,14 +68,16 @@ export default function MessagePage(): ReactNode {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeTab, setActiveTab] = useState<string>("All");
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
-  const [activeCommunityId, setActiveCommunityId] = useState<string | null>(null);
+  const [activeSource, setActiveSource] = useState<string>(DIRECT_SOURCE);
+
+  const accountActive: boolean = activeSource === ACCOUNT_SOURCE;
 
   const activeConversation: Conversation =
     conversations.find((c: Conversation): boolean => c.id === activeConversationId) ??
     conversations[0];
 
   const activeCommunity: Community | undefined = fallbackCommunities.find(
-    (community: Community): boolean => community.id === activeCommunityId,
+    (community: Community): boolean => community.id === activeSource,
   );
 
   const visibleConversations: Conversation[] =
@@ -135,16 +141,23 @@ export default function MessagePage(): ReactNode {
     setInfoOpen(false);
   };
 
+  const handleSelectAccount = (): void => {
+    if (activeSource !== ACCOUNT_SOURCE) {
+      setActiveSource(ACCOUNT_SOURCE);
+      setActiveTab("All");
+    }
+  };
+
   const handleSelectDirect = (): void => {
-    if (activeCommunityId !== null) {
-      setActiveCommunityId(null);
+    if (activeSource !== DIRECT_SOURCE) {
+      setActiveSource(DIRECT_SOURCE);
       setActiveTab("All");
     }
   };
 
   const handleSelectCommunity = (id: string): void => {
-    if (activeCommunityId !== id) {
-      setActiveCommunityId(id);
+    if (activeSource !== id) {
+      setActiveSource(id);
       setActiveTab("All");
     }
   };
@@ -153,22 +166,26 @@ export default function MessagePage(): ReactNode {
     <main id={style.messageLayout}>
       <AppRail
         communities={fallbackCommunities}
-        activeCommunityId={activeCommunityId}
-        onSelectCommunity={handleSelectCommunity}
-        directActive={activeCommunity === undefined}
+        activeSource={activeSource}
+        onSelectAccount={handleSelectAccount}
         onSelectDirect={handleSelectDirect}
+        onSelectCommunity={handleSelectCommunity}
       />
-      <ConversationsList
-        conversations={visibleConversations}
-        activeId={activeConversationId}
-        onSelectConversation={handleSelectConversation}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-        title={listTitle}
-        tabs={listTabs}
-      />
+      {accountActive ? (
+        <AccountPanel />
+      ) : (
+        <ConversationsList
+          conversations={visibleConversations}
+          activeId={activeConversationId}
+          onSelectConversation={handleSelectConversation}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          title={listTitle}
+          tabs={listTabs}
+        />
+      )}
       <div id={style.conversationArea} className={infoOpen ? style.infoOpen : undefined}>
         <CurrentConversation
           conversation={activeConversation}
