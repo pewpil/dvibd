@@ -19,6 +19,9 @@ This file contains context specific to the `social` application. Repository-wide
 - `src/middleware.ts` verifies the cookie into `locals.loggedIn` and guards `/notifications`, `/bookmarks`, `/settings`, `/profile` (redirect `/login`) and redirects authed users off `/login` and `/signup`.
 - Password hashing uses native `bcrypt`. Server modules: `config.ts` (env policy), `db.ts` (Prisma singleton), `tokens.ts`, `session.ts`, `user.ts` (`SafeUser`, `USER_SELECT`); `auth.ts` is the `"use server"` facade (`fetchSession`) so SSR renders correct auth state.
 
+## Theme Toggle
+`src/components/ThemeToggle.tsx` renders on the home page and on both auth pages. It is an **icon** button, not a labelled pill: a moon glyph while the current theme is light, a sun glyph while it is dark, so the glyph always shows the theme it switches *to`. `aria-label` and `title` carry the same "Switch to X mode" wording and the glyphs are `aria-hidden="true"`, which is what keeps the accessible name unambiguous now that there is no visible text. The two paths follow the `iconProps` convention already established in `SideNav.tsx` (24px viewBox, `currentColor`, stroke 2, round caps and joins), and `message`'s `ThemeToggle.tsx` draws the identical geometry so the two apps stay visually consistent.
+
 ## Home Page Layout
 The home page is composed of 3 vertical divisions inside `div#homeLayout`, laid out as a grid of fit-content, the feed, and the Explore rail:
 - **Left division**: `nav#sideNav`, referred to as the side nav. A compact fit-content navigation sidebar containing only icons (plus the user's profile picture) that redirect the user when clicked.

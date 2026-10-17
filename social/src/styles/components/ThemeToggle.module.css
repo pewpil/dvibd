@@ -3,14 +3,18 @@ button#themeToggle {
   top: 1.8%;
   right: 3%;
   z-index: 20;
-  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
   border: 0.0625rem solid var(--line);
-  border-radius: 999px;
+  border-radius: 50%;
   background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--blur));
   backdrop-filter: blur(var(--blur));
-  color: var(--ink);
-  font-size: 0.85rem;
-  font-weight: 600;
+  color: var(--ink-soft);
   cursor: pointer;
   transition:
     border-color 0.2s ease,
@@ -19,5 +23,15 @@ button#themeToggle {
   &:hover {
     border-color: var(--primary);
     color: var(--primary);
+  }
+
+  &:focus-visible {
+    outline: 0.125rem solid var(--primary);
+    outline-offset: 0.125rem;
+  }
+
+  > svg {
+    height: 1.15rem;
+    aspect-ratio: 1;
   }
 }
