@@ -4,6 +4,7 @@ import { useState, type ReactNode, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../../contexts/AuthContext";
+import ThemeToggle from "../../../components/ThemeToggle";
 import style from "../../../styles/pages/signup.module.css";
 
 export default function SignupPage(): ReactNode {
@@ -122,6 +123,7 @@ export default function SignupPage(): ReactNode {
           </p>
         </section>
       </div>
+      <ThemeToggle fixed />
     </main>
   );
 }

@@ -3,7 +3,7 @@ main#messageLayout {
   height: 100vh;
   margin: 0 auto;
   display: grid;
-  --rail-width: 4rem;
+  --rail-width: 6rem;
   --conversation-list-width: 28%;
   --gap: 1.5em; /* not in % so that it is consitent between <ConversationList> and div#conversationArea AND div#conversationArea */
   grid-template-columns:

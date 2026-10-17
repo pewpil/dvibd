@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
+import ThemeToggle from "./ThemeToggle";
 import type { Community } from "../data/fallback";
 import style from "../styles/components/AppRail.module.css";
 
@@ -191,6 +192,10 @@ export default function AppRail(props: AppRailProps): ReactNode {
           );
         })}
       </ul>
+
+      <div id={style.railBottom}>
+        <ThemeToggle />
+      </div>
     </nav>
   );
 }

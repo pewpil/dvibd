@@ -4,6 +4,7 @@ import { Suspense, useState, type ReactNode, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../../../contexts/AuthContext";
+import ThemeToggle from "../../../components/ThemeToggle";
 import style from "../../../styles/pages/login.module.css";
 
 function LoginForm(): ReactNode {
@@ -94,6 +95,7 @@ export default function LoginPage(): ReactNode {
           <LoginForm />
         </Suspense>
       </div>
+      <ThemeToggle fixed />
     </main>
   );
 }

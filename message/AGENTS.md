@@ -24,7 +24,7 @@ This file contains context specific to the `message` application. Repository-wid
 - `src/app/(auth)/login/page.tsx` and `src/app/(auth)/signup/page.tsx` are the auth pages. Both are Client Components. The login page wraps its form in `<Suspense>` because it reads `useSearchParams`, which Next.js 16 requires for static prerendering.
 - `src/app/(auth)/api/` holds the four Route Handlers listed under Auth Architecture.
 - There is no `src/middleware.ts`. The guard is `src/proxy.ts`.
-- `src/components/` holds three components, all flat, with no subdirectory: `ConversationsList.tsx`, `CurrentConversation.tsx`, `ConversationInfo.tsx`.
+- `src/components/` holds five components, all flat, with no subdirectory: `AppRail.tsx`, `ConversationsList.tsx`, `CurrentConversation.tsx`, `ConversationInfo.tsx`, `ThemeToggle.tsx`.
 - `src/hooks/useStuckScroll.ts` is shared by all three columns; see the `sticky-scroll-headers` skill.
 - `src/data/fallback.ts` supplies conversation data as static fixtures: `currentUser`, `fallbackConversations`, `fallbackMessages`, `fallbackParticipants`, `fallbackSharedFiles`, `fallbackSharedLinks`. Conversation switching and message sending are local `useState` updates against that fixture data. Replace this module when the conversation backend lands. Auth is real; conversations are not yet.
 
@@ -35,15 +35,24 @@ The app uses both sanctioned patterns, so match whichever the neighbouring file 
 - **Known stale duplicate**: `src/styles/app/page.module.css` exists but nothing imports it, and it differs from the co-located `src/app/page.module.css` that the page actually uses. Do not edit it as though it were live; remove it once you confirm the co-located file is the only one wanted.
 - Global styles are `src/app/globals.css`, imported once by `src/app/layout.tsx`.
 
+## Theme Architecture
+- Ported from `social`'s `ThemeToggle`, reimplemented idiomatically for React 19 rather than copied. Precedence is unchanged: cookie for server render, then `localStorage`, then `prefers-color-scheme`.
+- `src/theme.ts` is a plain module (no `"use client"`) holding `THEME_KEY`, `THEME_ROOT_ID`, the `ThemeName` type, and `resolveThemeCookie`. It must stay non-client: `src/app/layout.tsx` is a Server Component and cannot call a function imported from a `"use client"` module, which throws `Attempted to call ... but ... is on the client`.
+- `src/contexts/ThemeContext.tsx` is the client provider plus `useTheme`. `ThemeProvider` is mounted in `src/app/layout.tsx` outside `AuthProvider`.
+- `ThemeToggle` takes an optional `fixed` boolean, applied as a variant class alongside the id (`button#themeToggle.placementFixed`). Omit it for in-flow placement (the rail) and pass it on the auth pages. It reads no theme props, so it can be dropped into any depth. The pill styling is `social`'s verbatim (`0.5rem 1rem` padding, `0.85rem` at weight 600, `999px` radius) rather than a shrunken variant, which is why `--rail-width` is `6rem`. Measured with the real font files, the widest label "Light" is 34.1px in Lexend and 30.6px in Rethink Sans, so the pill needs 68.1px worst case against the rail's 88px content box. Narrowing the rail below `6rem` clips the label; `white-space: nowrap` means it will not wrap.
+- **No flash of wrong theme**: `layout.tsx` is async and awaits `cookies()`, then sets `data-theme` on `div#app` only when the cookie is present and valid. Omitting the attribute lets the `prefers-color-scheme` media query in `globals.css` decide, which is how a first-time visitor with a dark system theme still gets the correct first paint. The cost is that `/login` and `/signup` became dynamic (`ƒ`) instead of static (`○`).
+- `initialTheme` is the cookie value or `"light"`. The first client render therefore always matches the server HTML, so the label never triggers a hydration mismatch; the provider corrects it to the resolved value in an effect.
+- The two dark paths in `globals.css` (`div#app[data-theme="dark"]` and the media query) must declare identical tokens. They previously disagreed on `--surface` (`0.6` vs `0.02`), which meant manually selecting dark rendered very differently from a system-dark first visit.
+
 ## Message App Layout Structure
-`src/app/page.tsx` renders `main#messageLayout` (from `page.module.css`, referenced as `id={style.messageLayout}`) containing two direct children:
-- **Left division**: `ConversationsList` renders `section#conversations`. Lists every conversation the user belongs to, covering 1-on-1 direct conversations and community channels, plus a search bar, filter tabs (`All`, and tabs for Direct / Channels / Unread), and a new-conversation trigger.
+`src/app/page.tsx` renders `main#messageLayout` (from `page.module.css`, referenced as `id={style.messageLayout}`) as a three-track grid containing three direct children:
+- **Leftmost division**: `AppRail` renders `nav#appRail`. A fit-content rail holding, top to bottom: the profile picture with its account menu, the direct-conversation list selector, a horizontal rule, the community list, another horizontal rule, and the theme toggle. The rail selects *what* the conversation list shows; it does not toggle its visibility. The list selector shows user-to-user conversations, a community picture narrows the list to that community's channels, and clicking the active selection again is a no-op rather than a toggle off. Width is `--rail-width` in `page.module.css`; it is sized in `rem` rather than `%` so the icons do not scale with window width, and it must stay wide enough for the full-size theme pill.
+- **Middle division**: `ConversationsList` renders `section#conversations`. Lists the active source's conversations (user-to-user, or one community's channels), plus a search bar, filter tabs, and a new-conversation trigger. Its header title and tab set are props supplied by the page, because the mixed All / Direct / Channels / Unread tabs are meaningless once the list is always one kind or the other.
 - **Right division**: `div#conversationArea`, which carries the `infoOpen` class variant to toggle width. It contains:
   - `CurrentConversation` renders `section#current`: the active thread, with a header (partner or channel details, presence status, action buttons), the message stream (bubbles, timestamps, sender details, delivery and read receipts), and the composer (attachment actions, text input, emoji trigger, send button).
   - `ConversationInfo` renders `aside#information`, rendered **only when `infoOpen` is true**. Holds the partner or channel profile and description, the participant list, shared media and documents and links and files, and conversation settings, notification and mute toggles, and conversation actions.
 
 Because the aside is conditional, layout work must handle the two-child case (`section#conversations` plus `section#current`) as well as the three-child case.
-
 ## Endpoint Standards
 Auth endpoints are listed under Auth Architecture. Each handler carries a comment above it giving the verb and URL, e.g. `// POST /api/login`. Do the same for any new endpoint, per the repository root `AGENTS.md`. Conversation endpoints do not exist yet; when they land they will be `POST /conversations`, `GET /conversations/:id/messages`, and `POST /messages`.
 

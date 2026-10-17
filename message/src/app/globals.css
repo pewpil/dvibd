@@ -116,7 +116,7 @@ div#app {
 
 div#app[data-theme="dark"] {
   --bg: #0c0d14;
-  --surface: rgba(255, 255, 255, 0.6);
+  --surface: rgba(255, 255, 255, 0.02);
   --surface-strong: rgba(255, 255, 255, 0.1);
   --ink: #eef0f7;
   --ink-soft: #9aa1b8;

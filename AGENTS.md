@@ -101,7 +101,7 @@ Every application must be written strictly idiomatic to its underlying framework
 - Never point OpenCode at a new or scaffolded Prisma project. This repository already owns its schema and clients; work only through the `orm/` scripts above.
 
 ### Prisma Skills
-`skills-lock.json` at the repository root is the tracked source of truth and pins all fifteen third-party skills. Those fifteen are gitignored because they are regenerable. A sixteenth skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
+`skills-lock.json` at the repository root is the tracked source of truth and pins all seventeen third-party skills. Those seventeen are gitignored because they are regenerable. An eighteenth skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
 
 Before any Prisma schema, migration, client, or query work, run this from the repository root:
 
@@ -111,7 +111,7 @@ npx --yes skills@1.5.14 experimental_install
 
 Run it unconditionally. It is idempotent and self-healing: it restores every skill from `skills-lock.json` when the directory is absent (fresh clone, clean checkout, `git clean -xfd`), and does nothing harmful when they are already present. Do not pre-check whether the directory exists; do not run `skills add`, `prisma init`, or scaffold a Prisma project to obtain them.
 
-All fifteen live in the repository-level `.agents/skills/` directory and are discovered in every session, regardless of which app you are working on. Nothing is scoped to a single app directory, because skill discovery is resolved from the working directory and this repository is always worked on from its root. The table below therefore records **which frameworks each skill is valid for**, not which folder it lives in. A future app that adopts one of these frameworks picks the matching skills up automatically, with no reinstall.
+All seventeen live in the repository-level `.agents/skills/` directory and are discovered in every session, regardless of which app you are working on. Nothing is scoped to a single app directory, because skill discovery is resolved from the working directory and this repository is always worked on from its root. The table below therefore records **which frameworks each skill is valid for**, not which folder it lives in. A future app that adopts one of these frameworks picks the matching skills up automatically, with no reinstall.
 
 | Skill | Source | Valid for |
 | --- | --- | --- |
@@ -121,6 +121,12 @@ All fifteen live in the repository-level `.agents/skills/` directory and are dis
 | `vercel-composition-patterns` | `vercel-labs/agent-skills` | React and Next.js apps |
 | `web-design-guidelines` | `vercel-labs/agent-skills` | any web UI, with React-specific notes |
 | `nextjs-app-router-patterns` | `wshobson/agents` | Next.js App Router apps |
+| `frontend-design` | `anthropics/skills` | any web UI |
+| `glassmorphism` | `iart-ai/web-animation-skills` | any web UI, opt-in per task |
+
+`frontend-design` is framework agnostic and needs no translation. It supplies aesthetic direction, typography, and copy guidance, plus a two-pass design plan step and a list of machine-generated design habits to avoid. Its quality floor (visible keyboard focus, `prefers-reduced-motion`, accessibility) agrees with `web-design-guidelines`.
+
+`glassmorphism` is opt-in and applies only when glass or frosted surfaces are actually requested. It is real CSS technique content, not a design template, and it includes the accessibility fallbacks glass work needs (`prefers-reduced-transparency`, `prefers-reduced-motion`, `@supports not (backdrop-filter)`). Translate every `px` length to `rem` per GUI standard 7, and ignore its standalone single-file HTML deliverable in favour of this repository's mirrored structure. See the next section on precedence.
 
 `message` is currently the only React and Next.js app, so the four React and Next.js skills apply to it today and to any future app built on those frameworks. Do **not** apply them to `dvibd/gui` or `social`, which are SolidJS: that is a framework mismatch, not a directory boundary. `nextjs-app-router-patterns` covers route handlers, Server Components, streaming, and parallel routes, which `message` now has and should be used there as it grows.
 
@@ -128,10 +134,23 @@ All fifteen live in the repository-level `.agents/skills/` directory and are dis
 
 `api-and-interface-design` applies to every endpoint and module boundary here: `dvibd/api`, the `social` endpoints, and the `message` endpoints. One caution: it recommends branded types for IDs, while this repository currently types IDs as plain `string`, so treat that as a deliberate change rather than a silent one.
 
+### Skills Are Advisory; These Standards Are Mandatory
+The skills listed above are third-party guidance. **This file is the authoritative source of standards for this repository and always wins.** Where a skill disagrees with anything in this file, follow this file and note the deviation rather than silently complying with the skill.
+
+The specific conflicts to resolve in favour of this file:
+- **Units**: GUI standard 7 overrides any skill value in `px`. Convert `px` lengths to `rem`, or to `%` for element dimensions and spacing. `px` stays legal only for `border-radius`.
+- **Styling mechanism**: GUI standards 1 through 4 and 11 override any skill that reaches for Tailwind utility classes, inline styles, or standalone CSS files. Use a CSS Module imported as `style`, select by hashed id, and use classes only for style variants.
+- **File structure**: GUI standard 12 overrides any skill that proposes a different layout, including the `glassmorphism` skill's standalone single-file HTML demo. Deliverable structure is mirrored TSX and CSS Modules under this repository's conventions.
+- **Comments**: Cross-Cutting standard 3 overrides any skill whose examples annotate code. Do not add comments unless explicitly asked.
+- **Em dashes**: Cross-Cutting standard 4 overrides any skill. In particular `frontend-design` flags a spaced em dash in labels as a sign of generated output, which aligns with this standard rather than competing with it.
+- **Framework**: never apply React or Next.js skills to the SolidJS apps, and never apply SolidJS guidance to `message`.
+
+Skills remain valuable for what this file does not cover: aesthetic direction, accessibility detail, and framework idioms that are already consistent with these standards.
+
 ### Hand-Written Skills
 `sticky-scroll-headers` covers headers that scroll with their content and pin to the top of their scrollport. It documents the working implementations in `social/src/components/(home)/FeedHeader.tsx` (SolidJS, viewport scroller) and `message/src/hooks/useStuckScroll.ts` (React, per-column scroller), plus the failure modes that produce each distinct wrong behavior. It applies to `message` and `social`.
 
-Unlike the fifteen above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
+Unlike the seventeen above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
 
 ## Workspace Memory
 This section holds persistent memory, learned rules, and calibration contexts across the `dvibd` repository.
@@ -150,6 +169,14 @@ This section holds persistent memory, learned rules, and calibration contexts ac
   - **760px Mobile Viewport**:
     - `64px` -> `8.4%`
 - For the units policy itself, see GUI standard 7 above.
+
+### Pending Decision: Fail Fast on Missing Production Env (delete when implemented)
+- **Deferred by the user, awaiting implementation.** Deployment is planned from the CLI, so config loading must fail fast rather than fall back to checked-in dev defaults.
+- **Agreed behavior**: when `NODE_ENV` is exactly `production` and the `.env` file is absent, throw instead of using defaults.
+- **Why the current policy is unsafe**: `message/src/server/config.ts` resolves a hardcoded fallback whenever `.env` is missing, which is exactly the deploy-without-env-file case. `JWT_SECRET` then silently becomes the checked-in `message-dev-secret-change-me`. Because that string is public in the repo, every token it signs is forgeable, so a production deploy that hits this path is compromised without any error being raised.
+- **Note the existing gap**: `resolveEnv` throws only when a `.env` file *exists* and the variable is missing from it. Absence of the file is currently treated as license to use defaults. The new rule inverts that for production while leaving local development on defaults.
+- Apply the same policy to every Node app in the repository that reads env through a defaults fallback (`social` has the equivalent `src/server/config.ts`), not only `message`.
+- Delete this whole subsection once the check exists in code and is verified against a production-mode run.
 
 ### Monorepo Context Memory
 - **Self-Contained Backend Ecosystems**: Both `social` and `message` maintain independent self-contained backends with their own auth routes, session tokens, and middleware. They never proxy or relay through `dvibd/api`.
