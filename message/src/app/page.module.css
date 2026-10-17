@@ -3,8 +3,9 @@ main#messageLayout {
   height: 100vh;
   margin: 0 auto;
   display: grid;
-  --rail-width: 6rem;
+  --rail-width: 4rem;
   --conversation-list-width: 28%;
+  --header-offset: 2.5vh;
   --gap: 1.5em; /* not in % so that it is consitent between <ConversationList> and div#conversationArea AND div#conversationArea */
   grid-template-columns:
     var(--rail-width)

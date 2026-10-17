@@ -14,7 +14,7 @@ section#current {
     content: "";
     display: block;
     flex: none;
-    height: 2.5vh;
+    height: var(--header-offset);
   }
 
   > header#conversationHeader {

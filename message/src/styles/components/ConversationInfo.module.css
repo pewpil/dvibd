@@ -14,7 +14,7 @@ aside#information {
     content: "";
     display: block;
     flex: none;
-    height: 2.5vh;
+    height: var(--header-offset);
   }
 
   > section#profileCard {
