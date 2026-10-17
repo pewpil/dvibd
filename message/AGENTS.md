@@ -13,11 +13,14 @@ This file contains context specific to the `message` application. Repository-wid
 - Route Handlers live under `src/app/(auth)/api/<name>/route.ts`. Only `(auth)` is a route group and is stripped from the URL; `api/` is a real path segment and **is** part of it, so these resolve to `/api/login` and friends.
 - Endpoints: `POST /api/login`, `POST /api/signup`, `GET /api/session`, `POST /api/logout`.
 - **Pages and route handlers cannot share a URL**, even when their HTTP methods differ. `(auth)/login/page.tsx` and `(auth)/(endpoints)/login/route.ts` would both resolve to `/login` and the build fails with "Conflicting page and route". That is why the handlers sit under a plain `api/` folder rather than a parenthesized `(api)` group the way `social` uses. Do not "fix" this by renaming `api/` to `(api)`.
-- Server modules are in `src/server/`: `config.ts` (zod-validated env with dev defaults), `db.ts` (Prisma client with a dev-mode global singleton), `tokens.ts` (JWS issue/verify, refresh-token rotation), `session.ts` (`readSession`), `user.ts` (`SafeUser`, `USER_SELECT`), `auth.ts` (`server-only` facade).
+- Server modules are in `src/server/`: `config.ts` (zod-validated env, `process.env` first then the root `AGENTS.md` env policy), `db.ts` (Prisma client with a dev-mode global singleton), `tokens.ts` (JWS issue/verify, refresh-token rotation), `session.ts` (`readSession`), `user.ts` (`SafeUser`, `USER_SELECT`), `auth.ts` (`server-only` facade).
 - Session strategy: refresh token (30 days) in the httpOnly cookie `message.session`; access token (15 min) returned in the response body and kept in client memory.
 - `src/contexts/AuthContext.tsx` is the client provider. Page files must stay client-safe: never import `src/server/*` into a Client Component. Route Handlers may.
 - Password hashing uses native `bcrypt`. `tsconfig.json` sets `allowImportingTsExtensions` so the generated `.mts` client can be imported.
 - The ORM generator for this app is `message-client`, outputting `src/server/generated` (gitignored). Regenerate with `cd orm && npm run generate`.
+
+## Deployment
+`netlify.toml` sits beside `package.json`, so the Netlify base directory is `message`. It publishes `.next` and relies on Netlify injecting its Next.js runtime automatically, so `@netlify/plugin-nextjs` must not be added to `package.json`. The build command runs `npm --prefix ../orm run generate` first, because `src/server/generated` is gitignored and missing from a fresh clone. `next build` evaluates the route handler modules, so the build needs `DATABASE_URL` and `JWT_SECRET` present in the environment; Netlify supplies site variables to builds, but a local production build requires a `.env` file. Netlify reports `src/proxy.ts` as `ƒ Proxy (Middleware)` and runs it as an Edge Function, which is the one runtime here that is not Node.
 
 ## Current Implementation State
 - `src/app/page.tsx` is the message layout. It is a Client Component (`"use client"`) named `MessagePage`, and is the only unguarded page.

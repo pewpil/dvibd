@@ -95,10 +95,22 @@ Every application must be written strictly idiomatic to its underlying framework
   ```bash
   cd orm && npx prisma migrate dev --name <migration_name>
   ```
+- Apply pending migrations to a hosted database with `cd orm && npm run migrate:deploy`. Use that, never `migrate dev`, against anything other than local `db/`.
 
 ### Database Service
 - The local Postgres service is managed via `db/docker-compose.yml`. Start, stop, log, and health-check commands live in `db/AGENTS.md`.
 - Never point OpenCode at a new or scaffolded Prisma project. This repository already owns its schema and clients; work only through the `orm/` scripts above.
+
+### Deployment (Netlify)
+Netlify hosts `social` and `message` with their own backends, plus the `dvibd/gui` SPA. `dvibd/api` is not deployed to Netlify. Each app is its own Netlify project with its own `netlify.toml` beside its `package.json`, and the site's base directory must be that app directory. There is no root `package.json`, so run Netlify CLI commands from inside an app directory rather than the repository root.
+
+- `message` publishes `.next`. Netlify injects its Next.js runtime automatically, so `@netlify/plugin-nextjs` must not be added to `package.json`.
+- `social` publishes `dist`, not `dist/client`, because it builds through `nitro/vite`. Nitro detects the Netlify build environment and emits the catch-all function to `.netlify/functions-internal/server/server.mjs`. Do not add `@netlify/vite-plugin` to that app, since that path produces the `dist/client` layout instead.
+- `dvibd/gui` publishes `dist` and needs the SPA redirect, because its routing is declarative and client-side.
+- Every app's build command runs `prisma generate` from `orm/` first, since each generated client directory is gitignored and absent from a fresh clone. `npm --prefix` is what reaches the sibling directory; the prefix differs per app because the base directory differs.
+- `NODE_VERSION` is pinned to `24` in each `[build.environment]`, per the Node version policy above. Netlify derives the functions runtime from the build version.
+- Production database is Supabase, reached through the **Supavisor session pooler**, never the direct connection string. Netlify functions run in IPv4-only AWS environments, and each warm function instance opens its own `pg` pool against a hard connection cap, so a pooled URL is required.
+- Secrets live only in Netlify's environment, set with `netlify env:set --context production --secret`. Never commit them; `*.env` is gitignored.
 
 ### Prisma Skills
 `skills-lock.json` at the repository root is the tracked source of truth and pins all seventeen third-party skills. Those seventeen are gitignored because they are regenerable. An eighteenth skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
@@ -170,13 +182,16 @@ This section holds persistent memory, learned rules, and calibration contexts ac
     - `64px` -> `8.4%`
 - For the units policy itself, see GUI standard 7 above.
 
-### Pending Decision: Fail Fast on Missing Production Env (delete when implemented)
-- **Deferred by the user, awaiting implementation.** Deployment is planned from the CLI, so config loading must fail fast rather than fall back to checked-in dev defaults.
-- **Agreed behavior**: when `NODE_ENV` is exactly `production` and the `.env` file is absent, throw instead of using defaults.
-- **Why the current policy is unsafe**: `message/src/server/config.ts` resolves a hardcoded fallback whenever `.env` is missing, which is exactly the deploy-without-env-file case. `JWT_SECRET` then silently becomes the checked-in `message-dev-secret-change-me`. Because that string is public in the repo, every token it signs is forgeable, so a production deploy that hits this path is compromised without any error being raised.
-- **Note the existing gap**: `resolveEnv` throws only when a `.env` file *exists* and the variable is missing from it. Absence of the file is currently treated as license to use defaults. The new rule inverts that for production while leaving local development on defaults.
-- Apply the same policy to every Node app in the repository that reads env through a defaults fallback (`social` has the equivalent `src/server/config.ts`), not only `message`.
-- Delete this whole subsection once the check exists in code and is verified against a production-mode run.
+### Env Resolution Policy (implemented)
+Every module that reads env through a defaults fallback (`social/src/server/config.ts`, `message/src/server/config.ts`, `orm/prisma.config.ts`) resolves in this order:
+1. `process.env`, when the variable is set.
+2. Throw, when a `.env` file exists but the variable is not in it.
+3. Throw, when `NODE_ENV` is exactly `production`.
+4. The checked-in dev default, for local development only.
+
+**Why `process.env` comes first.** The dev servers load `.env` into `process.env` themselves (Next, Vite, and Nitro each do this), so reading `process.env` covers local `.env` files too. Netlify has no `.env` file and injects site variables into both builds and function runtimes, so a `process.env`-first order is the only one where deployed values are actually honoured. The previous order tested file presence first and returned the defaults without consulting `process.env` at all, so a Netlify deploy silently ran on `postgresql://dvibd:dvibd@localhost:3001/dvibd` and signed tokens with the public `message-dev-secret-change-me` / `social-dev-secret-change-me` secrets.
+
+**Consequence for builds.** `next build` evaluates route handler modules, so a local production build with no `.env` and no exported variables now fails during page-data collection. That is intended: on Netlify the variables are present at build time. To build locally, provide a `.env` file.
 
 ### Monorepo Context Memory
 - **Self-Contained Backend Ecosystems**: Both `social` and `message` maintain independent self-contained backends with their own auth routes, session tokens, and middleware. They never proxy or relay through `dvibd/api`.

@@ -28,3 +28,7 @@ This is a Node tooling package (`@dvibd/orm`), not a web application. It contain
   ```bash
   cd orm && npx prisma migrate dev
   ```
+- Against a hosted database, use `cd orm && npm run migrate:deploy` (`prisma migrate deploy`). `migrate dev` is for local `db/` only.
+
+## Environment Resolution
+`prisma.config.ts` resolves `DATABASE_URL` from `process.env` first, then throws if a `.env` file exists without it, then throws in production, and only otherwise falls back to the local `db/` default. `import "dotenv/config"` runs first, so a local `.env` lands in `process.env` and is picked up by the first branch. Netlify exposes site variables to builds and function runtimes and has no `.env` file, which is why the `process.env`-first order matters; see the env policy in the repository root `AGENTS.md`.

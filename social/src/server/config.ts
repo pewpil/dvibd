@@ -16,14 +16,17 @@ function hasEnvFile(): boolean {
 }
 
 function resolveEnv(name: keyof typeof DEFAULTS): string {
-  if (!hasEnvFile()) {
-    return DEFAULTS[name];
+  const value: string | undefined = process.env[name];
+  if (value !== undefined) {
+    return value;
   }
-  const value = process.env[name];
-  if (value === undefined) {
+  if (hasEnvFile()) {
     throw new Error(`Environment variable ${name} is missing from .env file`);
   }
-  return value;
+  if (process.env.NODE_ENV === "production") {
+    throw new Error(`Environment variable ${name} is required in production`);
+  }
+  return DEFAULTS[name];
 }
 
 const parsedEnv = envSchema.parse({

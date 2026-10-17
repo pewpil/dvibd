@@ -1,0 +1,11 @@
+[build]
+  command = "npm --prefix ../orm ci && npm --prefix ../orm run generate && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[dev]
+  command = "npm run dev"
+  targetPort = 3003
+  framework = "#custom"

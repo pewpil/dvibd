@@ -8,16 +8,17 @@ const DEFAULT_DATABASE_URL = "postgresql://dvibd:dvibd@localhost:3001/dvibd";
 const databaseUrlSchema = z.string().url();
 
 function resolveDatabaseUrl(): string {
+  const value: string | undefined = process.env.DATABASE_URL;
+  if (value !== undefined) {
+    return databaseUrlSchema.parse(value);
+  }
   if (!existsSync(".env")) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("Environment variable DATABASE_URL is required in production");
+    }
     return DEFAULT_DATABASE_URL;
   }
-  const value = process.env.DATABASE_URL;
-  if (value === undefined) {
-    throw new Error(
-      "Environment variable DATABASE_URL is missing from .env file",
-    );
-  }
-  return databaseUrlSchema.parse(value);
+  throw new Error("Environment variable DATABASE_URL is missing from .env file");
 }
 
 export default defineConfig({

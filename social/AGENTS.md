@@ -17,7 +17,10 @@ This file contains context specific to the `social` application. Repository-wide
 - Endpoints: `POST /login`, `POST /signup`, `GET /session`, `POST /refresh`, `POST /logout`, `GET /me`.
 - Session strategy: refresh token (30 days) in httpOnly cookie `social.session`; access token (15 min) returned in the response body and kept in client memory. Every `GET /session` rotates the refresh token (old row deleted, new issued).
 - `src/middleware.ts` verifies the cookie into `locals.loggedIn` and guards `/notifications`, `/bookmarks`, `/settings`, `/profile` (redirect `/login`) and redirects authed users off `/login` and `/signup`.
-- Password hashing uses native `bcrypt`. Server modules: `config.ts` (env policy), `db.ts` (Prisma singleton), `tokens.ts`, `session.ts`, `user.ts` (`SafeUser`, `USER_SELECT`); `auth.ts` is the `"use server"` facade (`fetchSession`) so SSR renders correct auth state.
+- Password hashing uses native `bcrypt`. Server modules: `config.ts` (env resolution, see the root `AGENTS.md` env policy), `db.ts` (Prisma singleton), `tokens.ts`, `session.ts`, `user.ts` (`SafeUser`, `USER_SELECT`); `auth.ts` is the `"use server"` facade (`fetchSession`) so SSR renders correct auth state.
+
+## Deployment
+`netlify.toml` sits beside `package.json`, so the Netlify base directory is `social`. It publishes `dist` and relies on `nitro/vite`: Nitro detects the Netlify build environment and writes the catch-all function to `.netlify/functions-internal/server/server.mjs` with `path: "/*"` and `preferStatic: true`, so `dist` assets win and everything else reaches the function. The build command runs `npm --prefix ../orm run generate` first, because `src/server/generated` is gitignored and missing from a fresh clone. Do not add `@netlify/vite-plugin`: that path expects a `dist/client` publish directory and would change what this config publishes.
 
 ## Header Surface
 `header#feedHeader` uses the same background treatment as `message`'s column headers and this app's `AccountMenu`: `background: var(--surface-strong)` plus `-webkit-backdrop-filter` and `backdrop-filter` of `blur(var(--blur))`, declared in the base rule so the frost is always present rather than appearing only when pinned.

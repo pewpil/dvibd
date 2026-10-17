@@ -21,6 +21,7 @@ This file contains context specific to the `dvibd` workspace (`api` and `gui`). 
 - **Routing**: Declarative and wired by hand in `src/uis/index.tsx` using `Router` and `Route` from `@solidjs/router`. There is no file-based routing; add new routes in that file.
 - **Bootstrap**: `index.html` provides `div#root`, and `src/uis/index.tsx` mounts with `render()` from `solid-js/web`.
 - **Dev Server**: Port `3000`, defined in `vite.config.ts`. That config proxies `/api` to `http://localhost:3002` and strips the `/api` prefix from the forwarded path.
+- **Deployment**: `netlify.toml` sits beside `package.json`, so the Netlify base directory is `dvibd/gui`. It publishes `dist` and adds an SPA redirect because routing is declarative and client-side, so deep links would otherwise 404. Its build command runs `npm --prefix ../../orm run generate` first: `tsc -b` type-imports from the gitignored `src/generated/browser.mts`, so the build fails without that step. The prefix is `../../orm` rather than `../orm` because the base directory is nested one level deeper than the other apps.
 - **Type Checking**: Verify with `npx tsc -b` from `dvibd/gui`.
 - **File Mirroring**:
   - `src/uis/` and `src/styles/` mirror each other: every component and page under `uis/` has a parallel CSS Module under `styles/` in the same relative path (e.g. `uis/components/dvibd/home/NavBar.tsx` <-> `styles/components/dvibd/home/NavBar.module.css`, `uis/pages/dvibd/home/Landing.tsx` <-> `styles/pages/dvibd/home/Landing.module.css`), with root `uis/index.tsx` <-> `styles/index.css`.
