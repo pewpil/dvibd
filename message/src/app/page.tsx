@@ -64,7 +64,6 @@ export default function MessagePage(): ReactNode {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeTab, setActiveTab] = useState<string>("All");
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
-  const [listOpen, setListOpen] = useState<boolean>(true);
   const [activeCommunityId, setActiveCommunityId] = useState<string | null>(null);
 
   const activeConversation: Conversation =
@@ -77,10 +76,15 @@ export default function MessagePage(): ReactNode {
 
   const visibleConversations: Conversation[] =
     activeCommunity === undefined
-      ? conversations
+      ? conversations.filter((c: Conversation): boolean => c.type === "direct")
       : conversations.filter(
           (c: Conversation): boolean => c.communityName === activeCommunity.name,
         );
+
+  const listTitle: string =
+    activeCommunity === undefined ? "Messages" : activeCommunity.name;
+
+  const listTabs: string[] = ["All", "Unread"];
 
   const handleSelectConversation = (id: string): void => {
     setActiveConversationId(id);
@@ -131,40 +135,40 @@ export default function MessagePage(): ReactNode {
     setInfoOpen(false);
   };
 
-  const handleToggleList = (): void => {
-    setListOpen((prev: boolean): boolean => !prev);
+  const handleSelectDirect = (): void => {
+    if (activeCommunityId !== null) {
+      setActiveCommunityId(null);
+      setActiveTab("All");
+    }
   };
 
   const handleSelectCommunity = (id: string): void => {
-    setActiveCommunityId((prev: string | null): string | null =>
-      prev === id ? null : id,
-    );
-    setListOpen(true);
+    if (activeCommunityId !== id) {
+      setActiveCommunityId(id);
+      setActiveTab("All");
+    }
   };
 
   return (
-    <main
-      id={style.messageLayout}
-      className={listOpen ? undefined : style.listCollapsed}
-    >
+    <main id={style.messageLayout}>
       <AppRail
         communities={fallbackCommunities}
         activeCommunityId={activeCommunityId}
         onSelectCommunity={handleSelectCommunity}
-        listOpen={listOpen}
-        onToggleList={handleToggleList}
+        directActive={activeCommunity === undefined}
+        onSelectDirect={handleSelectDirect}
       />
-      {listOpen ? (
-        <ConversationsList
-          conversations={visibleConversations}
-          activeId={activeConversationId}
-          onSelectConversation={handleSelectConversation}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
-      ) : null}
+      <ConversationsList
+        conversations={visibleConversations}
+        activeId={activeConversationId}
+        onSelectConversation={handleSelectConversation}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        title={listTitle}
+        tabs={listTabs}
+      />
       <div id={style.conversationArea} className={infoOpen ? style.infoOpen : undefined}>
         <CurrentConversation
           conversation={activeConversation}

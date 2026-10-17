@@ -15,13 +15,6 @@ main#messageLayout {
   overflow: hidden;
 }
 
-main#messageLayout.listCollapsed {
-  grid-template-columns:
-    var(--rail-width)
-    0
-    minmax(0, 1fr);
-}
-
 div#conversationArea {
   width: 100%;
   height: 100%;
@@ -53,12 +46,6 @@ div#conversationArea {
 @media (max-width: 47.5rem) {
   main#messageLayout {
     width: 100%;
-    grid-template-columns:
-      var(--rail-width)
-      minmax(0, 1fr);
-  }
-
-  main#messageLayout.listCollapsed {
     grid-template-columns:
       var(--rail-width)
       minmax(0, 1fr);

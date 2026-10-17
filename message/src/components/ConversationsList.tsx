@@ -11,10 +11,11 @@ interface ConversationsListProps {
   onSearchChange: (query: string) => void;
   activeTab: string;
   onTabChange: (tab: string) => void;
+  title: string;
+  tabs: string[];
 }
 
 export default function ConversationsList(props: ConversationsListProps): ReactNode {
-  const tabs: string[] = ["All", "Direct", "Channels", "Unread"];
   const rootRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   const stuck: boolean = useStuckScroll(rootRef, headerRef);
@@ -59,7 +60,7 @@ export default function ConversationsList(props: ConversationsListProps): ReactN
         className={stuck ? style.stuck : undefined}
       >
         <div id={style.titleRow}>
-          <h1 id={style.conversationsTitle}>Conversations</h1>
+          <h1 id={style.conversationsTitle}>{props.title}</h1>
           <button
             type="button"
             id={style.newConversationButton}
@@ -101,7 +102,7 @@ export default function ConversationsList(props: ConversationsListProps): ReactN
           />
         </form>
         <nav id={style.filterTabs} role="tablist">
-          {tabs.map((tab: string): ReactNode => {
+          {props.tabs.map((tab: string): ReactNode => {
             const isSelected: boolean = props.activeTab === tab;
             return (
               <button

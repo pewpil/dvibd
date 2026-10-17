@@ -10,8 +10,8 @@ interface AppRailProps {
   communities: Community[];
   activeCommunityId: string | null;
   onSelectCommunity: (id: string) => void;
-  listOpen: boolean;
-  onToggleList: () => void;
+  directActive: boolean;
+  onSelectDirect: () => void;
 }
 
 export default function AppRail(props: AppRailProps): ReactNode {
@@ -147,11 +147,11 @@ export default function AppRail(props: AppRailProps): ReactNode {
         <button
           type="button"
           id={style.listToggle}
-          className={props.listOpen ? style.railButtonActive : undefined}
-          onClick={props.onToggleList}
-          aria-pressed={props.listOpen}
-          aria-label="Toggle conversation list"
-          title="Conversations"
+          className={props.directActive ? style.railButtonActive : undefined}
+          onClick={props.onSelectDirect}
+          aria-pressed={props.directActive}
+          aria-label="Direct conversations"
+          title="Direct conversations"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

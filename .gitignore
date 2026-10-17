@@ -23,6 +23,13 @@
 # Temp
 gitignore
 
+# curl cookie jars written by local verification probes. These carry live
+# message.session refresh JWTs and must never be committed. See AGENTS.md
+# > Cross-Coding Standards 5.
+/c.txt
+/m.txt
+localhost_*.txt
+
 # System Files
 .DS_Store
 Thumbs.db
