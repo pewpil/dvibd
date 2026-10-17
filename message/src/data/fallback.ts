@@ -64,6 +64,15 @@ export interface Participant {
   status: "online" | "offline" | "idle";
 }
 
+export interface Community {
+  id: string;
+  name: string;
+  avatar: string;
+  description: string;
+  channelCount: number;
+  memberCount: number;
+}
+
 export const currentUser: User = {
   id: "user-current",
   name: "Alex Rivera",
@@ -318,8 +327,42 @@ export const fallbackConversations: Conversation[] = [
   },
 ];
 
-export const fallbackMessages: Message[] = [
+export const fallbackCommunities: Community[] = [
   {
+    id: "community-design",
+    name: "Dvibd Design Hub",
+    avatar: "/community-design.svg",
+    description: "UI/UX reviews, the design system, and accessibility audits.",
+    channelCount: 2,
+    memberCount: 87,
+  },
+  {
+    id: "community-core",
+    name: "Dvibd Core",
+    avatar: "/community-core.svg",
+    description: "Release announcements, API design, and the automated changelog.",
+    channelCount: 3,
+    memberCount: 128,
+  },
+  {
+    id: "community-engineering",
+    name: "Dvibd Engineering",
+    avatar: "/community-engineering.svg",
+    description: "Build tooling, async standups, and frontend infrastructure.",
+    channelCount: 2,
+    memberCount: 64,
+  },
+  {
+    id: "community-lounge",
+    name: "Dvibd Lounge",
+    avatar: "/community-lounge.svg",
+    description: "Off-topic chatter, memes, and the occasional design jam.",
+    channelCount: 1,
+    memberCount: 210,
+  },
+];
+
+export const fallbackMessages: Message[] = [  {
     id: "msg-1",
     senderId: "user-elena",
     senderName: "Elena Rostova",

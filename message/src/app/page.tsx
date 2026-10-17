@@ -1,16 +1,19 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import AppRail from "../components/AppRail";
 import ConversationsList from "../components/ConversationsList";
 import CurrentConversation from "../components/CurrentConversation";
 import ConversationInfo from "../components/ConversationInfo";
 import {
+  fallbackCommunities,
   fallbackConversations,
   fallbackMessages,
   fallbackParticipants,
   fallbackSharedFiles,
   fallbackSharedLinks,
   currentUser,
+  type Community,
   type Conversation,
   type Message,
   type Participant,
@@ -61,10 +64,23 @@ export default function MessagePage(): ReactNode {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeTab, setActiveTab] = useState<string>("All");
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
+  const [listOpen, setListOpen] = useState<boolean>(true);
+  const [activeCommunityId, setActiveCommunityId] = useState<string | null>(null);
 
   const activeConversation: Conversation =
     conversations.find((c: Conversation): boolean => c.id === activeConversationId) ??
     conversations[0];
+
+  const activeCommunity: Community | undefined = fallbackCommunities.find(
+    (community: Community): boolean => community.id === activeCommunityId,
+  );
+
+  const visibleConversations: Conversation[] =
+    activeCommunity === undefined
+      ? conversations
+      : conversations.filter(
+          (c: Conversation): boolean => c.communityName === activeCommunity.name,
+        );
 
   const handleSelectConversation = (id: string): void => {
     setActiveConversationId(id);
@@ -115,17 +131,40 @@ export default function MessagePage(): ReactNode {
     setInfoOpen(false);
   };
 
+  const handleToggleList = (): void => {
+    setListOpen((prev: boolean): boolean => !prev);
+  };
+
+  const handleSelectCommunity = (id: string): void => {
+    setActiveCommunityId((prev: string | null): string | null =>
+      prev === id ? null : id,
+    );
+    setListOpen(true);
+  };
+
   return (
-    <main id={style.messageLayout}>
-      <ConversationsList
-        conversations={conversations}
-        activeId={activeConversationId}
-        onSelectConversation={handleSelectConversation}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
+    <main
+      id={style.messageLayout}
+      className={listOpen ? undefined : style.listCollapsed}
+    >
+      <AppRail
+        communities={fallbackCommunities}
+        activeCommunityId={activeCommunityId}
+        onSelectCommunity={handleSelectCommunity}
+        listOpen={listOpen}
+        onToggleList={handleToggleList}
       />
+      {listOpen ? (
+        <ConversationsList
+          conversations={visibleConversations}
+          activeId={activeConversationId}
+          onSelectConversation={handleSelectConversation}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+      ) : null}
       <div id={style.conversationArea} className={infoOpen ? style.infoOpen : undefined}>
         <CurrentConversation
           conversation={activeConversation}

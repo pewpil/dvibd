@@ -3,14 +3,23 @@ main#messageLayout {
   height: 100vh;
   margin: 0 auto;
   display: grid;
+  --rail-width: 4rem;
   --conversation-list-width: 28%;
   --gap: 1.5em; /* not in % so that it is consitent between <ConversationList> and div#conversationArea AND div#conversationArea */
   grid-template-columns:
+    var(--rail-width)
     var(--conversation-list-width)
     minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
   gap: var(--gap);
   overflow: hidden;
+}
+
+main#messageLayout.listCollapsed {
+  grid-template-columns:
+    var(--rail-width)
+    0
+    minmax(0, 1fr);
 }
 
 div#conversationArea {
@@ -44,10 +53,18 @@ div#conversationArea {
 @media (max-width: 47.5rem) {
   main#messageLayout {
     width: 100%;
-    grid-template-columns: 100%;
+    grid-template-columns:
+      var(--rail-width)
+      minmax(0, 1fr);
   }
 
-  main#messageLayout > section:first-child {
+  main#messageLayout.listCollapsed {
+    grid-template-columns:
+      var(--rail-width)
+      minmax(0, 1fr);
+  }
+
+  main#messageLayout > section {
     display: none;
   }
 
