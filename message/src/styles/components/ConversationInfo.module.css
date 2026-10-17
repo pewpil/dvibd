@@ -29,7 +29,9 @@ aside#information {
     align-items: center;
     text-align: center;
     padding: 6% 4%;
-    background: var(--surface);
+    background: var(--surface-strong);
+    -webkit-backdrop-filter: blur(var(--blur));
+    backdrop-filter: blur(var(--blur));
     border: 0.0625rem solid var(--line);
     border-radius: 16px;
     gap: 0.4rem;
@@ -37,8 +39,6 @@ aside#information {
     &.stuck {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
-      -webkit-backdrop-filter: blur(var(--blur));
-      backdrop-filter: blur(var(--blur));
     }
 
     > button#closeInfoButton {

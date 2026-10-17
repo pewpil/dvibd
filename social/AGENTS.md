@@ -19,6 +19,14 @@ This file contains context specific to the `social` application. Repository-wide
 - `src/middleware.ts` verifies the cookie into `locals.loggedIn` and guards `/notifications`, `/bookmarks`, `/settings`, `/profile` (redirect `/login`) and redirects authed users off `/login` and `/signup`.
 - Password hashing uses native `bcrypt`. Server modules: `config.ts` (env policy), `db.ts` (Prisma singleton), `tokens.ts`, `session.ts`, `user.ts` (`SafeUser`, `USER_SELECT`); `auth.ts` is the `"use server"` facade (`fetchSession`) so SSR renders correct auth state.
 
+## Header Surface
+`header#feedHeader` uses the same background treatment as `message`'s column headers and this app's `AccountMenu`: `background: var(--surface-strong)` plus `-webkit-backdrop-filter` and `backdrop-filter` of `blur(var(--blur))`, declared in the base rule so the frost is always present rather than appearing only when pinned.
+
+Two consequences to keep in mind before changing it:
+- The `blur` is unconditional, so `.stuck` only flattens the top corner radius. Do not re-add a blur to `.stuck`; it would be a duplicate. `.stuck` remains the signal that the header has pinned.
+- In the light theme `--surface-strong` is `rgba(255, 255, 255, 0.92)`, which is nearly opaque, so the header reads as a solid white panel and the blur contributes little over the light `--bg`. In the dark theme it is `rgba(255, 255, 255, 0.1)` and the frost does read. If the header should stay translucent in the light theme while keeping the always-on blur, that is a one-token change (`--surface-strong` back to `--surface`).
+- `ExploreHeader` and `BookmarksHeader` are unaffected: they are `background: transparent` section headings, not surface panels, so the treatment does not transfer to them without a redesign.
+
 ## Theme Toggle
 `src/components/ThemeToggle.tsx` renders on the home page and on both auth pages. It is an **icon** button, not a labelled pill: a moon glyph while the current theme is light, a sun glyph while it is dark, so the glyph always shows the theme it switches *to`. `aria-label` and `title` carry the same "Switch to X mode" wording and the glyphs are `aria-hidden="true"`, which is what keeps the accessible name unambiguous now that there is no visible text. The two paths follow the `iconProps` convention already established in `SideNav.tsx` (24px viewBox, `currentColor`, stroke 2, round caps and joins), and `message`'s `ThemeToggle.tsx` draws the identical geometry so the two apps stay visually consistent.
 

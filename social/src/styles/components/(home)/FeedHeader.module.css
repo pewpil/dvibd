@@ -8,13 +8,13 @@ header#feedHeader {
   padding: 0.75rem 1rem;
   border: 0.0625rem solid var(--line);
   border-radius: 15px;
-  background: var(--surface);
+  background: var(--surface-strong);
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
 
   &.stuck {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    -webkit-backdrop-filter: blur(var(--blur));
-    backdrop-filter: blur(var(--blur));
   }
 
   &.noBottomBorder {
