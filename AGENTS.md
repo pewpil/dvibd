@@ -113,7 +113,7 @@ Netlify hosts `social` and `message` with their own backends, plus the `dvibd/gu
 - Secrets live only in Netlify's environment, set with `netlify env:set --context production --secret`. Never commit them; `*.env` is gitignored.
 
 ### Prisma Skills
-`skills-lock.json` at the repository root is the tracked source of truth and pins all seventeen third-party skills. Those seventeen are gitignored because they are regenerable. An eighteenth skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
+`skills-lock.json` at the repository root is the tracked source of truth and pins all twenty-one third-party skills. Those twenty-one are gitignored because they are regenerable. A twenty-second skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
 
 Before any Prisma schema, migration, client, or query work, run this from the repository root:
 
@@ -123,7 +123,7 @@ npx --yes skills@1.5.14 experimental_install
 
 Run it unconditionally. It is idempotent and self-healing: it restores every skill from `skills-lock.json` when the directory is absent (fresh clone, clean checkout, `git clean -xfd`), and does nothing harmful when they are already present. Do not pre-check whether the directory exists; do not run `skills add`, `prisma init`, or scaffold a Prisma project to obtain them.
 
-All seventeen live in the repository-level `.agents/skills/` directory and are discovered in every session, regardless of which app you are working on. Nothing is scoped to a single app directory, because skill discovery is resolved from the working directory and this repository is always worked on from its root. The table below therefore records **which frameworks each skill is valid for**, not which folder it lives in. A future app that adopts one of these frameworks picks the matching skills up automatically, with no reinstall.
+All twenty-one live in the repository-level `.agents/skills/` directory and are discovered in every session, regardless of which app you are working on. Nothing is scoped to a single app directory, because skill discovery is resolved from the working directory and this repository is always worked on from its root. The table below therefore records **which frameworks each skill is valid for**, not which folder it lives in. A future app that adopts one of these frameworks picks the matching skills up automatically, with no reinstall.
 
 | Skill | Source | Valid for |
 | --- | --- | --- |
@@ -135,6 +135,7 @@ All seventeen live in the repository-level `.agents/skills/` directory and are d
 | `nextjs-app-router-patterns` | `wshobson/agents` | Next.js App Router apps |
 | `frontend-design` | `anthropics/skills` | any web UI |
 | `glassmorphism` | `iart-ai/web-animation-skills` | any web UI, opt-in per task |
+| the four `netlify-*` skills | `netlify/context-and-tools` | Netlify deploys, per app |
 
 `frontend-design` is framework agnostic and needs no translation. It supplies aesthetic direction, typography, and copy guidance, plus a two-pass design plan step and a list of machine-generated design habits to avoid. Its quality floor (visible keyboard focus, `prefers-reduced-motion`, accessibility) agrees with `web-design-guidelines`.
 
@@ -145,6 +146,11 @@ All seventeen live in the repository-level `.agents/skills/` directory and are d
 `web-design-guidelines` is framework agnostic in its platform-level rules (ARIA, focus states, `prefers-reduced-motion`, `Intl.*`, semantic HTML) and is useful for `dvibd/gui` and `social` too. Only its React-specific sections and its Tailwind class syntax do not translate to SolidJS and CSS Modules. See `dvibd/AGENTS.md` and `social/AGENTS.md` for those notes.
 
 `api-and-interface-design` applies to every endpoint and module boundary here: `dvibd/api`, the `social` endpoints, and the `message` endpoints. One caution: it recommends branded types for IDs, while this repository currently types IDs as plain `string`, so treat that as a deliberate change rather than a silent one.
+
+The four `netlify-*` skills are the official ones from `netlify/context-and-tools`, and they apply to `social`, `message`, and `dvibd/gui` as deployment guidance. Read them alongside the Deployment section above, not instead of it. Three conflicts to resolve in favour of this file:
+- **Node version**: the skills may suggest a Node major that is not the current LTS. The Node version policy above wins, so `[build.environment] NODE_VERSION` stays `"24"`.
+- **`.env` and secrets**: the skills assume env vars live in the Netlify UI or `netlify env:set`. Keep using `env:set` with `--secret`; a committed `netlify.toml` must never carry a real value. The skills also advise never disabling secret scanning to silence a failure; if a deploy trips secrets scanning, treat the flagged value as a real leak and rotate it.
+- **Monorepo shape**: the skills assume one project per repository. This repository has three, each with its own base directory, and CLI commands must run from inside an app directory. Where a skill says "run from the repository root", that is wrong here.
 
 ### Skills Are Advisory; These Standards Are Mandatory
 The skills listed above are third-party guidance. **This file is the authoritative source of standards for this repository and always wins.** Where a skill disagrees with anything in this file, follow this file and note the deviation rather than silently complying with the skill.
@@ -162,7 +168,7 @@ Skills remain valuable for what this file does not cover: aesthetic direction, a
 ### Hand-Written Skills
 `sticky-scroll-headers` covers headers that scroll with their content and pin to the top of their scrollport. It documents the working implementations in `social/src/components/(home)/FeedHeader.tsx` (SolidJS, viewport scroller) and `message/src/hooks/useStuckScroll.ts` (React, per-column scroller), plus the failure modes that produce each distinct wrong behavior. It applies to `message` and `social`.
 
-Unlike the seventeen above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
+Unlike the twenty-one above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
 
 ## Workspace Memory
 This section holds persistent memory, learned rules, and calibration contexts across the `dvibd` repository.
