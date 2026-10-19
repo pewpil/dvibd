@@ -1,0 +1,94 @@
+@import "@fontsource-variable/rethink-sans/wght.css";
+@import "@fontsource-variable/lexend/wght.css";
+
+:root {
+  --font-body:
+    "Rethink Sans Variable", system-ui, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-heading:
+    "Lexend Variable", "Rethink Sans Variable", system-ui, sans-serif;
+  --bg: #f2f3f8;
+  --surface: rgba(255, 255, 255, 0.35);
+  --surface-strong: rgba(255, 255, 255, 0.92);
+  --ink: #16181f;
+  --ink-soft: #5c6170;
+  --line: rgba(22, 24, 31, 0.1);
+  --primary: #6d5dfc;
+  --primary-strong: #5a48ee;
+  --primary-soft: rgba(109, 93, 252, 0.14);
+  --surface-hover: rgba(109, 93, 252, 0.08);
+  --danger: #dc2626;
+  --blur: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0c0d14;
+    --surface: rgba(255, 255, 255, 0.02);
+    --surface-strong: rgba(255, 255, 255, 0.1);
+    --ink: #eef0f7;
+    --ink-soft: #9aa1b8;
+    --line: rgba(238, 240, 247, 0.12);
+    --primary: #8b7dff;
+    --primary-strong: #a098ff;
+    --primary-soft: rgba(139, 125, 255, 0.18);
+    --surface-hover: rgba(139, 125, 255, 0.12);
+    --danger: #f87171;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-family: var(--font-heading);
+}
+
+p {
+  margin: 0;
+}
