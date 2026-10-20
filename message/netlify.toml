@@ -1,5 +1,5 @@
 [build]
-  command = "npm --prefix ../orm ci && npm --prefix ../orm run generate && npm run build"
+  command = "if [[ \"$DATABASE_URL\" == *'*'* ]]; then export DATABASE_URL=\"postgresql://build:build@localhost:5432/build\"; fi && npm --prefix ../orm ci && npm --prefix ../orm run generate && npm run build && printf 'DATABASE_URL=postgresql://dvibd:dvibd@localhost:3001/dvibd\nJWT_SECRET=message-dev-secret-change-me\n' > .next/standalone/.env"
   publish = ".next"
 
 [build.environment]
