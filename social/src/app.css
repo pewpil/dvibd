@@ -87,35 +87,35 @@ h6 {
 
 div#app {
   color-scheme: light;
-  --bg: #eef1f2;
+  --bg: #f2f3f8;
   --surface: rgba(255, 255, 255, 0.46);
   --surface-strong: rgba(255, 255, 255, 0.85);
   --surface-hover: rgba(255, 255, 255, 0.62);
   --edge: rgba(255, 255, 255, 0.6);
-  --ink: #1d2123;
-  --ink-soft: #5d676b;
-  --line: rgba(29, 33, 35, 0.12);
-  --line-strong: rgba(29, 33, 35, 0.24);
-  --wash: rgba(29, 33, 35, 0.06);
-  --accent: #2b6f66;
-  --accent-strong: #1f5a52;
-  --accent-soft: rgba(43, 111, 102, 0.14);
+  --ink: #16181f;
+  --ink-soft: #5c6170;
+  --line: rgba(22, 24, 31, 0.12);
+  --line-strong: rgba(22, 24, 31, 0.24);
+  --wash: rgba(22, 24, 31, 0.06);
+  --accent: #6d5dfc;
+  --accent-strong: #5a48ee;
+  --accent-soft: rgba(109, 93, 252, 0.14);
   --accent-ink: #ffffff;
-  --like: #b8486d;
-  --repost: #3e7d4f;
-  --danger: #a63d2f;
+  --like: #f43f5e;
+  --repost: #22c55e;
+  --danger: #dc2626;
   --blur: 0.875rem;
   --blur-strong: 1.5rem;
   --glass-shadow:
-    0 0.25rem 1rem rgba(29, 33, 35, 0.14),
-    0 0.05rem 0.2rem rgba(29, 33, 35, 0.08);
+    0 0.25rem 1rem rgba(22, 24, 31, 0.14),
+    0 0.05rem 0.2rem rgba(22, 24, 31, 0.08);
   --glass-inset:
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -1px 0 rgba(29, 33, 35, 0.08);
+    inset 0 -1px 0 rgba(22, 24, 31, 0.08);
   --width: 76.5%;
   --radius-panel: 1rem;
   --radius-control: 0.625rem;
-  --shadow-float: 0 0.5rem 1.5rem rgba(29, 33, 35, 0.18);
+  --shadow-float: 0 0.5rem 1.5rem rgba(22, 24, 31, 0.18);
   --duration-quick: 160ms;
   --duration-settle: 400ms;
   min-height: 100vh;
@@ -128,23 +128,23 @@ div#app {
 
 div#app[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0f1316;
+  --bg: #0c0d14;
   --surface: rgba(255, 255, 255, 0.06);
   --surface-strong: rgba(255, 255, 255, 0.1);
   --surface-hover: rgba(255, 255, 255, 0.16);
   --edge: rgba(255, 255, 255, 0.16);
-  --ink: #e7ebed;
-  --ink-soft: #98a3a8;
-  --line: rgba(231, 235, 237, 0.12);
-  --line-strong: rgba(231, 235, 237, 0.26);
-  --wash: rgba(231, 235, 237, 0.08);
-  --accent: #79c3b4;
-  --accent-strong: #96d6c9;
-  --accent-soft: rgba(121, 195, 180, 0.16);
-  --accent-ink: #0e2a25;
-  --like: #e08aa4;
-  --repost: #7cbf8e;
-  --danger: #e08a78;
+  --ink: #eef0f7;
+  --ink-soft: #9aa1b8;
+  --line: rgba(238, 240, 247, 0.12);
+  --line-strong: rgba(238, 240, 247, 0.26);
+  --wash: rgba(238, 240, 247, 0.08);
+  --accent: #8b7dff;
+  --accent-strong: #a098ff;
+  --accent-soft: rgba(139, 125, 255, 0.18);
+  --accent-ink: #ffffff;
+  --like: #f43f5e;
+  --repost: #22c55e;
+  --danger: #dc2626;
   --glass-shadow:
     0 0.25rem 1rem rgba(0, 0, 0, 0.45),
     0 0.05rem 0.2rem rgba(0, 0, 0, 0.3);
@@ -157,23 +157,23 @@ div#app[data-theme="dark"] {
 @media (prefers-color-scheme: dark) {
   div#app:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #0f1316;
+    --bg: #0c0d14;
     --surface: rgba(255, 255, 255, 0.06);
     --surface-strong: rgba(255, 255, 255, 0.1);
     --surface-hover: rgba(255, 255, 255, 0.16);
     --edge: rgba(255, 255, 255, 0.16);
-    --ink: #e7ebed;
-    --ink-soft: #98a3a8;
-    --line: rgba(231, 235, 237, 0.12);
-    --line-strong: rgba(231, 235, 237, 0.26);
-    --wash: rgba(231, 235, 237, 0.08);
-    --accent: #79c3b4;
-    --accent-strong: #96d6c9;
-    --accent-soft: rgba(121, 195, 180, 0.16);
-    --accent-ink: #0e2a25;
-    --like: #e08aa4;
-    --repost: #7cbf8e;
-    --danger: #e08a78;
+    --ink: #eef0f7;
+    --ink-soft: #9aa1b8;
+    --line: rgba(238, 240, 247, 0.12);
+    --line-strong: rgba(238, 240, 247, 0.26);
+    --wash: rgba(238, 240, 247, 0.08);
+    --accent: #8b7dff;
+    --accent-strong: #a098ff;
+    --accent-soft: rgba(139, 125, 255, 0.18);
+    --accent-ink: #ffffff;
+    --like: #f43f5e;
+    --repost: #22c55e;
+    --danger: #dc2626;
     --glass-shadow:
       0 0.25rem 1rem rgba(0, 0, 0, 0.45),
       0 0.05rem 0.2rem rgba(0, 0, 0, 0.3);
@@ -199,20 +199,19 @@ div#app[data-theme="dark"] {
 
 @media (prefers-reduced-transparency: reduce) {
   div#app {
-    --bg: #f4f6f6;
-    --surface: #fbfcfc;
+    --bg: #f2f3f8;
+    --surface: #fcfdfe;
     --surface-strong: #ffffff;
-    --surface-hover: #f0f3f3;
+    --surface-hover: #f3f4f9;
     --blur: 0rem;
     --blur-strong: 0rem;
   }
 
   div#app[data-theme="dark"],
   div#app:not([data-theme="light"]) {
-    --bg: #12211f;
-    --surface: #1a2a28;
-    --surface-strong: #1f312e;
-    --surface-hover: #243835;
+    --surface: #191b2b;
+    --surface-strong: #1e2135;
+    --surface-hover: #24273f;
   }
 }
 
