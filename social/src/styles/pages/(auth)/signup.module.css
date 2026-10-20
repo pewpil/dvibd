@@ -15,12 +15,13 @@ div#auth {
       align-items: center;
       justify-content: center;
       gap: 0.625rem;
-      font-size: 1.3rem;
-      font-weight: 800;
+      font-family: var(--font-heading);
+      font-size: 1.375rem;
+      font-weight: 650;
       letter-spacing: -0.02em;
       color: var(--ink);
       text-decoration: none;
-      margin-bottom: 3%;
+      margin-bottom: 4%;
 
       > img {
         height: 2rem;
@@ -30,7 +31,7 @@ div#auth {
 
       > span#authBrandName {
         > span#authBrandDot {
-          color: var(--primary);
+          color: var(--accent);
         }
       }
     }
@@ -38,35 +39,40 @@ div#auth {
     > main#signup {
       padding: 2rem 2.5rem;
       border: 0.0625rem solid var(--line);
-      border-radius: 15px;
+      border-radius: var(--radius-panel);
       background: var(--surface);
-      -webkit-backdrop-filter: blur(var(--blur));
-      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur-strong));
+      backdrop-filter: blur(var(--blur-strong));
+      box-shadow: var(--glass-shadow), var(--glass-inset);
 
       > h1 {
-        font-size: 1.6rem;
+        font-family: var(--font-heading);
+        font-size: 1.75rem;
+        font-weight: 650;
+        letter-spacing: -0.02em;
       }
 
       > p {
-        margin-top: 1%;
-        font-size: 0.95rem;
+        margin-top: 0.5rem;
+        font-size: 0.9375rem;
         color: var(--ink-soft);
       }
 
       > form#signupForm {
-        margin-top: 2.5%;
+        margin-top: 1.75rem;
         display: flex;
         flex-direction: column;
 
         > p#signupError {
-          margin-top: 2%;
+          margin-top: 0.75rem;
           padding: 0.6rem 1rem;
           border: 0.0625rem solid var(--danger);
-          border-radius: 12px;
+          border-radius: var(--radius-control);
           background: color-mix(in srgb, var(--danger) 10%, transparent);
           color: var(--danger);
           font-size: 0.9rem;
           font-weight: 600;
+          text-align: left;
         }
 
         > label {
@@ -80,41 +86,42 @@ div#auth {
           color: var(--ink);
 
           > input {
-            padding: 0.6rem 1.2rem;
+            padding: 0.65rem 1rem;
             border: 0.0625rem solid var(--line);
-            border-radius: 999px;
+            border-radius: var(--radius-control);
             background: var(--surface-strong);
             color: var(--ink);
             font-size: 1rem;
             font-weight: 400;
             outline: none;
-            transition: border-color 0.2s ease;
+            transition: border-color var(--duration-quick) ease;
 
             &::placeholder {
               color: var(--ink-soft);
             }
 
             &:focus {
-              border-color: var(--primary);
+              border-color: var(--accent);
             }
           }
         }
 
         > button#signupSubmit {
           width: 100%;
-          margin-top: 0.5rem;
-          padding: 0.6rem 1.2rem;
+          margin-top: 0.75rem;
+          padding: 0.65rem 1.2rem;
           border: none;
           border-radius: 999px;
-          background: var(--primary);
-          color: #fff;
-          font-size: 1rem;
+          background: var(--accent);
+          color: var(--accent-ink);
+          font-size: 0.9375rem;
           font-weight: 600;
+          font-family: var(--font-body);
           cursor: pointer;
-          transition: background 0.2s ease;
+          transition: background var(--duration-quick) ease;
 
           &:hover {
-            background: var(--primary-strong);
+            background: var(--accent-strong);
           }
 
           &:disabled {
@@ -125,12 +132,12 @@ div#auth {
       }
 
       > p#signupSwitch {
-        margin-top: 2%;
+        margin-top: 1.5rem;
         font-size: 0.9rem;
         color: var(--ink-soft);
 
         > a {
-          color: var(--primary);
+          color: var(--accent);
           font-weight: 600;
           text-decoration: none;
 

@@ -1,6 +1,9 @@
 section#card {
   padding: 1.25rem;
   border: 0.0625rem solid var(--line);
-  border-radius: 15px;
+  border-radius: var(--radius-panel);
   background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+  box-shadow: var(--glass-inset);
 }

@@ -27,7 +27,7 @@ export default function Signup() {
       });
       navigate("/");
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : "That didn't work. Review your details and try again.");
     } finally {
       setPending(false);
     }
@@ -45,7 +45,7 @@ export default function Signup() {
         </A>
         <main id={style.signup}>
           <h1>Create your account</h1>
-          <p>Join social and start connecting. It only takes a minute.</p>
+          <p>Follow people, save posts, and write at your own pace.</p>
           <form id={style.signupForm} onSubmit={handleSubmit}>
             <Show when={error() !== undefined}>
               <p id={style.signupError}>{error()}</p>

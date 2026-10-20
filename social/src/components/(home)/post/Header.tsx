@@ -8,19 +8,16 @@ interface HeaderProps {
   time: string;
 }
 
-export default function Header({
-  avatar = "/profile-picture.svg",
-  name,
-  handle,
-  time,
-}: HeaderProps) {
+export default function Header(props: HeaderProps) {
+  const avatar = () => props.avatar ?? "/profile-picture.svg";
   return (
     <header id={style.postHeader}>
-      <img id={style.postHeaderAvatar} src={avatar} alt={`${name} avatar`} />
+      <img id={style.postHeaderAvatar} src={avatar()} alt={`${props.name} avatar`} />
       <div id={style.postHeaderMeta}>
-        <p id={style.postHeaderName}>{name}</p>
+        <p id={style.postHeaderName}>{props.name}</p>
         <p id={style.postHeaderTime}>
-          @{handle} · {time}
+          <span>@{props.handle}</span>
+          <span>{props.time}</span>
         </p>
       </div>
       <button type="button" aria-label="More options" id={style.postHeaderMore}>

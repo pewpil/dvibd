@@ -61,9 +61,9 @@ div#exploreHeader {
       }
 
       &.filterActive {
-        color: var(--primary);
-        border-color: var(--primary);
-        background: var(--primary-soft);
+        color: var(--accent);
+        border-color: var(--accent);
+        background: var(--accent-soft);
       }
 
       > span#filterIcon {
@@ -98,13 +98,13 @@ div#exploreHeader {
 
       &:hover {
         color: var(--ink);
-        background: var(--primary-soft);
+        background: var(--accent-soft);
       }
 
       &.activeTag {
-        color: #fff;
-        background: var(--primary);
-        border-color: var(--primary);
+        color: var(--accent-ink);
+        background: var(--accent);
+        border-color: var(--accent);
       }
     }
   }

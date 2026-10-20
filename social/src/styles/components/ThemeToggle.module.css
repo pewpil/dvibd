@@ -14,20 +14,16 @@ button#themeToggle {
   background: var(--surface);
   -webkit-backdrop-filter: blur(var(--blur));
   backdrop-filter: blur(var(--blur));
+  box-shadow: var(--glass-shadow), var(--glass-inset);
   color: var(--ink-soft);
   cursor: pointer;
   transition:
-    border-color 0.2s ease,
-    color 0.2s ease;
+    border-color var(--duration-quick) ease,
+    color var(--duration-quick) ease;
 
   &:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-  }
-
-  &:focus-visible {
-    outline: 0.125rem solid var(--primary);
-    outline-offset: 0.125rem;
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   > svg {

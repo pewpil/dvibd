@@ -5,13 +5,13 @@ interface UserProps {
   user: (typeof suggestedUsers)[number];
 }
 
-export default function User({ user }: UserProps) {
+export default function User(props: UserProps) {
   return (
-    <li class={style.userItem}>
-      <img src="/profile-picture.svg" alt={`${user.name} avatar`} />
+    <li id={style.userItem}>
+      <img src="/profile-picture.svg" alt={`${props.user.name} avatar`} />
       <div>
-        <p>{user.name}</p>
-        <p>@{user.handle}</p>
+        <p>{props.user.name}</p>
+        <p>@{props.user.handle}</p>
       </div>
       <button type="button">Follow</button>
     </li>

@@ -7,13 +7,11 @@ nav#sideNav {
   gap: 1rem;
   padding: 0.75rem;
   border: 0.0625rem solid var(--line);
-  border-radius: 20px;
-
-  /* &:has(> a#navLogin) { */
-  /*   border: none; */
-  /*   border-radius: 0; */
-  /*   padding: 0; */
-  /* } */
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+  box-shadow: var(--glass-shadow), var(--glass-inset);
 
   > ul#navList {
     display: flex;
@@ -26,15 +24,15 @@ nav#sideNav {
       justify-content: center;
       align-items: center;
       padding: 0.75rem;
-      border-radius: 15px;
-      transition: background 0.2s ease;
+      border-radius: var(--radius-control);
+      transition: background var(--duration-quick) ease;
 
       &:hover {
-        background: var(--primary-soft);
+        background: var(--wash);
       }
 
       &:global(.active) {
-        background: var(--primary-soft);
+        background: var(--accent-soft);
       }
 
       &::after {
@@ -45,18 +43,21 @@ nav#sideNav {
         transform: translate(0.5rem, -50%);
         white-space: nowrap;
         padding: 0.3rem 0.6rem;
-        border-radius: 8px;
-        background: #16181f;
-        color: #fff;
-        font-size: 0.8rem;
+        border-radius: 0.5rem;
+        background: var(--ink);
+        color: var(--bg);
+        font-size: 0.8125rem;
+        font-family: var(--font-body);
+        box-shadow: var(--shadow-float);
         pointer-events: none;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.2s ease;
+        transition: opacity var(--duration-quick) ease;
         z-index: 1000;
       }
 
-      &:hover::after {
+      &:hover::after,
+      &:focus-visible::after {
         opacity: 1;
         visibility: visible;
       }
@@ -65,20 +66,15 @@ nav#sideNav {
         height: 1.75rem;
         aspect-ratio: 1;
         color: var(--ink-soft);
-        opacity: 0.8;
-        transition:
-          color 0.2s ease,
-          opacity 0.2s ease;
+        transition: color var(--duration-quick) ease;
       }
 
       &:hover > svg {
         color: var(--ink);
-        opacity: 1;
       }
 
       &:global(.active) > svg {
-        color: var(--primary);
-        opacity: 1;
+        color: var(--accent);
       }
     }
   }
@@ -91,11 +87,11 @@ nav#sideNav {
     justify-content: center;
     align-items: center;
     padding: 0.5rem;
-    border: none;
-    border-radius: 15px;
+    border: 0.0625rem solid transparent;
+    border-radius: var(--radius-control);
     background: transparent;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: border-color var(--duration-quick) ease;
 
     &::after {
       content: attr(data-tooltip);
@@ -105,22 +101,30 @@ nav#sideNav {
       transform: translate(0.5rem, -50%);
       white-space: nowrap;
       padding: 0.3rem 0.6rem;
-      border-radius: 8px;
-      background: #16181f;
-      color: #fff;
-      font-size: 0.8rem;
+      border-radius: 0.5rem;
+      background: var(--ink);
+      color: var(--bg);
+      font-size: 0.8125rem;
+      box-shadow: var(--shadow-float);
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.2s ease;
+      transition: opacity var(--duration-quick) ease;
       z-index: 1000;
     }
 
-    &:hover {
-      background: var(--primary-soft);
+    &:hover,
+    &[aria-expanded="true"] {
+      border-color: var(--accent);
     }
 
-    &:hover::after {
+    &:hover::after,
+    &:focus-visible::after {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &:focus-visible::after {
       opacity: 1;
       visibility: visible;
     }
@@ -140,11 +144,11 @@ nav#sideNav {
     justify-content: center;
     align-items: center;
     padding: 0.75rem;
-    border-radius: 15px;
-    transition: background 0.2s ease;
+    border-radius: var(--radius-control);
+    transition: background var(--duration-quick) ease;
 
     &:hover {
-      background: var(--primary-soft);
+      background: var(--wash);
     }
 
     &::after {
@@ -155,18 +159,20 @@ nav#sideNav {
       transform: translate(0.5rem, -50%);
       white-space: nowrap;
       padding: 0.3rem 0.6rem;
-      border-radius: 8px;
-      background: #16181f;
-      color: #fff;
-      font-size: 0.8rem;
+      border-radius: 0.5rem;
+      background: var(--ink);
+      color: var(--bg);
+      font-size: 0.8125rem;
+      box-shadow: var(--shadow-float);
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.2s ease;
+      transition: opacity var(--duration-quick) ease;
       z-index: 1000;
     }
 
-    &:hover::after {
+    &:hover::after,
+    &:focus-visible::after {
       opacity: 1;
       visibility: visible;
     }
@@ -175,15 +181,11 @@ nav#sideNav {
       height: 1.75rem;
       aspect-ratio: 1;
       color: var(--ink-soft);
-      opacity: 0.8;
-      transition:
-        color 0.2s ease,
-        opacity 0.2s ease;
+      transition: color var(--duration-quick) ease;
     }
 
     &:hover > svg {
       color: var(--ink);
-      opacity: 1;
     }
   }
 

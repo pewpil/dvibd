@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
+    "dev": "LOCAL_ENV=1 vite dev",
     "build": "vite build",
-    "start": "node .output/server/index.mjs",
-    "preview": "vite preview"
+    "start": "LOCAL_ENV=1 node .output/server/index.mjs",
+    "preview": "LOCAL_ENV=1 vite preview"
   },
   "dependencies": {
     "@fontsource-variable/lexend": "^5.3.0",

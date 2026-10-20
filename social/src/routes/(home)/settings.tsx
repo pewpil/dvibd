@@ -9,7 +9,7 @@ export default function Settings() {
     </FeedHeader>,
     <div id={style.settings}>
       <h1>Settings</h1>
-      <p>Coming soon.</p>
+      <p>Preferences arrive here soon. Your theme choice is already saved on this device.</p>
     </div>,
   ];
 }

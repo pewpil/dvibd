@@ -1,8 +1,8 @@
-li.userItem {
+li#userItem {
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  padding: 3% 0;
+  padding: 0.65rem 0;
 
   &:first-child {
     padding-top: 0;
@@ -31,27 +31,26 @@ li.userItem {
     }
 
     > p:last-child {
-      font-size: 0.8rem;
+      font-size: 0.8125rem;
       color: var(--ink-soft);
     }
   }
 
   > button {
-    padding: 0.5rem 0.75rem;
-    border: none;
+    padding: 0.45rem 0.85rem;
+    border: 0.0625rem solid var(--line);
     border-radius: 999px;
     background: transparent;
-    color: var(--ink-soft);
-    font-size: 0.8rem;
+    color: var(--ink);
+    font-size: 0.8125rem;
     font-weight: 600;
+    font-family: var(--font-body);
     cursor: pointer;
-    transition:
-      color 0.2s ease,
-      background 0.2s ease;
+    transition: border-color var(--duration-quick) ease, background var(--duration-quick) ease;
 
     &:hover {
-      background: var(--primary-soft);
-      color: var(--ink);
+      border-color: var(--accent);
+      background: var(--accent-soft);
     }
   }
 }

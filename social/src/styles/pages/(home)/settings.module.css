@@ -1,8 +1,11 @@
 div#settings {
-  padding: 6%;
+  padding: 2rem 0.25rem;
 
   > h1 {
-    font-size: 1.5rem;
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   > p {

@@ -11,6 +11,14 @@ interface BookmarksHeaderProps {
   onQuery: (query: string) => void;
 }
 
+const bookmarkTabValues: ReadonlyArray<{
+  label: "Stats" | "Articles";
+  value: "stat" | "article";
+}> = [
+  { label: "Stats", value: "stat" },
+  { label: "Articles", value: "article" },
+];
+
 export default function BookmarksHeader(props: BookmarksHeaderProps) {
   const [searchOpen, setSearchOpen] = createSignal(false);
 
@@ -52,9 +60,14 @@ export default function BookmarksHeader(props: BookmarksHeaderProps) {
         </div>
       </Show>
       <FeedTabs
-        tabs={["Stat", "Articles"]}
-        value={props.tab}
-        onChange={(tab: string) => props.onTab(tab as "stat" | "article")}
+        tabs={bookmarkTabValues.map((entry) => entry.label)}
+        value={
+          bookmarkTabValues.find((entry) => entry.value === props.tab)?.label
+        }
+        onChange={(label: string) => {
+          const match = bookmarkTabValues.find((entry) => entry.label === label);
+          if (match) props.onTab(match.value);
+        }}
       />
     </div>
   );

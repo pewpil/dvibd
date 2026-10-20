@@ -3,48 +3,65 @@ section#hero {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 1.5rem;
-  padding: 4rem 3rem;
+  gap: 1.25rem;
+  padding: 4rem 3rem 3rem;
 
   > h1#heroTitle {
-    font-size: 1.6rem;
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
   }
 
   > p#heroText {
     color: var(--ink-soft);
-    line-height: 1.5;
-    max-width: 80%;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    max-width: 100%;
   }
 
   > div#heroActions {
     display: flex;
     gap: 0.75rem;
+    margin-top: 0.5rem;
 
     > a {
-      padding: 0.6rem 1.2rem;
+      padding: 0.65rem 1.5rem;
       border-radius: 999px;
+      font-size: 0.9375rem;
       font-weight: 600;
       transition:
-        background 0.2s ease,
-        color 0.2s ease;
+        background var(--duration-quick) ease,
+        color var(--duration-quick) ease,
+        border-color var(--duration-quick) ease;
     }
 
     > a#heroPrimary {
-      background: var(--primary);
-      color: #fff;
+      background: var(--accent);
+      color: var(--accent-ink);
 
       &:hover {
-        background: var(--primary-strong);
+        background: var(--accent-strong);
       }
     }
 
     > a#heroSecondary {
       border: 0.0625rem solid var(--line);
+      color: var(--ink);
 
       &:hover {
-        background: var(--primary-soft);
+        border-color: var(--accent);
+        background: var(--accent-soft);
       }
+    }
+  }
+
+  @media (max-width: 47.5rem) {
+    padding: 3rem 1.5rem 2rem;
+
+    > h1#heroTitle {
+      font-size: 2rem;
     }
   }
 }

@@ -5,13 +5,13 @@ interface CommunityProps {
   community: (typeof communities)[number];
 }
 
-export default function Community({ community }: CommunityProps) {
+export default function Community(props: CommunityProps) {
   return (
-    <li class={style.communityItem}>
-      <img src="/community-profile.svg" alt={`${community.name} avatar`} />
+    <li id={style.communityItem}>
+      <img src="/community-profile.svg" alt={`${props.community.name} avatar`} />
       <div>
-        <p>{community.name}</p>
-        <p>{community.members}</p>
+        <p>{props.community.name}</p>
+        <p>{props.community.members}</p>
       </div>
       <button type="button">Join</button>
     </li>

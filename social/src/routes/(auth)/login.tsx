@@ -20,7 +20,7 @@ export default function Login() {
       await login(identifier(), password());
       navigate("/");
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : "That didn't work. Check your username and password, then try again.");
     } finally {
       setPending(false);
     }
@@ -38,7 +38,7 @@ export default function Login() {
         </A>
         <main id={style.login}>
           <h1>Log in</h1>
-          <p>Welcome back. Enter your details to continue.</p>
+          <p>Welcome back.</p>
           <form id={style.loginForm} onSubmit={handleSubmit}>
             <Show when={error() !== undefined}>
               <p id={style.loginError}>{error()}</p>
