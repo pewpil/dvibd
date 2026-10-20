@@ -9,6 +9,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Message",
   description: "dvibd messaging",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default async function RootLayout(props: {

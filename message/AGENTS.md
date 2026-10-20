@@ -5,6 +5,7 @@ This file contains context specific to the `message` application. Repository-wid
 ## Application Overview
 - **Framework & Runtime**: Next.js 16 (App Router, React 19), running on Node. Type check with `npx tsc --noEmit` or `npm run typecheck` from `message/`.
 - **Dev Port**: `3005`, set in the `dev` and `start` scripts (`next dev -p 3005`).
+- **App icon**: `public/icon.svg` is the sky-blue speech bubble taken from `dvibd/gui/src/assets/components/dvibd/home/landing/product/message.svg`. `layout.tsx` serves the browser tab through `metadata.icons`, and the login and signup pages render the same file inside `Link#authBrand` (`img#authBrandIcon`, `2rem` square), so the pages match the tab.
 - **Root Layout**: `src/app/layout.tsx` is a Server Component. It exports `metadata` (`title: "Message"`, `description: "dvibd messaging"`) and renders `<html lang="en">`, `<body>`, and a `<div id="app">` wrapper that wraps children in `AuthProvider`.
 - **Auth**: this app has its own backend and shares only `orm/` (Prisma) and `db/` (Postgres) with the rest of the repository. It never proxies through `dvibd/api/`.
 

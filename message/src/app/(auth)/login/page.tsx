@@ -87,6 +87,7 @@ export default function LoginPage(): ReactNode {
     <main id={style.auth}>
       <div id={style.authInner}>
         <Link id={style.authBrand} href="/">
+          <img id={style.authBrandIcon} src="/icon.svg" alt="" />
           <span id={style.authBrandName}>
             message<span id={style.authBrandDot}>.</span>
           </span>
