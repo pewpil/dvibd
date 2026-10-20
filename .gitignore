@@ -58,3 +58,6 @@ dvibd/gui/src/generated
 # Hand-written skills are tracked and must NOT be removed. Add them here as exceptions.
 .agents/skills/*
 !.agents/skills/sticky-scroll-headers/
+
+# Local Netlify folder
+.netlify

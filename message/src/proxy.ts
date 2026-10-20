@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { SESSION_COOKIE, validateRefreshToken } from "./server/tokens";
+import { SESSION_COOKIE, verifyRefreshToken } from "./server/jwt";
 
 const AUTH_PAGES: string[] = ["/login", "/signup"];
 const AUTH_ENDPOINTS: string[] = [
@@ -27,7 +27,7 @@ function redirectTo(pathname: string, request: NextRequest): NextResponse {
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   const raw: string | undefined = request.cookies.get(SESSION_COOKIE)?.value;
   const authenticated: boolean =
-    raw !== undefined && (await validateRefreshToken(raw)) !== null;
+    raw !== undefined && (await verifyRefreshToken(raw)) !== null;
 
   const pathname: string = request.nextUrl.pathname;
 
