@@ -75,7 +75,7 @@ export default function CurrentConversation(
 
   const subtitleText: string =
     props.conversation.type === "channel"
-      ? `${props.conversation.memberCount} members in community`
+      ? `${props.conversation.memberCount} members`
       : props.conversation.presenceStatus === "online"
         ? "Online"
         : props.conversation.presenceStatus === "idle"

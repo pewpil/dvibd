@@ -40,7 +40,7 @@ const ACCOUNT_SECTIONS: AccountActionSection[] = [
   {
     items: [
       { label: "Help", icon: "help", danger: false },
-      { label: "Report Problem", icon: "report", danger: false },
+      { label: "Report a problem", icon: "report", danger: false },
     ],
   },
   { items: [{ label: "Log out", icon: "logout", danger: true }] },

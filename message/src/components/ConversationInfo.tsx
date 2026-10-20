@@ -67,11 +67,11 @@ export default function ConversationInfo(
         </h3>
         <span id={style.profileSubtitle}>
           {isChannel
-            ? `${props.conversation.communityName} • ${props.conversation.memberCount} members`
+            ? `${props.conversation.communityName}, ${props.conversation.memberCount} members`
             : `@${
                 props.participant?.handle ??
                 props.conversation.title.toLowerCase().replace(/\s+/g, "")
-              } • ${props.participant?.role ?? props.conversation.subtitle}`}
+              }, ${props.participant?.role ?? props.conversation.subtitle}`}
         </span>
         <p id={style.profileBio}>{bioText}</p>
 
@@ -140,7 +140,7 @@ export default function ConversationInfo(
       <div id={style.infoScrollContent}>
         <section id={style.participantsSection}>
           <h4 id={style.sectionTitle}>
-            {isChannel ? "Channel Members" : "Participants"}
+            {isChannel ? "Channel members" : "Participants"}
           </h4>
           <ul id={style.participantsList}>
             {props.participants.map((p: Participant): ReactNode => {
@@ -165,7 +165,7 @@ export default function ConversationInfo(
         </section>
 
         <section id={style.sharedFilesSection}>
-          <h4 id={style.sectionTitle}>Shared Files</h4>
+          <h4 id={style.sectionTitle}>Shared files</h4>
           <ul id={style.sharedFilesList}>
             {props.sharedFiles.map((file: SharedFile): ReactNode => {
               return (
@@ -175,7 +175,7 @@ export default function ConversationInfo(
                     <div id={style.fileMeta}>
                       <span id={style.fileName}>{file.name}</span>
                       <span id={style.fileSubtext}>
-                        {file.size} • {file.timestamp}
+                        {file.size}, {file.timestamp}
                       </span>
                     </div>
                   </div>
@@ -205,7 +205,7 @@ export default function ConversationInfo(
         </section>
 
         <section id={style.sharedLinksSection}>
-          <h4 id={style.sectionTitle}>Shared Links</h4>
+          <h4 id={style.sectionTitle}>Shared links</h4>
           <ul id={style.sharedLinksList}>
             {props.sharedLinks.map((link: SharedLink): ReactNode => {
               return (
@@ -268,7 +268,7 @@ export default function ConversationInfo(
               <circle cx="12" cy="12" r="10" />
               <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
             </svg>
-            {isChannel ? "Leave Channel" : "Block Contact"}
+            {isChannel ? "Leave channel" : "Block contact"}
           </button>
         </section>
       </div>

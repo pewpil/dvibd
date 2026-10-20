@@ -33,7 +33,8 @@ aside#information {
     -webkit-backdrop-filter: blur(var(--blur));
     backdrop-filter: blur(var(--blur));
     border: 0.0625rem solid var(--line);
-    border-radius: 16px;
+    border-radius: var(--radius-panel);
+    box-shadow: var(--glass-shadow), var(--glass-inset);
     gap: 0.4rem;
 
     &.stuck {
@@ -51,14 +52,14 @@ aside#information {
       width: 2rem;
       height: 2rem;
       border: none;
-      border-radius: 8px;
+      border-radius: var(--radius-control);
       background: transparent;
       color: var(--ink-soft);
       cursor: pointer;
-      transition: all 0.18s ease;
+      transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
 
       &:hover {
-        background: var(--surface-hover);
+        background: var(--wash);
         color: var(--ink);
       }
 
@@ -74,25 +75,25 @@ aside#information {
       border-radius: 50%;
       object-fit: cover;
       margin-bottom: 0.4rem;
-      border: 0.1875rem solid var(--primary-soft);
+      border: 0.1875rem solid var(--bg);
     }
 
     > h3#profileName {
-      font-size: 1.1841rem;
+      font-size: 1.1875rem;
       font-weight: 700;
       color: var(--ink);
     }
 
     > span#profileSubtitle {
-      font-size: 0.8612rem;
+      font-size: 0.875rem;
       color: var(--ink-soft);
       font-weight: 500;
     }
 
     > p#profileBio {
-      font-size: 0.8746rem;
+      font-size: 0.875rem;
       color: var(--ink-soft);
-      line-height: 1.4;
+      line-height: 1.45;
       margin-top: 0.4rem;
     }
 
@@ -110,17 +111,17 @@ aside#information {
         gap: 0.25rem;
         padding: 3% 4%;
         border: none;
-        border-radius: 10px;
-        background: var(--surface-strong);
+        border-radius: var(--radius-control);
+        background: transparent;
         color: var(--ink);
-        font-size: 0.7804rem;
+        font-size: 0.78rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.18s ease;
+        transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
 
         &:hover {
-          background: var(--primary-soft);
-          color: var(--primary);
+          background: var(--wash);
+          color: var(--accent);
         }
 
         > svg {
@@ -136,28 +137,29 @@ aside#information {
     flex: none;
     display: flex;
     flex-direction: column;
-    /* padding: 6%; */
     gap: 1.5rem;
 
-    > section#participantsSection {
+    > section#participantsSection,
+    > section#sharedFilesSection,
+    > section#sharedLinksSection {
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.4rem;
 
       > h4#sectionTitle {
-        font-size: 0.915rem;
+        font-size: 0.9rem;
         font-weight: 700;
         color: var(--ink-soft);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
+        padding: 0 4%;
       }
+    }
 
+    > section#participantsSection {
       > ul#participantsList {
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
 
         > li#participantItem {
           width: 100%;
@@ -165,9 +167,6 @@ aside#information {
           align-items: center;
           justify-content: space-between;
           padding: 3% 4%;
-          background: var(--surface);
-          border: 0.0625rem solid var(--line);
-          border-radius: 10px;
 
           > div#participantDetails {
             display: flex;
@@ -189,7 +188,7 @@ aside#information {
               min-width: 0;
 
               > span#participantName {
-                font-size: 0.915rem;
+                font-size: 0.9rem;
                 font-weight: 600;
                 color: var(--ink);
                 white-space: nowrap;
@@ -198,44 +197,34 @@ aside#information {
               }
 
               > span#participantHandle {
-                font-size: 0.7804rem;
+                font-size: 0.78rem;
                 color: var(--ink-soft);
               }
             }
           }
 
           > span#roleBadge {
-            padding: 0.15rem 0.45rem;
-            border-radius: 6px;
-            background: var(--primary-soft);
-            color: var(--primary);
-            font-size: 0.7535rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 0.75rem;
             font-weight: 600;
             flex-shrink: 0;
           }
+        }
+
+        > li#participantItem:not(:first-child) {
+          border-top: 0.0625rem solid var(--line);
         }
       }
     }
 
     > section#sharedFilesSection {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-
-      > h4#sectionTitle {
-        font-size: 0.915rem;
-        font-weight: 700;
-        color: var(--ink-soft);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-      }
-
       > ul#sharedFilesList {
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 0.45rem;
 
         > li#sharedFileItem {
           width: 100%;
@@ -243,9 +232,6 @@ aside#information {
           align-items: center;
           justify-content: space-between;
           padding: 3% 4%;
-          background: var(--surface);
-          border: 0.0625rem solid var(--line);
-          border-radius: 10px;
 
           > div#fileInfo {
             display: flex;
@@ -259,10 +245,10 @@ aside#information {
               justify-content: center;
               width: 2.2rem;
               height: 2.2rem;
-              border-radius: 8px;
-              background: var(--primary-soft);
-              color: var(--primary);
-              font-size: 0.6997rem;
+              border-radius: var(--radius-control);
+              background: var(--accent-soft);
+              color: var(--accent);
+              font-size: 0.7rem;
               font-weight: 700;
               flex-shrink: 0;
             }
@@ -273,7 +259,7 @@ aside#information {
               min-width: 0;
 
               > span#fileName {
-                font-size: 0.915rem;
+                font-size: 0.9rem;
                 font-weight: 600;
                 color: var(--ink);
                 white-space: nowrap;
@@ -282,7 +268,7 @@ aside#information {
               }
 
               > span#fileSubtext {
-                font-size: 0.7535rem;
+                font-size: 0.75rem;
                 color: var(--ink-soft);
               }
             }
@@ -295,16 +281,16 @@ aside#information {
             width: 1.75rem;
             height: 1.75rem;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--radius-control);
             background: transparent;
             color: var(--ink-soft);
             cursor: pointer;
             flex-shrink: 0;
-            transition: all 0.18s ease;
+            transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
 
             &:hover {
-              background: var(--surface-hover);
-              color: var(--primary);
+              background: var(--wash);
+              color: var(--accent);
             }
 
             > svg {
@@ -313,28 +299,18 @@ aside#information {
             }
           }
         }
+
+        > li#sharedFileItem:not(:first-child) {
+          border-top: 0.0625rem solid var(--line);
+        }
       }
     }
 
     > section#sharedLinksSection {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-
-      > h4#sectionTitle {
-        font-size: 0.915rem;
-        font-weight: 700;
-        color: var(--ink-soft);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-      }
-
       > ul#sharedLinksList {
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 0.45rem;
 
         > li#sharedLinkItem {
           width: 100%;
@@ -342,15 +318,10 @@ aside#information {
           align-items: center;
           gap: 0.6rem;
           padding: 3% 4%;
-          background: var(--surface);
-          border: 0.0625rem solid var(--line);
-          border-radius: 10px;
-          text-decoration: none;
-          color: inherit;
-          transition: background 0.18s ease;
+          transition: background var(--duration-quick) ease;
 
           &:hover {
-            background: var(--surface-hover);
+            background: var(--wash);
           }
 
           > span#linkIconBadge {
@@ -359,9 +330,9 @@ aside#information {
             justify-content: center;
             width: 2rem;
             height: 2rem;
-            border-radius: 8px;
-            background: var(--surface-strong);
-            color: var(--primary);
+            border-radius: var(--radius-control);
+            background: transparent;
+            color: var(--accent);
             flex-shrink: 0;
 
             > svg {
@@ -376,7 +347,7 @@ aside#information {
             min-width: 0;
 
             > span#linkTitle {
-              font-size: 0.8746rem;
+              font-size: 0.875rem;
               font-weight: 600;
               color: var(--ink);
               white-space: nowrap;
@@ -385,10 +356,14 @@ aside#information {
             }
 
             > span#linkDomain {
-              font-size: 0.7535rem;
+              font-size: 0.75rem;
               color: var(--ink-soft);
             }
           }
+        }
+
+        > li#sharedLinkItem:not(:first-child) {
+          border-top: 0.0625rem solid var(--line);
         }
       }
     }
@@ -405,9 +380,9 @@ aside#information {
         align-items: center;
         gap: 0.6rem;
         padding: 3.5% 4%;
-        border-radius: 10px;
-        background: var(--primary-soft);
-        color: var(--primary-strong);
+        border-radius: var(--radius-control);
+        background: var(--accent-soft);
+        color: var(--accent-strong);
 
         > svg {
           width: 1.15rem;
@@ -416,7 +391,7 @@ aside#information {
         }
 
         > span#encryptionText {
-          font-size: 0.8074rem;
+          font-size: 0.81rem;
           font-weight: 600;
         }
       }
@@ -429,13 +404,13 @@ aside#information {
         gap: 0.5rem;
         padding: 3.5% 4%;
         border: 0.0625rem solid var(--danger);
-        border-radius: 10px;
+        border-radius: var(--radius-control);
         background: transparent;
         color: var(--danger);
-        font-size: 0.8881rem;
+        font-size: 0.89rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.18s ease;
+        transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
 
         &:hover {
           background: var(--danger);
