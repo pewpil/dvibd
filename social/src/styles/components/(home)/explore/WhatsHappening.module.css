@@ -17,13 +17,17 @@ article#event {
   }
 
   > h3#eventTitle {
-    font-size: 0.95rem;
+    font-size: 0.9375rem;
     font-weight: 600;
     line-height: 1.4;
   }
 
   > p#eventMeta {
-    font-size: 0.8rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: 0.8125rem;
     color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
   }
 }

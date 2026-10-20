@@ -22,7 +22,7 @@ export default function ProfileCard(props: ProfileCardProps) {
       <img id={style.avatar} src={props.user.avatar} alt={props.user.name} />
       <div id={style.actions}>
         <button type="button" id={style.followButton}>
-          Follow
+          Edit profile
         </button>
         <button type="button" id={style.moreButton} aria-label="More options">
           <span id={style.moreIcon} innerHTML={moreIcon} />

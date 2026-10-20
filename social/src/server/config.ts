@@ -1,4 +1,3 @@
-import { existsSync } from "node:fs";
 import { z } from "zod";
 
 const DEFAULTS = {
@@ -11,22 +10,28 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(16, "JWT_SECRET must be at least 16 characters"),
 });
 
-function hasEnvFile(): boolean {
-  return existsSync(".env");
+const isLocalRun: boolean = process.env.LOCAL_ENV === "1";
+
+function warnAmbientOverride(name: keyof typeof DEFAULTS): void {
+  const ambient: string | undefined = process.env[name];
+  if (ambient === undefined || ambient === DEFAULTS[name]) {
+    return;
+  }
+  console.warn(
+    `LOCAL_ENV=1 locks this localhost run to the dev defaults and ignores ambient ${name}.`,
+  );
 }
 
 function resolveEnv(name: keyof typeof DEFAULTS): string {
+  if (isLocalRun) {
+    warnAmbientOverride(name);
+    return DEFAULTS[name];
+  }
   const value: string | undefined = process.env[name];
-  if (value !== undefined) {
-    return value;
+  if (value === undefined) {
+    throw new Error(`Environment variable ${name} is required when LOCAL_ENV is unset`);
   }
-  if (hasEnvFile()) {
-    throw new Error(`Environment variable ${name} is missing from .env file`);
-  }
-  if (process.env.NODE_ENV === "production") {
-    throw new Error(`Environment variable ${name} is required in production`);
-  }
-  return DEFAULTS[name];
+  return value;
 }
 
 const parsedEnv = envSchema.parse({

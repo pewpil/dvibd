@@ -57,7 +57,7 @@ export default function Actions(props: ActionsProps) {
         <span id={style.actionIcon} innerHTML={saveIcon} />
         <span>{saveCount()}</span>
       </button>
-      <button type="button" aria-label="Share" class={style.shareAction}>
+      <button type="button" aria-label="Share">
         <span id={style.actionIcon} innerHTML={shareIcon} />
       </button>
     </footer>

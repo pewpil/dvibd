@@ -190,15 +190,16 @@ This section holds persistent memory, learned rules, and calibration contexts ac
 - For the units policy itself, see GUI standard 7 above.
 
 ### Env Resolution Policy (implemented)
-Every module that reads env through a defaults fallback (`social/src/server/config.ts`, `message/src/server/config.ts`, `orm/prisma.config.ts`) resolves in this order:
-1. `process.env`, when the variable is set.
-2. Throw, when a `.env` file exists but the variable is not in it.
-3. Throw, when `NODE_ENV` is exactly `production`.
-4. The checked-in dev default, for local development only.
+`LOCAL_ENV=1`, exported by each app's own local scripts (`dev` and `start` in `message`; `dev`, `start`, and `preview` in `social`), marks a localhost test run. The config modules (`social/src/server/config.ts`, `message/src/server/config.ts`) resolve in this order:
+1. `LOCAL_ENV=1` set: return the checked-in dev defaults (`postgresql://dvibd:dvibd@localhost:3001/dvibd` plus the per-app change-me secret), ignoring `process.env` entirely.
+2. Otherwise, `process.env`, when the variable is set (Netlify's injected site env in every hosted runtime, and any locally exported value, such as one loaded from a local `.env` by the dev or build tooling).
+3. Otherwise, throw.
 
-**Why `process.env` comes first.** The dev servers load `.env` into `process.env` themselves (Next, Vite, and Nitro each do this), so reading `process.env` covers local `.env` files too. Netlify has no `.env` file and injects site variables into both builds and function runtimes, so a `process.env`-first order is the only one where deployed values are actually honoured. The previous order tested file presence first and returned the defaults without consulting `process.env` at all, so a Netlify deploy silently ran on `postgresql://dvibd:dvibd@localhost:3001/dvibd` and signed tokens with the public `message-dev-secret-change-me` / `social-dev-secret-change-me` secrets.
+`orm/prisma.config.ts` is unaffected: the Prisma CLI keeps its own process.env-first order against `orm/.env`.
 
-**Consequence for builds.** `next build` evaluates route handler modules, so a local production build with no `.env` and no exported variables now fails during page-data collection. That is intended: on Netlify the variables are present at build time. To build locally, provide a `.env` file.
+**Why the marker wins over `process.env`.** Once the runtimes moved onto Netlify's injected site env, every ambient local variable became a capture risk for a localhost run: a leftover export, or `netlify dev` injecting the site's variables into its dev command, would point local testing at Supabase with the real secrets. The marker makes "testing locally" explicit and deterministic: hosted runtimes never see it because they are not started through npm scripts (Netlify executes the build output directly), while `netlify dev` inherits it because it runs the same dev script.
+
+**Consequence for builds.** `next build` evaluates route handler modules, and build scripts deliberately carry no `LOCAL_ENV`, so a local production build with no `.env` and no exported variables still fails during page-data collection. That is intended: on Netlify the variables are present at build time. To build locally, provide a `.env` file.
 
 ### Monorepo Context Memory
 - **Self-Contained Backend Ecosystems**: Both `social` and `message` maintain independent self-contained backends with their own auth routes, session tokens, and middleware. They never proxy or relay through `dvibd/api`.

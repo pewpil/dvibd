@@ -3,4 +3,5 @@ div#exploreBody {
   flex-direction: column;
   gap: 2rem;
   margin-top: 1.5rem;
+  padding: 0 0.25rem;
 }

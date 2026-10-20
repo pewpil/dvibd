@@ -2,10 +2,14 @@ li#notificationItem {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1rem;
-  border: 0.0625rem solid var(--line);
-  border-radius: 15px;
-  background: var(--surface);
+  padding: 1.25rem 0.25rem;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+
+  &:not(:first-child) {
+    border-top: 0.0625rem solid var(--line);
+  }
 
   > img {
     width: 2.6rem;
@@ -27,7 +31,7 @@ li#notificationItem {
     }
 
     > p#notificationTime {
-      font-size: 0.8rem;
+      font-size: 0.8125rem;
       color: var(--ink-soft);
     }
   }

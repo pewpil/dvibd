@@ -148,7 +148,7 @@ export const posts: Post[] = [
     author: "Sofia Reyes",
     handle: "sofia.reyes",
     time: "8h",
-    text: "Spent the morning drawing icons. Lexend for headings, Rethink Sans for body — such a clean pairing.",
+    text: "Spent the morning drawing icons. Lexend for headings, Rethink Sans for body, such a clean pairing.",
     type: "stat",
     likedByUser: true,
     reply: 3,

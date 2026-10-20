@@ -5,12 +5,12 @@ interface TrendProps {
   topic: (typeof trendingTopics)[number];
 }
 
-export default function Trend({ topic }: TrendProps) {
+export default function Trend(props: TrendProps) {
   return (
-    <li class={style.trendItem}>
-      <span>{topic.rank}</span>
-      <p>{`#${topic.tag}`}</p>
-      <span>{topic.posts}</span>
+    <li id={style.trendItem}>
+      <span>{props.topic.rank}</span>
+      <p>{`#${props.topic.tag}`}</p>
+      <span>{props.topic.posts}</span>
     </li>
   );
 }

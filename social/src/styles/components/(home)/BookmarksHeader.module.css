@@ -9,7 +9,10 @@ div#bookmarksHeader {
     justify-content: space-between;
 
     > h1#headerTitle {
-      font-size: 1.5rem;
+      font-family: var(--font-heading);
+      font-size: 1.375rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     > button {
@@ -28,8 +31,8 @@ div#bookmarksHeader {
         background 0.2s ease;
 
       &:hover {
-        color: var(--primary);
-        background: var(--primary-soft);
+        color: var(--accent);
+        background: var(--accent-soft);
       }
 
       > span#searchIcon {
@@ -98,8 +101,8 @@ div#bookmarksHeader {
         background 0.2s ease;
 
       &:hover {
-        color: var(--primary);
-        background: var(--primary-soft);
+        color: var(--accent);
+        background: var(--accent-soft);
       }
 
       > span#searchIcon {

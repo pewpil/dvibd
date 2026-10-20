@@ -5,11 +5,11 @@ interface SectionProps extends ParentProps {
   title: string;
 }
 
-export default function Section({ title, children }: SectionProps) {
+export default function Section(props: SectionProps) {
   return (
-    <section class={style.section}>
-      <h2>{title}</h2>
-      {children}
+    <section id={style.section}>
+      <h2>{props.title}</h2>
+      {props.children}
     </section>
   );
 }
