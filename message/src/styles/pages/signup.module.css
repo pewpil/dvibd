@@ -22,6 +22,12 @@ main#auth {
       text-decoration: none;
       margin-bottom: 3%;
 
+      > img#authBrandIcon {
+        display: block;
+        width: 2rem;
+        height: 2rem;
+      }
+
       > span#authBrandName {
         > span#authBrandDot {
           color: var(--primary);

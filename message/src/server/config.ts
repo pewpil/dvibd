@@ -12,8 +12,19 @@ const envSchema = z.object({
 
 const isLocalRun: boolean = process.env.LOCAL_ENV === "1";
 
+function warnAmbientOverride(name: keyof typeof DEFAULTS): void {
+  const ambient: string | undefined = process.env[name];
+  if (ambient === undefined || ambient === DEFAULTS[name]) {
+    return;
+  }
+  console.warn(
+    `LOCAL_ENV=1 locks this localhost run to the dev defaults and ignores ambient ${name}.`,
+  );
+}
+
 function resolveEnv(name: keyof typeof DEFAULTS): string {
   if (isLocalRun) {
+    warnAmbientOverride(name);
     return DEFAULTS[name];
   }
   const value: string | undefined = process.env[name];
