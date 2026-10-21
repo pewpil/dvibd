@@ -123,7 +123,7 @@ Netlify hosts `social` and `message` with their own backends, plus the `dvibd/gu
 - `--secret` values are write-only and reach any build running off Netlify masked (asterisks plus the last four characters), while code running on Netlify reads them unmasked. Every app's `build.command` therefore starts with a guard keyed on those asterisks for local CLI builds, which never fires on Netlify-hosted builds. `social`'s and `dvibd/gui`'s guard unsets `DATABASE_URL` so `prisma generate` falls through to `orm/.env` through dotenv. `message`'s instead exports a build-only placeholder URL and rewrites `.next/standalone/.env` to the dev defaults after `next build`: its edge-function bundling evaluates the middleware module graph in a process that inherits the CLI environment rather than the build command's shell, and the runtime plugin unconditionally requires that file while a copied-through one would carry the machine's real `DATABASE_URL` into the shipped artifact. The rewrite also removes any need for a local `.env` file. A local `netlify deploy --prod` for `message` must therefore run with placeholder `DATABASE_URL` and `JWT_SECRET` exported in the invoking shell. `JWT_SECRET` is never read at build time, so its mask is harmless. The earliest invocations after a first deploy can run before secret values reach the function runtime; diagnose with `netlify logs --source functions --function server` rather than assuming misconfiguration.
 
 ### Prisma Skills
-`skills-lock.json` at the repository root is the tracked source of truth and pins all twenty-one third-party skills. Those twenty-one are gitignored because they are regenerable. A twenty-second skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
+`skills-lock.json` at the repository root is the tracked source of truth and pins all twenty-three third-party skills. Those twenty-three are gitignored because they are regenerable. A twenty-fourth skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
 
 Before any Prisma schema, migration, client, or query work, run this from the repository root:
 
@@ -133,7 +133,7 @@ npx --yes skills@1.5.14 experimental_install
 
 Run it unconditionally. It is idempotent and self-healing: it restores every skill from `skills-lock.json` when the directory is absent (fresh clone, clean checkout, `git clean -xfd`), and does nothing harmful when they are already present. Do not pre-check whether the directory exists; do not run `skills add`, `prisma init`, or scaffold a Prisma project to obtain them.
 
-All twenty-one live in the repository-level `.agents/skills/` directory and are discovered in every session, regardless of which app you are working on. Nothing is scoped to a single app directory, because skill discovery is resolved from the working directory and this repository is always worked on from its root. The table below therefore records **which frameworks each skill is valid for**, not which folder it lives in. A future app that adopts one of these frameworks picks the matching skills up automatically, with no reinstall.
+All twenty-three live in the repository-level `.agents/skills/` directory and are discovered in every session, regardless of which app you are working on. Nothing is scoped to a single app directory, because skill discovery is resolved from the working directory and this repository is always worked on from its root. The table below therefore records **which frameworks each skill is valid for**, not which folder it lives in. A future app that adopts one of these frameworks picks the matching skills up automatically, with no reinstall.
 
 | Skill | Source | Valid for |
 | --- | --- | --- |
@@ -146,6 +146,8 @@ All twenty-one live in the repository-level `.agents/skills/` directory and are 
 | `frontend-design` | `anthropics/skills` | any web UI |
 | `glassmorphism` | `iart-ai/web-animation-skills` | any web UI, opt-in per task |
 | the four `netlify-*` skills | `netlify/context-and-tools` | Netlify deploys, per app |
+| `svelte-core-bestpractices` | `sveltejs/ai-tools` | Svelte 5 apps |
+| `svelte-code-writer` | `sveltejs/ai-tools` | Svelte 5 apps |
 
 `frontend-design` is framework agnostic and needs no translation. It supplies aesthetic direction, typography, and copy guidance, plus a two-pass design plan step and a list of machine-generated design habits to avoid. Its quality floor (visible keyboard focus, `prefers-reduced-motion`, accessibility) agrees with `web-design-guidelines`.
 
@@ -162,6 +164,8 @@ The four `netlify-*` skills are the official ones from `netlify/context-and-tool
 - **`.env` and secrets**: the skills assume env vars live in the Netlify UI or `netlify env:set`. Keep using `env:set` with `--secret`; a committed `netlify.toml` must never carry a real value. The skills also advise never disabling secret scanning to silence a failure; if a deploy trips secrets scanning, treat the flagged value as a real leak and rotate it.
 - **Monorepo shape**: the skills assume one project per repository. This repository has three, each with its own base directory, and CLI commands must run from inside an app directory. Where a skill says "run from the repository root", that is wrong here.
 
+`svelte-core-bestpractices` and `svelte-code-writer` are the official pair from the Svelte team's own `sveltejs/ai-tools` repository. The first covers runes, snippets, events, context, and styling idiom, and its legacy-avoidance checklist matches the Svelte 5 Core section above point for point. The second wraps the official `@sveltejs/mcp` CLI: `list-sections` and `get-documentation` for live Svelte 5 documentation, and `svelte-autofixer` to validate any `.svelte` or `.svelte.ts` file before finalizing, at the cost of one `npx` invocation per use. Its `svelte-file-editor` subagent reference belongs to the vendor's tooling and does not exist in this repository, so run the skill inline. `mail/gui` is currently the only Svelte codebase here, and it is a plain Vite SPA, so the SvelteKit-specific portions of these skills do not apply.
+
 ### Skills Are Advisory; These Standards Are Mandatory
 The skills listed above are third-party guidance. **This file is the authoritative source of standards for this repository and always wins.** Where a skill disagrees with anything in this file, follow this file and note the deviation rather than silently complying with the skill.
 
@@ -171,14 +175,15 @@ The specific conflicts to resolve in favour of this file:
 - **File structure**: GUI standard 12 overrides any skill that proposes a different layout, including the `glassmorphism` skill's standalone single-file HTML demo. Deliverable structure is mirrored TSX and CSS Modules under this repository's conventions.
 - **Comments**: Cross-Cutting standard 3 overrides any skill whose examples annotate code. Do not add comments unless explicitly asked.
 - **Em dashes**: Cross-Cutting standard 4 overrides any skill. In particular `frontend-design` flags a spaced em dash in labels as a sign of generated output, which aligns with this standard rather than competing with it.
-- **Framework**: never apply React or Next.js skills to the SolidJS apps, and never apply SolidJS guidance to `message`.
+- **Framework**: never apply React or Next.js skills to the SolidJS apps, never apply SolidJS guidance to `message`, and never apply Svelte or SvelteKit guidance outside `mail/gui`, which itself is a Vite SPA and not SvelteKit.
+- **Svelte styling**: GUI standard 1 and `mail/AGENTS.md`'s styling mechanism override the Svelte scoped `<style>` blocks and `:global` overrides that `svelte-core-bestpractices` teaches. `mail` components use a CSS Module imported as `style`, select through hashed ids, and the `class:` directive remains allowed even though the skill prefers clsx-style array or object class values.
 
 Skills remain valuable for what this file does not cover: aesthetic direction, accessibility detail, and framework idioms that are already consistent with these standards.
 
 ### Hand-Written Skills
 `sticky-scroll-headers` covers headers that scroll with their content and pin to the top of their scrollport. It documents the working implementations in `social/src/components/(home)/FeedHeader.tsx` (SolidJS, viewport scroller) and `message/src/hooks/useStuckScroll.ts` (React, per-column scroller), plus the failure modes that produce each distinct wrong behavior. It applies to `message` and `social`.
 
-Unlike the twenty-one above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
+Unlike the twenty-three above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
 
 ## Workspace Memory
 This section holds persistent memory, learned rules, and calibration contexts across the `dvibd` repository.

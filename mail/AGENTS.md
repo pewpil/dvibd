@@ -22,3 +22,10 @@ This file contains context specific to the `mail` workspace (`gui`, and the plan
   - Every `.svelte` component has a parallel CSS Module under `src/styles/` with the same stem: root component `src/App.svelte` <-> `src/styles/components/App.module.css`; a new `src/components/ListRail.svelte` <-> `src/styles/components/ListRail.module.css`.
   - New components go under `src/components/` so their modules nest under `src/styles/components/` symmetrically. Do not move `src/App.svelte`; it is the mount root.
   - Element ids and classes are camelCase, taken from the component's CSS Module, and all selectors inside a module are fully nested `tag#id` containing `>` child chains, per the root GUI standards.
+
+## Relevant Skills
+- Skills are installed under the repository root `.agents/skills/` and are discovered in every session; none are scoped to this directory. Five apply here, selected by framework or tooling.
+- `svelte-core-bestpractices` and `svelte-code-writer` are the official pair from the Svelte team's `sveltejs/ai-tools`. The first is the runes and idiom guidance; the second wraps the official `@sveltejs/mcp` CLI for Svelte 5 documentation lookup plus the `svelte-autofixer` validator, which runs against `.svelte` and `.svelte.ts` files before finalizing. Their SvelteKit-specific portions do not apply because this app is a plain Vite SPA, and `svelte-code-writer`'s `svelte-file-editor` subagent does not exist in this repository, so run the skill inline.
+- `frontend-design` (any web UI) supplies aesthetic direction and copy guidance. `web-design-guidelines` (any web UI) supplies accessibility and platform rules; its Tailwind utility phrasing and React-specific sections are advisory only.
+- `glassmorphism` is opt-in and fires only when glass or frosted surfaces are actually requested.
+- The repository root `AGENTS.md` wins on every conflict; its skills section records precedence. In this app the live overrides are the styling mechanism above (CSS Modules over Svelte scoped `<style>`) and GUI standard 7's units policy (`rem` and `%` over `px`).
