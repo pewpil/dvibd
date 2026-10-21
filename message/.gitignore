@@ -7,5 +7,9 @@ build
 next-env.d.ts
 public/fonts/
 
+# quarantine of the root-owned zombie's build output (2026-10)
+.next.rootheld
+.netlify/static.rootheld
+
 # ORM
 src/server/generated
