@@ -6,6 +6,7 @@ This file is the authoritative source of repository-wide standards that must be 
 - `dvibd/`: the main gui + api workspace (Deno API, client-side Vite/SolidJS GUI).
 - `social/`: a standalone SolidStart app (self-contained backend, Node runtime).
 - `message/`: a standalone Next.js App Router app (self-contained backend, Node runtime).
+- `mail/`: a standalone Vite + Svelte 5 app (client-side SPA; Node tooling). Its backend (`mail/api`, port 3007) is planned but not yet scaffolded. See `mail/AGENTS.md`.
 - `orm/`: shared Prisma schema, migrations, and generated clients (package `@dvibd/orm`). The apps are clients of this ORM; they do not define their own schema.
 - `db/`: local test Postgres via docker-compose (see `db/AGENTS.md`).
 - `.opencode/`: OpenCode project configuration.
@@ -21,9 +22,9 @@ This file is the authoritative source of repository-wide standards that must be 
 ## Runtime & Typecheck Standards (Deno vs Node)
 - `dvibd/api` runtime is Deno. Respect `compilerOptions`, `fmt`, and `lint` in its `deno.json`.
 - `dvibd/gui`, `social`, and `message` run on Node. Never run `deno check` in them.
-- **Node Version Policy**: every Node workspace targets the latest Node.js **LTS** release, currently Node 24 ("Krypton"). Node 26 and other Current or EOL lines are out of policy. Each Node workspace declares `"engines": { "node": ">=24" }`, and `@types/node` is pinned to the matching `24.x` line so the types reflect the oldest supported runtime rather than whatever happens to be installed. Do not bump Node majors until a newer line reaches LTS; when one does, update `engines` and `@types/node` together across `dvibd/gui`, `social`, `message`, and `orm`.
+- **Node Version Policy**: every Node workspace targets the latest Node.js **LTS** release, currently Node 24 ("Krypton"). Node 26 and other Current or EOL lines are out of policy. Each Node workspace declares `"engines": { "node": ">=24" }`, and `@types/node` is pinned to the matching `24.x` line so the types reflect the oldest supported runtime rather than whatever happens to be installed. Do not bump Node majors until a newer line reaches LTS; when one does, update `engines` and `@types/node` together across `dvibd/gui`, `social`, `message`, `mail/gui`, and `orm`.
 - **This policy does not apply to `dvibd/api`.** It runs on Deno and is governed by `dvibd/api/deno.json`, not by Node `engines`. Never add `engines` or `@types/node` there, and do not type-check it with `tsc`.
-- **TypeScript Version Policy**: TypeScript has no LTS concept, so every Node workspace tracks the latest release, currently `^7.0.2`. Keep it aligned across all of them.
+- **TypeScript Version Policy**: TypeScript has no LTS concept, so every Node workspace tracks the latest release, currently `^7.0.2`. Keep it aligned across all of them. `mail/gui` is the one deliberate deviation: its classic `typescript` pin (`~6.0.3`) exists only because `svelte-check`'s tooling requires it, while the repository-standard 7.x line arrives through `@typescript/native` and is used explicitly via `svelte-check --tsgo`; see `mail/AGENTS.md`.
 
 ### Typecheck Matrix
 
@@ -33,9 +34,10 @@ This file is the authoritative source of repository-wide standards that must be 
 | `dvibd/gui` | Node / Vite | `cd dvibd/gui && npx tsc -b` |
 | `social` | Node / SolidStart | `cd social && npx tsc --noEmit` |
 | `message` | Node / Next.js | `cd message && npx tsc --noEmit` |
+| `mail/gui` | Node / Vite (Svelte 5) | `cd mail/gui && npm run typecheck` |
 
 ## GUI Standards
-1. Use a CSS Module (never plain CSS except `globals.css` / `index.css` / `app.css`) imported as `style` in the TSX file.
+1. Use a CSS Module (never plain CSS except `globals.css` / `index.css` / `app.css`) imported as `style` in the component file (.tsx in the SolidJS apps, the `script lang="ts"` block in `mail`'s Svelte files).
 2. CSS Modules scope id selectors too. Always bind the module as `style` and reference elements through it (`id={style.navBar}` for a selector `nav#navBar`). Never use a raw unhashed id (`id="navBar"`), and never import a module only for side effects.
 3. Selectors are fully nested: `tag#id` (or `tag.class`) with immediate child `>` by default; target descendants only when needed (e.g. `div#app { ... }` and never `#app { ... }`).
 4. Never use class for styling; use id. Classes only for style variants.
@@ -73,6 +75,13 @@ Every application must be written strictly idiomatic to its underlying framework
 - **Route Handlers & Cookies**: Route Handlers in `src/app/**/route.ts` exporting standard named HTTP method handlers (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`). Access cookies via `cookies()` from `next/headers` (`await cookies()`) and headers via `headers()`.
 - **Middleware**: Use Next.js `src/middleware.ts` with `NextRequest` and `NextResponse`.
 - **Metadata**: Export static `metadata: Metadata` or dynamic `generateMetadata()` from `layout.tsx` and `page.tsx`.
+
+### Svelte 5 Core (`mail`)
+- **Runes Mode Everywhere**: Components are written with Svelte 5 runes: typed props via `let { ... } = $props(): Props` with an explicit interface, `let x = $state(...)` for reactive state, `$derived(expr)` for computed values, and `$effect(...)` for side effects alongside `onMount`/`onCleanup` from `svelte` when the lifecycle is needed. Destructuring props is idiomatic here (unlike Solid) and stays reactive under runes. Legacy Svelte 4 patterns are not used: no `export let` props, no `$:` reactive statements, and no `createEventDispatcher`. Component-to-parent communication is typed callback props (`onSelect`, `onClose`). Shared reactive state lives in `.svelte.ts` modules using `$state` / `$derived` (classes or plain modules); `svelte/store` (`writable`, `readable`) is reserved for third-party interop.
+- **Markup Control Flow**: Use Svelte's control-flow blocks: `{#if}` / `{:else if}` / `{:else}`, keyed `{#each list as item (item.id)}`, and `{#await promise}` with its `{:then}` / `{:catch}` branches (or the `{#await promise then value}` shorthand). Never render elements through `&&` or `||` expressions; the falsy-render hazard exists in Svelte markup too (`{0 && text}` renders the literal `0`). Ternary expressions are fine for text nodes and attribute values.
+- **Template Reuse**: `{#snippet}` plus `{@render}` replaces both slots and render-prop patterns; type snippet params with `Snippet` from `"svelte"`. `<slot>` is not used, nor `<svelte:fragment>` shims; composed children arrive as `let { children } = $props()` and are rendered with `{@render children?.()}`.
+- **Events & Bindings**: DOM listeners use the lowercase attribute form with direct function references (`onclick={handler}`, `oninput={handler}`), never the legacy `on:` directive form. Two-way values use `bind:value` and friends, with `$bindable` on props that flow back up. The `class:` directive and `svelte/transition` animations remain current and allowed.
+- **Stays Local**: These idioms apply to `mail` only. Never apply them to the SolidJS apps; never apply SolidJS, React, or SvelteKit guidance to `mail`.
 
 ## API & Endpoint Standards
 - Above every endpoint, write the URL preceded with the request verb (e.g. `POST /auth/signup`, `POST /conversations`).
