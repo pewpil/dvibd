@@ -1,0 +1,356 @@
+section#emails {
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 2.5vh;
+
+  &::before {
+    content: "";
+    display: block;
+    height: var(--header-offset);
+  }
+}
+
+header#listHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  border: 0.0625rem solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface-strong);
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+  box-shadow: var(--glass-shadow), var(--glass-inset);
+
+  &.stuck {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  > div#titleRow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    > h2#folderTitle {
+      flex: 1;
+      min-width: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    > span#titleDot {
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 999px;
+      background: var(--label-color);
+      flex-shrink: 0;
+    }
+
+    > select#folderSelect {
+      display: none;
+      padding: 0.35rem 0.5rem;
+      border: 0.0625rem solid var(--line);
+      border-radius: var(--radius-control);
+      background: var(--wash);
+      color: var(--ink);
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+  }
+
+  > form#searchForm {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.6rem;
+    border: 0.0625rem solid var(--line);
+    border-radius: var(--radius-control);
+    background: var(--wash);
+    transition: border-color var(--duration-quick) ease;
+
+    &:focus-within {
+      border-color: var(--accent);
+    }
+
+    > svg {
+      width: 1rem;
+      height: 1rem;
+      color: var(--ink-soft);
+      flex-shrink: 0;
+    }
+
+    > input#searchInput {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--ink);
+      font-size: 0.85rem;
+
+      &::placeholder {
+        color: var(--ink-soft);
+      }
+    }
+  }
+
+  > nav#filterTabs {
+    display: flex;
+    gap: 0.25rem;
+
+    > button.tabItem {
+      padding: 0.3rem 0.6rem;
+      border: none;
+      border-radius: var(--radius-control);
+      background: transparent;
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition:
+        background var(--duration-quick) ease,
+        color var(--duration-quick) ease;
+
+      &:hover {
+        background: var(--wash);
+        color: var(--ink);
+      }
+    }
+
+    > button.activeTab {
+      padding: 0.3rem 0.6rem;
+      border: none;
+      border-radius: var(--radius-control);
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+
+  > p#resultCount {
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+  }
+}
+
+ul#emailRows {
+  background: var(--surface);
+  border-radius: var(--radius-panel);
+
+  > li#emailRow {
+    position: relative;
+    transition: background var(--duration-quick) ease;
+
+    + li {
+      border-top: 0.0625rem solid var(--line);
+    }
+
+    &:hover {
+      background: var(--wash);
+    }
+
+    &.isRead > button#rowButton {
+      > img#rowAvatar {
+        opacity: 0.75;
+      }
+
+      > span#rowMain {
+        > span#rowTop > span#rowSender {
+          color: var(--ink-soft);
+          font-weight: 500;
+        }
+
+        > span#rowBottom > span#rowSubject {
+          color: var(--ink-soft);
+          font-weight: 500;
+        }
+      }
+    }
+
+    &:not(.isRead) > button#rowButton {
+      > span#rowMain {
+        > span#rowTop > span#rowSender {
+          color: var(--ink);
+          font-weight: 700;
+        }
+
+        > span#rowBottom > span#rowSubject {
+          color: var(--ink);
+          font-weight: 600;
+        }
+      }
+    }
+
+    > button#rowButton {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      width: 100%;
+      padding: 0.7rem 2.9rem 0.7rem 0.75rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+
+      > img#rowAvatar {
+        width: 2.3rem;
+        height: 2.3rem;
+        border-radius: 999px;
+        flex-shrink: 0;
+      }
+
+      > span#rowMain {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+
+        > span#rowTop {
+          display: flex;
+          align-items: baseline;
+          gap: 0.5rem;
+
+          > span#unreadDot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 999px;
+            background: var(--accent);
+            flex-shrink: 0;
+            align-self: center;
+          }
+
+          > span#rowSender {
+            min-width: 0;
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          > time#rowTime {
+            margin-left: auto;
+            font-size: 0.72rem;
+            color: var(--ink-soft);
+            flex-shrink: 0;
+          }
+        }
+
+        > span#rowBottom {
+          display: flex;
+          align-items: baseline;
+          gap: 0.5rem;
+          min-width: 0;
+
+          > span#rowSubject {
+            flex: 0 1 auto;
+            min-width: 0;
+            max-width: 45%;
+            font-size: 0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          > span#rowSnippet {
+            flex: 1;
+            min-width: 0;
+            font-size: 0.82rem;
+            color: var(--ink-soft);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          > svg#rowClip {
+            width: 0.85rem;
+            height: 0.85rem;
+            color: var(--ink-soft);
+            flex-shrink: 0;
+          }
+        }
+      }
+    }
+
+    > button#starButton {
+      position: absolute;
+      right: 0.55rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition:
+        color var(--duration-quick) ease,
+        background var(--duration-quick) ease;
+
+      &:hover {
+        background: var(--wash);
+        color: var(--ink);
+      }
+
+      &.starred {
+        color: var(--accent);
+
+        > svg {
+          fill: var(--accent);
+        }
+      }
+
+      > svg {
+        width: 1.05rem;
+        height: 1.05rem;
+      }
+    }
+  }
+}
+
+div#emptyState {
+  padding: 8% 1rem;
+  text-align: center;
+
+  > p#emptyTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    font-family: var(--font-heading);
+  }
+
+  > p#emptyDetail {
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+}
+
+@media (max-width: 47.5rem) {
+  header#listHeader {
+    > div#titleRow {
+      > h2#folderTitle {
+        font-size: 1.05rem;
+      }
+
+      > select#folderSelect {
+        display: block;
+      }
+    }
+  }
+}

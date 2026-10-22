@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="mail logo">
+  <rect width="64" height="64" rx="18" fill="#f59e0b" />
+  <g fill="#ffffff">
+    <rect x="13" y="19" width="38" height="26" rx="6" />
+  </g>
+  <path d="M18 24.5 L32 34.5 L46 24.5" stroke="#f59e0b" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

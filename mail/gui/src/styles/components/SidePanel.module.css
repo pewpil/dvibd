@@ -1,0 +1,312 @@
+nav#sidePanel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.75rem;
+  border: 0.0625rem solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+  box-shadow: var(--glass-shadow), var(--glass-inset);
+  overflow-y: auto;
+}
+
+button#profileChip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border: none;
+  border-radius: var(--radius-control);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--duration-quick) ease;
+
+  &:hover {
+    background: var(--wash);
+  }
+
+  &.chipActive {
+    background: var(--accent-soft);
+  }
+
+  > img#profileAvatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+
+  > span#chipMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+
+    > span#chipName {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    > span#chipEmail {
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+button#composeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.55rem;
+  border: none;
+  border-radius: var(--radius-control);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--duration-quick) ease;
+
+  &:hover {
+    background: var(--accent-strong);
+  }
+
+  > svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+}
+
+ul#folderList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+
+  > li > button#folderRow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.45rem 0.55rem;
+    border: none;
+    border-radius: var(--radius-control);
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition:
+      background var(--duration-quick) ease,
+      color var(--duration-quick) ease;
+
+    &:hover {
+      background: var(--wash);
+      color: var(--ink);
+    }
+
+    &.rowActive {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    > svg {
+      width: 1.1rem;
+      height: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    > span#folderName {
+      flex: 1;
+      min-width: 0;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    > span#folderCount {
+      min-width: 1.3rem;
+      padding: 0.1rem 0.35rem;
+      border-radius: 999px;
+      background: var(--wash);
+      color: var(--ink-soft);
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-align: center;
+
+      &.countAccent {
+        background: var(--accent);
+        color: var(--accent-ink);
+      }
+    }
+  }
+}
+
+h4#sideHeading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding-inline: 0.55rem;
+}
+
+ul#labelList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+
+  > li > button#labelRow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.45rem 0.55rem;
+    border: none;
+    border-radius: var(--radius-control);
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition:
+      background var(--duration-quick) ease,
+      color var(--duration-quick) ease;
+
+    &:hover {
+      background: var(--wash);
+      color: var(--ink);
+    }
+
+    &.rowActive {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    > span#labelDot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: var(--label-color);
+      flex-shrink: 0;
+    }
+
+    > span#labelName {
+      flex: 1;
+      min-width: 0;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+header#accountHead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.4rem 0.5rem;
+
+  > img#accountAvatar {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 999px;
+    margin-bottom: 0.5rem;
+  }
+
+  > p#accountName {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  > p#accountEmail {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+}
+
+ul#accountGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  > li#accountGroup > ul#groupRows {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+
+    > li > button#accountRow {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 0.45rem 0.55rem;
+      border: none;
+      border-radius: var(--radius-control);
+      background: transparent;
+      color: var(--ink);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition:
+        background var(--duration-quick) ease,
+        color var(--duration-quick) ease;
+
+      &:hover {
+        background: var(--wash);
+      }
+
+      &.rowDanger {
+        color: var(--danger);
+
+        > svg {
+          color: var(--danger);
+        }
+
+        &:hover {
+          background: color-mix(in srgb, var(--danger) 10%, transparent);
+        }
+      }
+
+      > svg {
+        width: 1.05rem;
+        height: 1.05rem;
+        flex-shrink: 0;
+        color: var(--ink-soft);
+      }
+
+      > span#accountLabel {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+div#panelBottom {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.75rem;
+  border-top: 0.0625rem solid var(--line);
+}

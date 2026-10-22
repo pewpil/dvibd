@@ -1,0 +1,25 @@
+button#themeToggle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.0625rem solid var(--line);
+  border-radius: 999px;
+  background: var(--wash);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition:
+    background var(--duration-quick) ease,
+    color var(--duration-quick) ease;
+
+  &:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  > svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+}

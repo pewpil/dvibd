@@ -1,0 +1,162 @@
+form#composer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  height: 100%;
+  padding: 0.9rem;
+  border-radius: var(--radius-panel);
+  background: var(--surface);
+  overflow-y: auto;
+
+  &.inline {
+    height: auto;
+    padding: 0.75rem;
+  }
+
+  > h3#composeTitle {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  > label#fieldRow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    > span#fieldLabel {
+      width: 3.5rem;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+    }
+
+    > input#fieldInput {
+      flex: 1;
+      min-width: 0;
+      padding: 0.45rem 0.6rem;
+      border: 0.0625rem solid var(--line);
+      border-radius: var(--radius-control);
+      background: var(--wash);
+      color: var(--ink);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color var(--duration-quick) ease;
+
+      &:focus {
+        border-color: var(--accent);
+      }
+
+      &::placeholder {
+        color: var(--ink-soft);
+      }
+    }
+  }
+
+  > blockquote#quoteBlock {
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+    border-left: 0.15rem solid var(--line-strong);
+    border-radius: 0.3rem;
+    background: var(--wash);
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    white-space: pre-line;
+  }
+
+  > textarea#bodyInput {
+    flex: 1;
+    min-height: 9rem;
+    padding: 0.6rem;
+    border: 0.0625rem solid var(--line);
+    border-radius: var(--radius-control);
+    background: var(--wash);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    outline: none;
+    resize: vertical;
+    transition: border-color var(--duration-quick) ease;
+
+    &:focus {
+      border-color: var(--accent);
+    }
+
+    &::placeholder {
+      color: var(--ink-soft);
+    }
+  }
+
+  &.inline > textarea#bodyInput {
+    min-height: 6rem;
+    flex: none;
+  }
+
+  > p#composeError {
+    padding: 0.5rem 0.7rem;
+    border-radius: var(--radius-control);
+    background: color-mix(in srgb, var(--danger) 12%, transparent);
+    color: var(--danger);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  > div#actionRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+
+    > button#sendButton {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.5rem 0.9rem;
+      border: none;
+      border-radius: var(--radius-control);
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background var(--duration-quick) ease;
+
+      &:hover {
+        background: var(--accent-strong);
+      }
+
+      > svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    > button#ghostButton,
+    > button#discardButton {
+      padding: 0.5rem 0.9rem;
+      border: 0.0625rem solid var(--line);
+      border-radius: var(--radius-control);
+      background: transparent;
+      color: var(--ink);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition:
+        background var(--duration-quick) ease,
+        color var(--duration-quick) ease,
+        border-color var(--duration-quick) ease;
+
+      &:hover {
+        background: var(--wash);
+      }
+    }
+
+    > button#discardButton:hover {
+      background: color-mix(in srgb, var(--danger) 10%, transparent);
+      border-color: color-mix(in srgb, var(--danger) 40%, transparent);
+      color: var(--danger);
+    }
+  }
+}

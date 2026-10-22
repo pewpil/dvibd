@@ -8,12 +8,13 @@ LOG_DIR="$STATE_DIR/logs"
 READY_TIMEOUT="${EXEC_READY_TIMEOUT:-45}"
 STOP_TIMEOUT="${EXEC_STOP_TIMEOUT:-10}"
 
-APP_NAMES=(db dvibd-api dvibd-gui social message)
+APP_NAMES=(db dvibd-api dvibd-gui mail-gui social message)
 
 declare -A APP_DIR=(
   ["db"]="db"
   ["dvibd-api"]="dvibd/api"
   ["dvibd-gui"]="dvibd/gui"
+  ["mail-gui"]="mail/gui"
   ["social"]="social"
   ["message"]="message"
 )
@@ -22,6 +23,7 @@ declare -A APP_PORT=(
   ["db"]="3001"
   ["dvibd-api"]="3002"
   ["dvibd-gui"]="3000"
+  ["mail-gui"]="3006"
   ["social"]="3003"
   ["message"]="3005"
 )
@@ -30,6 +32,7 @@ declare -A APP_LABEL=(
   ["db"]="Postgres"
   ["dvibd-api"]="Hono API"
   ["dvibd-gui"]="Vite GUI"
+  ["mail-gui"]="Svelte GUI"
   ["social"]="SolidStart"
   ["message"]="Next.js"
 )
@@ -38,6 +41,7 @@ declare -A APP_CMD=(
   ["db"]="docker compose up -d"
   ["dvibd-api"]="deno task dev"
   ["dvibd-gui"]="npm run dev"
+  ["mail-gui"]="npm run dev"
   ["social"]="npm run dev"
   ["message"]="npm run dev"
 )
@@ -55,12 +59,13 @@ flags
   --db           Postgres service via docker compose   port 3001
   --dvibd-api    dvibd/api, deno task dev              port 3002
   --dvibd-gui    dvibd/gui, npm run dev                port 3000
+  --mail-gui     mail/gui, npm run dev                 port 3006
   --social       social, npm run dev                   port 3003
   --message      message, npm run dev                  port 3005
   --all          every app listed above
 
-The dvibd prefix keeps the workspace scoped apps distinct from the
-top level apps that share their name, so more can be added later.
+The dvibd and mail prefixes keep the workspace scoped apps distinct
+from the top level apps that share their name, so more can be added later.
 
 With no flags, on and off apply to every app, and check reports
 every app.
@@ -316,6 +321,7 @@ resolve_targets() {
       --db) wanted[db]=1 ;;
       --dvibd-api) wanted[dvibd-api]=1 ;;
       --dvibd-gui) wanted[dvibd-gui]=1 ;;
+      --mail-gui) wanted[mail-gui]=1 ;;
       --social) wanted[social]=1 ;;
       --message) wanted[message]=1 ;;
       *) printf 'exec: unknown flag %s\n\n' "$arg" >&2; usage >&2; return 2 ;;

@@ -1,6 +1,6 @@
 ---
 name: sticky-scroll-headers
-description: Implement a header that scrolls away with its content and pins to the top of its scrollport, with a frosted stuck state. Use when a header must stay visible inside a scrolling column, when a sticky header does not move, does not release, never fires its stuck state, or when content scrolls beside a header instead of underneath it. Covers choosing the scroll owner, spacer techniques, and the two framework implementations in this repository.
+description: Implement a header that scrolls away with its content and pins to the top of its scrollport, with a frosted stuck state. Use when a header must stay visible inside a scrolling column, when a sticky header does not move, does not release, never fires its stuck state, or when content scrolls beside a header instead of underneath it. Covers choosing the scroll owner, spacer techniques, and the three framework implementations in this repository.
 license: MIT
 metadata:
   author: dvibd
@@ -10,9 +10,9 @@ metadata:
 # Sticky Scroll Headers
 
 A header that travels with its content and pins to the top of its scrollport, then
-adopts a frosted treatment once pinned. This skill documents the four working
-implementations in this repository and the failure modes that produce each distinct
-wrong behavior.
+adopts a frosted treatment once pinned. This skill documents the working
+implementations across three frameworks (SolidJS, React, Svelte) and the failure modes
+that produce each distinct wrong behavior.
 
 ## The Contract
 
@@ -30,19 +30,17 @@ debugging further.
 | 7 | Scroll handler runs once on mount | Wrong state on first paint |
 | 8 | Scroll listener is `{ passive: true }` and removed on cleanup | Jank, leaks |
 
-The stuck treatment is identical in all four implementations:
+The stuck treatment is identical in every implementation: `.stuck` flattens only the
+top corner radius. The frost itself (`--surface-strong` plus blur) is declared in the
+header's base rule and is always present, so `.stuck` must not re-declare it; a
+duplicate blur is a documented deviation in the `social` and `message` AGENTS files.
 
 ```css
 &.stuck {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  -webkit-backdrop-filter: blur(var(--blur));
-  backdrop-filter: blur(var(--blur));
 }
 ```
-
-Keep the `-webkit-` prefix first. Both are required; Chrome and Safari need the prefix,
-Firefox needs the unprefixed form.
 
 ## Choose the Scroll Owner First
 
@@ -262,6 +260,67 @@ const stuck: boolean = useStuckScroll(rootRef, headerRef);
   >
 ```
 
+## Svelte Implementation
+
+`mail/gui/src/lib/stuckHeader.ts`. Container scroller, same two-rect test, packaged as
+an attachment factory instead of a hook: apply it on the header itself with
+`{@attach stuckHeader(...)}`, and the attachment discovers its scroller through
+`header.parentElement`, so no `bind:this` pairs and no `onMount`/`onCleanup` dance are
+needed.
+
+```ts
+import type { Attachment } from "svelte/attachments";
+
+export function stuckHeader(
+  setStuck: (value: boolean) => void,
+  onScroll?: (scrollTop: number) => void,
+  restore?: () => number,
+): Attachment<HTMLElement> {
+  return (header: HTMLElement): (() => void) => {
+    const scroller: HTMLElement | null = header.parentElement;
+    if (scroller === null) {
+      return () => {};
+    }
+    const test = (): void => {
+      setStuck(
+        header.getBoundingClientRect().top <=
+          scroller.getBoundingClientRect().top + 1,
+      );
+      onScroll?.(scroller.scrollTop);
+    };
+    if (restore !== undefined) {
+      scroller.scrollTop = restore();
+    }
+    test();
+    scroller.addEventListener("scroll", test, { passive: true });
+    window.addEventListener("resize", test);
+    return () => {
+      scroller.removeEventListener("scroll", test);
+      window.removeEventListener("resize", test);
+    };
+  };
+}
+```
+
+```svelte
+<section id={style.emails}>
+  <header
+    id={style.listHeader}
+    class={stuck ? style.stuck : ""}
+    {@attach stuckHeader(applyStuck, snapshot, readScroll)}
+  >
+```
+
+Requirements 7 and 8 are the attachment's job: it runs `test()` once before attaching
+the passive listener, and the returned cleanup removes both listeners when the element
+unmounts. The component keeps only a `stuck` boolean and feeds the attachment plain
+setter functions, because attachments cannot reach component state directly.
+
+The optional `restore` callback is how `mail` keeps list scroll position across the
+list-to-read-to-list round trip: a plain module (`src/lib/listScroll.ts`) snapshots
+`scrollTop` through `onScroll` and hands the saved value back at remount. The read view
+omits both extras and starts at the top every time.
+
 ## Multi Column Checklist
 
 When applying this to sibling columns that must align and behave identically:
@@ -286,9 +345,13 @@ When applying this to sibling columns that must align and behave identically:
 | --- | --- | --- |
 | `social` | `components/(home)/FeedHeader.tsx` | Viewport |
 | `message` | `hooks/useStuckScroll.ts` | Each column |
+| `mail` | `lib/stuckHeader.ts` (attachment) | Each column |
 
 `message` columns: `section#conversations`, `section#current`, `aside#information`.
 Each has a `2.5vh` `::before` spacer and a sticky header or profile card.
+
+`mail` columns: `section#emails`, `section#reading`. Each has a `2.5vh` `::before`
+spacer and a sticky glass header.
 
 Do not apply this skill to `dvibd/gui` without reading its layout first. It is SolidJS
 like `social`, but its pages are single scroll regions with no independent columns.

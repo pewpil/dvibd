@@ -1,0 +1,312 @@
+section#reading {
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 2.5vh;
+
+  &::before {
+    content: "";
+    display: block;
+    height: var(--header-offset);
+  }
+}
+
+header#readBar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.6rem;
+  margin-bottom: 0.75rem;
+  border: 0.0625rem solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--surface-strong);
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+  box-shadow: var(--glass-shadow), var(--glass-inset);
+
+  &.stuck {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  > button#backButton,
+  > button#barAction {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition:
+      background var(--duration-quick) ease,
+      color var(--duration-quick) ease;
+
+    &:hover {
+      background: var(--wash);
+      color: var(--ink);
+    }
+
+    > svg {
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+  }
+
+  > button#backButton {
+    margin-right: 0.4rem;
+    border-right: 0.0625rem solid var(--line);
+    border-radius: var(--radius-control);
+  }
+
+  > button#barAction.starred {
+    color: var(--accent);
+
+    > svg {
+      fill: var(--accent);
+    }
+  }
+
+  > button#barAction.danger:hover {
+    background: color-mix(in srgb, var(--danger) 10%, transparent);
+    color: var(--danger);
+  }
+
+  > span#barSpacer {
+    flex: 1;
+  }
+}
+
+article#threadCanvas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-inline: 0.25rem;
+}
+
+header#subjectBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem 0.2rem;
+
+  > h3#mailSubject {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  > div#labelChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+
+    > span#labelChip {
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: color-mix(in srgb, var(--label-color) 16%, transparent);
+      color: var(--label-color);
+    }
+  }
+}
+
+article#messageRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--radius-control);
+  background: var(--surface);
+
+  &.outgoing {
+    background: var(--accent-soft);
+  }
+
+  &.draft {
+    border: 0.0625rem dashed var(--line-strong);
+  }
+
+  > header#messageHead {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    > img#messageAvatar {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    > span#messageWho {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+
+      > span#draftChip {
+        padding: 0.1rem 0.4rem;
+        border-radius: 999px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-size: 0.65rem;
+        font-weight: 700;
+      }
+
+      > p#messageFrom {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--ink);
+
+        &.own {
+          color: var(--accent);
+        }
+      }
+
+      > p#messageTo {
+        font-size: 0.74rem;
+        color: var(--ink-soft);
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    > time#messageTime {
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      flex-shrink: 0;
+    }
+  }
+
+  > div#messageBody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+
+    > p {
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--ink);
+      overflow-wrap: break-word;
+    }
+
+    > blockquote#messageQuote {
+      margin: 0;
+      padding: 0.5rem 0.75rem;
+      border-left: 0.15rem solid var(--line-strong);
+      border-radius: 0.3rem;
+      background: var(--wash);
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      white-space: pre-line;
+    }
+  }
+
+  > div#attachRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+
+    > span#attachChip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.55rem;
+      border: 0.0625rem solid var(--line);
+      border-radius: var(--radius-control);
+      background: var(--wash);
+
+      > span#attachExt {
+        padding: 0.1rem 0.3rem;
+        border-radius: 0.3rem;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.62rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      > span#attachName {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      > span#attachSize {
+        font-size: 0.7rem;
+        color: var(--ink-soft);
+      }
+    }
+  }
+}
+
+footer#replyRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding: 0.25rem 0.5rem 0.4rem;
+
+  > button#replyPrimary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    border: none;
+    border-radius: var(--radius-control);
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background var(--duration-quick) ease;
+
+    &:hover {
+      background: var(--accent-strong);
+    }
+
+    > svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  > button#replyGhost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    border: 0.0625rem solid var(--line);
+    border-radius: var(--radius-control);
+    background: transparent;
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--duration-quick) ease;
+
+    &:hover {
+      background: var(--wash);
+    }
+
+    > svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  > form {
+    flex: 1 1 100%;
+  }
+}
