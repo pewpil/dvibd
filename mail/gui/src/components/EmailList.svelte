@@ -1,5 +1,6 @@
 <script lang="ts">
   import style from "../styles/components/EmailList.module.css";
+  import ThemeToggle from "./ThemeToggle.svelte";
   import { mail } from "../lib/mailService.svelte.ts";
   import { readScroll, writeScroll } from "../lib/listScroll.ts";
   import { stuckHeader } from "../lib/stuckHeader.ts";
@@ -161,6 +162,7 @@
           <option value={folder.id}>{folder.name}</option>
         {/each}
       </select>
+      <ThemeToggle />
     </div>
     <form id={style.searchForm} onsubmit={handleSearchSubmit}>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

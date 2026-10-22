@@ -1,6 +1,7 @@
 <script lang="ts">
   import style from "../styles/components/EmailView.module.css";
   import Composer from "./Composer.svelte";
+  import ThemeToggle from "./ThemeToggle.svelte";
   import { mail } from "../lib/mailService.svelte.ts";
   import { stuckHeader } from "../lib/stuckHeader.ts";
   import { currentUser } from "../lib/fallback.ts";
@@ -132,6 +133,7 @@
     <button type="button" id={style.barAction} class={style.danger} aria-label="Delete" title="Delete" onclick={() => handleMove("trash")}>
       {@render actionGlyph("delete")}
     </button>
+    <ThemeToggle />
   </header>
 
   {#if thread !== undefined}

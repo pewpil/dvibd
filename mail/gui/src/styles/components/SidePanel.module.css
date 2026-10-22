@@ -1,5 +1,6 @@
 nav#sidePanel {
-  height: 100%;
+  margin-top: var(--header-offset);
+  margin-bottom: var(--header-offset);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -301,12 +302,4 @@ ul#accountGroups {
       }
     }
   }
-}
-
-div#panelBottom {
-  margin-top: auto;
-  display: flex;
-  justify-content: center;
-  padding-top: 0.75rem;
-  border-top: 0.0625rem solid var(--line);
 }

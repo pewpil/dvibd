@@ -1,6 +1,5 @@
 <script lang="ts">
   import style from "../styles/components/SidePanel.module.css";
-  import ThemeToggle from "./ThemeToggle.svelte";
   import { mail } from "../lib/mailService.svelte.ts";
   import { currentUser, labelList } from "../lib/fallback.ts";
   import {
@@ -184,8 +183,7 @@
 <nav id={style.sidePanel}>
   <button
     type="button"
-    id={style.profileChip}
-    class={panelMode === "account" ? style.chipActive : ""}
+    id={style.profileChip}    class={panelMode === "account" ? style.chipActive : ""}
     onclick={onTogglePanelMode}
     aria-pressed={panelMode === "account"}
     aria-label="Account"
@@ -265,8 +263,4 @@
       {/each}
     </ul>
   {/if}
-
-  <div id={style.panelBottom}>
-    <ThemeToggle />
-  </div>
 </nav>
