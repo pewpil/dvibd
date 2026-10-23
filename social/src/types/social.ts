@@ -2,6 +2,10 @@ import type { NotificationKind } from "../server/generated/client.mts";
 
 export type FeedMode = "discover" | "following";
 
+export const MAX_STAT_LENGTH: number = 256;
+
+export type CreatePostResult = { ok: true } | { ok: false; error: string };
+
 export interface PostCard {
   id: string;
   name: string;

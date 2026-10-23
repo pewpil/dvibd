@@ -1,6 +1,7 @@
 import { createAsync } from "@solidjs/router";
 import { createSignal, For, Show } from "solid-js";
 import { getFeed } from "../../server/posts";
+import Composer from "../../components/(home)/Composer";
 import FeedHeader from "../../components/(home)/FeedHeader";
 import FeedTabs from "../../components/(home)/FeedTabs";
 import Hero from "../../components/(home)/Hero";
@@ -23,6 +24,7 @@ export default function Home() {
           onChange={setTab}
         />
       </FeedHeader>
+      <Composer />
     </Show>,
     <Show when={!loggedIn()}>
       <Hero />

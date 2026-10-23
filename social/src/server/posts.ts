@@ -1,9 +1,21 @@
-import { query } from "@solidjs/router";
+import { action, json, query, type CustomResponse } from "@solidjs/router";
+import { z } from "zod";
 import type { Prisma } from "./generated/client.mts";
-import type { FeedMode, PostCard } from "../types/social";
+import {
+  MAX_STAT_LENGTH,
+  type CreatePostResult,
+  type FeedMode,
+  type PostCard,
+} from "../types/social";
 import { prisma } from "./db";
 import { relativeTime } from "./format";
 import { readSessionUser } from "./session";
+import { syncPostTags } from "./postTags";
+import type { SafeUser } from "./user";
+
+const createPostSchema = z.object({
+  text: z.string().trim().min(1).max(MAX_STAT_LENGTH),
+});
 
 export const POST_INCLUDE = {
   author: {
@@ -30,6 +42,52 @@ export function toPostCard(post: PostRow): PostCard {
     save: post.saveCount,
   };
 }
+
+export const createPost = action(async (
+  payload: URLSearchParams,
+): Promise<CustomResponse<CreatePostResult>> => {
+  "use server";
+  const user: SafeUser | null = await readSessionUser();
+  if (user === null) {
+    return json<CreatePostResult>(
+      { ok: false, error: "You need to be signed in to post." },
+      {},
+    );
+  }
+  const raw: string | null = payload.get("text");
+  const parsed = createPostSchema.safeParse({ text: raw ?? "" });
+  if (!parsed.success) {
+    return json<CreatePostResult>(
+      { ok: false, error: `Posts must be 1 to ${MAX_STAT_LENGTH} characters.` },
+      {},
+    );
+  }
+  const post = await prisma.post.create({
+    data: {
+      authorId: user.id,
+      kind: "STAT",
+      text: parsed.data.text,
+      isFallback: false,
+    },
+  });
+  try {
+    await syncPostTags(post.id, parsed.data.text);
+  } catch (error: unknown) {
+    console.error("Post tag sync failed.", error);
+  }
+  return json<CreatePostResult>(
+    { ok: true },
+    {
+      revalidate: [
+        "socialFeed",
+        "socialProfilePage",
+        "socialTrending",
+        "socialTagNames",
+        "socialHappenings",
+      ],
+    },
+  );
+}, "socialCreatePost");
 
 export const getFeed = query(async (mode: FeedMode): Promise<PostCard[]> => {
   "use server";

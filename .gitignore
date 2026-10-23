@@ -61,3 +61,5 @@ dvibd/gui/src/generated
 
 # Local Netlify folder
 .netlify
+
+.obsidian

@@ -1,0 +1,130 @@
+form#composer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 0.25rem 1.25rem;
+  border-bottom: 0.0625rem solid var(--line);
+
+  > img#composerAvatar {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+
+  > div#composerBody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex-grow: 1;
+    min-width: 0;
+
+    > textarea#composerText {
+      width: 100%;
+      min-height: 3.25rem;
+      padding: 0.25rem 0;
+      border: none;
+      background: transparent;
+      color: var(--ink);
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: none;
+
+      &::placeholder {
+        color: var(--ink-soft);
+      }
+
+      &:disabled {
+        opacity: 0.7;
+      }
+    }
+
+    > p#composerError {
+      padding: 0.5rem 0.75rem;
+      border: 0.0625rem solid var(--danger);
+      border-radius: var(--radius-control);
+      background: color-mix(in srgb, var(--danger) 10%, transparent);
+      color: var(--danger);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    > footer#composerFooter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+
+      > button#composerMedia {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.35rem;
+        border: none;
+        border-radius: 999px;
+        background: transparent;
+        color: var(--accent);
+        cursor: pointer;
+        transition:
+          background var(--duration-quick) ease,
+          color var(--duration-quick) ease;
+
+        &:hover:not(:disabled) {
+          background: var(--accent-soft);
+        }
+
+        &:disabled {
+          color: var(--ink-soft);
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        > span#composerMediaIcon {
+          display: flex;
+
+          > svg {
+            width: 1.25rem;
+            height: 1.25rem;
+          }
+        }
+      }
+
+      > div#composerEnd {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        > span#composerCount {
+          font-size: 0.8125rem;
+          color: var(--ink-soft);
+          font-variant-numeric: tabular-nums;
+        }
+
+        > button#composerSubmit {
+          padding: 0.45rem 1.1rem;
+          border: none;
+          border-radius: 999px;
+          background: var(--accent);
+          color: var(--accent-ink);
+          font-size: 0.9375rem;
+          font-weight: 600;
+          font-family: var(--font-body);
+          cursor: pointer;
+          transition:
+            background var(--duration-quick) ease,
+            opacity var(--duration-quick) ease;
+
+          &:hover:not(:disabled) {
+            background: var(--accent-strong);
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+  }
+}
