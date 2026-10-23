@@ -99,7 +99,8 @@ Every application must be written strictly idiomatic to its underlying framework
 - After regenerating, verify the client consumers typecheck: `cd dvibd/api && deno check src/main.ts` and `cd social && npx tsc --noEmit`.
 
 ### Migrations
-- Migrations live under `orm/prisma/migrations/`.
+- Migrations live under `orm/prisma/migrations/` and are tracked in git. Prisma's documentation calls this folder "the source of truth for the history of your data model" and requires committing the entire folder, including `migration_lock.toml`, because `prisma migrate deploy` replays only the migration files and never reads `schema.prisma`.
+- Migrations are schema history, not a data store. Each generated `migration.sql` holds DDL only (`CREATE`, `ALTER`, constraints); applied state is recorded in the database's `_prisma_migrations` table. A migration may legitimately include a hand-written data backfill, but never a dump of rows. Seeded and demo content does not belong in migrations: local fixtures live in `social/scripts/seedData.mts` and per-signup demo rows come from `social/src/server/demoContent.ts`. Never add an ignore rule for `orm/prisma/migrations/`.
 - Create and apply a migration during local development from `orm/`:
   ```bash
   cd orm && npx prisma migrate dev --name <migration_name>
@@ -108,6 +109,8 @@ Every application must be written strictly idiomatic to its underlying framework
 
 ### Database Service
 - The local Postgres service is managed via `db/docker-compose.yml`. Start, stop, log, and health-check commands live in `db/AGENTS.md`.
+- Local data is not backed up anywhere. It lives only in the `dvibd_pg_data` Docker volume and is reproducible from the tracked migrations plus `npm run db:seed`; `docker compose down -v` deletes it. `db/init/` is empty, so a fresh volume starts with only the base database.
+- Production data lives in Supabase and follows that project's plan: paid plans get automated daily backups (7 days on Pro, 14 on Team, 30 on Enterprise) with optional Point-in-Time Recovery, while Free projects get no automatic backups and should be dumped periodically with `supabase db dump`.
 - Never point OpenCode at a new or scaffolded Prisma project. This repository already owns its schema and clients; work only through the `orm/` scripts above.
 
 ### Deployment (Netlify)

@@ -1,5 +1,4 @@
 import { A } from "@solidjs/router";
-import { currentUser } from "../data/social";
 import { useAuth } from "../contexts/AuthContext";
 import profileIcon from "../assets/components/(home)/sidenav/profile.svg?raw";
 import addAccountIcon from "../assets/components/(home)/sidenav/add-account.svg?raw";
@@ -11,7 +10,7 @@ interface AccountMenuProps {
 }
 
 export default function AccountMenu(props: AccountMenuProps) {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   return [
     <div id={style.menuBackdrop} role="presentation" onClick={props.onClose} />,
     <div id={style.accountMenu} role="menu">
@@ -21,10 +20,12 @@ export default function AccountMenu(props: AccountMenuProps) {
         role="menuitem"
         onClick={props.onClose}
       >
-        <img src={currentUser.avatar} alt="" />
+        <img src={user()?.avatarUrl ?? "/profile-picture.svg"} alt="" />
         <span id={style.menuAccountText}>
-          <span id={style.menuName}>{currentUser.name}</span>
-          <span id={style.menuHandle}>@{currentUser.handle}</span>
+          <span id={style.menuName}>
+            {user()?.displayName ?? user()?.username}
+          </span>
+          <span id={style.menuHandle}>@{user()?.username}</span>
         </span>
       </A>
       <hr id={style.menuDivider} />

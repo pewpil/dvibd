@@ -1,5 +1,10 @@
+import { createAsync } from "@solidjs/router";
 import { For, ParentProps } from "solid-js";
-import { communities, suggestedUsers, trendingTopics } from "../data/social";
+import {
+  getCommunities,
+  getSuggestedProfiles,
+  getTrending,
+} from "../server/discover";
 import SideNav from "../components/SideNav";
 import ThemeToggle from "../components/ThemeToggle";
 import Section from "../components/(home)/explore-division/Section";
@@ -9,6 +14,10 @@ import Community from "../components/(home)/explore-division/Community";
 import style from "../styles/pages/(home).module.css";
 
 export default function HomeLayout({ children }: ParentProps) {
+  const trending = createAsync(() => getTrending());
+  const suggested = createAsync(() => getSuggestedProfiles());
+  const communitiesList = createAsync(() => getCommunities());
+
   return (
     <div id={style.homeLayout}>
       <ThemeToggle />
@@ -32,19 +41,21 @@ export default function HomeLayout({ children }: ParentProps) {
         </form>
         <Section title="Trending">
           <ol>
-            <For each={trendingTopics}>
+            <For each={trending() ?? []}>
               {(topic) => <Trend topic={topic} />}
             </For>
           </ol>
         </Section>
         <Section title="Users">
           <ul>
-            <For each={suggestedUsers}>{(user) => <User user={user} />}</For>
+            <For each={suggested() ?? []}>
+              {(user) => <User user={user} />}
+            </For>
           </ul>
         </Section>
         <Section title="Community">
           <ul>
-            <For each={communities}>
+            <For each={communitiesList() ?? []}>
               {(community) => <Community community={community} />}
             </For>
           </ul>

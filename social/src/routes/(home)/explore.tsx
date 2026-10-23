@@ -1,11 +1,13 @@
+import { createAsync } from "@solidjs/router";
 import { For } from "solid-js";
 import {
-  communities,
-  lifeEvents,
-  posts,
-  suggestedUsers,
-  trendingTopics,
-} from "../../data/social";
+  getCommunities,
+  getHappenings,
+  getSuggestedProfiles,
+  getTagNames,
+  getTrending,
+} from "../../server/discover";
+import { getFeed } from "../../server/posts";
 import FeedHeader from "../../components/(home)/FeedHeader";
 import Card from "../../components/(home)/explore/Card";
 import Community from "../../components/(home)/explore-division/Community";
@@ -18,44 +20,57 @@ import WhatsHappening from "../../components/(home)/explore/WhatsHappening";
 import style from "../../styles/pages/(home)/explore.module.css";
 
 export default function Explore() {
+  const trending = createAsync(() => getTrending());
+  const happenings = createAsync(() => getHappenings());
+  const suggested = createAsync(() => getSuggestedProfiles());
+  const communitiesList = createAsync(() => getCommunities());
+  const tags = createAsync(() => getTagNames());
+  const posts = createAsync(() => getFeed("discover"));
+
   return [
     <FeedHeader>
-      <ExploreHeader />
+      <ExploreHeader tags={tags() ?? []} />
     </FeedHeader>,
     <div id={style.exploreBody}>
       <Section title="Trending">
         <Card>
           <ol>
-            <For each={trendingTopics}>{(topic) => <Trend topic={topic} />}</For>
+            <For each={trending() ?? []}>
+              {(topic) => <Trend topic={topic} />}
+            </For>
           </ol>
         </Card>
       </Section>
       <Section title="What's happening">
         <Card>
-          <For each={lifeEvents}>{(event) => <WhatsHappening event={event} />}</For>
+          <For each={happenings() ?? []}>
+            {(event) => <WhatsHappening event={event} />}
+          </For>
         </Card>
       </Section>
       <Section title="Who to follow">
         <Card>
           <ul>
-            <For each={suggestedUsers}>{(user) => <User user={user} />}</For>
+            <For each={suggested() ?? []}>
+              {(user) => <User user={user} />}
+            </For>
           </ul>
         </Card>
       </Section>
       <Section title="Where to belong">
         <Card>
           <ul>
-            <For each={communities}>
+            <For each={communitiesList() ?? []}>
               {(community) => <Community community={community} />}
             </For>
           </ul>
         </Card>
       </Section>
       <Section title="Discover">
-        <For each={posts}>
+        <For each={posts() ?? []}>
           {(post) => (
             <Post
-              name={post.author}
+              name={post.name}
               handle={post.handle}
               time={post.time}
               avatar={post.avatar}

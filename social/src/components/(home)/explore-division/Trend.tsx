@@ -1,8 +1,8 @@
-import { trendingTopics } from "../../../data/social";
+import type { TrendTopic } from "../../../types/social";
 import style from "../../../styles/components/(home)/explore-division/Trend.module.css";
 
 interface TrendProps {
-  topic: (typeof trendingTopics)[number];
+  topic: TrendTopic;
 }
 
 export default function Trend(props: TrendProps) {

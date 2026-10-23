@@ -6,6 +6,7 @@ import {
 } from "solid-js";
 import { fetchSession } from "../server/auth";
 import type { SessionPayload } from "../server/session";
+import type { SafeUser } from "../server/user";
 
 export interface SignupInput {
   displayName: string;
@@ -16,6 +17,7 @@ export interface SignupInput {
 
 interface AuthContextValue {
   loggedIn(): boolean | undefined;
+  user(): SafeUser | null | undefined;
   login(identifier: string, password: string): Promise<void>;
   signup(input: SignupInput): Promise<void>;
   logout(): Promise<void>;
@@ -57,6 +59,14 @@ function AuthProvider(props: ParentProps) {
     return value !== null;
   };
 
+  const user = (): SafeUser | null | undefined => {
+    const value: SessionPayload | null | undefined = session();
+    if (value === undefined) {
+      return undefined;
+    }
+    return value === null ? null : value.user;
+  };
+
   const login = async (identifier: string, password: string): Promise<void> => {
     await requestAuth("/login", { identifier: identifier, password: password });
     await refetch();
@@ -78,7 +88,7 @@ function AuthProvider(props: ParentProps) {
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, login, signup, logout }}>
+    <AuthContext.Provider value={{ loggedIn, user, login, signup, logout }}>
       {props.children}
     </AuthContext.Provider>
   );

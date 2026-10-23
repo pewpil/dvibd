@@ -1,8 +1,8 @@
-import { suggestedUsers } from "../../../data/social";
+import type { SuggestedProfile } from "../../../types/social";
 import style from "../../../styles/components/(home)/explore-division/user.module.css";
 
 interface UserProps {
-  user: (typeof suggestedUsers)[number];
+  user: SuggestedProfile;
 }
 
 export default function User(props: UserProps) {

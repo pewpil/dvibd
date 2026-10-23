@@ -40,8 +40,22 @@ model User {
   email         String         @unique
   passwordHash  String
   displayName   String?
+  bio           String?
+  website       String?
+  avatarUrl     String?
+  coverUrl      String?
+  isFallback    Boolean        @default(false)
   createdAt     DateTime       @default(now())
   refreshTokens RefreshToken[]
+  posts         Post[]         @relation("PostAuthor")
+  likes         Like[]         @relation("LikeUser")
+  reposts       Repost[]       @relation("RepostUser")
+  bookmarks     Bookmark[]     @relation("BookmarkUser")
+  following     Follow[]       @relation("FollowFollower")
+  followers     Follow[]       @relation("FollowFollowee")
+  memberships   CommunityMember[] @relation("CommunityMemberUser")
+  notifications Notification[] @relation("NotificationRecipient")
+  notifiedBy    Notification[] @relation("NotificationActor")
 }
 
 model RefreshToken {
@@ -52,4 +66,170 @@ model RefreshToken {
   expiresAt DateTime
   createdAt DateTime @default(now())
   revokedAt DateTime?
+}
+
+enum PostKind {
+  STAT
+  ARTICLE
+}
+
+model Post {
+  id            String         @id @default(cuid())
+  authorId      String
+  author        User           @relation("PostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  kind          PostKind
+  title         String?
+  text          String
+  parentId      String?
+  parent        Post?          @relation("PostParent", fields: [parentId], references: [id], onDelete: Cascade)
+  replies       Post[]         @relation("PostParent")
+  communityId   String?
+  community     Community?     @relation("CommunityPosts", fields: [communityId], references: [id], onDelete: Cascade)
+  replyCount    Int            @default(0)
+  likeCount     Int            @default(0)
+  repostCount   Int            @default(0)
+  saveCount     Int            @default(0)
+  isFallback    Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  media         PostMedia[]    @relation("PostMediaPost")
+  likes         Like[]         @relation("LikePost")
+  reposts       Repost[]       @relation("RepostPost")
+  bookmarks     Bookmark[]     @relation("BookmarkPost")
+  tags          PostTag[]      @relation("PostTagPost")
+  notifications Notification[] @relation("NotificationPost")
+
+  @@index([authorId, createdAt])
+  @@index([parentId])
+  @@index([communityId])
+}
+
+model PostMedia {
+  id     String   @id @default(cuid())
+  postId String
+  post   Post     @relation("PostMediaPost", fields: [postId], references: [id], onDelete: Cascade)
+  index  Int
+  url    String?
+  alt    String?
+
+  @@unique([postId, index])
+}
+
+model Like {
+  userId    String
+  user      User     @relation("LikeUser", fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      Post     @relation("LikePost", fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, postId])
+  @@index([postId])
+}
+
+model Repost {
+  userId    String
+  user      User     @relation("RepostUser", fields: [userId], references: [id], onDelete: Cascade)
+  postId    String
+  post      Post     @relation("RepostPost", fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, postId])
+  @@index([postId])
+}
+
+model Bookmark {
+  userId     String
+  user       User     @relation("BookmarkUser", fields: [userId], references: [id], onDelete: Cascade)
+  postId     String
+  post       Post     @relation("BookmarkPost", fields: [postId], references: [id], onDelete: Cascade)
+  isFallback Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@id([userId, postId])
+  @@index([postId])
+}
+
+enum NotificationKind {
+  LIKED_POST
+  LIKED_COMMENT
+  REPLIED
+  FOLLOWED
+  REPOSTED
+  MENTIONED
+  MENTIONED_COMMUNITY
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  recipientId String
+  recipient   User             @relation("NotificationRecipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  actorId     String
+  actor       User             @relation("NotificationActor", fields: [actorId], references: [id], onDelete: Cascade)
+  kind        NotificationKind
+  postId      String?
+  post        Post?            @relation("NotificationPost", fields: [postId], references: [id], onDelete: Cascade)
+  communityId String?
+  community   Community?       @relation("NotificationCommunity", fields: [communityId], references: [id], onDelete: Cascade)
+  isFallback  Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+
+  @@index([recipientId, createdAt])
+}
+
+model Follow {
+  followerId String
+  follower   User     @relation("FollowFollower", fields: [followerId], references: [id], onDelete: Cascade)
+  followeeId String
+  followee   User     @relation("FollowFollowee", fields: [followeeId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@id([followerId, followeeId])
+  @@index([followeeId])
+}
+
+model Tag {
+  id         String      @id @default(cuid())
+  name       String      @unique
+  posts      PostTag[]   @relation("PostTagTag")
+  happenings Happening[] @relation("HappeningTag")
+}
+
+model PostTag {
+  postId String
+  post   Post @relation("PostTagPost", fields: [postId], references: [id], onDelete: Cascade)
+  tagId  String
+  tag    Tag  @relation("PostTagTag", fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@index([tagId])
+}
+
+model Community {
+  id            String            @id @default(cuid())
+  name          String            @unique
+  description   String?
+  isFallback    Boolean           @default(false)
+  createdAt     DateTime          @default(now())
+  posts         Post[]            @relation("CommunityPosts")
+  members       CommunityMember[] @relation("CommunityMemberCommunity")
+  notifications Notification[]    @relation("NotificationCommunity")
+}
+
+model CommunityMember {
+  userId      String
+  user        User      @relation("CommunityMemberUser", fields: [userId], references: [id], onDelete: Cascade)
+  communityId String
+  community   Community @relation("CommunityMemberCommunity", fields: [communityId], references: [id], onDelete: Cascade)
+  joinedAt    DateTime  @default(now())
+
+  @@id([userId, communityId])
+  @@index([communityId])
+}
+
+model Happening {
+  id         String   @id @default(cuid())
+  title      String
+  tagId      String?
+  tag        Tag?     @relation("HappeningTag", fields: [tagId], references: [id], onDelete: Cascade)
+  isFallback Boolean  @default(false)
+  createdAt  DateTime @default(now())
 }

@@ -1,7 +1,8 @@
-import type { Notification } from "../../../data/social";
+import { Show } from "solid-js";
+import type { NotificationCard } from "../../../types/social";
 import style from "../../../styles/components/(home)/notification/NotificationItem.module.css";
 interface NotificationItemProps {
-  notification: Notification;
+  notification: NotificationCard;
 }
 
 export default function NotificationItem(props: NotificationItemProps) {
@@ -18,7 +19,12 @@ export default function NotificationItem(props: NotificationItemProps) {
           </span>{" "}
           {props.notification.action}
         </p>
-        <p id={style.notificationTime}>{props.notification.time}</p>
+        <p id={style.notificationTime}>
+          {props.notification.time}
+          <Show when={props.notification.isFallback}>
+            <span id={style.demoTag}>Demo</span>
+          </Show>
+        </p>
       </div>
     </li>
   );

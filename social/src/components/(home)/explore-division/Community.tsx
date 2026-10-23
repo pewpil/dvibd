@@ -1,8 +1,8 @@
-import { communities } from "../../../data/social";
+import type { CommunitySummary } from "../../../types/social";
 import style from "../../../styles/components/(home)/explore-division/Community.module.css";
 
 interface CommunityProps {
-  community: (typeof communities)[number];
+  community: CommunitySummary;
 }
 
 export default function Community(props: CommunityProps) {

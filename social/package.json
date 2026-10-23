@@ -6,7 +6,8 @@
     "dev": "LOCAL_ENV=1 vite dev",
     "build": "vite build",
     "start": "LOCAL_ENV=1 node .output/server/index.mjs",
-    "preview": "LOCAL_ENV=1 vite preview"
+    "preview": "LOCAL_ENV=1 vite preview",
+    "db:seed": "LOCAL_ENV=1 node scripts/seed.mts"
   },
   "dependencies": {
     "@fontsource-variable/lexend": "^5.3.0",

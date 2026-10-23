@@ -1,9 +1,12 @@
 import { createSignal, For, Show } from "solid-js";
 import slidersIcon from "../../../assets/components/(home)/explore/sliders.svg?raw";
-import { interestTags } from "../../../data/social";
 import style from "../../../styles/components/(home)/explore/ExploreHeader.module.css";
 
-export default function ExploreHeader() {
+interface ExploreHeaderProps {
+  tags: string[];
+}
+
+export default function ExploreHeader(props: ExploreHeaderProps) {
   const [query, setQuery] = createSignal("");
   const [filterOpen, setFilterOpen] = createSignal(false);
   const [activeTags, setActiveTags] = createSignal<Set<string>>(new Set());
@@ -44,7 +47,7 @@ export default function ExploreHeader() {
       </div>
       <Show when={filterOpen()}>
         <div id={style.tagRow}>
-          <For each={interestTags}>
+          <For each={props.tags}>
             {(tag) => (
               <button
                 type="button"

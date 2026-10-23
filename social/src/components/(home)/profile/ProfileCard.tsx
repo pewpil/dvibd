@@ -1,10 +1,11 @@
-import type { CurrentUser } from "../../../data/social";
+import { Show } from "solid-js";
+import type { ProfileView } from "../../../types/social";
 import moreIcon from "../../../assets/components/post/header/more.svg?raw";
 import linkIcon from "../../../assets/components/(home)/profile/link.svg?raw";
 import style from "../../../styles/components/(home)/profile/ProfileCard.module.css";
 
 interface ProfileCardProps {
-  user: CurrentUser;
+  user: ProfileView;
   complete?: boolean;
 }
 
@@ -32,16 +33,20 @@ export default function ProfileCard(props: ProfileCardProps) {
         <h2>{props.user.name}</h2>
         <span>@{props.user.handle}</span>
       </div>
-      <p id={style.bio}>{props.user.bio}</p>
-      <a
-        id={style.website}
-        href={`https://${props.user.website}`}
-        target="_blank"
-        rel="noreferrer"
-      >
-        <span id={style.websiteIcon} innerHTML={linkIcon} />
-        {props.user.website}
-      </a>
+      <Show when={props.user.bio !== ""}>
+        <p id={style.bio}>{props.user.bio}</p>
+      </Show>
+      <Show when={props.user.website !== ""}>
+        <a
+          id={style.website}
+          href={`https://${props.user.website}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span id={style.websiteIcon} innerHTML={linkIcon} />
+          {props.user.website}
+        </a>
+      </Show>
       <div id={style.counts}>
         <span>
           <strong>{formatCount(props.user.following)}</strong> Following

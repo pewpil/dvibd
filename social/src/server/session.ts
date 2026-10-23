@@ -14,12 +14,16 @@ export interface SessionPayload {
   accessToken: string;
 }
 
-export async function readSession(): Promise<SessionPayload | null> {
+function sessionCookie(): string | undefined {
   const event = getRequestEvent();
   if (!event) {
     throw new Error("Session must be read within a request");
   }
-  const raw: string | undefined = getCookie(event.nativeEvent, SESSION_COOKIE);
+  return getCookie(event.nativeEvent, SESSION_COOKIE);
+}
+
+export async function readSessionUser(): Promise<SafeUser | null> {
+  const raw: string | undefined = sessionCookie();
   if (raw === undefined) {
     return null;
   }
@@ -27,13 +31,17 @@ export async function readSession(): Promise<SessionPayload | null> {
   if (verified === null) {
     return null;
   }
-  const user = await prisma.user.findUnique({
+  return await prisma.user.findUnique({
     where: { id: verified.userId },
     select: USER_SELECT,
   });
-  if (!user) {
+}
+
+export async function readSession(): Promise<SessionPayload | null> {
+  const user: SafeUser | null = await readSessionUser();
+  if (user === null) {
     return null;
   }
-  const accessToken: string = await issueAccessToken(verified.userId);
+  const accessToken: string = await issueAccessToken(user.id);
   return { user: user, accessToken: accessToken };
 }

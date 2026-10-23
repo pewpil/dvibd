@@ -1,6 +1,5 @@
 import { createSignal, Show } from "solid-js";
 import { A } from "@solidjs/router";
-import { currentUser } from "../data/social";
 import AccountMenu from "./AccountMenu";
 import { useAuth } from "../contexts/AuthContext";
 import style from "../styles/components/SideNav.module.css";
@@ -80,7 +79,7 @@ function LoginIcon() {
 
 function SideNav() {
   const [menuOpen, setMenuOpen] = createSignal(false);
-  const { loggedIn } = useAuth();
+  const { loggedIn, user } = useAuth();
 
   return (
     <nav id={style.sideNav} aria-label="Primary">
@@ -143,10 +142,13 @@ function SideNav() {
           aria-haspopup="menu"
           aria-expanded={menuOpen()}
           aria-label="Account menu"
-          data-tooltip={`@${currentUser.handle}`}
+          data-tooltip={`@${user()?.username ?? ""}`}
           onClick={() => setMenuOpen(!menuOpen())}
         >
-          <img src={currentUser.avatar} alt="profile picture" />
+          <img
+            src={user()?.avatarUrl ?? "/profile-picture.svg"}
+            alt="profile picture"
+          />
         </button>
         <Show when={menuOpen()}>
           <AccountMenu onClose={() => setMenuOpen(false)} />

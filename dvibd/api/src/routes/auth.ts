@@ -148,6 +148,11 @@ router.post("/signup", signupValidator, async (c) => {
         username: true,
         email: true,
         displayName: true,
+        bio: true,
+        website: true,
+        avatarUrl: true,
+        coverUrl: true,
+        isFallback: true,
         createdAt: true,
       },
     });
@@ -193,6 +198,11 @@ router.post("/login", loginValidator, async (c) => {
     username: found.username,
     email: found.email,
     displayName: found.displayName,
+    bio: found.bio,
+    website: found.website,
+    avatarUrl: found.avatarUrl,
+    coverUrl: found.coverUrl,
+    isFallback: found.isFallback,
     createdAt: found.createdAt,
   };
 

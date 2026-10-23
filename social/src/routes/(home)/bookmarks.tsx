@@ -1,5 +1,7 @@
+import { createAsync } from "@solidjs/router";
 import { createSignal, For, Show } from "solid-js";
-import { posts } from "../../data/social";
+import { getBookmarks } from "../../server/posts";
+import type { PostCard } from "../../types/social";
 import FeedHeader from "../../components/(home)/FeedHeader";
 import BookmarksHeader from "../../components/(home)/BookmarksHeader";
 import Post from "../../components/(home)/post/Post";
@@ -8,9 +10,10 @@ import style from "../../styles/pages/(home)/bookmarks.module.css";
 export default function Bookmarks() {
   const [tab, setTab] = createSignal<"stat" | "article">("stat");
   const [query, setQuery] = createSignal("");
+  const bookmarks = createAsync(() => getBookmarks());
 
-  const visible = () =>
-    posts.filter(
+  const visible = (): PostCard[] =>
+    (bookmarks() ?? []).filter(
       (post) =>
         post.type === tab() &&
         (query() === "" ||
@@ -40,7 +43,7 @@ export default function Bookmarks() {
       <For each={visible()}>
         {(post) => (
           <Post
-            name={post.author}
+            name={post.name}
             handle={post.handle}
             time={post.time}
             avatar={post.avatar}

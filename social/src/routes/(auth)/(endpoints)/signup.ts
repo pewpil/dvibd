@@ -11,6 +11,7 @@ import {
   issueRefreshToken,
 } from "../../../server/tokens";
 import { USER_SELECT, toSafeUser, type SafeUser } from "../../../server/user";
+import { generateDemoContent } from "../../../server/demoContent";
 
 const signupSchema = z
   .object({
@@ -66,6 +67,12 @@ export async function POST(event: APIEvent): Promise<Response> {
       );
     }
     throw error;
+  }
+
+  try {
+    await generateDemoContent(user.id);
+  } catch (error: unknown) {
+    console.error("Demo content generation failed.", error);
   }
 
   const accessToken: string = await issueAccessToken(user.id);
