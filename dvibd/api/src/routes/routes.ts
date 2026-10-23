@@ -1,4 +1,4 @@
-import { Hono } from "@hono/hono";
+import { Hono } from "hono";
 import auth from "./auth.ts";
 
 const routes: Hono = new Hono();

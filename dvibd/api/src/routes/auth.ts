@@ -1,8 +1,8 @@
-import { Hono } from "@hono/hono";
-import { jwt, sign, verify } from "@hono/hono/jwt";
+import { Hono } from "hono";
+import { jwt, sign, verify } from "hono/jwt";
 import { zValidator } from "@hono/zod-validator";
-import { z } from "@zod/zod";
-import { compare, genSalt, hash } from "jsr:@da/bcrypt@1.0.1";
+import { z } from "zod";
+import { compare, genSalt, hash } from "bcrypt";
 import { Prisma, type User } from "../generated/client.mts";
 import { config } from "../config.ts";
 import { prisma } from "../db.ts";

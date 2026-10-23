@@ -3,7 +3,7 @@
 This file is the authoritative source of repository-wide standards that must be complied with. App-specific context lives in the workspace-scoped `AGENTS.md` files: `dvibd/AGENTS.md` (`dvibd` gui/api), `social/AGENTS.md` (`social`), `message/AGENTS.md` (`message`), `orm/AGENTS.md` (shared ORM), and `db/AGENTS.md` (database service). Contexts to remember live in the Workspace Memory section below.
 
 ## Repository Layout
-- `dvibd/`: the main gui + api workspace (Deno API, client-side Vite/SolidJS GUI).
+- `dvibd/`: the main gui + api workspace (Node API, client-side Vite/SolidJS GUI).
 - `social/`: a standalone SolidStart app (self-contained backend, Node runtime).
 - `message/`: a standalone Next.js App Router app (self-contained backend, Node runtime).
 - `mail/`: a standalone Vite + Svelte 5 app (client-side SPA; Node tooling). Its backend (`mail/api`, port 3007) is planned but not yet scaffolded. See `mail/AGENTS.md`.
@@ -19,18 +19,16 @@ This file is the authoritative source of repository-wide standards that must be 
 4. Refrain from using the em dash in any written output or content.
 5. Never commit secrets or API keys. A secret that must live on disk belongs in a gitignored `*.key` file next to the configuration that references it, and is pulled in through `{file:*.key}` substitution. Never inline a key value in `opencode.json`.
 
-## Runtime & Typecheck Standards (Deno vs Node)
-- `dvibd/api` runtime is Deno. Respect `compilerOptions`, `fmt`, and `lint` in its `deno.json`.
-- `dvibd/gui`, `social`, and `message` run on Node. Never run `deno check` in them.
-- **Node Version Policy**: every Node workspace targets the latest Node.js **LTS** release, currently Node 24 ("Krypton"). Node 26 and other Current or EOL lines are out of policy. Each Node workspace declares `"engines": { "node": ">=24" }`, and `@types/node` is pinned to the matching `24.x` line so the types reflect the oldest supported runtime rather than whatever happens to be installed. Do not bump Node majors until a newer line reaches LTS; when one does, update `engines` and `@types/node` together across `dvibd/gui`, `social`, `message`, `mail/gui`, and `orm`.
-- **This policy does not apply to `dvibd/api`.** It runs on Deno and is governed by `dvibd/api/deno.json`, not by Node `engines`. Never add `engines` or `@types/node` there, and do not type-check it with `tsc`.
+## Runtime & Typecheck Standards (Node)
+- Every workspace runs on Node. `dvibd/api` is a Hono HTTP API on the Node server adapter; it has no Deno runtime, `deno.json`, or `deno.lock`, and its strict compiler flags live in `dvibd/api/tsconfig.json`.
+- **Node Version Policy**: every Node workspace targets the latest Node.js **LTS** release, currently Node 24 ("Krypton"). Node 26 and other Current or EOL lines are out of policy. Each Node workspace declares `"engines": { "node": ">=24" }`, and `@types/node` is pinned to the matching `24.x` line so the types reflect the oldest supported runtime rather than whatever happens to be installed. Do not bump Node majors until a newer line reaches LTS; when one does, update `engines` and `@types/node` together across `dvibd/api`, `dvibd/gui`, `social`, `message`, `mail/gui`, and `orm`.
 - **TypeScript Version Policy**: TypeScript has no LTS concept, so every Node workspace tracks the latest release, currently `^7.0.2`. Keep it aligned across all of them. `mail/gui` is the one deliberate deviation: its classic `typescript` pin (`~6.0.3`) exists only because `svelte-check`'s tooling requires it, while the repository-standard 7.x line arrives through `@typescript/native` and is used explicitly via `svelte-check --tsgo`; see `mail/AGENTS.md`.
 
 ### Typecheck Matrix
 
 | Workspace | Runtime | Command |
 | --- | --- | --- |
-| `dvibd/api` | Deno | `cd dvibd/api && deno check src/main.ts` |
+| `dvibd/api` | Node | `cd dvibd/api && npx tsc --noEmit` |
 | `dvibd/gui` | Node / Vite | `cd dvibd/gui && npx tsc -b` |
 | `social` | Node / SolidStart | `cd social && npx tsc --noEmit` |
 | `message` | Node / Next.js | `cd message && npx tsc --noEmit` |
@@ -96,7 +94,7 @@ Every application must be written strictly idiomatic to its underlying framework
   ```bash
   cd orm && npm run generate
   ```
-- After regenerating, verify the client consumers typecheck: `cd dvibd/api && deno check src/main.ts` and `cd social && npx tsc --noEmit`.
+- After regenerating, verify the client consumers typecheck: `cd dvibd/api && npx tsc --noEmit` and `cd social && npx tsc --noEmit`.
 
 ### Migrations
 - Migrations live under `orm/prisma/migrations/` and are tracked in git. Prisma's documentation calls this folder "the source of truth for the history of your data model" and requires committing the entire folder, including `migration_lock.toml`, because `prisma migrate deploy` replays only the migration files and never reads `schema.prisma`.
@@ -114,16 +112,17 @@ Every application must be written strictly idiomatic to its underlying framework
 - Never point OpenCode at a new or scaffolded Prisma project. This repository already owns its schema and clients; work only through the `orm/` scripts above.
 
 ### Deployment (Netlify)
-Netlify hosts `social` and `message` with their own backends, plus the `dvibd/gui` SPA. `dvibd/api` is not deployed to Netlify. Each app is its own Netlify project with its own `netlify.toml` beside its `package.json`, and the site's base directory must be that app directory. There is no root `package.json`, so run Netlify CLI commands from inside an app directory rather than the repository root.
+Netlify hosts `social` and `message` with their own backends, the `dvibd/gui` SPA, and `dvibd/api` as a functions-only project. Each app is its own Netlify project with its own `netlify.toml` beside its `package.json`, and the site's base directory must be that app directory. There is no root `package.json`, so run Netlify CLI commands from inside an app directory rather than the repository root.
 
 - `message` (project `message-dvibd`) publishes `.next`. Netlify injects its Next.js runtime automatically, so `@netlify/plugin-nextjs` must not be added to `package.json`. Its `src/proxy.ts` runs as an Edge Function in the Deno runtime, so nothing on its import path may reach `db.ts`; see the `jwt.ts`/`tokens.ts` split in `message/AGENTS.md`.
 - `social` publishes `dist`, not `dist/client`, because it builds through `nitro/vite`. Nitro detects the Netlify build environment and emits the catch-all function to `.netlify/functions-internal/server/server.mjs`. Do not add `@netlify/vite-plugin` to that app, since that path produces the `dist/client` layout instead.
-- `dvibd/gui` publishes `dist` and needs the SPA redirect, because its routing is declarative and client-side.
+- `dvibd/gui` publishes `dist` and needs the SPA redirect, because its routing is declarative and client-side. Its `/api/*` redirect proxies to the `dvibd-api` project, so the browser calls the API same-origin and the fetch calls under `/api/auth/` need no production base URL.
+- `dvibd/api` (project `dvibd-api`) publishes an empty `public/` directory and runs entirely through `netlify/functions/api.ts`, whose `config.path = "/*"` hands every request to the Hono app. Netlify bundles the function with esbuild, and native `bcrypt` is the only compiled dependency. The build command's own work is `prisma generate` plus creating that empty directory; there is no application build step.
 - Every app's build command runs `prisma generate` from `orm/` first, since each generated client directory is gitignored and absent from a fresh clone. `npm --prefix` is what reaches the sibling directory; the prefix differs per app because the base directory differs.
 - `NODE_VERSION` is pinned to `24` in each `[build.environment]`, per the Node version policy above. Netlify derives the functions runtime from the build version.
-- Production database is Supabase, reached through the **Supavisor session pooler**, never the direct connection string. Netlify functions run in IPv4-only AWS environments, and each warm function instance opens its own `pg` pool against a hard connection cap, so a pooled URL is required.
+- Production database is Supabase, reached through the **Supavisor session pooler**, never the direct connection string. Netlify functions run in IPv4-only AWS environments, and each warm function instance opens its own `pg` pool against a hard connection cap, so a pooled URL is required. `dvibd/api` caps its adapter pool at one connection per instance (`max: 1`) because the session pooler holds a backend connection for each client it accepts.
 - Secrets live only in Netlify's environment, set with `netlify env:set --context production --secret`. Never commit them; `*.env` is gitignored.
-- `--secret` values are write-only and reach any build running off Netlify masked (asterisks plus the last four characters), while code running on Netlify reads them unmasked. Every app's `build.command` therefore starts with a guard keyed on those asterisks for local CLI builds, which never fires on Netlify-hosted builds. `social`'s and `dvibd/gui`'s guard unsets `DATABASE_URL` so `prisma generate` falls through to `orm/.env` through dotenv. `message`'s instead exports a build-only placeholder URL and rewrites `.next/standalone/.env` to the dev defaults after `next build`: its edge-function bundling evaluates the middleware module graph in a process that inherits the CLI environment rather than the build command's shell, and the runtime plugin unconditionally requires that file while a copied-through one would carry the machine's real `DATABASE_URL` into the shipped artifact. The rewrite also removes any need for a local `.env` file. A local `netlify deploy --prod` for `message` must therefore run with placeholder `DATABASE_URL` and `JWT_SECRET` exported in the invoking shell. `JWT_SECRET` is never read at build time, so its mask is harmless. The earliest invocations after a first deploy can run before secret values reach the function runtime; diagnose with `netlify logs --source functions --function server` rather than assuming misconfiguration.
+- `--secret` values are write-only and reach any build running off Netlify masked (asterisks plus the last four characters), while code running on Netlify reads them unmasked. Every app's `build.command` therefore starts with a guard keyed on those asterisks for local CLI builds, which never fires on Netlify-hosted builds. `social`'s, `dvibd/gui`'s, and `dvibd/api`'s guard unsets `DATABASE_URL` so `prisma generate` falls through to `orm/.env` through dotenv. `message`'s instead exports a build-only placeholder URL and rewrites `.next/standalone/.env` to the dev defaults after `next build`: its edge-function bundling evaluates the middleware module graph in a process that inherits the CLI environment rather than the build command's shell, and the runtime plugin unconditionally requires that file while a copied-through one would carry the machine's real `DATABASE_URL` into the shipped artifact. The rewrite also removes any need for a local `.env` file. A local `netlify deploy --prod` for `message` must therefore run with placeholder `DATABASE_URL` and `JWT_SECRET` exported in the invoking shell. `JWT_SECRET` is never read at build time, so its mask is harmless. The earliest invocations after a first deploy can run before secret values reach the function runtime; diagnose with `netlify logs --source functions --function <name>` (`server` for `social` and `message`, `api` for `dvibd/api`) rather than assuming misconfiguration.
 
 ### Prisma Skills
 `skills-lock.json` at the repository root is the tracked source of truth and pins all twenty-five third-party skills. Those twenty-five are gitignored because they are regenerable. A twenty-sixth skill, `sticky-scroll-headers`, is hand-written and tracked in git instead, so it survives `git clean -xfd` on its own.
@@ -213,10 +212,12 @@ This section holds persistent memory, learned rules, and calibration contexts ac
 - For the units policy itself, see GUI standard 7 above.
 
 ### Env Resolution Policy (implemented)
-`LOCAL_ENV=1`, exported by each app's own local scripts (`dev` and `start` in `message`; `dev`, `start`, and `preview` in `social`), marks a localhost test run. The config modules (`social/src/server/config.ts`, `message/src/server/config.ts`) resolve in this order:
+`LOCAL_ENV=1`, exported by each app's own local scripts (`dev` and `start` in `dvibd/api` and `message`; `dev`, `start`, and `preview` in `social`), marks a localhost test run. The config modules (`dvibd/api/src/config.ts`, `social/src/server/config.ts`, `message/src/server/config.ts`) resolve in this order:
 1. `LOCAL_ENV=1` set: return the checked-in dev defaults (`postgresql://dvibd:dvibd@localhost:3001/dvibd` plus the per-app change-me secret), ignoring `process.env` entirely.
 2. Otherwise, `process.env`, when the variable is set (Netlify's injected site env in every hosted runtime, and any locally exported value, such as one loaded from a local `.env` by the dev or build tooling).
 3. Otherwise, throw.
+
+`dvibd/api`'s `PORT` is the one deliberate exception to step 3: it falls back to `3002` even outside local mode, because the Netlify function never binds a port and only the local server reads it.
 
 `orm/prisma.config.ts` is unaffected: the Prisma CLI keeps its own process.env-first order against `orm/.env`.
 

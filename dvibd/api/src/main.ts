@@ -1,25 +1,14 @@
-import { Hono } from "@hono/hono";
-import { cors } from "@hono/hono/cors";
-import { logger } from "@hono/hono/logger";
+import { serve } from "@hono/node-server";
+import type { AddressInfo } from "node:net";
+import app from "./app.ts";
 import { config } from "./config.ts";
-import routes from "./routes/routes.ts";
 
-const app = new Hono();
-
-app.use(logger());
-app.use("/*", cors({ origin: config.corsOrigin }));
-app.route("/", routes);
-
-// GET /health
-app.get("/health", (c) =>
-  c.json({
-    name: "dvibd api",
-    version: "0.0.1",
-  }));
-
-Deno.serve(
+serve(
   {
+    fetch: app.fetch,
     port: config.port,
   },
-  app.fetch,
+  (info: AddressInfo): void => {
+    console.log(`dvibd api listening on http://localhost:${info.port}`);
+  },
 );

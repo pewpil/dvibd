@@ -1,7 +1,7 @@
 generator api-client {
   provider               = "prisma-client"
   output                 = "../../dvibd/api/src/generated"
-  runtime                = "deno"
+  runtime                = "nodejs"
   importFileExtension    = "mts"
   generatedFileExtension = "mts"
 }

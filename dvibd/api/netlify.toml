@@ -1,0 +1,15 @@
+[build]
+  command = "if [[ \"$DATABASE_URL\" == *'*'* ]]; then unset DATABASE_URL; fi && npm --prefix ../../orm ci && npm --prefix ../../orm run generate && mkdir -p public"
+  publish = "public"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[dev]
+  command = "npm run dev"
+  targetPort = 3002
+  framework = "#custom"
