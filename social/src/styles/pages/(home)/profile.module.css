@@ -16,6 +16,26 @@ section#profileSection {
   }
 }
 
+section#profileMissing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 3rem 1rem;
+  text-align: center;
+
+  > h2#profileMissingTitle {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  > p#profileMissingText {
+    color: var(--ink-soft);
+    max-width: 100%;
+  }
+}
+
 h1#profileTitle {
   font-family: var(--font-heading);
   font-size: 1.375rem;

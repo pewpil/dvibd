@@ -80,6 +80,10 @@ function LoginIcon() {
 function SideNav() {
   const [menuOpen, setMenuOpen] = createSignal(false);
   const { loggedIn, user } = useAuth();
+  const profileHref = (): string => {
+    const handle = user()?.username;
+    return handle === undefined ? "/" : `/@${encodeURIComponent(handle)}`;
+  };
 
   return (
     <nav id={style.sideNav} aria-label="Primary">
@@ -125,11 +129,15 @@ function SideNav() {
               <BookmarksIcon />
             </A>
           </li>
-          {/* <li> */}
-          {/*   <A href="/profile" aria-label="Profile"> */}
-          {/*     <ProfileIcon /> */}
-          {/*   </A> */}
-          {/* </li> */}
+          <li>
+            <A
+              href={profileHref()}
+              aria-label="Profile"
+              data-tooltip="Profile"
+            >
+              <ProfileIcon />
+            </A>
+          </li>
           <li>
             <A href="/settings" aria-label="Settings" data-tooltip="Settings">
               <SettingsIcon />

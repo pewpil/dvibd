@@ -11,11 +11,15 @@ interface AccountMenuProps {
 
 export default function AccountMenu(props: AccountMenuProps) {
   const { logout, user } = useAuth();
+  const profileHref = (): string => {
+    const handle = user()?.username;
+    return handle === undefined ? "/" : `/@${encodeURIComponent(handle)}`;
+  };
   return [
     <div id={style.menuBackdrop} role="presentation" onClick={props.onClose} />,
     <div id={style.accountMenu} role="menu">
       <A
-        href="/profile"
+        href={profileHref()}
         id={style.menuAccount}
         role="menuitem"
         onClick={props.onClose}
@@ -30,7 +34,7 @@ export default function AccountMenu(props: AccountMenuProps) {
       </A>
       <hr id={style.menuDivider} />
       <A
-        href="/profile"
+        href={profileHref()}
         id={style.menuItem}
         role="menuitem"
         onClick={props.onClose}

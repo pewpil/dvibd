@@ -7,6 +7,7 @@ import style from "../../../styles/components/(home)/profile/ProfileCard.module.
 interface ProfileCardProps {
   user: ProfileView;
   complete?: boolean;
+  own?: boolean;
 }
 
 const formatCount = (count: number) =>
@@ -23,7 +24,7 @@ export default function ProfileCard(props: ProfileCardProps) {
       <img id={style.avatar} src={props.user.avatar} alt={props.user.name} />
       <div id={style.actions}>
         <button type="button" id={style.followButton}>
-          Edit profile
+          {props.own ? "Edit profile" : "Follow"}
         </button>
         <button type="button" id={style.moreButton} aria-label="More options">
           <span id={style.moreIcon} innerHTML={moreIcon} />

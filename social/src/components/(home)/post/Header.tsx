@@ -1,3 +1,4 @@
+import { A } from "@solidjs/router";
 import moreIcon from "../../../assets/components/post/header/more.svg?raw";
 import style from "../../../styles/components/(home)/post/Header.module.css";
 
@@ -9,14 +10,21 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
-  const avatar = () => props.avatar ?? "/profile-picture.svg";
+  const avatar = (): string => props.avatar ?? "/profile-picture.svg";
+  const profileHref = (): string => `/@${encodeURIComponent(props.handle)}`;
   return (
     <header id={style.postHeader}>
       <img id={style.postHeaderAvatar} src={avatar()} alt={`${props.name} avatar`} />
       <div id={style.postHeaderMeta}>
-        <p id={style.postHeaderName}>{props.name}</p>
+        <p id={style.postHeaderName}>
+          <A id={style.postHeaderNameLink} href={profileHref()}>
+            {props.name}
+          </A>
+        </p>
         <p id={style.postHeaderTime}>
-          <span>@{props.handle}</span>
+          <A id={style.postHeaderHandle} href={profileHref()}>
+            @{props.handle}
+          </A>
           <span>{props.time}</span>
         </p>
       </div>

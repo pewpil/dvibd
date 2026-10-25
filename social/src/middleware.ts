@@ -12,7 +12,6 @@ const PROTECTED_PATHS: string[] = [
   "/notifications",
   "/bookmarks",
   "/settings",
-  "/profile",
 ];
 
 const AUTH_PAGES: string[] = ["/login", "/signup"];

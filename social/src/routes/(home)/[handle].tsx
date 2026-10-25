@@ -1,5 +1,13 @@
-import { createAsync } from "@solidjs/router";
-import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
+import { createAsync, useParams, type RouteDefinition } from "@solidjs/router";
+import {
+  createSignal,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+  type JSX,
+} from "solid-js";
+import { useAuth } from "../../contexts/AuthContext";
 import { getProfilePage } from "../../server/profiles";
 import type { PostCard, ProfilePage } from "../../types/social";
 import FeedHeader from "../../components/(home)/FeedHeader";
@@ -10,14 +18,50 @@ import style from "../../styles/pages/(home)/profile.module.css";
 
 const profileTabs = ["Posts", "Likes", "Replies", "Media"];
 
-export default function Profile() {
+export const route: RouteDefinition = {
+  matchFilters: {
+    handle: /^@.+$/,
+  },
+};
+
+export default function Profile(): JSX.Element {
+  const params = useParams<{ handle: string }>();
+  const { user } = useAuth();
   const [tab, setTab] = createSignal("Posts");
   const [tabsStuck, setTabsStuck] = createSignal(false);
   const [headerHeight, setHeaderHeight] = createSignal(0);
-  const page = createAsync(() => getProfilePage());
+  const handle = (): string => {
+    const raw: string = params.handle;
+    return raw.startsWith("@") ? raw.slice(1) : "";
+  };
+  const requestedHandle = (): string => {
+    const raw: string = params.handle;
+    return raw.startsWith("@") ? raw : `@${raw}`;
+  };
+  const page = createAsync(() => getProfilePage(handle()));
   let headerEl!: HTMLElement;
 
-  const measureHeader = () => {
+  const pageTitle = (): string => {
+    const data: ProfilePage | null | undefined = page();
+    if (data === null || data === undefined) {
+      return requestedHandle();
+    }
+    return `@${data.profile.handle}`;
+  };
+
+  const ownProfile = (): boolean => {
+    const data: ProfilePage | null | undefined = page();
+    const current = user();
+    if (data === null || data === undefined) {
+      return false;
+    }
+    if (current === null || current === undefined) {
+      return false;
+    }
+    return data.profile.handle.toLowerCase() === current.username.toLowerCase();
+  };
+
+  const measureHeader = (): void => {
     if (!tabsStuck() && headerEl) setHeaderHeight(headerEl.offsetHeight);
   };
 
@@ -46,7 +90,7 @@ export default function Profile() {
 
   return [
     <FeedHeader ref={(el) => (headerEl = el)} noBottomBorder={tabsStuck()}>
-      <h1 id={style.profileTitle}>@{page()?.profile.handle ?? ""}</h1>
+      <h1 id={style.profileTitle}>{pageTitle()}</h1>
       <Show when={tabsStuck()}>
         <ProfileTabs
           tabs={profileTabs}
@@ -60,7 +104,11 @@ export default function Profile() {
       {(profile) => (
         <section id={style.profileSection}>
           <img id={style.cover} src={profile().cover} alt="" />
-          <ProfileCard user={profile()} complete={tabsStuck()} />
+          <ProfileCard
+            user={profile()}
+            complete={tabsStuck()}
+            own={ownProfile()}
+          />
           <ProfileTabs
             tabs={profileTabs}
             value={tab()}
@@ -88,6 +136,14 @@ export default function Profile() {
           </div>
         </section>
       )}
+    </Show>,
+    <Show when={page() === null}>
+      <section id={style.profileMissing}>
+        <h2 id={style.profileMissingTitle}>This account doesn't exist</h2>
+        <p id={style.profileMissingText}>
+          The handle {requestedHandle()} is not attached to an account.
+        </p>
+      </section>
     </Show>,
   ];
 }
