@@ -20,6 +20,8 @@ Implement only the UI package assigned to you. Read the root `AGENTS.md` and the
 
 If a task needs a file outside your ownership, stop and report it.
 
+If the behavior stores or reads user data, call the real server query or action. Do not substitute local signals, fixtures, or mock data. When the server contract, validation, or model field is missing, report the required shape and path. A UI-only implementation is not done.
+
 ## Standards
 - Double quotes, explicit types on every declaration including returns, no comments unless asked, no em dashes in code, docs, or replies.
 - CSS Module imported as `style`, selectors through hashed ids, a semantic root element per component, percent sizing, `rem` for type, gaps, and breakpoints, `px` only for border-radius, no fragments, no prop destructuring in Solid.

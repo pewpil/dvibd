@@ -22,6 +22,7 @@ Read the root `AGENTS.md`, `orm/AGENTS.md`, and `db/AGENTS.md` first.
 - Local migration: `cd orm && npx prisma migrate dev --name <name>` against the `db/` service only. Hosted: `npm run migrate:deploy`.
 - Migrations are tracked in git. DDL only, no row dumps, and never add an ignore rule for `orm/prisma/migrations/`. Keep `migration_lock.toml`.
 - Follow the existing `cuid()` id convention.
+- Check the existing schema before changing it. Only add a field or migration when the current model cannot represent the feature. Report when no database change is needed.
 - After regenerating, typecheck the consumers you can: `cd dvibd/api && npx tsc --noEmit` and `cd social && npx tsc --noEmit`. Report that other consumers need scheduling.
 - Never run app dev servers.
 

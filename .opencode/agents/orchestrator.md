@@ -19,6 +19,13 @@ Read the repository root `AGENTS.md`, then the `AGENTS.md` of every workspace in
 - `devops` owns `netlify.toml` files, build commands, environment and secret wiring, and deployment diagnostics.
 - `reviewer` is read-only verification and review. It never edits files.
 
+## Feature completeness
+1. Treat every route, page, or interaction request as a vertical slice, not a UI package. Before delegating, trace the current path: component, server query or action or endpoint, validation, Prisma model and migration, revalidation keys, and every place the value is read.
+2. Decide which layers actually change. Do not add a migration when the model already has the fields, and do not add a server module when one already exists.
+3. Brief every affected owner. A request that names only a route still includes persistence when the behavior stores user input.
+4. Acceptance criteria must show the value written through the real server path, surviving a reload, and visible everywhere it is read. Local signals, fixtures, and mocks are not acceptance.
+5. Sequence the work: database schema or migration when needed, client regeneration, backend, frontend, then reviewer. If a layer is intentionally unchanged, say why in the ledger.
+
 ## Parallel safety rules
 1. One writer per path. Every package names the exact files or directories it may touch. Never start two packages with overlapping paths.
 2. Never edit a file you delegated while its subagent is still running.

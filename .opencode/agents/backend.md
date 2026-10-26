@@ -25,6 +25,7 @@ Never edit UI components, component styles, `orm/` schema or migrations, or gene
 - Validate all external input at the boundary. Check authentication and resource ownership on every protected endpoint. Return generic errors and log details server-side only.
 - Sessions: httpOnly cookies, sameSite lax or strict, bounded maxAge, `secure` only where TLS terminates. Never log secrets, tokens, or password material.
 - Use the generated Prisma client; never concatenate SQL.
+- A feature that persists user input is not done until the action or endpoint validates, enforces ownership, performs the Prisma write, and revalidates the affected keys. Do not return success before the write lands. State the wire shape and fields for the frontend.
 - The security skills apply. Read the precedence section of the root `AGENTS.md`, report only high-confidence findings, and do not apply React or Tailwind guidance.
 - If an endpoint change alters the client contract, state the contract so the orchestrator can schedule frontend work after yours.
 
