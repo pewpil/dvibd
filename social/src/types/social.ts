@@ -16,6 +16,18 @@ export type CreatePostResult = { ok: true } | { ok: false; error: string };
 
 export type UpdateProfileResult = { ok: true } | { ok: false; error: string };
 
+export interface NotificationPreferences {
+  likes: boolean;
+  replies: boolean;
+  follows: boolean;
+  reposts: boolean;
+  mentions: boolean;
+}
+
+export type UpdateNotificationPreferencesResult =
+  | { ok: true }
+  | { ok: false; error: string };
+
 export interface PostCard {
   id: string;
   name: string;

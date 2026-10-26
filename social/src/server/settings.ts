@@ -5,10 +5,13 @@ import {
   MAX_DISPLAY_NAME_LENGTH,
   MAX_IMAGE_URL_LENGTH,
   MAX_WEBSITE_LENGTH,
+  type NotificationPreferences,
   type SettingsProfile,
+  type UpdateNotificationPreferencesResult,
   type UpdateProfileResult,
 } from "../types/social";
 import { prisma } from "./db";
+import { readNotificationPreferences } from "./notificationPreferences";
 import { readSessionUser } from "./session";
 import type { SafeUser } from "./user";
 
@@ -82,6 +85,10 @@ function isWebsiteUrl(value: string): boolean {
 
 function emptyToNull(value: string): string | null {
   return value === "" ? null : value;
+}
+
+function readCheckbox(payload: URLSearchParams, name: string): boolean {
+  return payload.get(name) === "on";
 }
 
 const updateProfileSchema = z.object({
@@ -208,4 +215,66 @@ export const updateProfile = action(
     );
   },
   "socialUpdateProfile",
+);
+
+export const getNotificationPreferences = query(
+  async (): Promise<NotificationPreferences | null> => {
+    "use server";
+    const user: SafeUser | null = await readSessionUser();
+    if (user === null) {
+      return null;
+    }
+    return await readNotificationPreferences(user.id);
+  },
+  "socialNotificationPreferences",
+);
+
+export const updateNotificationPreferences = action(
+  async (
+    payload: URLSearchParams,
+  ): Promise<CustomResponse<UpdateNotificationPreferencesResult>> => {
+    "use server";
+    const user: SafeUser | null = await readSessionUser();
+    if (user === null) {
+      return json<UpdateNotificationPreferencesResult>(
+        {
+          ok: false,
+          error: "You need to be signed in to update notification settings.",
+        },
+        {},
+      );
+    }
+    const preferences: NotificationPreferences = {
+      likes: readCheckbox(payload, "likes"),
+      replies: readCheckbox(payload, "replies"),
+      follows: readCheckbox(payload, "follows"),
+      reposts: readCheckbox(payload, "reposts"),
+      mentions: readCheckbox(payload, "mentions"),
+    };
+    await prisma.notificationPreference.upsert({
+      where: { userId: user.id },
+      create: {
+        userId: user.id,
+        likes: preferences.likes,
+        replies: preferences.replies,
+        follows: preferences.follows,
+        reposts: preferences.reposts,
+        mentions: preferences.mentions,
+      },
+      update: {
+        likes: preferences.likes,
+        replies: preferences.replies,
+        follows: preferences.follows,
+        reposts: preferences.reposts,
+        mentions: preferences.mentions,
+      },
+    });
+    return json<UpdateNotificationPreferencesResult>(
+      { ok: true },
+      {
+        revalidate: ["socialNotificationPreferences", "socialNotifications"],
+      },
+    );
+  },
+  "socialUpdateNotificationPreferences",
 );

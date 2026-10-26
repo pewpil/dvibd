@@ -36,8 +36,7 @@ export default function Notifications() {
       <section id={style.emptyState}>
         <h2 id={style.emptyTitle}>No notifications</h2>
         <p id={style.emptyText}>
-          You're all caught up. New likes, replies and follows will show up
-          here.
+          You're all caught up. Activity you have enabled will show up here.
         </p>
       </section>
     </Show>,

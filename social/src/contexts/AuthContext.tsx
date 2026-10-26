@@ -11,6 +11,7 @@ import type { SafeUser } from "../server/user";
 
 const SESSION_QUERY_KEYS: string[] = [
   "socialSettingsPage",
+  "socialNotificationPreferences",
   "socialBookmarks",
   "socialNotifications",
   "socialSuggestedProfiles",

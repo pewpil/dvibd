@@ -1,14 +1,27 @@
 import { A, createAsync, useNavigate, useSubmission } from "@solidjs/router";
-import { createEffect, createSignal, Show, type JSX } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  Show,
+  type JSX,
+  type Setter,
+} from "solid-js";
 import FeedHeader from "../../components/(home)/FeedHeader";
 import { useAuth } from "../../contexts/AuthContext";
-import { getSettingsPage, updateProfile } from "../../server/settings";
+import {
+  getNotificationPreferences,
+  getSettingsPage,
+  updateNotificationPreferences,
+  updateProfile,
+} from "../../server/settings";
 import {
   MAX_BIO_LENGTH,
   MAX_DISPLAY_NAME_LENGTH,
   MAX_IMAGE_URL_LENGTH,
   MAX_WEBSITE_LENGTH,
+  type NotificationPreferences,
   type SettingsProfile,
+  type UpdateNotificationPreferencesResult,
   type UpdateProfileResult,
 } from "../../types/social";
 import style from "../../styles/pages/(home)/settings.module.css";
@@ -27,8 +40,17 @@ type BioEvent = InputEvent & {
   target: Element;
 };
 
+type ToggleEvent = Event & {
+  currentTarget: HTMLInputElement;
+  target: Element;
+};
+
 interface SettingsFormProps {
   profile: SettingsProfile;
+}
+
+interface NotificationPreferencesFormProps {
+  preferences: NotificationPreferences;
 }
 
 export default function Settings(): JSX.Element {
@@ -37,7 +59,7 @@ export default function Settings(): JSX.Element {
   return [
     <FeedHeader>
       <h1 id={style.headerTitle}>Settings</h1>
-      <p id={style.headerSubtitle}>Manage how you appear on social.</p>
+      <p id={style.headerSubtitle}>Manage your profile and notifications.</p>
     </FeedHeader>,
     <Show when={settings()}>
       {(profile) => <SettingsForm profile={profile()} />}
@@ -252,6 +274,7 @@ function SettingsForm(props: SettingsFormProps): JSX.Element {
           </button>
         </footer>
       </form>
+      <NotificationSettings />
       <section id={style.accountPanel}>
         <h2>Account</h2>
         <p>These details identify your account and cannot be changed here.</p>
@@ -279,5 +302,170 @@ function SettingsForm(props: SettingsFormProps): JSX.Element {
         </Show>
       </section>
     </div>
+  );
+}
+
+function NotificationSettings(): JSX.Element {
+  const preferences = createAsync(() => getNotificationPreferences());
+
+  return (
+    <Show when={preferences()}>
+      {(current) => (
+        <NotificationPreferencesForm preferences={current()} />
+      )}
+    </Show>
+  );
+}
+
+function NotificationPreferencesForm(
+  props: NotificationPreferencesFormProps,
+): JSX.Element {
+  const submission = useSubmission(updateNotificationPreferences);
+  const [likes, setLikes] = createSignal<boolean>(props.preferences.likes);
+  const [replies, setReplies] = createSignal<boolean>(props.preferences.replies);
+  const [follows, setFollows] = createSignal<boolean>(props.preferences.follows);
+  const [reposts, setReposts] = createSignal<boolean>(props.preferences.reposts);
+  const [mentions, setMentions] = createSignal<boolean>(
+    props.preferences.mentions,
+  );
+
+  createEffect(() => {
+    setLikes(props.preferences.likes);
+    setReplies(props.preferences.replies);
+    setFollows(props.preferences.follows);
+    setReposts(props.preferences.reposts);
+    setMentions(props.preferences.mentions);
+  });
+
+  const pending = (): boolean => submission.pending === true;
+
+  const error = (): string | undefined => {
+    if (submission.error !== undefined) {
+      return "Could not save notification settings. Try again.";
+    }
+    const result: UpdateNotificationPreferencesResult | undefined =
+      submission.result;
+    if (result !== undefined && !result.ok) {
+      return result.error;
+    }
+    return undefined;
+  };
+
+  const succeeded = (): boolean => {
+    const result: UpdateNotificationPreferencesResult | undefined =
+      submission.result;
+    return result?.ok === true;
+  };
+
+  const clearSubmission = (): void => {
+    if (submission.result !== undefined || submission.error !== undefined) {
+      submission.clear();
+    }
+  };
+
+  const handleToggle = (setter: Setter<boolean>, event: ToggleEvent): void => {
+    setter(event.currentTarget.checked);
+    clearSubmission();
+  };
+
+  return (
+    <form
+      id={style.notificationPanel}
+      action={updateNotificationPreferences}
+      method="post"
+    >
+      <input type="hidden" name="form" value="notifications" />
+      <header id={style.notificationHeader}>
+        <h2>Notifications</h2>
+        <p>
+          Choose which activity shows up in your notifications. This is stored
+          on your account.
+        </p>
+      </header>
+      <label>
+        <span>
+          <strong>Likes</strong>
+          <small>When someone likes your post or comment.</small>
+        </span>
+        <input
+          type="checkbox"
+          name="likes"
+          checked={likes()}
+          onChange={(event) => handleToggle(setLikes, event)}
+          disabled={pending()}
+        />
+      </label>
+      <label>
+        <span>
+          <strong>Replies</strong>
+          <small>When someone replies to your post.</small>
+        </span>
+        <input
+          type="checkbox"
+          name="replies"
+          checked={replies()}
+          onChange={(event) => handleToggle(setReplies, event)}
+          disabled={pending()}
+        />
+      </label>
+      <label>
+        <span>
+          <strong>Follows</strong>
+          <small>When someone follows you.</small>
+        </span>
+        <input
+          type="checkbox"
+          name="follows"
+          checked={follows()}
+          onChange={(event) => handleToggle(setFollows, event)}
+          disabled={pending()}
+        />
+      </label>
+      <label>
+        <span>
+          <strong>Reposts</strong>
+          <small>When someone reposts your post.</small>
+        </span>
+        <input
+          type="checkbox"
+          name="reposts"
+          checked={reposts()}
+          onChange={(event) => handleToggle(setReposts, event)}
+          disabled={pending()}
+        />
+      </label>
+      <label>
+        <span>
+          <strong>Mentions</strong>
+          <small>When someone mentions you.</small>
+        </span>
+        <input
+          type="checkbox"
+          name="mentions"
+          checked={mentions()}
+          onChange={(event) => handleToggle(setMentions, event)}
+          disabled={pending()}
+        />
+      </label>
+      <Show when={error() !== undefined}>
+        <p id={style.notificationError} role="alert">
+          {error()}
+        </p>
+      </Show>
+      <Show when={succeeded()}>
+        <p id={style.notificationSuccess} role="status">
+          Notification settings updated.
+        </p>
+      </Show>
+      <footer id={style.notificationActions}>
+        <button
+          id={style.notificationSaveButton}
+          type="submit"
+          disabled={pending()}
+        >
+          {pending() ? "Saving..." : "Save notifications"}
+        </button>
+      </footer>
+    </form>
   );
 }
