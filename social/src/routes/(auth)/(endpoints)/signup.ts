@@ -12,10 +12,11 @@ import {
 } from "../../../server/tokens";
 import { USER_SELECT, toSafeUser, type SafeUser } from "../../../server/user";
 import { generateDemoContent } from "../../../server/demoContent";
+import { MAX_DISPLAY_NAME_LENGTH } from "../../../types/social";
 
 const signupSchema = z
   .object({
-    displayName: z.string().min(1).max(64),
+    displayName: z.string().min(1).max(MAX_DISPLAY_NAME_LENGTH),
     username: z.string().min(3).max(32),
     email: z.email(),
     password: z.string().min(8),

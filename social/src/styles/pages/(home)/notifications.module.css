@@ -10,10 +10,12 @@ div#headerTop {
     letter-spacing: -0.01em;
   }
 
-  > button#headerSettings {
+  > a#headerSettings {
+    display: flex;
     border: none;
     background: transparent;
     color: var(--ink-soft);
+    text-decoration: none;
     cursor: pointer;
     border-radius: 0.5rem;
     transition: color var(--duration-quick) ease;

@@ -1,4 +1,5 @@
 import { Show } from "solid-js";
+import { A } from "@solidjs/router";
 import type { ProfileView } from "../../../types/social";
 import moreIcon from "../../../assets/components/post/header/more.svg?raw";
 import linkIcon from "../../../assets/components/(home)/profile/link.svg?raw";
@@ -10,10 +11,16 @@ interface ProfileCardProps {
   own?: boolean;
 }
 
-const formatCount = (count: number) =>
+const formatCount = (count: number): string =>
   count >= 1000
     ? `${(count / 1000).toFixed(1).replace(".0", "")}k`
     : String(count);
+
+const websiteHref = (value: string): string =>
+  /^https?:\/\//i.test(value) ? value : `https://${value}`;
+
+const websiteLabel = (value: string): string =>
+  value.replace(/^https?:\/\//i, "");
 
 export default function ProfileCard(props: ProfileCardProps) {
   return (
@@ -23,9 +30,18 @@ export default function ProfileCard(props: ProfileCardProps) {
     >
       <img id={style.avatar} src={props.user.avatar} alt={props.user.name} />
       <div id={style.actions}>
-        <button type="button" id={style.followButton}>
-          {props.own ? "Edit profile" : "Follow"}
-        </button>
+        <Show
+          when={props.own}
+          fallback={
+            <button type="button" id={style.followButton}>
+              Follow
+            </button>
+          }
+        >
+          <A href="/settings" id={style.followButton}>
+            Edit profile
+          </A>
+        </Show>
         <button type="button" id={style.moreButton} aria-label="More options">
           <span id={style.moreIcon} innerHTML={moreIcon} />
         </button>
@@ -40,12 +56,12 @@ export default function ProfileCard(props: ProfileCardProps) {
       <Show when={props.user.website !== ""}>
         <a
           id={style.website}
-          href={`https://${props.user.website}`}
+          href={websiteHref(props.user.website)}
           target="_blank"
           rel="noreferrer"
         >
           <span id={style.websiteIcon} innerHTML={linkIcon} />
-          {props.user.website}
+          {websiteLabel(props.user.website)}
         </a>
       </Show>
       <div id={style.counts}>

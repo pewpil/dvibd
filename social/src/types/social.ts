@@ -4,7 +4,17 @@ export type FeedMode = "discover" | "following";
 
 export const MAX_STAT_LENGTH: number = 256;
 
+export const MAX_DISPLAY_NAME_LENGTH: number = 64;
+
+export const MAX_BIO_LENGTH: number = 160;
+
+export const MAX_WEBSITE_LENGTH: number = 200;
+
+export const MAX_IMAGE_URL_LENGTH: number = 500;
+
 export type CreatePostResult = { ok: true } | { ok: false; error: string };
+
+export type UpdateProfileResult = { ok: true } | { ok: false; error: string };
 
 export interface PostCard {
   id: string;
@@ -71,4 +81,15 @@ export interface ProfilePage {
   replies: PostCard[];
   media: PostCard[];
   likes: PostCard[];
+}
+
+export interface SettingsProfile {
+  name: string;
+  handle: string;
+  email: string;
+  bio: string;
+  website: string;
+  avatarUrl: string;
+  coverUrl: string;
+  joined: string;
 }

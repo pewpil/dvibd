@@ -1,3 +1,4 @@
+import { revalidate } from "@solidjs/router";
 import {
   createContext,
   createResource,
@@ -7,6 +8,14 @@ import {
 import { fetchSession } from "../server/auth";
 import type { SessionPayload } from "../server/session";
 import type { SafeUser } from "../server/user";
+
+const SESSION_QUERY_KEYS: string[] = [
+  "socialSettingsPage",
+  "socialBookmarks",
+  "socialNotifications",
+  "socialSuggestedProfiles",
+  "socialFeed",
+];
 
 export interface SignupInput {
   displayName: string;
@@ -21,9 +30,14 @@ interface AuthContextValue {
   login(identifier: string, password: string): Promise<void>;
   signup(input: SignupInput): Promise<void>;
   logout(): Promise<void>;
+  refresh(): Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue>();
+
+async function invalidateSessionQueries(): Promise<void> {
+  await revalidate(SESSION_QUERY_KEYS);
+}
 
 async function requestAuth(path: string, body?: Record<string, string>): Promise<void> {
   const init: RequestInit = { method: "POST" };
@@ -69,6 +83,7 @@ function AuthProvider(props: ParentProps) {
 
   const login = async (identifier: string, password: string): Promise<void> => {
     await requestAuth("/login", { identifier: identifier, password: password });
+    await invalidateSessionQueries();
     await refetch();
   };
 
@@ -79,16 +94,24 @@ function AuthProvider(props: ParentProps) {
       email: input.email,
       password: input.password,
     });
+    await invalidateSessionQueries();
     await refetch();
   };
 
   const logout = async (): Promise<void> => {
     await requestAuth("/logout");
+    await invalidateSessionQueries();
+    await refetch();
+  };
+
+  const refresh = async (): Promise<void> => {
     await refetch();
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, user, login, signup, logout }}>
+    <AuthContext.Provider
+      value={{ loggedIn, user, login, signup, logout, refresh }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

@@ -1,4 +1,4 @@
-import { createAsync } from "@solidjs/router";
+import { A, createAsync } from "@solidjs/router";
 import { createSignal, For, Show } from "solid-js";
 import settingsIcon from "../../assets/components/(home)/notification/settings.svg?raw";
 import { getNotifications } from "../../server/notifications";
@@ -26,9 +26,9 @@ export default function Notifications() {
     <FeedHeader>
       <div id={style.headerTop}>
         <h1 id={style.headerTitle}>Notifications</h1>
-        <button type="button" aria-label="Settings" id={style.headerSettings}>
+        <A href="/settings" aria-label="Settings" id={style.headerSettings}>
           <span id={style.settingsIcon} innerHTML={settingsIcon} />
-        </button>
+        </A>
       </div>
       <FeedTabs tabs={["All", "Mentions"]} value={tab()} onChange={setTab} />
     </FeedHeader>,
