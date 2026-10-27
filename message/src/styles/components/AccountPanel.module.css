@@ -63,6 +63,13 @@ section#accountPanel {
       overflow-wrap: anywhere;
     }
 
+    > p#panelHeadline {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      overflow-wrap: anywhere;
+    }
+
     > p#panelBio {
       margin-top: 0.4rem;
       font-size: 0.8rem;

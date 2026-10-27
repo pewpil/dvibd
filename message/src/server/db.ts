@@ -7,7 +7,10 @@ const globalForPrisma: { prisma?: PrismaClient } = globalThis as unknown as {
 };
 
 function createClient(): PrismaClient {
-  const adapter: PrismaPg = new PrismaPg({ connectionString: config.databaseUrl });
+  const adapter: PrismaPg = new PrismaPg({
+    connectionString: config.databaseUrl,
+    max: 1,
+  });
   return new PrismaClient({ adapter });
 }
 

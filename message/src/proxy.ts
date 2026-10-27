@@ -2,15 +2,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE, verifyRefreshToken } from "./server/jwt";
 
 const AUTH_PAGES: string[] = ["/login", "/signup"];
-const AUTH_ENDPOINTS: string[] = [
-  "/api/login",
-  "/api/signup",
-  "/api/session",
-  "/api/logout",
-];
+const API_PREFIX: string = "/api/";
 
-function isPublic(pathname: string): boolean {
-  return AUTH_PAGES.includes(pathname) || AUTH_ENDPOINTS.includes(pathname);
+function isPublicPage(pathname: string): boolean {
+  return AUTH_PAGES.includes(pathname);
 }
 
 function redirectTo(pathname: string, request: NextRequest): NextResponse {
@@ -25,13 +20,17 @@ function redirectTo(pathname: string, request: NextRequest): NextResponse {
 }
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
+  const pathname: string = request.nextUrl.pathname;
+
+  if (pathname === "/api" || pathname.startsWith(API_PREFIX)) {
+    return NextResponse.next();
+  }
+
   const raw: string | undefined = request.cookies.get(SESSION_COOKIE)?.value;
   const authenticated: boolean =
     raw !== undefined && (await verifyRefreshToken(raw)) !== null;
 
-  const pathname: string = request.nextUrl.pathname;
-
-  if (!authenticated && !isPublic(pathname)) {
+  if (!authenticated && !isPublicPage(pathname)) {
     return redirectTo("/login", request);
   }
   if (authenticated && AUTH_PAGES.includes(pathname)) {
@@ -42,5 +41,7 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: ["/((?!_next|favicon.ico|icon.svg|profile-picture.svg|fonts).*)"],
+  matcher: [
+    "/((?!_next|favicon.ico|icon.svg|profile-picture.svg|community-core.svg|community-design.svg|community-engineering.svg|community-lounge.svg|community-profile.svg|fonts).*)",
+  ],
 };

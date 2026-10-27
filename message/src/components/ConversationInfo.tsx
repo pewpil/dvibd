@@ -1,20 +1,29 @@
 import { useRef, type ReactNode } from "react";
 import type {
-  Conversation,
-  Participant,
-  SharedFile,
-  SharedLink,
-} from "../data/fallback";
+  ConversationDTO,
+  MessageUserDTO,
+  SharedFileDTO,
+  SharedLinkDTO,
+} from "../types/message";
 import { useStuckScroll } from "../hooks/useStuckScroll";
 import style from "../styles/components/ConversationInfo.module.css";
 
 interface ConversationInfoProps {
-  conversation: Conversation;
-  participants: Participant[];
-  sharedFiles: SharedFile[];
-  sharedLinks: SharedLink[];
-  participant?: Participant;
+  conversation: ConversationDTO;
+  participants: MessageUserDTO[];
+  sharedFiles: SharedFileDTO[];
+  sharedLinks: SharedLinkDTO[];
+  directParticipant?: MessageUserDTO;
+  muted?: boolean;
+  onToggleMute?: () => void;
+  onLeave?: () => void;
   onClose?: () => void;
+}
+
+function joinMeta(parts: string[]): string {
+  return parts
+    .filter((part: string): boolean => part.length > 0)
+    .join(", ");
 }
 
 export default function ConversationInfo(
@@ -24,10 +33,24 @@ export default function ConversationInfo(
   const rootRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   const stuck: boolean = useStuckScroll(rootRef, headerRef);
+  const muted: boolean = props.muted ?? false;
+  const directBio: string = props.directParticipant?.bio ?? "";
   const bioText: string = isChannel
     ? props.conversation.subtitle
-    : (props.participant?.bio ??
-      "Product Designer on the dvibd design system. Available weekdays for UI/UX reviews and discussions.");
+    : directBio.length > 0
+      ? directBio
+      : props.conversation.subtitle;
+  const subtitleText: string = isChannel
+    ? joinMeta([
+        props.conversation.communityName,
+        `${props.conversation.memberCount} members`,
+      ])
+    : joinMeta([
+        props.directParticipant === undefined
+          ? ""
+          : `@${props.directParticipant.handle}`,
+        props.directParticipant?.headline ?? "",
+      ]);
 
   return (
     <aside id={style.information} ref={rootRef}>
@@ -59,27 +82,23 @@ export default function ConversationInfo(
         ) : null}
         <img
           id={style.profileAvatar}
-          src={props.participant?.avatar ?? props.conversation.avatar}
-          alt={props.participant?.name ?? props.conversation.title}
+          src={props.directParticipant?.avatar ?? props.conversation.avatar}
+          alt={props.directParticipant?.name ?? props.conversation.title}
         />
         <h3 id={style.profileName}>
-          {props.participant?.name ?? props.conversation.title}
+          {props.directParticipant?.name ?? props.conversation.title}
         </h3>
-        <span id={style.profileSubtitle}>
-          {isChannel
-            ? `${props.conversation.communityName}, ${props.conversation.memberCount} members`
-            : `@${
-                props.participant?.handle ??
-                props.conversation.title.toLowerCase().replace(/\s+/g, "")
-              }, ${props.participant?.role ?? props.conversation.subtitle}`}
-        </span>
-        <p id={style.profileBio}>{bioText}</p>
+        <span id={style.profileSubtitle}>{subtitleText}</span>
+        {bioText.length > 0 ? (
+          <p id={style.profileBio}>{bioText}</p>
+        ) : null}
 
         <nav id={style.quickActions}>
           <button
             type="button"
             className={style.quickActionButton}
-            aria-label="Mute notifications"
+            onClick={props.onToggleMute}
+            aria-pressed={muted}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +112,7 @@ export default function ConversationInfo(
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
-            Mute
+            {muted ? "Unmute" : "Mute"}
           </button>
           <button
             type="button"
@@ -143,7 +162,7 @@ export default function ConversationInfo(
             {isChannel ? "Channel members" : "Participants"}
           </h4>
           <ul id={style.participantsList}>
-            {props.participants.map((p: Participant): ReactNode => {
+            {props.participants.map((p: MessageUserDTO): ReactNode => {
               return (
                 <li key={p.id} id={style.participantItem}>
                   <div id={style.participantDetails}>
@@ -157,7 +176,9 @@ export default function ConversationInfo(
                       <span id={style.participantHandle}>@{p.handle}</span>
                     </div>
                   </div>
-                  <span id={style.roleBadge}>{p.role}</span>
+                  {p.headline.length > 0 ? (
+                    <span id={style.roleBadge}>{p.headline}</span>
+                  ) : null}
                 </li>
               );
             })}
@@ -167,7 +188,7 @@ export default function ConversationInfo(
         <section id={style.sharedFilesSection}>
           <h4 id={style.sectionTitle}>Shared files</h4>
           <ul id={style.sharedFilesList}>
-            {props.sharedFiles.map((file: SharedFile): ReactNode => {
+            {props.sharedFiles.map((file: SharedFileDTO): ReactNode => {
               return (
                 <li key={file.id} id={style.sharedFileItem}>
                   <div id={style.fileInfo}>
@@ -179,9 +200,10 @@ export default function ConversationInfo(
                       </span>
                     </div>
                   </div>
-                  <button
-                    type="button"
+                  <a
                     id={style.downloadButton}
+                    href={file.url}
+                    download={file.name}
                     aria-label={`Download ${file.name}`}
                   >
                     <svg
@@ -197,7 +219,7 @@ export default function ConversationInfo(
                       <polyline points="7 10 12 15 17 10" />
                       <line x1="12" y1="15" x2="12" y2="3" />
                     </svg>
-                  </button>
+                  </a>
                 </li>
               );
             })}
@@ -207,27 +229,34 @@ export default function ConversationInfo(
         <section id={style.sharedLinksSection}>
           <h4 id={style.sectionTitle}>Shared links</h4>
           <ul id={style.sharedLinksList}>
-            {props.sharedLinks.map((link: SharedLink): ReactNode => {
+            {props.sharedLinks.map((link: SharedLinkDTO): ReactNode => {
               return (
                 <li key={link.id} id={style.sharedLinkItem}>
-                  <span id={style.linkIconBadge}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                    </svg>
-                  </span>
-                  <div id={style.linkMeta}>
-                    <span id={style.linkTitle}>{link.title}</span>
-                    <span id={style.linkDomain}>{link.domain}</span>
-                  </div>
+                  <a
+                    id={style.sharedLink}
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span id={style.linkIconBadge}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                      </svg>
+                    </span>
+                    <div id={style.linkMeta}>
+                      <span id={style.linkTitle}>{link.title}</span>
+                      <span id={style.linkDomain}>{link.domain}</span>
+                    </div>
+                  </a>
                 </li>
               );
             })}
@@ -254,6 +283,7 @@ export default function ConversationInfo(
           <button
             type="button"
             id={style.dangerActionButton}
+            onClick={props.onLeave}
             aria-label={isChannel ? "Leave channel" : "Block contact"}
           >
             <svg

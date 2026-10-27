@@ -8,6 +8,7 @@ import { syncPostTags } from "../src/server/postTags";
 interface FixturePerson {
   username: string;
   name: string;
+  headline: string;
 }
 
 interface SeedPost {
@@ -25,6 +26,7 @@ interface SeedPost {
 interface SeedCommunity {
   name: string;
   description: string;
+  avatarUrl: string;
   members: string[];
 }
 
@@ -35,24 +37,36 @@ interface SeedHappening {
 }
 
 const FIXTURE_PEOPLE: FixturePerson[] = [
-  { username: "ariachen", name: "Aria Chen" },
-  { username: "marcuslee", name: "Marcus Lee" },
-  { username: "sofia.reyes", name: "Sofia Reyes" },
-  { username: "dvibd", name: "dvibd" },
-  { username: "liampark", name: "Liam Park" },
-  { username: "noahb", name: "Noah Bennett" },
-  { username: "mia.ortiz", name: "Mia Ortiz" },
-  { username: "ethancole", name: "Ethan Cole" },
-  { username: "zoe.n", name: "Zoe Nakamura" },
-  { username: "owenfrost", name: "Owen Frost" },
-  { username: "isla.r", name: "Isla Romano" },
-  { username: "calebs", name: "Caleb Singh" },
-  { username: "ava.l", name: "Ava Lindqvist" },
-  { username: "theom", name: "Theo Marchetti" },
-  { username: "norah", name: "Nora Haddad" },
-  { username: "jonahr", name: "Jonah Reyes" },
-  { username: "priya.a", name: "Priya Anand" },
-  { username: "felixb", name: "Felix Bauer" },
+  { username: "ariachen", name: "Aria Chen", headline: "Product Designer" },
+  { username: "marcuslee", name: "Marcus Lee", headline: "Lead Architect" },
+  {
+    username: "sofia.reyes",
+    name: "Sofia Reyes",
+    headline: "Design Systems Lead",
+  },
+  { username: "dvibd", name: "dvibd", headline: "Open Source Maintainer" },
+  { username: "liampark", name: "Liam Park", headline: "Frontend Engineer" },
+  { username: "noahb", name: "Noah Bennett", headline: "Backend Engineer" },
+  { username: "mia.ortiz", name: "Mia Ortiz", headline: "Product Manager" },
+  { username: "ethancole", name: "Ethan Cole", headline: "Platform Engineer" },
+  {
+    username: "zoe.n",
+    name: "Zoe Nakamura",
+    headline: "Accessibility Engineer",
+  },
+  { username: "owenfrost", name: "Owen Frost", headline: "Developer Advocate" },
+  { username: "isla.r", name: "Isla Romano", headline: "Design Engineer" },
+  { username: "calebs", name: "Caleb Singh", headline: "Build Engineer" },
+  { username: "ava.l", name: "Ava Lindqvist", headline: "UX Researcher" },
+  { username: "theom", name: "Theo Marchetti", headline: "API Designer" },
+  { username: "norah", name: "Nora Haddad", headline: "Design Lead" },
+  { username: "jonahr", name: "Jonah Reyes", headline: "Data Engineer" },
+  {
+    username: "priya.a",
+    name: "Priya Anand",
+    headline: "Site Reliability Engineer",
+  },
+  { username: "felixb", name: "Felix Bauer", headline: "QA Lead" },
 ];
 
 const SEED_POSTS: SeedPost[] = [
@@ -95,6 +109,7 @@ const SEED_COMMUNITIES: SeedCommunity[] = [
   {
     name: "SolidJS",
     description: "Signals, routing, and SolidStart builds.",
+    avatarUrl: "/community-core.svg",
     members: [
       "ariachen",
       "marcuslee",
@@ -109,11 +124,13 @@ const SEED_COMMUNITIES: SeedCommunity[] = [
   {
     name: "Design Tokens",
     description: "Type, color, and spacing systems that scale.",
+    avatarUrl: "/community-design.svg",
     members: ["sofia.reyes", "isla.r", "calebs", "ava.l", "norah", "felixb"],
   },
   {
     name: "Indie Hacking",
     description: "Small teams shipping calm, useful software.",
+    avatarUrl: "/community-engineering.svg",
     members: ["marcuslee", "noahb", "mia.ortiz", "jonahr"],
   },
 ];
@@ -176,6 +193,7 @@ async function main(): Promise<void> {
       data: {
         username: person.username,
         displayName: person.name,
+        headline: person.headline,
         email: `${person.username}@dvibd.local`,
         passwordHash: passwordHash,
         isFallback: true,
@@ -220,6 +238,7 @@ async function main(): Promise<void> {
       data: {
         name: community.name,
         description: community.description,
+        avatarUrl: community.avatarUrl,
         isFallback: true,
       },
       select: { id: true },

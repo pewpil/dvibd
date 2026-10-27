@@ -13,3 +13,6 @@ public/fonts/
 
 # ORM
 src/server/generated
+
+# local filesystem upload fallback
+.uploads/

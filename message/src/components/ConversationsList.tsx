@@ -1,11 +1,11 @@
 import { useRef, type ReactNode, ChangeEvent, type FormEvent } from "react";
-import type { Conversation } from "../data/fallback";
+import type { ConversationDTO } from "../types/message";
 import { useStuckScroll } from "../hooks/useStuckScroll";
 import style from "../styles/components/ConversationsList.module.css";
 
 interface ConversationsListProps {
-  conversations: Conversation[];
-  activeId: string;
+  conversations: ConversationDTO[];
+  activeId: string | null;
   onSelectConversation: (id: string) => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
@@ -28,8 +28,8 @@ export default function ConversationsList(props: ConversationsListProps): ReactN
     event.preventDefault();
   };
 
-  const filteredConversations: Conversation[] = props.conversations.filter(
-    (conv: Conversation): boolean => {
+  const filteredConversations: ConversationDTO[] = props.conversations.filter(
+    (conv: ConversationDTO): boolean => {
       const matchesSearch: boolean =
         props.searchQuery.trim() === "" ||
         conv.title.toLowerCase().includes(props.searchQuery.toLowerCase()) ||
@@ -39,14 +39,8 @@ export default function ConversationsList(props: ConversationsListProps): ReactN
         return false;
       }
 
-      if (props.activeTab === "Direct") {
-        return conv.type === "direct";
-      }
-      if (props.activeTab === "Channels") {
-        return conv.type === "channel";
-      }
       if (props.activeTab === "Unread") {
-        return conv.unreadCount > 0;
+        return conv.unreadCount > 0 && !conv.isMuted;
       }
       return true;
     }
@@ -120,7 +114,7 @@ export default function ConversationsList(props: ConversationsListProps): ReactN
         </nav>
       </header>
       <ul id={style.conversationsList}>
-        {filteredConversations.map((conv: Conversation): ReactNode => {
+        {filteredConversations.map((conv: ConversationDTO): ReactNode => {
           const isActive: boolean = props.activeId === conv.id;
           const presenceClass: string =
             conv.presenceStatus === "online"
@@ -135,6 +129,7 @@ export default function ConversationsList(props: ConversationsListProps): ReactN
                 type="button"
                 id={style.conversationButton}
                 className={isActive ? style.activeConversation : undefined}
+                aria-current={isActive ? "true" : undefined}
                 onClick={(): void => props.onSelectConversation(conv.id)}
               >
                 <div id={style.avatarContainer}>
@@ -152,7 +147,10 @@ export default function ConversationsList(props: ConversationsListProps): ReactN
                   </div>
                   <div id={style.conversationBottomLine}>
                     <p id={style.lastMessageSnippet}>{conv.lastMessage}</p>
-                    {conv.unreadCount > 0 ? (
+                    {conv.joined ? null : (
+                      <span id={style.joinBadge}>Join</span>
+                    )}
+                    {conv.unreadCount > 0 && !conv.isMuted ? (
                       <span id={style.unreadBadge}>{conv.unreadCount}</span>
                     ) : null}
                   </div>

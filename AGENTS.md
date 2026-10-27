@@ -89,7 +89,7 @@ Every application must be written strictly idiomatic to its underlying framework
 
 ### Schema & Clients
 - `orm/prisma/schema.prisma` is the single source of truth for the database schema. The apps are clients of this ORM and do not define their own schema.
-- Keep every generator block intact when editing the schema: `api-client` (outputs to `../../dvibd/api/src/generated`), `gui-client` (outputs to `../../dvibd/gui/src/generated`), and `social-client` (outputs to `../../social/src/server/generated`).
+- Keep every generator block intact when editing the schema: `api-client` (outputs to `../../dvibd/api/src/generated`), `gui-client` (outputs to `../../dvibd/gui/src/generated`), `social-client` (outputs to `../../social/src/server/generated`), and `message-client` (outputs to `../../message/src/server/generated`).
 - Whenever the schema is modified, regenerate all client packages from `orm/`:
   ```bash
   cd orm && npm run generate
@@ -107,7 +107,7 @@ Every application must be written strictly idiomatic to its underlying framework
 
 ### Database Service
 - The local Postgres service is managed via `db/docker-compose.yml`. Start, stop, log, and health-check commands live in `db/AGENTS.md`.
-- Local data is not backed up anywhere. It lives only in the `dvibd_pg_data` Docker volume and is reproducible from the tracked migrations plus `npm run db:seed`; `docker compose down -v` deletes it. `db/init/` is empty, so a fresh volume starts with only the base database.
+- Local data is not backed up anywhere. It lives only in the `dvibd_pg_data` Docker volume and is reproducible from the tracked migrations plus `social`'s `npm run db:seed` followed by `message`'s `npm run db:seed`; `docker compose down -v` deletes it. `db/init/` is empty, so a fresh volume starts with only the base database.
 - Production data lives in Supabase and follows that project's plan: paid plans get automated daily backups (7 days on Pro, 14 on Team, 30 on Enterprise) with optional Point-in-Time Recovery, while Free projects get no automatic backups and should be dumped periodically with `supabase db dump`.
 - Never point OpenCode at a new or scaffolded Prisma project. This repository already owns its schema and clients; work only through the `orm/` scripts above.
 

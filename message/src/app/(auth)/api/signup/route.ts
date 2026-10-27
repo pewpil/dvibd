@@ -10,6 +10,7 @@ import {
   issueRefreshToken,
 } from "../../../../server/tokens";
 import { USER_SELECT, type SafeUser } from "../../../../server/user";
+import { generateMessageDemoContent } from "../../../../server/demoContent";
 
 const signupSchema = z
   .object({
@@ -67,6 +68,10 @@ export async function POST(request: Request): Promise<Response> {
     }
     throw error;
   }
+
+  try {
+    await generateMessageDemoContent(user.id);
+  } catch {}
 
   const accessToken: string = await issueAccessToken(user.id);
   const refreshToken: string = await issueRefreshToken(user.id);

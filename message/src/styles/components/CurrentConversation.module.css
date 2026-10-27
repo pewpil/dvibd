@@ -132,6 +132,14 @@ section#current {
       }
     }
 
+    > p#emptyStream {
+      width: 100%;
+      padding: 1rem 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+    }
+
     > ol#messageList {
       width: 100%;
       display: flex;
@@ -186,6 +194,129 @@ section#current {
             color: var(--accent-strong);
           }
 
+          > ul#attachmentList {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+
+            > li#imageAttachment {
+              display: flex;
+              flex-direction: column;
+              gap: 0.25rem;
+
+              > img#attachmentImage {
+                width: 100%;
+                max-height: 14rem;
+                object-fit: cover;
+                border-radius: var(--radius-control);
+              }
+
+              > span#attachmentImageName {
+                font-size: 0.72rem;
+                color: var(--ink-soft);
+              }
+            }
+
+            > li#fileAttachment {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              min-width: 0;
+              padding: 0.4rem 0.5rem;
+              border-radius: var(--radius-control);
+              background: var(--surface-strong);
+
+              > span#attachmentExtension {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.9rem;
+                height: 1.9rem;
+                border-radius: var(--radius-control);
+                background: var(--accent-soft);
+                color: var(--accent);
+                font-size: 0.65rem;
+                font-weight: 700;
+                flex-shrink: 0;
+              }
+
+              > div#attachmentFileMeta {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                min-width: 0;
+
+                > span#attachmentFileName {
+                  font-size: 0.8rem;
+                  font-weight: 600;
+                  color: var(--ink);
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
+
+                > span#attachmentFileSize {
+                  font-size: 0.7rem;
+                  color: var(--ink-soft);
+                }
+              }
+
+              > a#attachmentDownload {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 1.75rem;
+                height: 1.75rem;
+                border-radius: var(--radius-control);
+                color: var(--ink-soft);
+                flex-shrink: 0;
+                transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
+
+                &:hover {
+                  background: var(--wash);
+                  color: var(--accent);
+                }
+
+                > svg {
+                  width: 1rem;
+                  height: 1rem;
+                }
+              }
+            }
+
+            > li#linkAttachment {
+              min-width: 0;
+
+              > a#attachmentLink {
+                display: flex;
+                flex-direction: column;
+                gap: 0.1rem;
+                padding: 0.45rem 0.55rem;
+                border-radius: var(--radius-control);
+                background: var(--surface-strong);
+                text-decoration: none;
+                overflow-wrap: anywhere;
+                transition: background var(--duration-quick) ease;
+
+                &:hover {
+                  background: var(--wash);
+                }
+
+                > span#attachmentLinkTitle {
+                  font-size: 0.8rem;
+                  font-weight: 600;
+                  color: var(--ink);
+                }
+
+                > span#attachmentLinkDomain {
+                  font-size: 0.7rem;
+                  color: var(--ink-soft);
+                }
+              }
+            }
+          }
+
           > div#mediaAttachment {
             width: 100%;
             display: flex;
@@ -230,6 +361,10 @@ section#current {
               align-items: center;
               color: var(--accent);
 
+              &.receiptRead {
+                color: var(--success);
+              }
+
               > svg {
                 width: 0.85rem;
                 height: 0.85rem;
@@ -248,6 +383,117 @@ section#current {
     width: 100%;
     flex-shrink: 0;
 
+    > p#uploadError {
+      width: 100%;
+      margin-bottom: 0.4rem;
+      padding: 0.45rem 0.7rem;
+      border-radius: var(--radius-control);
+      background: color-mix(in srgb, var(--danger) 12%, transparent);
+      color: var(--danger);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    > ul#pendingUploads {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+
+      > li#pendingUpload {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 0;
+        max-width: 100%;
+        padding: 0.3rem 0.35rem;
+        border-radius: var(--radius-control);
+        background: var(--surface);
+
+        > img#pendingThumbnail {
+          width: 2rem;
+          height: 2rem;
+          border-radius: var(--radius-control);
+          object-fit: cover;
+          flex-shrink: 0;
+        }
+
+        > span#pendingExtension {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 2rem;
+          height: 2rem;
+          border-radius: var(--radius-control);
+          background: var(--accent-soft);
+          color: var(--accent);
+          font-size: 0.62rem;
+          font-weight: 700;
+          flex-shrink: 0;
+        }
+
+        > div#pendingMeta {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          min-width: 0;
+
+          > span#pendingName {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--ink);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          > span#pendingSize {
+            font-size: 0.7rem;
+            color: var(--ink-soft);
+          }
+        }
+
+        > button#pendingRemove {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 1.5rem;
+          height: 1.5rem;
+          border: none;
+          border-radius: var(--radius-control);
+          background: transparent;
+          color: var(--ink-soft);
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
+
+          &:hover {
+            background: var(--wash);
+            color: var(--danger);
+          }
+
+          > svg {
+            width: 0.9rem;
+            height: 0.9rem;
+          }
+        }
+      }
+    }
+
+    > p#sendError {
+      width: 100%;
+      margin-bottom: 0.4rem;
+      padding: 0.45rem 0.7rem;
+      border-radius: var(--radius-control);
+      background: color-mix(in srgb, var(--danger) 12%, transparent);
+      color: var(--danger);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
     > form#composerForm {
       width: 100%;
       display: flex;
@@ -260,6 +506,11 @@ section#current {
       border: 0.0625rem solid var(--line);
       border-radius: var(--radius-panel);
       box-shadow: var(--glass-shadow), var(--glass-inset);
+
+      > input#fileInput,
+      > input#imageInput {
+        display: none;
+      }
 
       > button.toolButton {
         display: flex;
@@ -277,6 +528,11 @@ section#current {
 
         &:hover {
           color: var(--accent);
+        }
+
+        &:disabled {
+          opacity: 0.45;
+          cursor: not-allowed;
         }
 
         > svg {
@@ -302,6 +558,10 @@ section#current {
 
         &::placeholder {
           color: var(--ink-soft);
+        }
+
+        &:disabled {
+          opacity: 0.6;
         }
       }
 

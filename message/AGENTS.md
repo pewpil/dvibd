@@ -9,12 +9,17 @@ This file contains context specific to the `message` application. Repository-wid
 - **Root Layout**: `src/app/layout.tsx` is a Server Component. It exports `metadata` (`title: "Message"`, `description: "dvibd messaging"`) and renders `<html lang="en">`, `<body>`, and a `<div id="app">` wrapper that wraps children in `AuthProvider`.
 - **Auth**: this app has its own backend and shares only `orm/` (Prisma) and `db/` (Postgres) with the rest of the repository. It never proxies through `dvibd/api/`.
 
+## Identity and E2EE
+- There is one dvibd account per person across `social`, `message`, `mail`, and future apps. All apps use the shared `User` table, so a social account can sign in to `message` with the same credentials. Do not add app-local user tables or duplicate identities. Fixtures should reuse the social fixture users rather than create message-only people.
+- The "End-to-end encrypted" notice in `ConversationInfo` is placeholder copy. Messages are currently stored as plaintext in Postgres. Real E2EE is a future project and requires client-side encryption, ciphertext-only storage, key management, and a decision about server-side search. Do not claim or implement E2EE by writing plaintext into a field named encrypted.
+
 ## Auth Architecture
 - `src/proxy.ts` is the route guard (**not** `middleware.ts`; Next.js 16 renamed the convention, and the edge runtime is unavailable in `proxy`). Netlify compiles it into an Edge Function, so it verifies the session cookie's signature and expiry through `verifyRefreshToken` and never touches the database: the middleware module graph must stay free of `db.ts` and the generated client, or the edge bundling either carries `pg` into the Deno runtime or fails nondeterministically while evaluating it. Database-backed revocation is enforced by the Route Handlers instead (`/api/session` answers with `user: null`, driving the client-side redirect). It redirects anonymous visitors to `/login` with a `?from=` hint, bounces authenticated visitors away from `/login` and `/signup`, and excludes `/api/*` plus static assets.
 - Route Handlers live under `src/app/(auth)/api/<name>/route.ts`. Only `(auth)` is a route group and is stripped from the URL; `api/` is a real path segment and **is** part of it, so these resolve to `/api/login` and friends.
+- Conversation, upload, and SSE Route Handlers live under `src/app/api/...` and resolve to `/api/...`. The proxy passes every `/api/*` request through; each handler enforces the session and returns JSON 401/403 responses rather than redirecting.
 - Endpoints: `POST /api/login`, `POST /api/signup`, `GET /api/session`, `POST /api/logout`.
 - **Pages and route handlers cannot share a URL**, even when their HTTP methods differ. `(auth)/login/page.tsx` and `(auth)/(endpoints)/login/route.ts` would both resolve to `/login` and the build fails with "Conflicting page and route". That is why the handlers sit under a plain `api/` folder rather than a parenthesized `(api)` group the way `social` uses. Do not "fix" this by renaming `api/` to `(api)`.
-- Server modules are in `src/server/`: `config.ts` (zod-validated env; the local scripts export `LOCAL_ENV=1`, so localhost runs lock to the dev defaults and ignore the environment, per the root `AGENTS.md` env policy), `db.ts` (Prisma client with a dev-mode global singleton), `jwt.ts` (edge-safe JWS issue/verify and cookie constants; imports only `jose` and `config`), `tokens.ts` (DB-backed refresh-token records and rotation; re-exports the `jwt.ts` surface for the Route Handlers), `session.ts` (`readSession`), `user.ts` (`SafeUser`, `USER_SELECT`), `auth.ts` (`server-only` facade).
+- Server modules are in `src/server/`: `config.ts` (zod-validated env; the local scripts export `LOCAL_ENV=1`, so localhost runs lock to the dev defaults and ignore the environment, per the root `AGENTS.md` env policy), `db.ts` (Prisma client with a dev-mode global singleton and a one-connection pool), `jwt.ts` (edge-safe JWS issue/verify and cookie constants; imports only `jose` and `config`), `tokens.ts` (DB-backed refresh-token records and rotation; re-exports the `jwt.ts` surface for the Route Handlers), `session.ts` (`readSession`), `user.ts` (`SafeUser`, `USER_SELECT`, including `avatarUrl`, `bio`, `website`, `headline`, `lastSeenAt`), `auth.ts` (`server-only` facade).
 - Session strategy: refresh token (30 days) in the httpOnly cookie `message.session`; access token (15 min) returned in the response body and kept in client memory.
 - `src/contexts/AuthContext.tsx` is the client provider. Page files must stay client-safe: never import `src/server/*` into a Client Component. Route Handlers may.
 - Password hashing uses native `bcrypt`. `tsconfig.json` sets `allowImportingTsExtensions` so the generated `.mts` client can be imported.
@@ -25,14 +30,21 @@ This file contains context specific to the `message` application. Repository-wid
 
 Netlify reports `src/proxy.ts` as `ƒ Proxy (Middleware)` and runs it as an Edge Function, which is the one runtime here that is not Node. This is verified deployed on `message-dvibd`: the edge bundle is built from `jwt.ts` and carries no `pg` or generated client, and the anonymous, authenticated, and revoked-cookie paths were each exercised against the live site.
 
+Uploads use Netlify Blobs (`message-uploads`) in production and a gitignored `.uploads/` directory under `LOCAL_ENV=1`. The route limits uploads to 5 MB. SSE route handlers stream for about 25 seconds and rely on EventSource reconnect; a closed stream is not a failed request.
+
 ## Current Implementation State
-- `src/app/page.tsx` is the message layout. It is a Client Component (`"use client"`) named `MessagePage`, and is the only unguarded page.
+- `src/app/page.tsx` is the message workspace. It is a Client Component (`"use client"`) named `MessagePage`, and is the only page without a page-level auth check; `src/proxy.ts` still redirects anonymous visitors to `/login`.
+- The workspace fetches `GET /api/conversations` on mount, loads the active thread and info from `GET /api/conversations/[id]/messages` and `/info`, marks it read, and refetches the workspace after sends, joins, leaves, mutes, and SSE events. `src/lib/chatApi.ts` is the client fetch layer.
 - `src/app/(auth)/login/page.tsx` and `src/app/(auth)/signup/page.tsx` are the auth pages. Both are Client Components. The login page wraps its form in `<Suspense>` because it reads `useSearchParams`, which Next.js 16 requires for static prerendering.
 - `src/app/(auth)/api/` holds the four Route Handlers listed under Auth Architecture.
 - There is no `src/middleware.ts`. The guard is `src/proxy.ts`.
 - `src/components/` holds six components, all flat, with no subdirectory: `AppRail.tsx`, `AccountPanel.tsx`, `ConversationsList.tsx`, `CurrentConversation.tsx`, `ConversationInfo.tsx`, `ThemeToggle.tsx`.
-- `src/hooks/useStuckScroll.ts` is shared by all three columns; see the `sticky-scroll-headers` skill.
-- `src/data/fallback.ts` supplies conversation data as static fixtures: `currentUser`, `fallbackConversations`, `fallbackMessages`, `fallbackParticipants`, `fallbackSharedFiles`, `fallbackSharedLinks`. Conversation switching and message sending are local `useState` updates against that fixture data. Replace this module when the conversation backend lands. Auth is real; conversations are not yet.
+- `src/hooks/useStuckScroll.ts` is shared by all three columns; see the `sticky-scroll-headers` skill. `src/hooks/useConversationEvents.ts` opens the SSE stream for the active thread, advances its cursors on message and receipt events, and reconnects with the latest cursors; the page dedupes messages by id.
+- Conversation data is in Postgres. `src/data/fallback.ts` is gone. `message/scripts/seed.ts` creates the shared community channels and fixture messages, and `src/server/demoContent.ts` creates direct threads, channel joins, and messages at signup.
+- Server modules: `conversations.ts` (workspace, info, join/leave/mute, direct creation), `messages.ts` (paging, send, read, SSE polling), `storage.ts` (local `.uploads` in dev and Netlify Blobs in production), `events.ts` (presence heartbeat), `format.ts`, `api.ts` (session and HTTP helpers), and `demoContent.ts`. Shared wire types live in `src/types/message.ts`.
+- Route Handlers under `src/app/api/` expose conversations, messages, read/join/leave/mute, direct creation, SSE, and uploads. The `src/app/(auth)/api/` handlers remain auth-only.
+- Uploads are limited to 5 MB, allowlisted by MIME type, stored under a gitignored `.uploads/` directory locally and in the `message-uploads` Netlify Blobs store in production. `GET /api/uploads/[id]` checks the session and conversation membership before serving bytes.
+- SSE keeps a connection for about 25 seconds, polls every 2 seconds, sends `ready`, `message`, `receipt`, and `error` events, and relies on EventSource reconnect. Netlify may close the function earlier; reconnect is expected.
 
 ## File Mirroring
 The app uses both sanctioned patterns, so match whichever the neighbouring file uses:
@@ -74,14 +86,29 @@ Two consequences to keep in mind before changing it:
 - **Cross-module alignment invariant**: every column root uses an `&::before { height: var(--header-offset) }` scroll spacer so its sticky header can travel upward and pin. That spacer is what places each header's *initial* top edge at `--header-offset` below the column top, and `nav#appRail` uses the same `var(--header-offset)` as its `padding-top`, so the profile picture lines up with the column headers at rest. `--header-offset` is declared once on `main#messageLayout` in `page.module.css` (`2.5vh`); all five consumers (four spacers plus the rail padding) reference it. Do not reintroduce a literal `2.5vh` in any of those places or the rail drifts out of alignment with the columns. The columns' separate `padding-bottom: 2.5vh` is an unrelated value that happens to match.
 - **Middle division**: one of two mutually exclusive components, chosen by the single `activeSource` state in `page.tsx`. The source is a single string with three kinds of value: the `"account"` and `"direct"` sentinels, or a community id, so "which thing is showing" is one piece of state rather than a boolean plus an id.
   - `ConversationsList` renders `section#conversations` for the `"direct"` and community sources. Lists the active source's conversations (user-to-user, or one community's channels), plus a search bar, filter tabs, and a new-conversation trigger. Its header title and tab set are props supplied by the page, because the mixed All / Direct / Channels / Unread tabs are meaningless once the list is always one kind or the other.
-  - `AccountPanel` renders `section#accountPanel` for the `"account"` source, which is what the profile picture selects. It **replaces** the conversation list rather than overlaying it; it is not a popover and has no dismiss handlers, Escape handling, or click-outside logic. Its header carries basic user information (avatar, display name, handle, bio, website, email) and its body holds action sections. Only `Log out` has behaviour; the rest are inert buttons pending routes. Provenance is mixed and worth knowing: `displayName`, `username` and `email` are real session data from `useAuth`, while `bio` and `website` come from the `currentUser` fixture because message's `USER_SELECT` does not yet expose the shared schema's `bio` and `website` columns. Until the session request resolves, `user` is `null` on the server render, so the header shows fixture values until hydration.
+  - `AccountPanel` renders `section#accountPanel` for the `"account"` source, which is what the profile picture selects. It **replaces** the conversation list rather than overlaying it; it is not a popover and has no dismiss handlers, Escape handling, or click-outside logic. Its header uses the real session profile from `useAuth().user`: `avatarUrl`, `displayName`, `username`, `headline`, `bio`, `website`, and `email`. The account actions remain inert except Log out.
 - **Right division**: `div#conversationArea`, which carries the `infoOpen` class variant to toggle width. It contains:
   - `CurrentConversation` renders `section#current`: the active thread, with a header (partner or channel details, presence status, action buttons), the message stream (bubbles, timestamps, sender details, delivery and read receipts), and the composer (attachment actions, text input, emoji trigger, send button).
   - `ConversationInfo` renders `aside#information`, rendered **only when `infoOpen` is true**. Holds the partner or channel profile and description, the participant list, shared media and documents and links and files, and conversation settings, notification and mute toggles, and conversation actions.
 
 Because the aside and the middle division are both conditional, layout work must handle `section#conversations` or `section#accountPanel` in the middle slot. Both are `<section>` roots with identical column geometry (`width: 100%`, `height: 100%`, flex column, `padding-bottom: 2.5vh`) and both use the `--header-offset` spacer plus a sticky `header` with the `.stuck` variant, so they are interchangeable in the grid. That also means the mobile rule `main#messageLayout > section { display: none }` hides `AccountPanel` as well as the conversation list.
 ## Endpoint Standards
-Auth endpoints are listed under Auth Architecture. Each handler carries a comment above it giving the verb and URL, e.g. `// POST /api/login`. Do the same for any new endpoint, per the repository root `AGENTS.md`. Conversation endpoints do not exist yet; when they land they will be `POST /conversations`, `GET /conversations/:id/messages`, and `POST /messages`.
+Auth endpoints are listed under Auth Architecture. Each handler carries a comment above it giving the verb and URL, e.g. `// POST /api/login`. Do the same for every new endpoint, per the repository root `AGENTS.md`.
+
+Conversation, upload, and SSE endpoints live under `src/app/api/`:
+
+- `GET /api/conversations`
+- `POST /api/conversations/direct`
+- `GET /api/conversations/[id]/info`
+- `GET /api/conversations/[id]/messages`
+- `POST /api/conversations/[id]/messages`
+- `POST /api/conversations/[id]/read`
+- `POST /api/conversations/[id]/join`
+- `POST /api/conversations/[id]/leave`
+- `PATCH /api/conversations/[id]`
+- `GET /api/conversations/[id]/events`
+- `POST /api/uploads`
+- `GET /api/uploads/[id]`
 
 ## Agent Skills and This App's Stack
 The repository root `.agents/skills/` carries three Vercel skills that exist for this app. Restore them with the repository root restore command documented in the root `AGENTS.md`; they are registered repo-wide, so apply them only when working in `message/`.

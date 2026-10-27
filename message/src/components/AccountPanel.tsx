@@ -4,7 +4,6 @@ import { useRef, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 import { useStuckScroll } from "../hooks/useStuckScroll";
-import { currentUser } from "../data/fallback";
 import style from "../styles/components/AccountPanel.module.css";
 
 type AccountIconName =
@@ -196,6 +195,10 @@ function AccountIcon(props: { name: AccountIconName }): ReactNode {
   );
 }
 
+function websiteHref(value: string): string {
+  return /^https?:\/\//i.test(value) ? value : `https://${value}`;
+}
+
 export default function AccountPanel(): ReactNode {
   const rootRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
@@ -203,10 +206,14 @@ export default function AccountPanel(): ReactNode {
   const { user, logout } = useAuth();
   const router = useRouter();
 
+  const avatar: string = user?.avatarUrl ?? "/profile-picture.svg";
   const displayName: string =
-    user?.displayName ?? user?.username ?? currentUser.name;
-  const handle: string = user?.username ?? currentUser.handle;
-  const email: string = user?.email ?? currentUser.email;
+    user?.displayName ?? user?.username ?? "Your account";
+  const handle: string = user?.username ?? "";
+  const headline: string = user?.headline ?? "";
+  const bio: string = user?.bio ?? "";
+  const website: string = user?.website?.trim() ?? "";
+  const email: string = user?.email ?? "";
 
   const handleLogout = async (): Promise<void> => {
     await logout();
@@ -221,19 +228,24 @@ export default function AccountPanel(): ReactNode {
         ref={headerRef}
         className={stuck ? style.stuck : undefined}
       >
-        <img id={style.panelAvatar} src={currentUser.avatar} alt={displayName} />
+        <img id={style.panelAvatar} src={avatar} alt={displayName} />
         <p id={style.panelDisplayName}>{displayName}</p>
-        <p id={style.panelHandle}>@{handle}</p>
-        <p id={style.panelBio}>{currentUser.bio}</p>
-        <a
-          id={style.panelWebsite}
-          href={`https://${currentUser.website}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {currentUser.website}
-        </a>
-        <p id={style.panelEmail}>{email}</p>
+        {handle.length > 0 ? <p id={style.panelHandle}>@{handle}</p> : null}
+        {headline.length > 0 ? (
+          <p id={style.panelHeadline}>{headline}</p>
+        ) : null}
+        {bio.length > 0 ? <p id={style.panelBio}>{bio}</p> : null}
+        {website.length > 0 ? (
+          <a
+            id={style.panelWebsite}
+            href={websiteHref(website)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {website}
+          </a>
+        ) : null}
+        {email.length > 0 ? <p id={style.panelEmail}>{email}</p> : null}
       </header>
 
       <div id={style.panelSections}>

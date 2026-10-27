@@ -42,6 +42,47 @@ div#conversationArea {
       min-height: 0;
     }
   }
+
+  > section#statePanel {
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 6% 4%;
+    text-align: center;
+    border-radius: var(--radius-panel);
+    background: var(--surface);
+
+    > p#stateText {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    > p#stateHint {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+    }
+
+    > button#stateAction {
+      padding: 0.55rem 1.1rem;
+      border: none;
+      border-radius: var(--radius-control);
+      background: var(--accent);
+      color: var(--accent-ink);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--duration-quick) ease;
+
+      &:hover {
+        background: var(--accent-strong);
+      }
+    }
+  }
 }
 
 @media (max-width: 47.5rem) {

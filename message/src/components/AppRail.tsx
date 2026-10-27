@@ -2,11 +2,12 @@
 
 import { type ReactNode } from "react";
 import ThemeToggle from "./ThemeToggle";
-import type { Community } from "../data/fallback";
+import { useAuth } from "../contexts/AuthContext";
+import type { CommunityDTO } from "../types/message";
 import style from "../styles/components/AppRail.module.css";
 
 interface AppRailProps {
-  communities: Community[];
+  communities: CommunityDTO[];
   activeSource: string;
   onSelectAccount: () => void;
   onSelectDirect: () => void;
@@ -14,6 +15,11 @@ interface AppRailProps {
 }
 
 export default function AppRail(props: AppRailProps): ReactNode {
+  const { user } = useAuth();
+  const profileAvatar: string = user?.avatarUrl ?? "/profile-picture.svg";
+  const profileLabel: string =
+    user?.displayName ?? user?.username ?? "Your account";
+
   return (
     <nav id={style.appRail}>
       <div id={style.railTop}>
@@ -27,7 +33,11 @@ export default function AppRail(props: AppRailProps): ReactNode {
             aria-label="Account"
             title="Account"
           >
-            <img id={style.profileAvatar} src="/profile-picture.svg" alt="Your profile" />
+            <img
+              id={style.profileAvatar}
+              src={profileAvatar}
+              alt={profileLabel}
+            />
           </button>
         </div>
 
@@ -55,7 +65,7 @@ export default function AppRail(props: AppRailProps): ReactNode {
       </div>
 
       <ul id={style.communityList}>
-        {props.communities.map((community: Community): ReactNode => {
+        {props.communities.map((community: CommunityDTO): ReactNode => {
           const isActive: boolean = props.activeSource === community.id;
           return (
             <li key={community.id} id={style.communityItem}>
