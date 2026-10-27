@@ -24,8 +24,13 @@ div#profileCard {
     gap: 0.5rem;
     padding: 2.5rem 1.25rem 0;
 
+    > form#followForm {
+      display: flex;
+      margin: 0;
+    }
+
     > a#followButton,
-    > button#followButton {
+    > form#followForm > button#followButton {
       display: inline-flex;
       align-items: center;
       padding: 0.5rem 1.25rem;
@@ -40,9 +45,14 @@ div#profileCard {
       cursor: pointer;
       transition: border-color var(--duration-quick) ease, background var(--duration-quick) ease;
 
-      &:hover {
+      &:hover:not(:disabled) {
         border-color: var(--accent);
         background: var(--accent-soft);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
       }
     }
 
@@ -73,6 +83,15 @@ div#profileCard {
         }
       }
     }
+  }
+
+  > p#followError {
+    padding: 0 1.25rem;
+    margin-top: 0.5rem;
+    color: var(--danger);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-align: right;
   }
 
   > div#identity {

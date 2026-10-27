@@ -16,6 +16,10 @@ export type CreatePostResult = { ok: true } | { ok: false; error: string };
 
 export type UpdateProfileResult = { ok: true } | { ok: false; error: string };
 
+export type FollowResult =
+  | { ok: true; following: boolean }
+  | { ok: false; error: string };
+
 export interface NotificationPreferences {
   likes: boolean;
   replies: boolean;
@@ -85,6 +89,7 @@ export interface ProfileView {
   website: string;
   following: number;
   followers: number;
+  isFollowing: boolean;
 }
 
 export interface ProfilePage {

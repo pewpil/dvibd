@@ -1,8 +1,12 @@
-import { createSignal, Show } from "solid-js";
+import { createSignal, Show, type JSX } from "solid-js";
 import { A } from "@solidjs/router";
 import AccountMenu from "./AccountMenu";
 import { useAuth } from "../contexts/AuthContext";
 import style from "../styles/components/SideNav.module.css";
+
+const MESSAGE_HREF: string = import.meta.env.DEV
+  ? "http://localhost:3005"
+  : "https://message-dvibd.netlify.app/";
 
 const iconProps = {
   xmlns: "http://www.w3.org/2000/svg",
@@ -49,11 +53,23 @@ function BookmarksIcon() {
   );
 }
 
-function ProfileIcon() {
+function MessageIcon(): JSX.Element {
   return (
-    <svg {...iconProps}>
-      <circle cx="12" cy="8" r="4" />
-      <path d="M4 21c0-4 3.5-6 8-6s8 2 8 6" />
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 64"
+      aria-hidden="true"
+    >
+      <rect width="64" height="64" rx="18" fill="#0284c7" />
+      <g fill="#ffffff">
+        <rect x="13" y="13" width="38" height="30" rx="9" />
+        <path d="M17 43 L9 52 L26 43 Z" />
+      </g>
+      <g fill="#0284c7">
+        <circle cx="23" cy="28" r="3" />
+        <circle cx="32" cy="28" r="3" />
+        <circle cx="41" cy="28" r="3" />
+      </g>
     </svg>
   );
 }
@@ -80,10 +96,6 @@ function LoginIcon() {
 function SideNav() {
   const [menuOpen, setMenuOpen] = createSignal(false);
   const { loggedIn, user } = useAuth();
-  const profileHref = (): string => {
-    const handle = user()?.username;
-    return handle === undefined ? "/" : `/@${encodeURIComponent(handle)}`;
-  };
 
   return (
     <nav id={style.sideNav} aria-label="Primary">
@@ -130,18 +142,14 @@ function SideNav() {
             </A>
           </li>
           <li>
-            <A
-              href={profileHref()}
-              aria-label="Profile"
-              data-tooltip="Profile"
-            >
-              <ProfileIcon />
-            </A>
-          </li>
-          <li>
             <A href="/settings" aria-label="Settings" data-tooltip="Settings">
               <SettingsIcon />
             </A>
+          </li>
+          <li>
+            <a href={MESSAGE_HREF} aria-label="Message" data-tooltip="Message">
+              <MessageIcon />
+            </a>
           </li>
         </ul>
         <button

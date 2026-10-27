@@ -228,4 +228,4 @@ This section holds persistent memory, learned rules, and calibration contexts ac
 ### Monorepo Context Memory
 - **Self-Contained Backend Ecosystems**: Both `social` and `message` maintain independent self-contained backends with their own auth routes, session tokens, and middleware. They never proxy or relay through `dvibd/api`.
 - **Database Centralization**: All apps share the single PostgreSQL instance in `db/` and derive their Prisma clients from `orm/prisma/schema.prisma`.
-- **App Boundary**: The `social` app left navigation intentionally omits messages because all messaging functionality lives in the standalone `message` app.
+- **App Boundary**: The `social` app keeps messaging out of its own routes and links to the standalone `message` app from the side nav; all messaging functionality lives in `message`.
