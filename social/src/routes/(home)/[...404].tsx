@@ -1,12 +1,24 @@
 import { A } from "@solidjs/router";
-import { HttpStatusCode } from "@solidjs/start";
+import type { RouteDefinition } from "@solidjs/router";
 import type { JSX } from "solid-js";
+import { getRequestEvent, isServer } from "solid-js/web";
 import FeedHeader from "../../components/(home)/FeedHeader";
 import style from "../../styles/pages/(home)/notFound.module.css";
 
+export const route: RouteDefinition = {
+  preload: (): void => {
+    if (!isServer) {
+      return;
+    }
+    const event = getRequestEvent();
+    if (event !== undefined) {
+      event.response.status = 404;
+    }
+  },
+};
+
 export default function NotFound(): JSX.Element {
   return [
-    <HttpStatusCode code={404} />,
     <FeedHeader>
       <h1 id={style.notFoundTitle}>Page not found</h1>
     </FeedHeader>,
