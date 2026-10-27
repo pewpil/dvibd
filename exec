@@ -8,6 +8,24 @@ LOG_DIR="$STATE_DIR/logs"
 READY_TIMEOUT="${EXEC_READY_TIMEOUT:-45}"
 STOP_TIMEOUT="${EXEC_STOP_TIMEOUT:-10}"
 
+SCRIPT_UID="$(id -u)"
+RUN_AS="${SUDO_USER:-$(id -un)}"
+if [[ -z "$RUN_AS" || "$RUN_AS" == "root" ]]; then
+  RUN_AS="$(id -un)"
+fi
+RUN_UID="$(id -u "$RUN_AS" 2>/dev/null || printf '%s' "$SCRIPT_UID")"
+RUN_GID="$(id -g "$RUN_AS" 2>/dev/null || id -g)"
+RUN_HOME="$(getent passwd "$RUN_AS" 2>/dev/null | cut -d: -f6)"
+RUN_HOME="${RUN_HOME:-/home/$RUN_AS}"
+RUN_PATH=""
+if [[ "$SCRIPT_UID" -eq 0 && "$RUN_AS" != "root" ]]; then
+  RUN_PATH="$(runuser -u "$RUN_AS" -- bash -lc 'printf "%s" "$PATH"' 2>/dev/null | tail -n 1)"
+fi
+if [[ -z "$RUN_PATH" ]]; then
+  RUN_PATH="${PATH:-/usr/local/bin:/usr/bin:/bin}"
+fi
+SETPRIV_BIN="$(command -v setpriv 2>/dev/null || true)"
+
 APP_NAMES=(db dvibd-api dvibd-gui mail-gui social message)
 
 declare -A APP_DIR=(
@@ -39,7 +57,7 @@ declare -A APP_LABEL=(
 
 declare -A APP_CMD=(
   ["db"]="docker compose up -d"
-  ["dvibd-api"]="deno task dev"
+  ["dvibd-api"]="npm run dev"
   ["dvibd-gui"]="npm run dev"
   ["mail-gui"]="npm run dev"
   ["social"]="npm run dev"
@@ -57,7 +75,7 @@ subcommands
 
 flags
   --db           Postgres service via docker compose   port 3001
-  --dvibd-api    dvibd/api, deno task dev              port 3002
+  --dvibd-api    dvibd/api, npm run dev               port 3002
   --dvibd-gui    dvibd/gui, npm run dev                port 3000
   --mail-gui     mail/gui, npm run dev                 port 3006
   --social       social, npm run dev                   port 3003
@@ -69,6 +87,9 @@ from the top level apps that share their name, so more can be added later.
 
 With no flags, on and off apply to every app, and check reports
 every app.
+
+When run with sudo, Postgres runs as root and app processes are
+started as the invoking user. Use sudo only for the database service.
 
 examples
   ./exec on --dvibd-api --dvibd-gui
@@ -119,6 +140,62 @@ read_pid() {
   printf '%s' "$pid"
 }
 
+listener_pid() {
+  local port="$1"
+  ss -ltnp "sport = :$port" 2>/dev/null |
+    sed -n 's/.*pid=\([0-9][0-9]*\).*/\1/p' |
+    head -n 1
+}
+
+process_cwd() {
+  readlink -f "/proc/$1/cwd" 2>/dev/null || true
+}
+
+process_user() {
+  ps -o user= -p "$1" 2>/dev/null | tr -d ' '
+}
+
+process_group() {
+  ps -o pgid= -p "$1" 2>/dev/null | tr -d ' '
+}
+
+process_args() {
+  ps -o args= -p "$1" 2>/dev/null || true
+}
+
+prepare_state_ownership() {
+  if [[ "$SCRIPT_UID" -ne 0 || "$RUN_AS" == "root" ]]; then
+    return 0
+  fi
+  mkdir -p "$LOG_DIR"
+  chown -R "$RUN_UID:$RUN_GID" "$STATE_DIR" 2>/dev/null || true
+}
+
+prepare_app_cache() {
+  local app="$1"
+  local cache=""
+  case "$app" in
+    message) cache="$ROOT/message/.next" ;;
+    social) cache="$ROOT/social/node_modules/.vite" ;;
+    dvibd-gui) cache="$ROOT/dvibd/gui/node_modules/.vite" ;;
+    mail-gui) cache="$ROOT/mail/gui/node_modules/.vite" ;;
+    *) return 0 ;;
+  esac
+  if [[ ! -e "$cache" ]]; then
+    return 0
+  fi
+  if [[ "$SCRIPT_UID" -eq 0 && "$RUN_AS" != "root" ]]; then
+    chown -R "$RUN_UID:$RUN_GID" "$cache" 2>/dev/null || true
+    return 0
+  fi
+  if [[ ! -w "$cache" ]]; then
+    printf '%-10s %-16s cache %s is not writable, run sudo ./exec on --%s to repair ownership\n' \
+      "$app" "cache" "$cache" "$app"
+    return 1
+  fi
+  return 0
+}
+
 state_of() {
   local app="$1"
   local port="${APP_PORT[$app]}"
@@ -144,7 +221,15 @@ state_of() {
   if pid="$(read_pid "$STATE_DIR/$app.pid")" && pid_alive "$pid"; then
     printf 'running   pid %s' "$pid"
   elif port_open "$port"; then
-    printf 'untracked port %s in use by a process exec did not start' "$port"
+    local live_pid
+    local live_user
+    live_pid="$(listener_pid "$port")"
+    if [[ -n "$live_pid" ]]; then
+      live_user="$(process_user "$live_pid")"
+      printf 'untracked port %s in use by pid %s (%s)' "$port" "$live_pid" "${live_user:-unknown}"
+    else
+      printf 'untracked port %s in use by a process exec did not start' "$port"
+    fi
   else
     printf 'stopped'
   fi
@@ -211,6 +296,9 @@ start_app() {
       printf '%-10s %-16s failed to start, see %s\n' "$app" "port $port" "$logfile"
       return 1
     fi
+    if [[ "$SCRIPT_UID" -eq 0 && "$RUN_AS" != "root" ]]; then
+      chown "$RUN_UID:$RUN_GID" "$logfile" 2>/dev/null || true
+    fi
     await_port "$app" "$port" ""
     return
   fi
@@ -230,11 +318,114 @@ start_app() {
   local -a argv
   read -r -a argv <<<"${APP_CMD[$app]}"
 
+  local app_dir="$ROOT/${APP_DIR[$app]}"
+  prepare_app_cache "$app" || return 1
+  local -a launch
+  if [[ "$SCRIPT_UID" -eq 0 && "$RUN_AS" != "root" ]]; then
+    if [[ -n "$SETPRIV_BIN" ]]; then
+      launch=(env HOME="$RUN_HOME" USER="$RUN_AS" LOGNAME="$RUN_AS" PATH="$RUN_PATH" SHELL="/bin/bash" "$SETPRIV_BIN" --reuid="$RUN_UID" --regid="$RUN_GID" --init-groups bash -lc 'cd "$1" && shift && exec "$@"' _ "$app_dir" "${argv[@]}")
+    else
+      launch=(runuser -u "$RUN_AS" -- bash -lc 'cd "$1" && shift && exec "$@"' _ "$app_dir" "${argv[@]}")
+    fi
+  else
+    launch=(bash -c 'cd "$1" && shift && exec "$@"' _ "$app_dir" "${argv[@]}")
+  fi
+
+  rm -f "$logfile"
   : >"$logfile"
-  setsid bash -c 'cd "$1" && echo $$ >"$2" && shift 2 && exec "$@"' \
-    _ "$ROOT/${APP_DIR[$app]}" "$pidfile" "${argv[@]}" >"$logfile" 2>&1 &
+  if [[ "$SCRIPT_UID" -eq 0 && "$RUN_AS" != "root" ]]; then
+    chown "$RUN_UID:$RUN_GID" "$logfile" 2>/dev/null || true
+  fi
+  setsid "${launch[@]}" >"$logfile" 2>&1 &
+  local launch_pid=$!
+  printf '%s\n' "$launch_pid" >"$pidfile"
+  if [[ "$SCRIPT_UID" -eq 0 && "$RUN_AS" != "root" ]]; then
+    chown "$RUN_UID:$RUN_GID" "$pidfile" "$logfile" 2>/dev/null || true
+  fi
 
   await_port "$app" "$port" "$pidfile"
+}
+
+stop_untracked() {
+  local app="$1"
+  local port="${APP_PORT[$app]}"
+  local pidfile="$STATE_DIR/$app.pid"
+  local live_pid
+  live_pid="$(listener_pid "$port")"
+  if [[ -z "$live_pid" ]]; then
+    if port_open "$port"; then
+      printf '%-10s %-16s port in use, no pid found, left alone\n' "$app" "port $port"
+    else
+      printf '%-10s %-16s already stopped\n' "$app" "port $port"
+    fi
+    return 0
+  fi
+
+  local live_user
+  live_user="$(process_user "$live_pid")"
+  if [[ "$SCRIPT_UID" -ne 0 && "$live_user" != "$(id -un)" ]]; then
+    printf '%-10s %-16s port in use by pid %s (%s), run sudo ./exec off --%s\n' \
+      "$app" "port $port" "$live_pid" "$live_user" "$app"
+    return 0
+  fi
+
+  local live_cwd
+  live_cwd="$(process_cwd "$live_pid")"
+  if [[ -n "$live_cwd" && "$live_cwd" != "$ROOT/${APP_DIR[$app]}"* ]]; then
+    printf '%-10s %-16s port in use by pid %s, not the app directory, left alone\n' \
+      "$app" "port $port" "$live_pid"
+    return 0
+  fi
+
+  local live_pgid
+  local leader_cwd
+  local leader_args
+  live_pgid="$(process_group "$live_pid")"
+  leader_cwd=""
+  leader_args=""
+  if [[ -n "$live_pgid" ]]; then
+    leader_cwd="$(process_cwd "$live_pgid")"
+    leader_args="$(process_args "$live_pgid")"
+  fi
+
+  local use_group=0
+  if [[ -n "$live_pgid" && -n "$leader_cwd" && "$leader_cwd" == "$ROOT/${APP_DIR[$app]}"* ]]; then
+    case "$leader_args" in
+      *npm* | *next* | *vite* | *deno* | *node*) use_group=1 ;;
+    esac
+  fi
+
+  if ((use_group)); then
+    kill -TERM -- "-$live_pgid" 2>/dev/null || kill -TERM "$live_pid" 2>/dev/null || true
+  else
+    kill -TERM "$live_pid" 2>/dev/null || true
+  fi
+
+  local waited=0
+  while (($waited < STOP_TIMEOUT)) && pid_alive "$live_pid"; do
+    sleep 1
+    waited=$((waited + 1))
+  done
+
+  if pid_alive "$live_pid"; then
+    if ((use_group)); then
+      kill -KILL -- "-$live_pgid" 2>/dev/null || kill -KILL "$live_pid" 2>/dev/null || true
+    else
+      kill -KILL "$live_pid" 2>/dev/null || true
+    fi
+    sleep 1
+  fi
+
+  rm -f "$pidfile"
+
+  if port_open "$port"; then
+    printf '%-10s %-16s port still in use after stopping pid %s\n' \
+      "$app" "port $port" "$live_pid"
+    return 1
+  fi
+
+  printf '%-10s %-16s stopped (untracked pid %s)\n' "$app" "port $port" "$live_pid"
+  return 0
 }
 
 stop_app() {
@@ -264,16 +455,16 @@ stop_app() {
   local pid
   if ! pid="$(read_pid "$pidfile")"; then
     rm -f "$pidfile"
-    if port_open "$port"; then
-      printf '%-10s %-16s no pid file, port %s in use, left alone\n' "$app" "port $port"
-    else
-      printf '%-10s %-16s already stopped\n' "$app" "port $port"
-    fi
-    return 0
+    stop_untracked "$app"
+    return $?
   fi
 
   if ! pid_alive "$pid"; then
     rm -f "$pidfile"
+    if port_open "$port"; then
+      stop_untracked "$app"
+      return $?
+    fi
     printf '%-10s %-16s already stopped\n' "$app" "port $port"
     return 0
   fi
@@ -359,6 +550,10 @@ main() {
       exit 2
       ;;
   esac
+
+  if [[ "$SCRIPT_UID" -eq 0 && "$RUN_AS" != "root" ]]; then
+    prepare_state_ownership
+  fi
 
   if [[ "$subcommand" == "check" && "$#" -eq 0 ]]; then
     check_all

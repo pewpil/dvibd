@@ -2,8 +2,7 @@ import { A } from "@solidjs/router";
 import type { RouteDefinition } from "@solidjs/router";
 import type { JSX } from "solid-js";
 import { getRequestEvent, isServer } from "solid-js/web";
-import FeedHeader from "../../components/(home)/FeedHeader";
-import style from "../../styles/pages/(home)/notFound.module.css";
+import style from "../styles/pages/notFound.module.css";
 
 export const route: RouteDefinition = {
   preload: (): void => {
@@ -18,18 +17,16 @@ export const route: RouteDefinition = {
 };
 
 export default function NotFound(): JSX.Element {
-  return [
-    <FeedHeader>
+  return (
+    <main id={style.notFoundPage}>
+      <p id={style.notFoundKicker}>404</p>
       <h1 id={style.notFoundTitle}>Page not found</h1>
-    </FeedHeader>,
-    <section id={style.notFound}>
-      <h2 id={style.notFoundHeading}>This page doesn't exist</h2>
       <p id={style.notFoundText}>
         The link may be broken or the page may have moved.
       </p>
       <A href="/" id={style.notFoundLink}>
         Back to home
       </A>
-    </section>,
-  ];
+    </main>
+  );
 }
