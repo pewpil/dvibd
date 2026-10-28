@@ -3,6 +3,7 @@ aside#information {
   height: 100%;
   margin: 0;
   padding-bottom: 2.5vh;
+  padding-inline: var(--glass-gutter);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

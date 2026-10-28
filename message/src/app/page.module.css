@@ -7,13 +7,18 @@ main#messageLayout {
   --conversation-list-width: 28%;
   --header-offset: 2.5vh;
   --gap: 1.5rem;
+  --glass-gutter: 1rem;
   grid-template-columns:
     var(--rail-width)
     var(--conversation-list-width)
     minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
   gap: var(--gap);
-  overflow: hidden;
+}
+
+main#messageLayout > section {
+  width: calc(100% + 2 * var(--glass-gutter));
+  margin-inline: calc(-1 * var(--glass-gutter));
 }
 
 div#conversationArea {
@@ -25,7 +30,8 @@ div#conversationArea {
   gap: var(--gap);
 
   > section {
-    width: 100%;
+    width: calc(100% + 2 * var(--glass-gutter));
+    margin-inline: calc(-1 * var(--glass-gutter));
     min-width: 0;
   }
 
@@ -33,17 +39,22 @@ div#conversationArea {
     --section-width: 64%;
 
     > section {
-      width: var(--section-width);
+      width: calc(var(--section-width) + 2 * var(--glass-gutter));
     }
 
     > aside {
-      width: calc(100% - var(--section-width) - 1%);
+      width: calc(
+        100% - var(--section-width) - 1% + 2 * var(--glass-gutter)
+      );
+      margin-inline: calc(-1 * var(--glass-gutter));
       min-width: 0;
       min-height: 0;
     }
   }
 
   > section#statePanel {
+    width: 100%;
+    margin-inline: 0;
     height: 100%;
     box-sizing: border-box;
     display: flex;
@@ -95,6 +106,12 @@ div#conversationArea {
 
   main#messageLayout > section {
     display: none;
+  }
+
+  div#conversationArea > section,
+  div#conversationArea.infoOpen > section {
+    width: 100%;
+    margin-inline: 0;
   }
 
   div#conversationArea > aside {
