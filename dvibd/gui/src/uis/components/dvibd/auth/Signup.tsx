@@ -1,25 +1,37 @@
-import { A, useNavigate } from "@solidjs/router";
-import { createEffect, createSignal } from "solid-js";
+import { A, useNavigate, useSearchParams } from "@solidjs/router";
+import { createEffect, createSignal, Show } from "solid-js";
 import { useAuth, type Session } from "../../../contexts/dvibd/AuthContext";
 import style from "../../../../styles/components/dvibd/auth/Signup.module.css";
 
+function firstValue(value: string | string[] | undefined): string {
+  if (typeof value === "string") {
+    return value;
+  }
+  if (Array.isArray(value)) {
+    return value[0] ?? "";
+  }
+  return "";
+}
+
 function Signup() {
   const navigate = useNavigate();
-  const { session, setSession } = useAuth();
-  const [displayName, setDisplayName] = createSignal("");
-  const [username, setUsername] = createSignal("");
-  const [email, setEmail] = createSignal("");
-  const [password, setPassword] = createSignal("");
-  const [pending, setPending] = createSignal(false);
-  const [error, setError] = createSignal("");
+  const auth = useAuth();
+  const [searchParams] = useSearchParams<{ name?: string | string[] }>();
+  const prefilledName: string = firstValue(searchParams.name);
+  const [displayName, setDisplayName] = createSignal<string>(prefilledName);
+  const [username, setUsername] = createSignal<string>("");
+  const [email, setEmail] = createSignal<string>("");
+  const [password, setPassword] = createSignal<string>("");
+  const [pending, setPending] = createSignal<boolean>(false);
+  const [error, setError] = createSignal<string>("");
 
-  createEffect(() => {
-    if (session()) {
+  createEffect((): void => {
+    if (auth.session() !== null) {
       navigate("/", { replace: true });
     }
   });
 
-  const handleSubmit = async (event: SubmitEvent) => {
+  const handleSubmit = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault();
     setPending(true);
     setError("");
@@ -35,84 +47,127 @@ function Signup() {
         }),
       });
       if (!response.ok) {
-        const body = (await response.json().catch(() => null)) as {
-          error?: string;
-        } | null;
-        setError(body?.error ?? "Unable to sign up. Please try again.");
+        if (response.status === 409) {
+          setError(
+            "That username or email already has an account. Log in instead, or pick another username.",
+          );
+        } else if (response.status >= 500) {
+          setError(
+            "Cannot reach the server. Check your connection and try again.",
+          );
+        } else {
+          setError("Check the fields above and try again.");
+        }
         return;
       }
-      const newSession = (await response.json()) as Session;
-      setSession(newSession);
+      const session = (await response.json()) as Session;
+      auth.setSession(session);
       navigate("/", { replace: true });
     } catch {
-      setError("Cannot reach the server. Please try again.");
+      setError("Cannot reach the server. Check your connection and try again.");
     } finally {
       setPending(false);
     }
   };
 
   return (
-    <main id={style.signup}>
-      <h1>Create your account</h1>
-      <p>Join dvibd and start connecting — it only takes a minute.</p>
+    <section id={style.signup}>
+      <h1 id={style.signupTitle}>Create your account</h1>
+      <p id={style.signupLead}>
+        One account for Social and Message. Your profile, friends, and
+        communities are the same in both.
+      </p>
+      <Show when={prefilledName !== ""}>
+        <p id={style.signupPrefill}>
+          This name came from the home page. Change it if you like.
+        </p>
+      </Show>
       <form id={style.signupForm} onSubmit={handleSubmit}>
-        <label>
-          Full name
+        <div>
+          <div>
+            <label for={style.signupName}>
+              Full name
+            </label>
+            <span>Required</span>
+          </div>
           <input
+            id={style.signupName}
             type="text"
             name="displayName"
             placeholder="Your full name"
+            autocomplete="name"
+            required
             value={displayName()}
             onInput={(event) => setDisplayName(event.currentTarget.value)}
-            required
           />
-        </label>
-        <label>
-          Username
+        </div>
+        <div>
+          <div>
+            <label for={style.signupUsername}>
+              Username
+            </label>
+            <span>Required</span>
+          </div>
           <input
+            id={style.signupUsername}
             type="text"
             name="username"
             placeholder="Your username"
+            autocomplete="username"
+            required
             value={username()}
             onInput={(event) => setUsername(event.currentTarget.value)}
-            required
           />
-        </label>
-        <label>
-          Email
+        </div>
+        <div>
+          <div>
+            <label for={style.signupEmail}>
+              Email
+            </label>
+            <span>Required</span>
+          </div>
           <input
+            id={style.signupEmail}
             type="email"
             name="email"
             placeholder="you@example.com"
+            autocomplete="email"
+            required
             value={email()}
             onInput={(event) => setEmail(event.currentTarget.value)}
-            required
           />
-        </label>
-        <label>
-          Password
+        </div>
+        <div>
+          <div>
+            <label for={style.signupPassword}>
+              Password
+            </label>
+            <span>Required</span>
+          </div>
           <input
+            id={style.signupPassword}
             type="password"
             name="password"
             placeholder="Create a password"
+            autocomplete="new-password"
+            required
             value={password()}
             onInput={(event) => setPassword(event.currentTarget.value)}
-            required
           />
-        </label>
+        </div>
         <button id={style.signupSubmit} type="submit" disabled={pending()}>
-          {pending() ? "Signing up…" : "Sign up"}
+          {pending() ? "Signing up" : "Sign up"}
         </button>
-        {error() && (
+        <Show when={error() !== ""}>
           <p id={style.signupError} role="alert">
             {error()}
           </p>
-        )}
+        </Show>
       </form>
       <p id={style.signupSwitch}>
         Already have an account? <A href="/login">Log in</A>
       </p>
-    </main>
+    </section>
   );
 }
 

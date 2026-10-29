@@ -1,25 +1,79 @@
-main#products {
-  flex-grow: 1;
+div#products {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--bg);
 
-  > section#productsHero {
-    padding: 6.5% var(--space) 5.5%;
-    text-align: center;
-    background: var(--hero-bg);
+  > section#productsCta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    width: 100%;
+    padding: 16% var(--page-margin);
+    background: var(--bg-soft);
 
-    > h1 {
-      font-size: clamp(2.5rem, 6vw, 4.25rem);
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      max-width: 20ch;
-      margin: 0 auto;
+    @media (min-width: 60rem) {
+      padding: 9% var(--page-margin);
     }
 
-    > p {
-      max-width: 56ch;
-      margin: 1.4% auto 0;
-      font-size: 1.125rem;
-      line-height: 1.6;
+    > h2#productsCtaTitle {
+      font-size: var(--text-h2);
+      letter-spacing: var(--tracking-display);
+      line-height: var(--leading-display);
+    }
+
+    > p#productsCtaLead {
+      max-width: 46ch;
       color: var(--ink-soft);
+      font-size: var(--text-body);
+    }
+
+    > div#productsCtaActions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.75rem;
+      margin-top: 0.75rem;
+
+      > a#productsCtaPrimary {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.875rem 1.5rem;
+        border-radius: var(--radius);
+        background: var(--stage);
+        color: var(--accent-ink);
+        font-family: var(--font-ui);
+        font-size: var(--text-xs);
+        font-weight: 500;
+        text-decoration: none;
+        transition:
+          background var(--duration-fast) var(--ease-out),
+          transform var(--duration-fast) var(--ease-out);
+
+        &:hover {
+          background: var(--stage-deep);
+        }
+
+        &:active {
+          transform: translateY(0.0625rem);
+        }
+      }
+
+      > a {
+        color: var(--ink);
+        font-family: var(--font-ui);
+        font-size: var(--text-xs);
+        font-weight: 500;
+        text-decoration: none;
+        text-underline-offset: 0.3rem;
+        transition: color var(--duration-fast) var(--ease-out);
+
+        &:hover {
+          color: var(--accent-strong);
+          text-decoration: underline;
+        }
+      }
     }
   }
 }

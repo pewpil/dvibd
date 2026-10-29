@@ -1,0 +1,53 @@
+section#closingCta {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2.5rem;
+  width: 100%;
+  min-height: 90svh;
+  padding: 14% var(--page-margin) 12%;
+  background: var(--stage);
+  color: var(--accent-ink);
+
+  @media (min-width: 60rem) {
+    display: grid;
+    grid-template-columns: 6fr 5fr;
+    align-items: center;
+    gap: 4rem;
+    padding: 8% var(--page-margin);
+  }
+
+  > div#closingCopy {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    color: var(--accent-ink);
+
+    @media (min-width: 60rem) {
+      align-self: end;
+    }
+
+    > h2#closingTitle {
+      display: flex;
+      flex-direction: column;
+      font-size: var(--text-h1);
+      letter-spacing: var(--tracking-display);
+      line-height: var(--leading-display);
+
+      > span#closingLineOne,
+      > span#closingLineTwo {
+        display: block;
+      }
+    }
+
+    > p#closingLead {
+      max-width: 46ch;
+      font-size: var(--text-body);
+    }
+  }
+
+  > div#closingDialog {
+    width: 100%;
+    max-width: 27.5rem;
+  }
+}

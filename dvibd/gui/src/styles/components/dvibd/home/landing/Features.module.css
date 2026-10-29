@@ -1,0 +1,108 @@
+section#features {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 100%;
+  padding: 14% var(--page-margin);
+
+  @media (min-width: 60rem) {
+    gap: 3.5rem;
+    padding: 9% var(--page-margin);
+  }
+
+  > h2#featuresTitle {
+    font-size: var(--text-h2);
+    letter-spacing: var(--tracking-display);
+    line-height: var(--leading-display);
+  }
+
+  > div#featureGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.375rem;
+    width: 100%;
+
+    @media (min-width: 60rem) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+
+    > article {
+      display: flex;
+      flex-direction: column;
+      min-height: 27rem;
+      overflow: hidden;
+      background: var(--bg-soft);
+      transition: transform var(--duration-fast) var(--ease-out);
+
+      &:hover {
+        transform: translateY(-0.25rem);
+      }
+
+      > div:first-child {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+        order: 0;
+        padding: 8% 8% 0;
+
+        > h3 {
+          font-family: var(--font-display);
+          font-size: var(--text-lead);
+          font-weight: 600;
+          letter-spacing: var(--tracking-heading);
+          line-height: var(--leading-heading);
+        }
+
+        > p {
+          max-width: 36ch;
+          color: var(--ink-soft);
+          font-size: var(--text-body);
+          line-height: 1.45;
+        }
+      }
+
+      > div:last-child {
+        order: 1;
+        margin: auto -16% 0 8%;
+        max-height: 13rem;
+        overflow: hidden;
+      }
+    }
+
+    > article.cellOffLeft {
+      > div:last-child {
+        margin: auto 8% 0 -16%;
+      }
+    }
+
+    @media (min-width: 60rem) {
+      > article {
+        height: 27rem;
+
+        > div:last-child {
+          margin: auto -8% 0;
+        }
+      }
+
+      > article.cellOffLeft {
+        > div:last-child {
+          margin: auto -8% 0;
+        }
+      }
+
+      > article.cellFragmentFirst {
+        > div:first-child {
+          order: 2;
+          margin-top: auto;
+          padding: 1.25rem 8% 8%;
+        }
+
+        > div:last-child {
+          order: 1;
+          margin: 0 -8% 1.25rem;
+        }
+      }
+    }
+  }
+}

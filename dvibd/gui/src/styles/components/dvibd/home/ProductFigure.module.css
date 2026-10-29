@@ -1,0 +1,83 @@
+figure#productFigure {
+  width: 100%;
+
+  > div#productFrame {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: var(--bg-soft);
+
+    > img#productImage {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+  }
+
+  &.portrait > div#productFrame {
+    aspect-ratio: 2 / 3;
+  }
+
+  > div#productFrame[data-shutter="out"] {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  > div#productFrame[data-shutter="in"] {
+    animation: productShutter 1.1s var(--ease-out) both;
+
+    > img#productImage {
+      animation: productSettle 1.1s var(--ease-out) both;
+    }
+  }
+
+  > figcaption#productCaption {
+    width: 100%;
+    padding: 1rem 0 0;
+    color: var(--ink-soft);
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+  }
+}
+
+@media (max-width: 47.5rem) {
+  figure#productFigure > figcaption#productCaption {
+    display: none;
+  }
+}
+
+@keyframes productShutter {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes productSettle {
+  from {
+    transform: scale(1.12);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  figure#productFigure > div#productFrame[data-shutter="out"] {
+    clip-path: none;
+    animation: none;
+  }
+
+  figure#productFigure > div#productFrame[data-shutter="in"] {
+    animation: none;
+
+    > img#productImage {
+      animation: none;
+    }
+  }
+}

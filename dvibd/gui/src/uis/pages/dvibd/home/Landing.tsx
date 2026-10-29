@@ -1,56 +1,64 @@
-import { A } from '@solidjs/router'
-import style from '../../../../styles/pages/dvibd/home/Landing.module.css'
-import Product from '../../../components/dvibd/home/landing/Product.tsx'
+import type { FaqItem } from "../../../components/dvibd/home/Faq.tsx";
+import Faq from "../../../components/dvibd/home/Faq.tsx";
+import ProductFigure from "../../../components/dvibd/home/ProductFigure.tsx";
+import ProductShowcase from "../../../components/dvibd/home/ProductShowcase.tsx";
+import Hero from "../../../components/dvibd/home/landing/Hero.tsx";
+import Features from "../../../components/dvibd/home/landing/Features.tsx";
+import Handoff from "../../../components/dvibd/home/landing/Handoff.tsx";
+import HowItWorks from "../../../components/dvibd/home/landing/HowItWorks.tsx";
+import ClosingCta from "../../../components/dvibd/home/landing/ClosingCta.tsx";
+import messageWorkspace from "../../../../assets/pages/dvibd/home/message-workspace.jpg";
+import layoutStyle from "../../../../styles/pages/dvibd/layout.module.css";
+import style from "../../../../styles/pages/dvibd/home/Landing.module.css";
+
+const FAQ_ITEMS: FaqItem[] = [
+  {
+    question: "Do Social and Message use the same account?",
+    answer:
+      "Yes. One dvibd account covers both apps. Your profile, your friends, and your communities are the same in each one.",
+  },
+  {
+    question: "Is Message free?",
+    answer:
+      "Yes. Message costs nothing to use, whether you are writing to one person or to a group.",
+  },
+  {
+    question: "Can I share a post into a chat?",
+    answer:
+      "Yes. Share a post into a one to one chat or a group, and everyone there can read it.",
+  },
+  {
+    question: "Who can see my messages?",
+    answer:
+      "Only the people in the conversation. Messages are not end to end encrypted, so treat a message the way you would treat an email.",
+  },
+];
 
 function Landing() {
   return (
-    <main id={style.landing}>
-      <section id={style.hero}>
-        <h1>Connect with everyone, everywhere.</h1>
-        <p>
-          dvibd builds the apps that bring people together. Social is where you
-          share your world, and Message is how you reach anyone — anywhere,
-          instantly.
-        </p>
-        <div id={style.heroActions}>
-          <A class={style.cta} href="/social">
-            Explore Social
-          </A>
-          <A
-            classList={{ [style.cta]: true, [style.secondary]: true }}
-            href="/message"
-          >
-            Try Message
-          </A>
+    <main id={layoutStyle.mainContent} tabindex="-1">
+      <div id={style.landing}>
+        <Hero />
+        <ProductShowcase />
+        <Features />
+        <Handoff />
+        <HowItWorks />
+        <Faq heading="Common questions" items={FAQ_ITEMS} />
+        <div id={style.landingBand}>
+          <ProductFigure
+            src={messageWorkspace}
+            alt="Message workspace with the channel list on the left and the #general conversation open."
+            width={1440}
+            height={960}
+            caption="Message workspace, with the channel list and #general."
+            portrait={false}
+            shutterImage={false}
+          />
         </div>
-      </section>
-
-      <section id={style.products}>
-        <h2>Our apps</h2>
-        <div id={style.productCards}>
-          <Product name="Social" variant="social" href="/social">
-            A social network where you connect with friends, share your
-            moments, and discover the people around you.
-          </Product>
-          <Product name="Message" variant="message" href="/message">
-            Fast, reliable messaging over the internet — send a message to
-            anyone you care about, wherever they are.
-          </Product>
-        </div>
-      </section>
-
-      <section id={style.join}>
-        <h2>Join dvibd</h2>
-        <p>
-          Create your account, build your network, and start the conversation.
-          dvibd is where the world connects.
-        </p>
-        <A class={style.cta} href="/">
-          Get started
-        </A>
-      </section>
+        <ClosingCta />
+      </div>
     </main>
-  )
+  );
 }
 
-export default Landing
+export default Landing;

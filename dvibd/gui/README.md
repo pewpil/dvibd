@@ -1,7 +1,7 @@
 ## Usage
 
 ```bash
-$ npm install # or pnpm install or yarn install
+npm install
 ```
 
 ### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
@@ -13,16 +13,16 @@ In the project directory, you can run:
 ### `npm run dev`
 
 Runs the app in the development mode.<br>
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser. `/api` is proxied to `http://localhost:3002`, so run `dvibd/api` alongside this app for auth.
 
 ### `npm run build`
 
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
+Builds the app for production to the `dist` folder. It runs `tsc -b` first, then Vite.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### `npm run preview`
+
+Serves the production build locally.
 
 ## Deployment
 
-Learn more about deploying your application with the [documentations](https://vite.dev/guide/static-deploy.html)
+The app is a client-side SPA and ships with an SPA redirect in `netlify.toml`. See the repository root `AGENTS.md` for the Netlify setup.

@@ -1,0 +1,114 @@
+section#chapter {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  width: 100%;
+  overflow: hidden;
+  padding: 14% var(--page-margin);
+
+  @media (min-width: 60rem) {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 5rem;
+    padding: 9% var(--page-margin);
+  }
+
+  > div#chapterText {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    order: 1;
+
+    > h2#chapterName {
+      font-size: var(--text-h2);
+      letter-spacing: var(--tracking-display);
+      line-height: var(--leading-display);
+    }
+
+    > p#chapterTagline {
+      font-family: var(--font-body);
+      font-size: var(--text-lead);
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    > p#chapterParagraph {
+      max-width: 46ch;
+      color: var(--ink-soft);
+      font-size: var(--text-body);
+    }
+
+    > ul#chapterPoints {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+
+      > li {
+        position: relative;
+        padding-left: 1.125rem;
+        color: var(--ink-soft);
+        font-family: var(--font-ui);
+        font-size: var(--text-body);
+        line-height: 1.45;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0.55em;
+          left: 0;
+          width: 0.375rem;
+          height: 0.375rem;
+          border-radius: 50%;
+          background: var(--accent);
+        }
+      }
+    }
+
+    > a#chapterAction {
+      margin-top: 0.75rem;
+      color: var(--ink);
+      font-family: var(--font-ui);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      text-decoration: none;
+      text-underline-offset: 0.3rem;
+      transition: color var(--duration-fast) var(--ease-out);
+
+      &:hover {
+        color: var(--accent-strong);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  > div#chapterFragment {
+    order: 2;
+    width: 100%;
+
+    @media (min-width: 60rem) {
+      max-height: 34rem;
+      overflow: hidden;
+    }
+
+    > img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 0.75rem;
+    }
+  }
+
+  @media (min-width: 60rem) {
+    &.chapterReverse {
+      > div#chapterText {
+        order: 2;
+      }
+
+      > div#chapterFragment {
+        order: 1;
+      }
+    }
+  }
+}

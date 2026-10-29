@@ -1,0 +1,43 @@
+section#sharedAccount {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  width: 100%;
+  padding: 14% var(--page-margin);
+  background: var(--surface);
+
+  @media (min-width: 60rem) {
+    grid-template-columns: 6fr 5fr;
+    align-items: center;
+    gap: 5rem;
+    padding: 8% var(--page-margin);
+  }
+
+  > div#sharedText {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+
+    > h2#sharedTitle {
+      font-size: var(--text-h2);
+      letter-spacing: var(--tracking-display);
+      line-height: var(--leading-display);
+    }
+
+    > p#sharedLead {
+      max-width: 48ch;
+      color: var(--ink-soft);
+      font-size: var(--text-body);
+    }
+  }
+
+  > div#sharedCard {
+    width: 100%;
+    max-width: 22rem;
+    justify-self: start;
+
+    @media (min-width: 60rem) {
+      justify-self: end;
+    }
+  }
+}

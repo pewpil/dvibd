@@ -1,0 +1,36 @@
+header#pageHero {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 14% var(--page-margin) 6%;
+  background: var(--bg);
+
+  @media (min-width: 60rem) {
+    padding: 8% var(--page-margin) 4%;
+  }
+
+  > h1#pageHeroTitle {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--text-h1);
+    letter-spacing: var(--tracking-display);
+    line-height: var(--leading-display);
+
+    > span {
+      display: block;
+    }
+  }
+
+  > p#pageHeroLead {
+    max-width: 46ch;
+    color: var(--ink-soft);
+    font-size: var(--text-body);
+  }
+}
+
+header#pageHero.pageHeroCompact {
+  > h1#pageHeroTitle {
+    font-size: var(--text-h2);
+  }
+}

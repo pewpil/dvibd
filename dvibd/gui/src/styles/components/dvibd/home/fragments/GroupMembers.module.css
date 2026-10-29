@@ -1,0 +1,74 @@
+div#group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 5% 5%;
+  border: 0.0625rem solid var(--ui-line);
+  border-radius: var(--ui-radius);
+  background: var(--ui-surface);
+  color: var(--ui-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+
+  > header#header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    > span#groupName {
+      font-family: var(--font-product);
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+
+    > span#count {
+      color: var(--ui-soft);
+    }
+  }
+
+  > ul#members {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    > li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      > span:first-child {
+        display: grid;
+        place-items: center;
+        width: 1.625rem;
+        height: 1.625rem;
+        border-radius: 50%;
+        background: var(--ui-accent);
+        color: var(--ui-accent-ink);
+        font-family: var(--font-product);
+        font-size: 0.625rem;
+        font-weight: 500;
+      }
+
+      > span:nth-child(2) {
+        flex: 1;
+        font-size: var(--text-sm);
+      }
+
+      > span:last-child {
+        color: var(--ui-soft);
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  > span#addPeople {
+    align-self: flex-start;
+    padding: 0.3125rem 0.625rem;
+    border: 0.0625rem solid var(--ui-line);
+    border-radius: var(--ui-radius);
+    color: var(--ui-soft);
+    font-weight: 500;
+  }
+}

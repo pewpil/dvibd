@@ -1,0 +1,134 @@
+article#thread {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 5% 5%;
+  border: 0.0625rem solid var(--ui-line);
+  border-radius: var(--ui-radius);
+  background: var(--ui-surface);
+  color: var(--ui-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+
+  > header#header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding-bottom: 0.625rem;
+    border-bottom: 0.0625rem solid var(--ui-line);
+    border-radius: var(--ui-radius);
+    background: var(--ui-surface-strong);
+
+    > img {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+
+    > span#headings {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+
+      > span#titleRow {
+        display: flex;
+        align-items: baseline;
+        gap: 0.375rem;
+
+        > span#title {
+          font-family: var(--font-product);
+          font-size: var(--text-sm);
+          font-weight: 500;
+        }
+
+        > span#handle {
+          color: var(--ui-soft);
+        }
+      }
+
+      > span#subtitle {
+        color: var(--ui-soft);
+      }
+    }
+  }
+
+  > ul#messages {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    > li {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1875rem;
+      max-width: 82%;
+
+      > span {
+        color: var(--ui-soft);
+        font-size: 0.75rem;
+      }
+
+      > p {
+        padding: 0.5rem 0.625rem;
+        border-radius: var(--ui-radius);
+        font-size: var(--text-sm);
+        line-height: 1.4;
+      }
+    }
+
+    > li.received {
+      align-self: flex-start;
+
+      > p {
+        background: var(--ui-paper);
+        border: 0.0625rem solid var(--ui-line);
+      }
+    }
+
+    > li.sent {
+      align-self: flex-end;
+      align-items: flex-end;
+
+      > p {
+        background: color-mix(in srgb, var(--ui-accent) 10%, var(--ui-surface));
+        border: 0.0625rem solid
+          color-mix(in srgb, var(--ui-accent) 26%, var(--ui-line));
+      }
+    }
+  }
+
+  > div#composer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 0.625rem;
+    border: 0.0625rem solid var(--ui-line);
+    border-radius: var(--ui-radius);
+    background: var(--ui-paper);
+
+    > p#composerPlaceholder {
+      color: var(--ui-soft);
+      font-size: var(--text-sm);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    > span#send {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: var(--ui-accent);
+      color: var(--ui-accent-ink);
+
+      > svg {
+        width: 0.875rem;
+        height: 0.875rem;
+      }
+    }
+  }
+}

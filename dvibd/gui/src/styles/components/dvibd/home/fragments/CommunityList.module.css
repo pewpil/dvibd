@@ -1,0 +1,61 @@
+ul#communityList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  border: 0.0625rem solid var(--ui-line);
+  border-radius: var(--ui-radius);
+  background: var(--ui-surface);
+  color: var(--ui-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+
+  > li {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
+
+    & + li {
+      border-top: 0.0625rem solid var(--ui-line);
+    }
+
+    > span:first-child {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 0.3125rem;
+      background: var(--ui-accent);
+      color: var(--ui-accent-ink);
+      font-family: var(--font-product);
+      font-size: 0.6875rem;
+      font-weight: 500;
+    }
+
+    > span:nth-child(2) {
+      flex: 1;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    > span:last-child {
+      padding: 0.1875rem 0.5rem;
+      border: 0.0625rem solid var(--ui-line);
+      border-radius: var(--ui-radius);
+      color: var(--ui-soft);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    > span.stateJoined {
+      border-color: transparent;
+      background: var(--ui-paper);
+      color: var(--ui-soft);
+    }
+  }
+}

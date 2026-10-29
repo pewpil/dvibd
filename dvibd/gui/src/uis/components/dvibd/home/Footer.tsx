@@ -1,65 +1,71 @@
-import { A } from '@solidjs/router'
-import logo from '../../../../assets/pages/dvibd/home/logo.svg'
-import style from '../../../../styles/components/dvibd/home/Footer.module.css'
+import { A } from "@solidjs/router";
+import logo from "../../../../assets/pages/dvibd/home/logo.svg";
+import {
+  MESSAGE_URL,
+  PRESS_EMAIL,
+  SOCIAL_URL,
+  SUPPORT_EMAIL,
+} from "../../../lib/dvibd";
+import { reveal } from "../../../directives/reveal.ts";
+import style from "../../../../styles/components/dvibd/home/Footer.module.css";
 
 function Footer() {
   return (
     <footer id={style.footer}>
       <div id={style.footerInner}>
-        <div id={style.footerBrand}>
-          <A id={style.brandLink} href="/" end>
-            <img src={logo} alt="dvibd logo" />
-            <span id={style.brandName}>
-              dvibd<span id={style.brandDot}>.</span>
+        <div id={style.footerBrand} ref={reveal()}>
+          <A id={style.footerMark} href="/" end>
+            <img
+              id={style.footerMarkImage}
+              src={logo}
+              alt=""
+              width="64"
+              height="64"
+            />
+            <span id={style.footerName}>
+              dvibd<span id={style.footerDot}>.</span>
             </span>
           </A>
           <p id={style.footerTagline}>The networking company.</p>
         </div>
-        <nav id={style.footerColProducts}>
-          <h4>Products</h4>
-          <ul>
-            <li>
-              <A href="/social">Social</A>
-            </li>
-            <li>
-              <A href="/message">Message</A>
-            </li>
-          </ul>
-        </nav>
-        <nav id={style.footerColCompany}>
-          <h4>Company</h4>
-          <ul>
-            <li>
-              <A href="/about">About</A>
-            </li>
-            <li>
-              <A href="/contact">Contact</A>
-            </li>
-          </ul>
-        </nav>
-        <nav id={style.footerColSupport}>
-          <h4>Support</h4>
-          <ul>
-            <li>
-              <a href="mailto:support@dvibd.com">support@dvibd.com</a>
-            </li>
-            <li>
-              <a href="mailto:press@dvibd.com">press@dvibd.com</a>
-            </li>
-          </ul>
-        </nav>
-        <div id={style.footerBottom}>
-          <p id={style.copyright}>
-            © {new Date().getFullYear()} dvibd. All rights reserved.
-          </p>
-          <div id={style.footerAuth}>
+        <ul id={style.footerLinks} ref={reveal(1)}>
+          <li>
+            <A href="/products">Products</A>
+          </li>
+          <li>
+            <A href="/about">About</A>
+          </li>
+          <li>
+            <A href="/contact">Contact</A>
+          </li>
+          <li>
+            <a href={SOCIAL_URL}>Social</a>
+          </li>
+          <li>
+            <a href={MESSAGE_URL}>Message</a>
+          </li>
+          <li>
             <A href="/login">Log in</A>
+          </li>
+          <li>
             <A href="/signup">Sign up</A>
-          </div>
+          </li>
+        </ul>
+        <div id={style.footerMeta} ref={reveal(2)}>
+          <p id={style.footerEmails}>
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+            <a href={`mailto:${PRESS_EMAIL}`}>{PRESS_EMAIL}</a>
+          </p>
+          <p id={style.footerCopyright}>
+            © {new Date().getFullYear()} dvibd
+          </p>
         </div>
+        <p id={style.footerProduct} ref={reveal(3)}>
+          Social and Message are dvibd products.
+        </p>
       </div>
     </footer>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

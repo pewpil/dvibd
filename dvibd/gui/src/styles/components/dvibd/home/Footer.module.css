@@ -1,113 +1,115 @@
 footer#footer {
-  background: var(--bg);
+  width: 100%;
+  padding: 10% 0 5%;
+  background: var(--bg-soft);
   color: var(--ink-soft);
 
+  @media (min-width: 60rem) {
+    padding: 7% 0 3%;
+  }
+
   > div#footerInner {
-    max-width: var(--width);
-    margin: 0 auto;
-    padding: 3.9% var(--space) 2.8%;
-    display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr 1fr;
-    gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    width: 100%;
+    padding: 0 var(--page-margin);
 
     > div#footerBrand {
-      > a#brandLink {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        text-decoration: none;
-        color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
 
-        > img {
-          height: 1.3rem;
-          width: auto;
-          display: block;
+      > a#footerMark {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--ink);
+        text-decoration: none;
+
+        > img#footerMarkImage {
+          width: clamp(2.5rem, 5vw, 4.5rem);
+          height: clamp(2.5rem, 5vw, 4.5rem);
         }
 
-        > span#brandName {
-          font-size: 1.3rem;
-          font-weight: 800;
+        > span#footerName {
+          font-family: var(--font-display);
+          font-size: var(--text-h1);
+          font-weight: 600;
+          letter-spacing: var(--tracking-display);
+          line-height: var(--leading-display);
 
-          > span#brandDot {
+          > span#footerDot {
             color: var(--accent);
           }
         }
       }
 
       > p#footerTagline {
-        margin-top: 0.75rem;
-        font-size: 0.9rem;
-      }
-    }
-
-    > nav#footerColProducts,
-    > nav#footerColCompany,
-    > nav#footerColSupport {
-      > h4 {
-        margin-bottom: 0.75rem;
-        font-size: 0.8rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
+        font-family: var(--font-ui);
+        font-size: var(--text-xs);
         color: var(--ink-soft);
       }
+    }
 
-      > ul {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        font-size: 0.95rem;
+    > ul#footerLinks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      font-family: var(--font-ui);
+      font-size: var(--text-xs);
 
-        > li > a {
-          color: var(--ink-soft);
-          text-decoration: none;
-          transition: color 0.2s ease;
+      > li > a {
+        color: var(--ink-soft);
+        font-weight: 500;
+        text-decoration: none;
+        transition: color var(--duration-fast) var(--ease-out);
 
-          &:hover {
-            color: var(--ink);
-          }
+        &:hover {
+          color: var(--ink);
         }
       }
     }
 
-    > div#footerBottom {
-      grid-column: 1 / -1;
-      padding-top: 1.7%;
-      border-top: 0.0625rem solid var(--line);
+    > div#footerMeta {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
       flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
       gap: 1rem;
 
-      > p#copyright {
-        font-size: 0.85rem;
-      }
-
-      > div#footerAuth {
+      > p#footerEmails {
         display: flex;
+        flex-wrap: wrap;
         gap: 1.5rem;
-        font-size: 0.9rem;
+        font-family: var(--font-ui);
+        font-size: var(--text-xs);
 
         > a {
-          color: var(--ink-soft);
+          color: var(--ink);
           text-decoration: none;
-          transition: color 0.2s ease;
+          transition: color var(--duration-fast) var(--ease-out);
 
           &:hover {
-            color: var(--ink);
+            color: var(--accent-strong);
           }
         }
       }
+
+      > p#footerCopyright {
+        font-family: var(--font-ui);
+        font-size: var(--text-xs);
+      }
     }
-  }
 
-  @media (max-width: 47.5rem) {
-    > div#footerInner {
-      grid-template-columns: 1fr 1fr;
+    > p#footerProduct {
+      max-width: 100%;
+      font-family: var(--font-ui);
+      font-size: var(--text-xs);
+      color: var(--ink-soft);
 
-      > div#footerBrand {
-        grid-column: 1 / -1;
+      @media (min-width: 60rem) {
+        max-width: 45%;
       }
     }
   }

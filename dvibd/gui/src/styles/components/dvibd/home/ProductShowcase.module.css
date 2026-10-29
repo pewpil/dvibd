@@ -1,0 +1,20 @@
+section#showcase {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  width: 100%;
+  padding: 10% var(--page-margin);
+
+  @media (min-width: 60rem) {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 1.5rem;
+    padding: 6% var(--page-margin);
+  }
+
+  > div#showcaseFigure,
+  > div#showcasePair {
+    width: 100%;
+    min-width: 0;
+  }
+}

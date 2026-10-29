@@ -1,0 +1,109 @@
+section#faq {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  width: 100%;
+  padding: 14% var(--page-margin);
+
+  @media (min-width: 60rem) {
+    grid-template-columns: 5fr 6fr;
+    gap: 4rem;
+    padding: 9% var(--page-margin);
+  }
+
+  > div#faqIndex {
+    display: flex;
+    flex-direction: column;
+    gap: 1.125rem;
+
+    > h2#faqHeading {
+      color: var(--ink-soft);
+      font-family: var(--font-ui);
+      font-size: var(--text-body);
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.3;
+    }
+
+    > ul#faqQuestions {
+      display: flex;
+      flex-direction: column;
+      gap: 1.125rem;
+
+      > li {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        > button {
+          display: flex;
+          align-items: baseline;
+          gap: 0.75rem;
+          padding: 0;
+          border: 0;
+          background: transparent;
+          color: var(--ink-soft);
+          font-family: var(--font-ui);
+          font-size: var(--text-body);
+          font-weight: 500;
+          text-align: left;
+          cursor: pointer;
+          transition: color var(--duration-fast) var(--ease-out);
+
+          &:hover {
+            color: var(--ink);
+          }
+
+          > span:first-child {
+            flex-shrink: 0;
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: var(--ink-soft);
+            transition:
+              background var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+          }
+
+          > span:last-child {
+            max-width: 34ch;
+          }
+
+          &.faqQuestionActive {
+            color: var(--ink);
+
+            > span:first-child {
+              background: var(--accent);
+              transform: scale(1.1);
+            }
+          }
+        }
+
+        > p#faqInlineAnswer {
+          max-width: 40ch;
+          margin-left: 1.25rem;
+          color: var(--ink-soft);
+          font-size: var(--text-body);
+          line-height: 1.45;
+        }
+      }
+    }
+  }
+
+  > div#faqAnswer {
+    align-self: start;
+
+    @media (min-width: 60rem) {
+      position: sticky;
+      top: 7.5rem;
+    }
+
+    > p#faqAnswerText {
+      max-width: 30ch;
+      font-family: var(--font-body);
+      font-size: var(--text-lead);
+      line-height: 1.3;
+      color: var(--ink);
+    }
+  }
+}

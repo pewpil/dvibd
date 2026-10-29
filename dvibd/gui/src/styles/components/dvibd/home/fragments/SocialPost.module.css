@@ -1,0 +1,130 @@
+article#post {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 5% 5%;
+  border-radius: var(--ui-radius);
+  background: var(--ui-surface);
+  color: var(--ui-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+
+  > header#header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+
+    > span#avatar {
+      display: grid;
+      place-items: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: var(--ui-accent);
+      color: var(--ui-accent-ink);
+      font-family: var(--font-product);
+      font-size: 0.6875rem;
+      font-weight: 500;
+    }
+
+    > span#identity {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+      min-width: 0;
+
+      > span#author {
+        font-family: var(--font-product);
+        font-size: var(--text-sm);
+        font-weight: 500;
+        line-height: 1.2;
+      }
+
+      > span#meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.375rem;
+        color: var(--ui-soft);
+        line-height: 1.2;
+
+        > span#role {
+          color: var(--ui-soft);
+        }
+
+        > span#community {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+
+          > img {
+            width: 0.75rem;
+            height: 0.75rem;
+          }
+        }
+      }
+    }
+  }
+
+  > p#body {
+    font-size: var(--text-sm);
+    line-height: 1.45;
+    text-wrap: pretty;
+
+    > a#tag {
+      color: var(--ui-accent);
+      font-weight: 500;
+      text-decoration: none;
+    }
+  }
+
+  > div#actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 0.5rem;
+    border-top: 0.0625rem solid var(--ui-line);
+    color: var(--ui-soft);
+    font-weight: 500;
+
+    > button#like {
+      padding: 0.125rem 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      cursor: pointer;
+      transition:
+        color var(--duration-fast) var(--ease-out),
+        transform var(--duration-fast) var(--ease-out);
+
+      &:hover {
+        color: var(--ui-ink);
+      }
+
+      &:active {
+        transform: scale(0.96);
+      }
+
+      &.likeOn {
+        color: var(--ui-like);
+      }
+    }
+
+    > button + button {
+      padding: 0.125rem 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      cursor: default;
+      opacity: 0.6;
+    }
+  }
+}

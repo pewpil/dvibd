@@ -1,44 +1,91 @@
 div#auth {
-  min-height: 100svh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space);
+  flex-direction: column;
+  width: 100%;
+  min-height: 100svh;
   background: var(--bg);
 
-  > div#authInner {
-    width: 30%;
-    text-align: center;
+  @media (min-width: 60rem) {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+  }
+
+  > aside#authAside {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    padding: 9% var(--page-margin) 8%;
+    background: var(--bg-soft);
+
+    @media (min-width: 60rem) {
+      justify-content: space-between;
+      padding: 4% var(--page-margin);
+    }
 
     > a#authBrand {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.625rem;
-      font-size: 1.3rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+      gap: 0.75rem;
+      width: fit-content;
       color: var(--ink);
       text-decoration: none;
-      margin-bottom: 3%;
 
-      > img {
+      > img#authMark {
+        width: 2rem;
         height: 2rem;
-        width: auto;
-        display: block;
       }
 
-      > span#authBrandName {
-        > span#authBrandDot {
+      > span#authName {
+        font-family: var(--font-display);
+        font-size: var(--text-lead);
+        font-weight: 600;
+        letter-spacing: var(--tracking-heading);
+        line-height: 1;
+
+        > span#authDot {
           color: var(--accent);
         }
       }
     }
+
+    > div#authAsideBody {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+
+      > p#authTagline {
+        color: var(--ink-soft);
+        font-size: var(--text-body);
+      }
+
+      > div#authCard {
+        display: none;
+        width: 100%;
+        max-width: 20rem;
+
+        @media (min-width: 60rem) {
+          display: block;
+        }
+      }
+    }
+
+    > div#authTheme {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
   }
 
-  @media (max-width: 47.5rem) {
-    > div#authInner {
-      width: 88%;
+  > div#authMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: 10% var(--page-margin) 14%;
+
+    @media (min-width: 60rem) {
+      padding: 6% var(--page-margin);
     }
   }
 }

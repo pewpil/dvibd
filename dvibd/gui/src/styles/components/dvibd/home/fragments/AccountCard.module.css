@@ -1,0 +1,55 @@
+article#accountCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 7% 7%;
+  border: 0.0625rem solid var(--ui-line);
+  border-radius: var(--ui-radius);
+  background: var(--ui-surface);
+  color: var(--ui-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+
+  > span#avatar {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--ui-accent);
+    color: var(--ui-accent-ink);
+    font-family: var(--font-product);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  > span#names {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+
+    > span#name {
+      font-family: var(--font-product);
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+
+    > span#handle {
+      color: var(--ui-soft);
+    }
+
+    > span#role {
+      color: var(--ui-soft);
+    }
+  }
+
+  > p#context {
+    padding-top: 0.5rem;
+    border-top: 0.0625rem solid var(--ui-line);
+    width: 100%;
+    color: var(--ui-soft);
+    line-height: 1.4;
+  }
+}

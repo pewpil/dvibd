@@ -1,0 +1,43 @@
+.revealOut {
+  opacity: 0;
+  transform: translateY(1.75rem);
+  will-change: opacity, transform;
+}
+
+.revealIn {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+}
+
+.order1 {
+  transition-delay: 70ms;
+}
+
+.order2 {
+  transition-delay: 140ms;
+}
+
+.order3 {
+  transition-delay: 210ms;
+}
+
+.order4 {
+  transition-delay: 280ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revealOut {
+    opacity: 1;
+    transform: none;
+  }
+
+  .order1,
+  .order2,
+  .order3,
+  .order4 {
+    transition-delay: 0ms;
+  }
+}

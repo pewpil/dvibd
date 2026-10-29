@@ -1,0 +1,21 @@
+button#themeToggle {
+  padding: 0.25rem 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--ink);
+  }
+
+  &:active {
+    transform: translateY(0.0625rem);
+  }
+}

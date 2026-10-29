@@ -1,0 +1,109 @@
+div#panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 6% 6%;
+  border: 0.0625rem solid var(--ui-line);
+  border-radius: var(--ui-radius);
+  background: var(--ui-surface);
+  color: var(--ui-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+
+  > header#header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding-bottom: 0.625rem;
+    border-bottom: 0.0625rem solid var(--ui-line);
+    border-radius: var(--ui-radius);
+    background: var(--ui-surface-strong);
+
+    > img {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+
+    > span#headings {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+
+      > span#title {
+        font-family: var(--font-product);
+        font-size: var(--text-sm);
+        font-weight: 500;
+      }
+
+      > span#subtitle {
+        color: var(--ui-soft);
+      }
+    }
+  }
+
+  > p#bubble {
+    align-self: flex-end;
+    max-width: 88%;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.625rem;
+    border: 0.0625rem solid
+      color-mix(in srgb, var(--ui-accent) 26%, var(--ui-line));
+    border-radius: var(--ui-radius);
+    background: color-mix(in srgb, var(--ui-accent) 10%, var(--ui-surface));
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  > p#reply {
+    align-self: flex-start;
+    max-width: 88%;
+    padding: 0.5rem 0.625rem;
+    border: 0.0625rem solid var(--ui-line);
+    border-radius: var(--ui-radius);
+    background: var(--ui-paper);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  > button#send {
+    padding: 0.5rem 0.875rem;
+    border: 0;
+    border-radius: var(--ui-radius);
+    background: var(--ui-accent-strong);
+    color: var(--ui-accent-ink);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+
+    &:hover:not(:disabled) {
+      background: var(--ui-accent);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0.0625rem);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+
+  > p#status {
+    color: var(--ui-soft);
+    font-weight: 500;
+  }
+
+  > p#note {
+    color: var(--ui-soft);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+}

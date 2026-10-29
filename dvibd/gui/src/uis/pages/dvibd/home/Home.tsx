@@ -1,7 +1,7 @@
-import type { ParentProps } from 'solid-js'
-import NavBar from '../../../components/dvibd/home/NavBar.tsx'
-import Footer from '../../../components/dvibd/home/Footer.tsx'
-import style from '../../../../styles/pages/dvibd/home/Home.module.css'
+import type { ParentProps } from "solid-js";
+import NavBar from "../../../components/dvibd/home/NavBar.tsx";
+import Footer from "../../../components/dvibd/home/Footer.tsx";
+import style from "../../../../styles/pages/dvibd/home/Home.module.css";
 
 function Home(props: ParentProps) {
   return (
@@ -10,7 +10,7 @@ function Home(props: ParentProps) {
       {props.children}
       <Footer />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

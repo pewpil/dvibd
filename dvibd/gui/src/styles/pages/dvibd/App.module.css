@@ -1,86 +1,28 @@
 div#app {
-  --bg: #ffffff;
-  --bg-soft: #f6f7fb;
-  --ink: #14161f;
-  --ink-soft: #5b6072;
-  --line: #e6e8f0;
-  --primary: #4f46e5;
-  --primary-strong: #4338ca;
-  --accent: #0ea5e9;
-  --danger: #dc2626;
-  --hero-bg: linear-gradient(180deg, #eef1ff 0%, #ffffff 100%);
-  --nav-bg: rgba(255, 255, 255, 0.85);
-  --width: 76.5%;
-  --radius: 12px;
-  --space: 12%;
-
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  color: var(--ink);
+  width: 100%;
+  min-height: 100svh;
   background: var(--bg);
+  color: var(--ink);
 
-  ::selection {
-    background: var(--primary);
-    color: #fff;
-  }
+  > a#skipLink {
+    position: absolute;
+    top: 0;
+    left: -200%;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0 0 var(--radius) 0;
+    background: var(--stage);
+    color: var(--accent-ink);
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-decoration: none;
+    transition: left var(--duration-fast) var(--ease-out);
 
-  :focus-visible {
-    outline: 0.125rem solid var(--primary);
-    outline-offset: 0.125rem;
-  }
-
-  > button#themeToggle {
-    position: fixed;
-    top: 1.8%;
-    right: 3%;
-    z-index: 20;
-    padding: 0.5rem 1rem;
-    border: 0.0625rem solid var(--line);
-    border-radius: 999px;
-    background: var(--nav-bg);
-    backdrop-filter: blur(0.5rem);
-    color: var(--ink);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-      border-color 0.2s ease,
-      color 0.2s ease;
-
-    &:hover {
-      border-color: var(--primary);
-      color: var(--primary);
+    &:focus-visible {
+      left: 0;
     }
-  }
-}
-
-div#app[data-theme="dark"] {
-  --bg: #0f1117;
-  --bg-soft: #171a23;
-  --ink: #f3f4f6;
-  --ink-soft: #a1a6b5;
-  --line: #262a36;
-  --primary: #818cf8;
-  --primary-strong: #a5b4fc;
-  --accent: #38bdf8;
-  --danger: #f87171;
-  --hero-bg: linear-gradient(180deg, #1c2040 0%, #0f1117 100%);
-  --nav-bg: rgba(15, 17, 23, 0.85);
-}
-
-@media (prefers-color-scheme: dark) {
-  div#app:not([data-theme]) {
-    --bg: #0f1117;
-    --bg-soft: #171a23;
-    --ink: #f3f4f6;
-    --ink-soft: #a1a6b5;
-    --line: #262a36;
-    --primary: #818cf8;
-    --primary-strong: #a5b4fc;
-    --accent: #38bdf8;
-    --danger: #f87171;
-    --hero-bg: linear-gradient(180deg, #1c2040 0%, #0f1117 100%);
-    --nav-bg: rgba(15, 17, 23, 0.85);
   }
 }

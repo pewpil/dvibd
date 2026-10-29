@@ -1,0 +1,60 @@
+div#notFound {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  min-height: 58svh;
+  padding-bottom: 14%;
+  background: var(--bg);
+
+  @media (min-width: 60rem) {
+    padding-bottom: 8%;
+  }
+
+  > div#notFoundActions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.75rem;
+    padding: 0 var(--page-margin);
+
+    > a#notFoundHome {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.875rem 1.5rem;
+      border-radius: var(--radius);
+      background: var(--stage);
+      color: var(--accent-ink);
+      font-family: var(--font-ui);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      text-decoration: none;
+      transition:
+        background var(--duration-fast) var(--ease-out),
+        transform var(--duration-fast) var(--ease-out);
+
+      &:hover {
+        background: var(--stage-deep);
+      }
+
+      &:active {
+        transform: translateY(0.0625rem);
+      }
+    }
+
+    > a#notFoundLink {
+      color: var(--ink);
+      font-family: var(--font-ui);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      text-decoration: none;
+      text-underline-offset: 0.3rem;
+      transition: color var(--duration-fast) var(--ease-out);
+
+      &:hover {
+        color: var(--accent-strong);
+        text-decoration: underline;
+      }
+    }
+  }
+}

@@ -1,91 +1,146 @@
-main#signup {
-  > h1 {
-    font-size: 1.6rem;
+section#signup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 26rem;
+
+  > h1#signupTitle {
+    font-size: var(--text-h2);
+    letter-spacing: var(--tracking-display);
+    line-height: var(--leading-display);
   }
 
-  > p {
-    margin-top: 1%;
-    font-size: 0.95rem;
+  > p#signupLead {
+    max-width: 46ch;
     color: var(--ink-soft);
+    font-size: var(--text-body);
+  }
+
+  > p#signupPrefill {
+    max-width: 46ch;
+    padding: 0.75rem 1rem;
+    border-left: 0.125rem solid var(--accent);
+    color: var(--ink-soft);
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    font-weight: 400;
+    line-height: 1.45;
   }
 
   > form#signupForm {
-    margin-top: 2.5%;
     display: flex;
     flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 0.75rem;
 
-    > label {
+    > div {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-      padding-block: 0.5rem;
-      text-align: left;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--ink);
+      gap: 0.5rem;
 
-      > input {
-        padding: 0.625rem 5%;
+      > div {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+
+        > label {
+          color: var(--ink);
+          font-family: var(--font-ui);
+          font-size: var(--text-xs);
+          font-weight: 500;
+        }
+
+        > span {
+          color: var(--ink-soft);
+          font-family: var(--font-ui);
+          font-size: var(--text-xs);
+          font-weight: 400;
+        }
+      }
+
+      > input#signupName,
+      > input#signupUsername,
+      > input#signupEmail,
+      > input#signupPassword {
+        width: 100%;
+        padding: 0.875rem 1rem;
         border: 0.0625rem solid var(--line);
         border-radius: var(--radius);
         background: var(--bg-soft);
         color: var(--ink);
-        font-size: 1rem;
+        font-family: var(--font-ui);
+        font-size: var(--text-body);
         font-weight: 400;
-        outline: none;
-        transition: border-color 0.2s ease;
+        transition: border-color var(--duration-fast) var(--ease-out);
 
         &::placeholder {
           color: var(--ink-soft);
         }
 
-        &:focus {
-          border-color: var(--primary);
+        &:hover {
+          border-color: var(--ink-soft);
         }
       }
     }
 
     > button#signupSubmit {
-      margin-top: 0.5rem;
-      padding: 0.75rem 1.75rem;
-      border: none;
-      border-radius: 999px;
-      background: var(--primary);
-      color: #fff;
-      font-size: 1rem;
-      font-weight: 600;
+      align-self: flex-start;
+      margin-top: 0.25rem;
+      padding: 0.875rem 1.75rem;
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--stage);
+      color: var(--accent-ink);
+      font-family: var(--font-ui);
+      font-size: var(--text-xs);
+      font-weight: 500;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition:
+        background var(--duration-fast) var(--ease-out),
+        transform var(--duration-fast) var(--ease-out);
 
       &:hover {
-        background: var(--primary-strong);
+        background: var(--stage-deep);
+      }
+
+      &:active {
+        transform: translateY(0.0625rem);
       }
 
       &:disabled {
-        opacity: 0.6;
         cursor: default;
+        opacity: 0.7;
       }
     }
 
     > p#signupError {
-      margin-top: 1.5%;
-      font-size: 0.85rem;
+      max-width: 46ch;
       color: var(--danger);
+      font-family: var(--font-ui);
+      font-size: var(--text-xs);
+      font-weight: 400;
+      line-height: 1.45;
     }
   }
 
   > p#signupSwitch {
-    margin-top: 2%;
-    font-size: 0.9rem;
     color: var(--ink-soft);
+    font-family: var(--font-ui);
+    font-size: var(--text-xs);
+    font-weight: 400;
 
     > a {
-      color: var(--primary);
-      font-weight: 600;
-      text-decoration: none;
+      color: var(--ink);
+      font-weight: 500;
+      text-decoration: underline;
+      text-decoration-color: var(--line);
+      text-underline-offset: 0.3rem;
 
       &:hover {
-        text-decoration: underline;
+        color: var(--accent-strong);
+        text-decoration-color: var(--accent-strong);
       }
     }
   }

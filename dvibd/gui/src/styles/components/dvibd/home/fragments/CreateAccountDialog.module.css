@@ -1,0 +1,84 @@
+form#dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  width: 100%;
+  max-width: 27.5rem;
+  padding: 6%;
+  border-radius: var(--ui-radius);
+  background: var(--ui-surface);
+  color: var(--ui-ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+
+  > p#title {
+    font-family: var(--font-product);
+    font-size: var(--text-lead);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  > div#field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+
+    > label#label {
+      color: var(--ui-soft);
+      font-weight: 500;
+    }
+
+    > input#nameInput {
+      width: 100%;
+      padding: 0.5rem 0.625rem;
+      border: 0.0625rem solid var(--ui-line);
+      border-radius: var(--ui-radius);
+      background: var(--ui-paper);
+      color: var(--ui-ink);
+      font-family: var(--font-ui);
+      font-size: var(--text-sm);
+      line-height: 1.4;
+
+      &[aria-invalid="true"] {
+        border-color: var(--ui-danger);
+      }
+    }
+
+    > p#nameError {
+      color: var(--ui-danger);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+  }
+
+  > button#submit {
+    width: 100%;
+    padding: 0.5625rem 0.875rem;
+    border: 0;
+    border-radius: var(--ui-radius);
+    background: var(--ui-accent-strong);
+    color: var(--ui-accent-ink);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+
+    &:hover {
+      opacity: 0.88;
+    }
+
+    &:active {
+      transform: translateY(0.0625rem);
+    }
+  }
+
+  > p#note {
+    color: var(--ui-soft);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+}

@@ -35,30 +35,30 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  username      String         @unique
-  email         String         @unique
-  passwordHash  String
-  displayName   String?
-  headline      String?
-  bio           String?
-  website       String?
-  avatarUrl     String?
-  coverUrl      String?
-  isFallback    Boolean        @default(false)
-  createdAt     DateTime       @default(now())
-  lastSeenAt    DateTime?
-  refreshTokens RefreshToken[]
-  posts         Post[]         @relation("PostAuthor")
-  likes         Like[]         @relation("LikeUser")
-  reposts       Repost[]       @relation("RepostUser")
-  bookmarks     Bookmark[]     @relation("BookmarkUser")
-  following     Follow[]       @relation("FollowFollower")
-  followers     Follow[]       @relation("FollowFollowee")
-  memberships   CommunityMember[] @relation("CommunityMemberUser")
-  notifications Notification[] @relation("NotificationRecipient")
-  notifiedBy    Notification[] @relation("NotificationActor")
-  notificationPreference NotificationPreference?
+  id                       String                    @id @default(cuid())
+  username                 String                    @unique
+  email                    String                    @unique
+  passwordHash             String
+  displayName              String?
+  headline                 String?
+  bio                      String?
+  website                  String?
+  avatarUrl                String?
+  coverUrl                 String?
+  isFallback               Boolean                   @default(false)
+  createdAt                DateTime                  @default(now())
+  lastSeenAt               DateTime?
+  refreshTokens            RefreshToken[]
+  posts                    Post[]                    @relation("PostAuthor")
+  likes                    Like[]                    @relation("LikeUser")
+  reposts                  Repost[]                  @relation("RepostUser")
+  bookmarks                Bookmark[]                @relation("BookmarkUser")
+  following                Follow[]                  @relation("FollowFollower")
+  followers                Follow[]                  @relation("FollowFollowee")
+  memberships              CommunityMember[]         @relation("CommunityMemberUser")
+  notifications            Notification[]            @relation("NotificationRecipient")
+  notifiedBy               Notification[]            @relation("NotificationActor")
+  notificationPreference   NotificationPreference?
   conversations            Conversation[]            @relation("ConversationCreator")
   conversationParticipants ConversationParticipant[]
   messages                 Message[]                 @relation("MessageSender")
@@ -69,12 +69,12 @@ model User {
 }
 
 model RefreshToken {
-  id        String   @id @default(cuid())
-  jti       String   @unique
+  id        String    @id @default(cuid())
+  jti       String    @unique
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   revokedAt DateTime?
 }
 
@@ -114,9 +114,9 @@ model Post {
 }
 
 model PostMedia {
-  id     String   @id @default(cuid())
+  id     String  @id @default(cuid())
   postId String
-  post   Post     @relation("PostMediaPost", fields: [postId], references: [id], onDelete: Cascade)
+  post   Post    @relation("PostMediaPost", fields: [postId], references: [id], onDelete: Cascade)
   index  Int
   url    String?
   alt    String?
@@ -216,9 +216,9 @@ model Tag {
 
 model PostTag {
   postId String
-  post   Post @relation("PostTagPost", fields: [postId], references: [id], onDelete: Cascade)
+  post   Post   @relation("PostTagPost", fields: [postId], references: [id], onDelete: Cascade)
   tagId  String
-  tag    Tag  @relation("PostTagTag", fields: [tagId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation("PostTagTag", fields: [tagId], references: [id], onDelete: Cascade)
 
   @@id([postId, tagId])
   @@index([tagId])
@@ -291,8 +291,8 @@ model Conversation {
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
 
-  participants  ConversationParticipant[]
-  messages      Message[]
+  participants ConversationParticipant[]
+  messages     Message[]
 
   @@unique([communityId, slug])
   @@index([communityId])
@@ -325,8 +325,8 @@ model Message {
   deletedAt      DateTime?
   isFallback     Boolean      @default(false)
 
-  attachments    MessageAttachment[]
-  receipts       MessageReceipt[]
+  attachments MessageAttachment[]
+  receipts    MessageReceipt[]
 
   @@index([conversationId, createdAt])
   @@index([senderId, createdAt])
@@ -356,11 +356,11 @@ model MessageAttachment {
 model MessageReceipt {
   messageId   String
   userId      String
-  message     Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message     Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   deliveredAt DateTime?
   readAt      DateTime?
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime  @updatedAt
 
   @@id([messageId, userId])
   @@index([userId, updatedAt])
@@ -368,15 +368,15 @@ model MessageReceipt {
 }
 
 model Upload {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation("UploadUser", fields: [userId], references: [id], onDelete: Cascade)
-  storageKey  String   @unique
-  name        String
-  mimeType    String
-  sizeBytes   Int
-  extension   String?
-  createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation("UploadUser", fields: [userId], references: [id], onDelete: Cascade)
+  storageKey String   @unique
+  name       String
+  mimeType   String
+  sizeBytes  Int
+  extension  String?
+  createdAt  DateTime @default(now())
 
   attachments MessageAttachment[] @relation("UploadAttachments")
 
