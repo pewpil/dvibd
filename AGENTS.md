@@ -125,7 +125,7 @@ Netlify hosts `social` and `message` with their own backends, the `dvibd/gui` SP
 - **CI/CD is not configured yet.** No app is linked to Git continuous deployment; every project is published by a manual `netlify deploy --prod` from its own directory against a locally built artifact. `social-dvibd` currently reports empty `build_settings` and `commit_ref: null` on its deploys, so its `netlify.toml` build command does not run for those uploads and the local build must already contain the generated Prisma client. Repository-linked CI/CD for all apps is a planned follow-up. Until it lands, verify the deployed artifact and the live routes, not just the build exit code: the Vite 8.2.1 and Rolldown 1.2.3 server-chunking bug produced a build that exited zero while every production route returned 500. The fix is the `vite` pin at `^8.3.5` in `social/package.json`, which resolves Rolldown 1.2.15 or newer.
 
 ### Prisma Skills
-`skills-lock.json` at the repository root is the tracked source of truth and pins all thirty third-party skills. Those thirty are gitignored because they are regenerable. One hand-written skill, `sticky-scroll-headers`, is tracked in git instead, so it survives `git clean -xfd` on its own.
+`skills-lock.json` at the repository root is the tracked source of truth and pins all thirty-two third-party skills. Those thirty-two are gitignored because they are regenerable. One hand-written skill, `sticky-scroll-headers`, is tracked in git instead, so it survives `git clean -xfd` on its own.
 
 Before any Prisma schema, migration, client, or query work, run this from the repository root:
 
@@ -135,7 +135,7 @@ npx --yes skills@1.5.14 experimental_install
 
 Run it unconditionally. It is idempotent and self-healing: it restores every skill from `skills-lock.json` when the directory is absent (fresh clone, clean checkout, `git clean -xfd`), and does nothing harmful when they are already present. Do not pre-check whether the directory exists; do not run `skills add`, `prisma init`, or scaffold a Prisma project to obtain them.
 
-All thirty third-party skills live in the repository-level `.agents/skills/` directory and are discovered in every session, regardless of which app you are working on. The table below records **which frameworks or app scopes each skill is valid for**, not which folder it lives in. A future app that adopts one of these frameworks picks the matching skills up automatically, with no reinstall. The deliberate app-scoped exceptions are `design-taste-frontend`, `minimalist-ui`, and `redesign-existing-projects`, described below.
+All thirty-two third-party skills live in the repository-level `.agents/skills/` directory and are discovered in every session, regardless of which app you are working on. The table below records **which frameworks or app scopes each skill is valid for**, not which folder it lives in. A future app that adopts one of these frameworks picks the matching skills up automatically, with no reinstall. The deliberate app-scoped exceptions are `design-taste-frontend`, `minimalist-ui`, and `redesign-existing-projects`, described below.
 
 | Skill | Source | Valid for |
 | --- | --- | --- |
@@ -147,6 +147,8 @@ All thirty third-party skills live in the repository-level `.agents/skills/` dir
 | `web-design-guidelines` | `vercel-labs/agent-skills` | any web UI, with React-specific notes |
 | `nextjs-app-router-patterns` | `wshobson/agents` | Next.js App Router apps |
 | `frontend-design` | `anthropics/skills` | any web UI |
+| `frontend-ui-engineering` | `addyosmani/agent-skills` | any web UI; component architecture, state, accessibility, responsive layout, tests |
+| `sizing-units` | `dembrandt/dembrandt-skills` | any web UI; CSS units reference |
 | `design-taste-frontend` | `Leonxlnx/taste-skill` | `dvibd/gui` and the future CV site only; never `social`, `message`, or `mail` |
 | `minimalist-ui` | `Leonxlnx/taste-skill-classics` | `social`, `message`, and `mail` only; opt-in style reference, not an app-screen layout system |
 | `redesign-existing-projects` | `Leonxlnx/taste-skill` at `v2.1.0` | `social`, `message`, and `mail` only; archived, audit-first |
@@ -159,6 +161,10 @@ All thirty third-party skills live in the repository-level `.agents/skills/` dir
 | `security-review` | `getsentry/skills` | any app, any framework |
 
 `frontend-design` is framework agnostic and needs no translation. It supplies aesthetic direction, typography, and copy guidance, plus a two-pass design plan step and a list of machine-generated design habits to avoid. Its quality floor (visible keyboard focus, `prefers-reduced-motion`, accessibility) agrees with `web-design-guidelines`.
+
+`frontend-ui-engineering` is the production UI engineering skill from `addyosmani/agent-skills`. It is MIT, has no scripts, and covers component architecture, state management, design-system adherence, accessibility, responsive behavior, and testing. Its React and Tailwind examples are advisory; translate them to SolidJS, Svelte, or React as appropriate, and keep the repository's CSS Modules, ids, mirrored structure, and framework idioms. It does not define CSS units; use `sizing-units` for that.
+
+`sizing-units` is the CSS units reference from `dembrandt/dembrandt-skills`. It is MIT, has no scripts, and assigns `rem` to typography, text-adjacent padding, control heights, measure, and text-block gaps; `px` to borders, shadow offsets, small icons, and subpixel corrections; relative units to widths, layout gaps, and fluid containers; and `em` to media queries. It rejects a root `font-size` reset, prefers `min-height` over fixed `height` for text-bearing elements, and checks 200% text zoom. It is advisory; component and token constraints win, and deliberate deviations should be noted. The companion dembrandt skills it references are not installed, so the core unit rules are the self-contained part.
 
 `design-taste-frontend` (tasteskill v2) is the page-scoped exception to the framework-based table. It applies only to the `dvibd/gui` marketing site and the future CV site. Its description also covers app screens, but its house style bans glass, violet and indigo accents, gradients, and resting shadows, which are deliberate parts of the "Indigo dusk" system in `social`, `message`, and `mail`. Do not apply it to those apps, even for settings or inbox screens. Its browser inspector and screenshot loop require Node 22 or newer and an installed Chrome, Edge, or Chromium; without a browser, `draw.mjs`, `lint.mjs`, and `assets.mjs` still run, but `inspect.mjs` and the screenshot critique do not. Translate its HTML and Tailwind examples to this repository's CSS Modules, ids, and mirrored file structure. The skill ships local Node scripts that launch a browser and fetch image sources; review them before the first run.
 
@@ -196,6 +202,8 @@ The specific conflicts to resolve in favour of this file:
 - **Minimalist-ui scope**: it is opt-in and limited to the product apps `social`, `message`, and `mail`. It is a style guide, not an app-screen layout system. Keep the existing app layouts, derive dark-mode tokens, and treat its Tailwind and font suggestions as advisory. CSS Modules, ids, and mirrored structure win.
 - **Redesign-existing-projects scope**: it is archived and limited to the product apps. Its font suggestions, colored shadows, noise and gradient advice, placeholder image sources, and Tailwind examples are advisory. The repository's tokens, CSS Modules, ids, semantic HTML, and existing Indigo dusk system win. It is audit-first and must not authorize a framework or styling migration.
 - **Figcraft community skill**: it is community guidance, not official ArtCraft documentation. Its audit is v0.14.0 while the app is v0.15.0; verify commands against the installed CLI. The official MCP prompts and resources take precedence for standard workflows. Its examples are advisory; CSS Modules, ids, design tokens, and framework idioms win. The reviewer denies `figcraft_*`.
+- **Frontend-ui-engineering**: its React hooks, Tailwind classes, and component-folder examples are advisory. Translate them to the target framework, CSS Modules, ids, and mirrored structure. It complements `frontend-design` and `web-design-guidelines`; it does not override them.
+- **Sizing-units**: it is the CSS units reference. Its model is advisory; component and token constraints win, and deliberate deviations should be noted. It does not impose one unit for every property.
 - **Comments**: Cross-Cutting standard 3 overrides any skill whose examples annotate code. Do not add comments unless explicitly asked.
 - **Em dashes**: Cross-Cutting standard 4 overrides any skill. In particular `frontend-design` flags a spaced em dash in labels as a sign of generated output, which aligns with this standard rather than competing with it.
 - **Framework**: never apply React or Next.js skills to the SolidJS apps, never apply SolidJS guidance to `message`, and never apply Svelte or SvelteKit guidance outside `mail/gui`, which itself is a Vite SPA and not SvelteKit.
@@ -208,7 +216,7 @@ Skills remain valuable for what this file does not cover: aesthetic direction, a
 ### Hand-Written Skills
 `sticky-scroll-headers` covers headers that scroll with their content and pin to the top of their scrollport. It documents the working implementations in `social/src/components/(home)/FeedHeader.tsx` (SolidJS, viewport scroller) and `message/src/hooks/useStuckScroll.ts` (React, per-column scroller), plus the failure modes that produce each distinct wrong behavior. It applies to `message` and `social`.
 
-Unlike the thirty third-party skills above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
+Unlike the thirty-two third-party skills above, this skill is tracked in git because it cannot be regenerated. `.gitignore` ignores `.agents/skills/*` and re-includes this one directory. When adding another hand-written skill, add a matching `!.agents/skills/<name>/` line there and record it in this section. Do not add hand-written skills to `skills-lock.json`, which pins upstream GitHub sources and is used to restore the regenerable set.
 
 ## Workspace Memory
 This section holds persistent memory, learned rules, and calibration contexts across the `dvibd` repository.
