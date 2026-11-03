@@ -9,6 +9,9 @@ permissions:
   - action: subagent
     resource: "*"
     effect: deny
+  - action: penpot_execute_code
+    resource: "*"
+    effect: deny
 ---
 
 # Reviewer
