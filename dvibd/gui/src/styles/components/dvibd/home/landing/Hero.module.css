@@ -4,13 +4,12 @@ section#hero {
   flex-direction: column;
   width: 100%;
   min-height: 88svh;
-  overflow: hidden;
   background: var(--bg);
 
   @media (min-width: 60rem) {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows: auto 1fr;
+    grid-template-rows: minmax(0, 42svh) 1fr;
     min-height: 92svh;
   }
 
@@ -22,8 +21,12 @@ section#hero {
     padding: 9% var(--page-margin) 2.5rem;
 
     @media (min-width: 60rem) {
+      position: sticky;
+      top: calc(0.5rem + var(--text-xs) * 1.5 + 3.2vw);
+      z-index: 2;
       grid-column: 1;
-      grid-row: 1;
+      grid-row: 1 / -1;
+      align-self: start;
       gap: 1.5rem;
       padding: 7% var(--page-margin) 3rem;
     }

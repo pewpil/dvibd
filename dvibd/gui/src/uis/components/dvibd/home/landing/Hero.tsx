@@ -13,8 +13,8 @@ function Hero() {
           <span id={style.heroLineTwo}>One account.</span>
         </h1>
         <p id={style.heroLead} ref={reveal(1)}>
-          Social is a community feed, Message is a private chat, and both run
-          on the same dvibd account.
+          Social is a community feed, Message is a private chat, and both run on
+          the same dvibd account.
         </p>
         <div id={style.heroActions} ref={reveal(2)}>
           <A id={style.heroPrimary} href="/signup">
