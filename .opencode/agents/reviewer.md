@@ -9,7 +9,7 @@ permissions:
   - action: subagent
     resource: "*"
     effect: deny
-  - action: penpot_execute_code
+  - action: figcraft_*
     resource: "*"
     effect: deny
 ---

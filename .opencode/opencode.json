@@ -4,13 +4,16 @@
   "model": "opencode/deepseek-v4.1-flash-free",
   "mcp": {
     "servers": {
-      "penpot": {
-        "type": "remote",
-        "url": "https://design.penpot.app/mcp/stream",
-        "oauth": false,
-        "headers": {
-          "Authorization": "Bearer {file:penpot.key}"
-        }
+      "figcraft": {
+        "type": "local",
+        "command": [
+          "/home/sadanddan/.local/bin/figcraft-cli",
+          "mcp",
+          "--automation-read-root",
+          "/home/sadanddan/Projects/dvibd",
+          "--automation-write-root",
+          "/home/sadanddan/Projects/dvibd"
+        ]
       }
     }
   }

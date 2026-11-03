@@ -19,6 +19,12 @@
       "skillPath": "skills/taste-skill/SKILL.md",
       "computedHash": "6ac8ba6089dcbc303744a507a4587113c5d845ca2f658b3ce2b0b5eab108fb0d"
     },
+    "figcraft": {
+      "source": "midasmatterhorn/artcraft-skills",
+      "sourceType": "github",
+      "skillPath": "figcraft/SKILL.md",
+      "computedHash": "cbf90be6c93c155fa4bb3a2e6d8f0245b29312e1e00b483a780a1dcefc22c624"
+    },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "github",
@@ -66,12 +72,6 @@
       "sourceType": "github",
       "skillPath": "plugins/frontend-mobile-development/skills/nextjs-app-router-patterns/SKILL.md",
       "computedHash": "b4fea42eecf1f803155ef7fa133d5286ee8f2dbba3e616954e9e43c6f0ffc144"
-    },
-    "penpot-mcp": {
-      "source": "ar27111994/penpot-mcp",
-      "sourceType": "github",
-      "skillPath": "penpot-mcp/SKILL.md",
-      "computedHash": "45993aec6042e6db20bfedef0b15874e4f89aff19e7dd85759564d02496cd9f8"
     },
     "prisma-cli": {
       "source": "prisma/skills",
