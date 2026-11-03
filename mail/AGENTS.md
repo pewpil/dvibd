@@ -53,4 +53,4 @@ List scroll position survives the list-to-read-to-list round trip through the pl
 - `sticky-scroll-headers` (hand-written, tracked in git) covers both column headers through `src/lib/stuckHeader.ts`; see the "Sticky Headers and Scroll Restore" section for the Svelte variant it now documents alongside the `message` and `social` implementations.
 - `frontend-design` (any web UI) supplies aesthetic direction and copy guidance. `web-design-guidelines` (any web UI) supplies accessibility and platform rules; its Tailwind utility phrasing and React-specific sections are advisory only.
 - `glassmorphism` is opt-in and fires only when glass or frosted surfaces are actually requested.
-- The repository root `AGENTS.md` wins on every conflict; its skills section records precedence. In this app the live overrides are the styling mechanism above (CSS Modules over Svelte scoped `<style>`) and GUI standard 7's units policy (`rem` and `%` over `px`).
+- The repository root `AGENTS.md` wins on every conflict; its skills section records precedence. In this app the live override is the styling mechanism above (CSS Modules over Svelte scoped `<style>`).

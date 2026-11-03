@@ -41,12 +41,11 @@ This file is the authoritative source of repository-wide standards that must be 
 4. Never use class for styling; use id. Classes only for style variants.
 5. Every time you make a component or a page, its most ancestor / root element must be the semantic HTML container element (`<main>`, `<nav>`, `<header>`, `<footer>`, `<section>`, `<aside>`, `<article>`, `<form>`, etc.) that best represents and describes its content. If none can be chosen out of the semantic HTML container elements, `<div>` may be used.
 6. Element ids and classes are camelCase, taken from the component's CSS Module.
-7. Sizing, dimension, and spacing units must always use `%` so elements are proportional to their parent. Use `rem` for font-sizes, media-query breakpoints, gaps, borders, shadows, and blur. Use `px` only for `border-radius`.
-8. Never use `<>`/`</>` fragments or SolidJS/React `<Fragment>`.
-9. Do not put the title in the logo unless explicitly told.
-10. You do not have to run `npm run build` to check if it builds correctly during active development.
-11. Global Selectors: Since ids are scoped by modules, `:global(...)` is required for global or router active selectors: `&:global(.active)`.
-12. File Mirroring: TSX components and routes mirror their CSS Modules under `src/styles/` (or co-located `page.module.css` where configured).
+7. Never use `<>`/`</>` fragments or SolidJS/React `<Fragment>`.
+8. Do not put the title in the logo unless explicitly told.
+9. You do not have to run `npm run build` to check if it builds correctly during active development.
+10. Global Selectors: Since ids are scoped by modules, `:global(...)` is required for global or router active selectors: `&:global(.active)`.
+11. File Mirroring: TSX components and routes mirror their CSS Modules under `src/styles/` (or co-located `page.module.css` where configured).
 
 ## Framework Idiomatic Principles (Complete Compliance Required)
 Every application must be written strictly idiomatic to its underlying framework across all layers (components, reactivity, routing, data fetching, mutations, cookies, and server/client boundaries):
@@ -161,16 +160,16 @@ All thirty third-party skills live in the repository-level `.agents/skills/` dir
 
 `frontend-design` is framework agnostic and needs no translation. It supplies aesthetic direction, typography, and copy guidance, plus a two-pass design plan step and a list of machine-generated design habits to avoid. Its quality floor (visible keyboard focus, `prefers-reduced-motion`, accessibility) agrees with `web-design-guidelines`.
 
-`design-taste-frontend` (tasteskill v2) is the page-scoped exception to the framework-based table. It applies only to the `dvibd/gui` marketing site and the future CV site. Its description also covers app screens, but its house style bans glass, violet and indigo accents, gradients, and resting shadows, which are deliberate parts of the "Indigo dusk" system in `social`, `message`, and `mail`. Do not apply it to those apps, even for settings or inbox screens. Its browser inspector and screenshot loop require Node 22 or newer and an installed Chrome, Edge, or Chromium; without a browser, `draw.mjs`, `lint.mjs`, and `assets.mjs` still run, but `inspect.mjs` and the screenshot critique do not. Translate its `px` values, HTML, and Tailwind examples to this repository's CSS Modules, ids, `%`/`rem` units, and mirrored file structure. The skill ships local Node scripts that launch a browser and fetch image sources; review them before the first run.
+`design-taste-frontend` (tasteskill v2) is the page-scoped exception to the framework-based table. It applies only to the `dvibd/gui` marketing site and the future CV site. Its description also covers app screens, but its house style bans glass, violet and indigo accents, gradients, and resting shadows, which are deliberate parts of the "Indigo dusk" system in `social`, `message`, and `mail`. Do not apply it to those apps, even for settings or inbox screens. Its browser inspector and screenshot loop require Node 22 or newer and an installed Chrome, Edge, or Chromium; without a browser, `draw.mjs`, `lint.mjs`, and `assets.mjs` still run, but `inspect.mjs` and the screenshot critique do not. Translate its HTML and Tailwind examples to this repository's CSS Modules, ids, and mirrored file structure. The skill ships local Node scripts that launch a browser and fetch image sources; review them before the first run.
 
-`minimalist-ui` is the opt-in classic style skill for the product apps. It applies only to `social`, `message`, and `mail`, and only when called by name. It is a warm monochrome editorial style, not an app-screen layout system: it has no guidance for the message rail, conversation list, thread, composer, mail panel, list, reading view, or dark mode. Keep the existing app layouts and use it for color, type, border, and surface language. It bans glass and violet or indigo accents, which are deliberate in Indigo dusk, so adopting it is a brand-level restyle, not a light patch. Translate its `px` and Tailwind examples to CSS Modules, ids, `%`/`rem`, and mirrored structure. Start with a designer-led token map for one app before touching all three.
+`minimalist-ui` is the opt-in classic style skill for the product apps. It applies only to `social`, `message`, and `mail`, and only when called by name. It is a warm monochrome editorial style, not an app-screen layout system: it has no guidance for the message rail, conversation list, thread, composer, mail panel, list, reading view, or dark mode. Keep the existing app layouts and use it for color, type, border, and surface language. It bans glass and violet or indigo accents, which are deliberate in Indigo dusk, so adopting it is a brand-level restyle, not a light patch. Translate its Tailwind examples to CSS Modules, ids, and mirrored structure. Start with a designer-led token map for one app before touching all three.
 
 `redesign-existing-projects` is the archived standalone redesign audit, installed from the `v2.1.0` tag because the current `taste-skill` repository retired it and folded the redesign route into `design-taste-frontend`. It applies only to the existing product apps, `social`, `message`, and `mail`. It has no `disable-model-invocation` guard, so the scope rule is the only guard; do not let it run on `dvibd/gui` or the CV site. It is audit-first and stack-preserving, but it is not maintained. Prefer the current `design-taste-frontend` redesign route for `dvibd/gui` and the CV site, and keep this standalone for the product apps where the full page skill is out of scope. It is a single `SKILL.md` with no scripts or browser dependency.
 
 
 `figcraft` is the community FigCraft skill from `midasmatterhorn/artcraft-skills`. It is MIT, has no scripts, and documents the FigCraft command registry, CLI, MCP server, control channel, file formats, and board workflows. Its audit basis is FigCraft v0.14.0, while the installed app is v0.15.0, so verify commands and flags against the installed CLI. It is not official; the official MCP prompts and resources are the primary guidance. The `reviewer` and `reviewer-go` agents deny `figcraft_*`, so they cannot use the skill's tools.
 
-`glassmorphism` is opt-in and applies only when glass or frosted surfaces are actually requested. It is real CSS technique content, not a design template, and it includes the accessibility fallbacks glass work needs (`prefers-reduced-transparency`, `prefers-reduced-motion`, `@supports not (backdrop-filter)`). Translate every `px` length to `rem` per GUI standard 7, and ignore its standalone single-file HTML deliverable in favour of this repository's mirrored structure. See the next section on precedence.
+`glassmorphism` is opt-in and applies only when glass or frosted surfaces are actually requested. It is real CSS technique content, not a design template, and it includes the accessibility fallbacks glass work needs (`prefers-reduced-transparency`, `prefers-reduced-motion`, `@supports not (backdrop-filter)`). Ignore its standalone single-file HTML deliverable in favour of this repository's mirrored structure. See the next section on precedence.
 
 `message` is currently the only React and Next.js app, so the four React and Next.js skills apply to it today and to any future app built on those frameworks. Do **not** apply them to `dvibd/gui` or `social`, which are SolidJS: that is a framework mismatch, not a directory boundary. `nextjs-app-router-patterns` covers route handlers, Server Components, streaming, and parallel routes, which `message` now has and should be used there as it grows.
 
@@ -191,13 +190,12 @@ The four `netlify-*` skills are the official ones from `netlify/context-and-tool
 The skills listed above are third-party guidance. **This file is the authoritative source of standards for this repository and always wins.** Where a skill disagrees with anything in this file, follow this file and note the deviation rather than silently complying with the skill.
 
 The specific conflicts to resolve in favour of this file:
-- **Units**: GUI standard 7 overrides any skill value in `px`. Convert `px` lengths to `rem`, or to `%` for element dimensions and spacing. `px` stays legal only for `border-radius`.
-- **Styling mechanism**: GUI standards 1 through 4 and 11 override any skill that reaches for Tailwind utility classes, inline styles, or standalone CSS files. Use a CSS Module imported as `style`, select by hashed id, and use classes only for style variants.
-- **File structure**: GUI standard 12 overrides any skill that proposes a different layout, including the `glassmorphism` skill's standalone single-file HTML demo. Deliverable structure is mirrored TSX and CSS Modules under this repository's conventions.
-- **Design-taste-frontend scope**: it is limited to `dvibd/gui` and the future CV site. Its `px` values, Tailwind examples, HTML deliverables, and house style are advisory. The repository's CSS Modules, ids, `%`/`rem` units, and mirrored structure win. Its page rules may replace the `dvibd/gui` marketing palette and composition, but that permission does not extend to the product apps.
-- **Minimalist-ui scope**: it is opt-in and limited to the product apps `social`, `message`, and `mail`. It is a style guide, not an app-screen layout system. Keep the existing app layouts, derive dark-mode tokens, and treat its `px`, Tailwind, and font suggestions as advisory. CSS Modules, ids, `%`/`rem`, and mirrored structure win.
-- **Redesign-existing-projects scope**: it is archived and limited to the product apps. Its font suggestions, colored shadows, noise and gradient advice, placeholder image sources, and Tailwind examples are advisory. The repository's tokens, CSS Modules, ids, `%`/`rem`, semantic HTML, and existing Indigo dusk system win. It is audit-first and must not authorize a framework or styling migration.
-- **Figcraft community skill**: it is community guidance, not official ArtCraft documentation. Its audit is v0.14.0 while the app is v0.15.0; verify commands against the installed CLI. The official MCP prompts and resources take precedence for standard workflows. Its examples are advisory; CSS Modules, ids, `%`/`rem`, design tokens, and framework idioms win. The reviewer denies `figcraft_*`.
+- **Styling mechanism**: GUI standards 1 through 4 and 10 override any skill that reaches for Tailwind utility classes, inline styles, or standalone CSS files. Use a CSS Module imported as `style`, select by hashed id, and use classes only for style variants.
+- **File structure**: GUI standard 11 overrides any skill that proposes a different layout, including the `glassmorphism` skill's standalone single-file HTML demo. Deliverable structure is mirrored TSX and CSS Modules under this repository's conventions.
+- **Design-taste-frontend scope**: it is limited to `dvibd/gui` and the future CV site. Its Tailwind examples, HTML deliverables, and house style are advisory. The repository's CSS Modules, ids, and mirrored structure win. Its page rules may replace the `dvibd/gui` marketing palette and composition, but that permission does not extend to the product apps.
+- **Minimalist-ui scope**: it is opt-in and limited to the product apps `social`, `message`, and `mail`. It is a style guide, not an app-screen layout system. Keep the existing app layouts, derive dark-mode tokens, and treat its Tailwind and font suggestions as advisory. CSS Modules, ids, and mirrored structure win.
+- **Redesign-existing-projects scope**: it is archived and limited to the product apps. Its font suggestions, colored shadows, noise and gradient advice, placeholder image sources, and Tailwind examples are advisory. The repository's tokens, CSS Modules, ids, semantic HTML, and existing Indigo dusk system win. It is audit-first and must not authorize a framework or styling migration.
+- **Figcraft community skill**: it is community guidance, not official ArtCraft documentation. Its audit is v0.14.0 while the app is v0.15.0; verify commands against the installed CLI. The official MCP prompts and resources take precedence for standard workflows. Its examples are advisory; CSS Modules, ids, design tokens, and framework idioms win. The reviewer denies `figcraft_*`.
 - **Comments**: Cross-Cutting standard 3 overrides any skill whose examples annotate code. Do not add comments unless explicitly asked.
 - **Em dashes**: Cross-Cutting standard 4 overrides any skill. In particular `frontend-design` flags a spaced em dash in labels as a sign of generated output, which aligns with this standard rather than competing with it.
 - **Framework**: never apply React or Next.js skills to the SolidJS apps, never apply SolidJS guidance to `message`, and never apply Svelte or SvelteKit guidance outside `mail/gui`, which itself is a Vite SPA and not SvelteKit.
@@ -214,21 +212,6 @@ Unlike the thirty third-party skills above, this skill is tracked in git because
 
 ## Workspace Memory
 This section holds persistent memory, learned rules, and calibration contexts across the `dvibd` repository.
-
-### Viewport Percentage Calibration
-- When converting px to %, the user's browser viewport is the primary reference so sizing cascades proportionally to descendants (percentage sizing is relative to parent).
-- Calibrate the % value so it corresponds to the pixel size relative to the target viewport:
-  - **1440px Desktop Viewport**:
-    - `120px` -> `8.3%`
-    - `56px` -> `3.9%`
-    - `48px` -> `3.3%`
-    - `40px` -> `2.8%`
-    - `24px` (`--space`) -> `1.7%` (widened to `6%` so page content does not hug viewport edges)
-    - `1100px` (`--width`) -> `76.5%`
-    - `16px` fixed toggle top -> `1.8%` of viewport height
-  - **760px Mobile Viewport**:
-    - `64px` -> `8.4%`
-- For the units policy itself, see GUI standard 7 above.
 
 ### Env Resolution Policy (implemented)
 `LOCAL_ENV=1`, exported by each app's own local scripts (`dev` and `start` in `dvibd/api` and `message`; `dev`, `start`, and `preview` in `social`), marks a localhost test run. The config modules (`dvibd/api/src/config.ts`, `social/src/server/config.ts`, `message/src/server/config.ts`) resolve in this order:
