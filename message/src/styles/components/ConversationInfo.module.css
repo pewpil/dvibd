@@ -10,6 +10,7 @@ aside#information {
   background: transparent;
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
 
   &::before {
     content: "";
@@ -29,11 +30,11 @@ aside#information {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 6% 4%;
+    padding: 1.5rem 1rem;
     background: var(--surface-strong);
     -webkit-backdrop-filter: blur(var(--blur));
     backdrop-filter: blur(var(--blur));
-    border: 0.0625rem solid var(--line);
+    border: 1px solid var(--line);
     border-radius: var(--radius-panel);
     box-shadow: var(--glass-shadow), var(--glass-inset);
     gap: 0.4rem;
@@ -57,7 +58,9 @@ aside#information {
       background: transparent;
       color: var(--ink-soft);
       cursor: pointer;
-      transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
+      transition:
+        background var(--duration-quick) ease,
+        color var(--duration-quick) ease;
 
       &:hover {
         background: var(--wash);
@@ -65,30 +68,34 @@ aside#information {
       }
 
       > svg {
-        width: 1.15rem;
-        height: 1.15rem;
+        width: 18px;
+        height: 18px;
       }
     }
 
     > img#profileAvatar {
-      width: 4.5rem;
-      height: 4.5rem;
+      width: min(4.5rem, 100%);
+      height: auto;
+      aspect-ratio: 1;
       border-radius: 50%;
       object-fit: cover;
       margin-bottom: 0.4rem;
-      border: 0.1875rem solid var(--bg);
+      border: 3px solid var(--bg);
     }
 
     > h3#profileName {
       font-size: 1.1875rem;
       font-weight: 700;
+      line-height: 1.3;
       color: var(--ink);
+      overflow-wrap: anywhere;
     }
 
     > span#profileSubtitle {
       font-size: 0.875rem;
       color: var(--ink-soft);
       font-weight: 500;
+      overflow-wrap: anywhere;
     }
 
     > p#profileBio {
@@ -96,29 +103,34 @@ aside#information {
       color: var(--ink-soft);
       line-height: 1.45;
       margin-top: 0.4rem;
+      overflow-wrap: anywhere;
     }
 
     > nav#quickActions {
       width: 100%;
-      display: flex;
-      justify-content: center;
-      gap: 6%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(3.5rem, 1fr));
+      gap: 0.5rem;
       margin-top: 0.8rem;
 
       > button.quickActionButton {
+        min-width: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 0.25rem;
-        padding: 3% 4%;
+        padding: 0.5rem 0.25rem;
         border: none;
         border-radius: var(--radius-control);
         background: transparent;
         color: var(--ink);
         font-size: 0.78rem;
         font-weight: 600;
+        overflow-wrap: anywhere;
         cursor: pointer;
-        transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
+        transition:
+          background var(--duration-quick) ease,
+          color var(--duration-quick) ease;
 
         &:hover {
           background: var(--wash);
@@ -131,8 +143,8 @@ aside#information {
         }
 
         > svg {
-          width: 1.15rem;
-          height: 1.15rem;
+          width: 18px;
+          height: 18px;
         }
       }
     }
@@ -157,7 +169,7 @@ aside#information {
         font-size: 0.9rem;
         font-weight: 700;
         color: var(--ink-soft);
-        padding: 0 4%;
+        padding: 0 0.5rem;
       }
     }
 
@@ -172,7 +184,8 @@ aside#information {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 3% 4%;
+          gap: 0.5rem;
+          padding: 0.5rem;
 
           > div#participantDetails {
             display: flex;
@@ -205,6 +218,9 @@ aside#information {
               > span#participantHandle {
                 font-size: 0.78rem;
                 color: var(--ink-soft);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
               }
             }
           }
@@ -225,7 +241,7 @@ aside#information {
         }
 
         > li#participantItem:not(:first-child) {
-          border-top: 0.0625rem solid var(--line);
+          border-top: 1px solid var(--line);
         }
       }
     }
@@ -241,7 +257,8 @@ aside#information {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 3% 4%;
+          gap: 0.5rem;
+          padding: 0.5rem;
 
           > div#fileInfo {
             display: flex;
@@ -280,6 +297,9 @@ aside#information {
               > span#fileSubtext {
                 font-size: 0.75rem;
                 color: var(--ink-soft);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
               }
             }
           }
@@ -295,7 +315,9 @@ aside#information {
             color: var(--ink-soft);
             cursor: pointer;
             flex-shrink: 0;
-            transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
+            transition:
+              background var(--duration-quick) ease,
+              color var(--duration-quick) ease;
 
             &:hover {
               background: var(--wash);
@@ -303,14 +325,14 @@ aside#information {
             }
 
             > svg {
-              width: 1rem;
-              height: 1rem;
+              width: 16px;
+              height: 16px;
             }
           }
         }
 
         > li#sharedFileItem:not(:first-child) {
-          border-top: 0.0625rem solid var(--line);
+          border-top: 1px solid var(--line);
         }
       }
     }
@@ -328,7 +350,7 @@ aside#information {
             display: flex;
             align-items: center;
             gap: 0.6rem;
-            padding: 3% 4%;
+            padding: 0.5rem;
             color: inherit;
             text-decoration: none;
             transition: background var(--duration-quick) ease;
@@ -349,8 +371,8 @@ aside#information {
               flex-shrink: 0;
 
               > svg {
-                width: 1rem;
-                height: 1rem;
+                width: 16px;
+                height: 16px;
               }
             }
 
@@ -371,13 +393,16 @@ aside#information {
               > span#linkDomain {
                 font-size: 0.75rem;
                 color: var(--ink-soft);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
               }
             }
           }
         }
 
         > li#sharedLinkItem:not(:first-child) {
-          border-top: 0.0625rem solid var(--line);
+          border-top: 1px solid var(--line);
         }
       }
     }
@@ -393,14 +418,14 @@ aside#information {
         display: flex;
         align-items: center;
         gap: 0.6rem;
-        padding: 3.5% 4%;
+        padding: 0.6rem 0.5rem;
         border-radius: var(--radius-control);
         background: var(--accent-soft);
         color: var(--accent-strong);
 
         > svg {
-          width: 1.15rem;
-          height: 1.15rem;
+          width: 18px;
+          height: 18px;
           flex-shrink: 0;
         }
 
@@ -416,15 +441,17 @@ aside#information {
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
-        padding: 3.5% 4%;
-        border: 0.0625rem solid var(--danger);
+        padding: 0.6rem 0.5rem;
+        border: 1px solid var(--danger);
         border-radius: var(--radius-control);
         background: transparent;
         color: var(--danger);
         font-size: 0.89rem;
         font-weight: 600;
         cursor: pointer;
-        transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
+        transition:
+          background var(--duration-quick) ease,
+          color var(--duration-quick) ease;
 
         &:hover {
           background: var(--danger);
@@ -432,8 +459,71 @@ aside#information {
         }
 
         > svg {
-          width: 1rem;
-          height: 1rem;
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 59.99em) {
+  aside#information {
+    > section#profileCard {
+      padding: min(1.5rem, 6vw) min(1rem, 4vw);
+
+      > button#closeInfoButton {
+        top: min(0.75rem, 4vw);
+        right: min(0.75rem, 4vw);
+        width: min(2rem, 10vw);
+        height: min(2rem, 10vw);
+      }
+
+      > nav#quickActions {
+        gap: min(0.5rem, 2vw);
+
+        > button.quickActionButton > svg {
+          width: min(18px, 5vw);
+          height: min(18px, 5vw);
+        }
+      }
+    }
+
+    > div#infoScrollContent {
+      > section#participantsSection > ul#participantsList > li#participantItem,
+      > section#sharedFilesSection > ul#sharedFilesList > li#sharedFileItem {
+        gap: min(0.5rem, 2vw);
+        padding: min(0.5rem, 2vw);
+      }
+
+      > section#sharedFilesSection > ul#sharedFilesList > li#sharedFileItem {
+        > div#fileInfo > span#fileExtBadge {
+          width: min(2.2rem, 9vw);
+          height: min(2.2rem, 9vw);
+        }
+
+        > a#downloadButton {
+          width: min(1.75rem, 7vw);
+          height: min(1.75rem, 7vw);
+        }
+      }
+
+      > section#sharedLinksSection > ul#sharedLinksList > li#sharedLinkItem {
+        > a#sharedLink {
+          gap: min(0.6rem, 2.5vw);
+          padding: min(0.5rem, 2vw);
+
+          > span#linkIconBadge {
+            width: min(2rem, 8vw);
+            height: min(2rem, 8vw);
+          }
+        }
+      }
+
+      > section#settingsSection {
+        > div#encryptionNotice,
+        > button#dangerActionButton {
+          padding: min(0.6rem, 2.5vw) min(0.5rem, 2vw);
         }
       }
     }

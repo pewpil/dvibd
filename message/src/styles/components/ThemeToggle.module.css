@@ -5,7 +5,7 @@ button#themeToggle {
   width: 2.5rem;
   height: 2.5rem;
   padding: 0;
-  border: 0.0625rem solid var(--line);
+  border: 1px solid var(--line);
   border-radius: 50%;
   background: var(--surface);
   -webkit-backdrop-filter: blur(var(--blur));
@@ -23,14 +23,21 @@ button#themeToggle {
   }
 
   > svg {
-    height: 1.15rem;
+    height: 18px;
     aspect-ratio: 1;
   }
 }
 
 button#themeToggle.placementFixed {
   position: fixed;
-  top: 1.8%;
-  right: 3%;
+  top: 1rem;
+  right: 1rem;
   z-index: 20;
+}
+
+@media (max-width: 59.99em) {
+  button#themeToggle {
+    width: min(2.5rem, 12vw);
+    height: min(2.5rem, 12vw);
+  }
 }

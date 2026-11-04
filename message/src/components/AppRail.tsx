@@ -9,9 +9,12 @@ import style from "../styles/components/AppRail.module.css";
 interface AppRailProps {
   communities: CommunityDTO[];
   activeSource: string;
+  panelExpanded: boolean;
+  panelId: string;
   onSelectAccount: () => void;
   onSelectDirect: () => void;
   onSelectCommunity: (id: string) => void;
+  onRegisterTrigger: (source: string, element: HTMLButtonElement | null) => void;
 }
 
 export default function AppRail(props: AppRailProps): ReactNode {
@@ -19,6 +22,8 @@ export default function AppRail(props: AppRailProps): ReactNode {
   const profileAvatar: string = user?.avatarUrl ?? "/profile-picture.svg";
   const profileLabel: string =
     user?.displayName ?? user?.username ?? "Your account";
+  const accountActive: boolean = props.activeSource === "account";
+  const directActive: boolean = props.activeSource === "direct";
 
   return (
     <nav id={style.appRail}>
@@ -27,9 +32,14 @@ export default function AppRail(props: AppRailProps): ReactNode {
           <button
             type="button"
             id={style.profileButton}
-            className={props.activeSource === "account" ? style.railButtonActive : undefined}
+            ref={(element: HTMLButtonElement | null): void => {
+              props.onRegisterTrigger("account", element);
+            }}
+            className={accountActive ? style.railButtonActive : undefined}
             onClick={props.onSelectAccount}
-            aria-pressed={props.activeSource === "account"}
+            aria-pressed={accountActive}
+            aria-expanded={accountActive && props.panelExpanded}
+            aria-controls={props.panelId}
             aria-label="Account"
             title="Account"
           >
@@ -44,9 +54,14 @@ export default function AppRail(props: AppRailProps): ReactNode {
         <button
           type="button"
           id={style.listToggle}
-          className={props.activeSource === "direct" ? style.railButtonActive : undefined}
+          ref={(element: HTMLButtonElement | null): void => {
+            props.onRegisterTrigger("direct", element);
+          }}
+          className={directActive ? style.railButtonActive : undefined}
           onClick={props.onSelectDirect}
-          aria-pressed={props.activeSource === "direct"}
+          aria-pressed={directActive}
+          aria-expanded={directActive && props.panelExpanded}
+          aria-controls={props.panelId}
           aria-label="Direct conversations"
           title="Direct conversations"
         >
@@ -72,9 +87,14 @@ export default function AppRail(props: AppRailProps): ReactNode {
               <button
                 type="button"
                 id={style.communityButton}
+                ref={(element: HTMLButtonElement | null): void => {
+                  props.onRegisterTrigger(community.id, element);
+                }}
                 className={isActive ? style.communityActive : undefined}
                 onClick={(): void => props.onSelectCommunity(community.id)}
                 aria-pressed={isActive}
+                aria-expanded={isActive && props.panelExpanded}
+                aria-controls={props.panelId}
                 aria-label={community.name}
                 title={community.name}
               >

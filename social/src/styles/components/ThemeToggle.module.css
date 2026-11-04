@@ -1,15 +1,12 @@
-button#themeToggle {
-  position: fixed;
-  top: 1.8%;
-  right: 3%;
-  z-index: 20;
+button#themeToggle,
+button#themeToggleInline {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 2.5rem;
   height: 2.5rem;
   padding: 0;
-  border: 0.0625rem solid var(--line);
+  border: 1px solid var(--line);
   border-radius: 50%;
   background: var(--surface);
   -webkit-backdrop-filter: blur(var(--blur));
@@ -19,6 +16,7 @@ button#themeToggle {
   cursor: pointer;
   transition:
     border-color var(--duration-quick) ease,
+    background var(--duration-quick) ease,
     color var(--duration-quick) ease;
 
   &:hover {
@@ -29,5 +27,47 @@ button#themeToggle {
   > svg {
     height: 1.15rem;
     aspect-ratio: 1;
+  }
+
+  &.fixed {
+    position: fixed;
+    top: 1.8%;
+    right: 3%;
+    z-index: 20;
+  }
+
+  &.inline {
+    position: static;
+    flex-shrink: 0;
+    width: auto;
+    height: auto;
+    padding: 0.5rem;
+    border: none;
+    border-radius: var(--radius-control);
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+
+    &:hover {
+      background: var(--wash);
+      color: var(--ink);
+    }
+
+    > svg {
+      height: 1.5rem;
+    }
+  }
+
+  @media (min-width: 60em) {
+    &.inline {
+      display: none;
+    }
+  }
+
+  @media (max-width: 59.99em) {
+    &.hideOnMobile {
+      display: none;
+    }
   }
 }

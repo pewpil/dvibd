@@ -347,7 +347,7 @@ export default function CurrentConversation(
           {props.onToggleInfo ? (
             <button
               type="button"
-              className={style.actionButton}
+              className={`${style.actionButton} ${style.infoAction}`}
               onClick={props.onToggleInfo}
               aria-label="Conversation details"
             >
@@ -549,7 +549,7 @@ export default function CurrentConversation(
           </button>
           <button
             type="button"
-            className={style.toolButton}
+            className={`${style.toolButton} ${style.secondaryTool}`}
             onClick={(): void => imageInputRef.current?.click()}
             disabled={uploading || sending}
             aria-label="Send image"
@@ -581,7 +581,7 @@ export default function CurrentConversation(
           />
           <button
             type="button"
-            className={style.toolButton}
+            className={`${style.toolButton} ${style.secondaryTool}`}
             aria-label="Choose emoji"
           >
             <svg

@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import AppRail from "../components/AppRail";
 import ConversationsList from "../components/ConversationsList";
 import AccountPanel from "../components/AccountPanel";
 import CurrentConversation from "../components/CurrentConversation";
 import ConversationInfo from "../components/ConversationInfo";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import {
   fetchInfo,
   fetchMessages,
@@ -141,10 +142,15 @@ export default function MessagePage(): ReactNode {
   const [activeTab, setActiveTab] = useState<string>("All");
   const [infoOpen, setInfoOpen] = useState<boolean>(false);
   const [activeSource, setActiveSource] = useState<string>(DIRECT_SOURCE);
+  const [panelOpen, setPanelOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [reloadKey, setReloadKey] = useState<number>(0);
   const [threadLoaded, setThreadLoaded] = useState<boolean>(false);
+  const wideLayout: boolean = useMediaQuery("(min-width: 60em)");
+  const desktopLayout: boolean = useMediaQuery("(min-width: 75em)");
+  const panelCloseRef = useRef<HTMLButtonElement | null>(null);
+  const triggerRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
   const accountActive: boolean = activeSource === ACCOUNT_SOURCE;
   const activeConversation: ConversationDTO | null = findConversation(
@@ -282,6 +288,10 @@ export default function MessagePage(): ReactNode {
       }
     }
     setActiveConversationId(id);
+    if (!wideLayout) {
+      setPanelOpen(false);
+      triggerRefs.current.get(activeSource)?.focus();
+    }
   };
 
   const handleSendMessage = async (
@@ -407,41 +417,87 @@ export default function MessagePage(): ReactNode {
     setInfoOpen(false);
   };
 
-  const handleSelectAccount = (): void => {
-    if (activeSource === ACCOUNT_SOURCE) {
-      return;
+  const registerTrigger = useCallback(
+    (source: string, element: HTMLButtonElement | null): void => {
+      if (element === null) {
+        triggerRefs.current.delete(source);
+      } else {
+        triggerRefs.current.set(source, element);
+      }
+    },
+    [],
+  );
+
+  const closePanel = useCallback((): void => {
+    setPanelOpen(false);
+    triggerRefs.current.get(activeSource)?.focus();
+  }, [activeSource]);
+
+  const handleSelectSource = (source: string): void => {
+    if (activeSource !== source) {
+      setError(null);
+      setActiveSource(source);
+      setActiveTab("All");
+      setInfoOpen(false);
+      if (source !== ACCOUNT_SOURCE) {
+        setActiveConversationId(
+          (current: string | null): string | null => {
+            if (
+              current !== null &&
+              conversationsOf(workspace, source).some(
+                (conversation: ConversationDTO): boolean =>
+                  conversation.id === current,
+              )
+            ) {
+              return current;
+            }
+            return pickConversation(workspace, source);
+          },
+        );
+      }
     }
-    setError(null);
-    setActiveSource(ACCOUNT_SOURCE);
-    setActiveTab("All");
-    setInfoOpen(false);
-    setActiveConversationId(null);
+    setPanelOpen(true);
+  };
+
+  const handleSelectAccount = (): void => {
+    handleSelectSource(ACCOUNT_SOURCE);
   };
 
   const handleSelectDirect = (): void => {
-    if (activeSource === DIRECT_SOURCE) {
-      return;
-    }
-    setError(null);
-    setActiveSource(DIRECT_SOURCE);
-    setActiveTab("All");
-    setInfoOpen(false);
-    setActiveConversationId(pickConversation(workspace, DIRECT_SOURCE));
+    handleSelectSource(DIRECT_SOURCE);
   };
 
   const handleSelectCommunity = (id: string): void => {
-    if (activeSource === id) {
-      return;
-    }
-    setError(null);
-    setActiveSource(id);
-    setActiveTab("All");
-    setInfoOpen(false);
-    setActiveConversationId(pickConversation(workspace, id));
+    handleSelectSource(id);
   };
 
+  useEffect((): (() => void) => {
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.key !== "Escape") {
+        return;
+      }
+      if (infoOpen) {
+        setInfoOpen(false);
+        return;
+      }
+      if (panelOpen && !wideLayout) {
+        closePanel();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return (): void => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [infoOpen, panelOpen, wideLayout, closePanel]);
+
+  useEffect((): void => {
+    if (panelOpen && !wideLayout) {
+      panelCloseRef.current?.focus();
+    }
+  }, [panelOpen, wideLayout, activeSource]);
+
   const renderConversationArea = (): ReactNode => {
-    if (accountActive) {
+    if (accountActive && wideLayout) {
       return null;
     }
     if (loading) {
@@ -531,34 +587,49 @@ export default function MessagePage(): ReactNode {
             : undefined
         }
         onClose={handleCloseInfo}
+        overlay={!desktopLayout}
       />
     );
   };
+
+  const panelLabel: string = accountActive ? "Account" : "Conversations";
 
   return (
     <main id={style.messageLayout}>
       <AppRail
         communities={communities}
         activeSource={activeSource}
+        panelExpanded={wideLayout || panelOpen}
+        panelId={style.panelRegion}
         onSelectAccount={handleSelectAccount}
         onSelectDirect={handleSelectDirect}
         onSelectCommunity={handleSelectCommunity}
+        onRegisterTrigger={registerTrigger}
       />
-      {accountActive ? (
-        <AccountPanel />
-      ) : workspace === null ? null : (
-        <ConversationsList
-          conversations={visibleConversations}
-          activeId={activeConversationId}
-          onSelectConversation={handleSelectConversation}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          title={listTitle}
-          tabs={listTabs}
-        />
-      )}
+      <div
+        id={style.panelRegion}
+        className={panelOpen ? style.drawerOpen : undefined}
+        role={wideLayout ? undefined : "dialog"}
+        aria-label={wideLayout ? undefined : panelLabel}
+      >
+        {accountActive ? (
+          <AccountPanel onClose={closePanel} closeButtonRef={panelCloseRef} />
+        ) : workspace === null ? null : (
+          <ConversationsList
+            conversations={visibleConversations}
+            activeId={activeConversationId}
+            onSelectConversation={handleSelectConversation}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            title={listTitle}
+            tabs={listTabs}
+            onClose={closePanel}
+            closeButtonRef={panelCloseRef}
+          />
+        )}
+      </div>
       <div
         id={style.conversationArea}
         className={infoOpen ? style.infoOpen : undefined}

@@ -1,8 +1,9 @@
 div#profileTabs {
   display: flex;
-  border-left: 0.0625rem solid var(--line);
-  border-right: 0.0625rem solid var(--line);
-  border-bottom: 0.0625rem solid var(--line);
+  flex-wrap: wrap;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   border-bottom-left-radius: var(--radius-panel);
   border-bottom-right-radius: var(--radius-panel);
   background: var(--surface);
@@ -11,16 +12,22 @@ div#profileTabs {
 
   > button {
     position: relative;
-    flex: 1;
-    padding: 0.875rem 1rem;
+    flex: 1 1 0;
+    min-width: max-content;
+    padding: 0.75rem 0.5rem;
     border: none;
     background: transparent;
     color: var(--ink-soft);
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 600;
     font-family: var(--font-body);
     cursor: pointer;
     transition: color var(--duration-quick) ease;
+
+    @media (min-width: 60em) {
+      padding: 0.875rem 1rem;
+      font-size: 0.9375rem;
+    }
 
     &:hover {
       color: var(--ink);
@@ -35,7 +42,7 @@ div#profileTabs {
         left: 15%;
         right: 15%;
         bottom: 0;
-        height: 0.1875rem;
+        height: 3px;
         border-radius: 999px;
         background: var(--accent);
       }
@@ -43,8 +50,8 @@ div#profileTabs {
   }
 
   &.inHeader {
-    margin-left: calc(-1rem - 0.0625rem);
-    margin-right: calc(-1rem - 0.0625rem);
+    margin-left: calc(-1rem - 1px);
+    margin-right: calc(-1rem - 1px);
     background: transparent;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;

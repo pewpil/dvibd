@@ -8,7 +8,7 @@ li#notificationItem {
   background: transparent;
 
   &:not(:first-child) {
-    border-top: 0.0625rem solid var(--line);
+    border-top: 1px solid var(--line);
   }
 
   > img {
@@ -24,6 +24,7 @@ li#notificationItem {
 
     > p#notificationText {
       line-height: 1.5;
+      overflow-wrap: anywhere;
 
       > span#notificationActor {
         font-weight: 600;
@@ -39,7 +40,7 @@ li#notificationItem {
 
       > span#demoTag {
         padding: 0.125rem 0.5rem;
-        border: 0.0625rem solid var(--line);
+        border: 1px solid var(--line);
         border-radius: 999px;
         font-size: 0.6875rem;
         letter-spacing: 0.04em;

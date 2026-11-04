@@ -21,14 +21,14 @@ main#notFoundPage {
 
   > h1#notFoundTitle {
     font-family: var(--font-heading);
-    font-size: 2rem;
+    font-size: 1.625rem;
     font-weight: 650;
     letter-spacing: -0.02em;
     line-height: 1.2;
   }
 
   > p#notFoundText {
-    max-width: 42%;
+    max-width: 88%;
     color: var(--ink-soft);
     font-size: 0.9375rem;
   }
@@ -56,13 +56,13 @@ main#notFoundPage {
     }
   }
 
-  @media (max-width: 47.5rem) {
+  @media (min-width: 60em) {
     > h1#notFoundTitle {
-      font-size: 1.625rem;
+      font-size: 2rem;
     }
 
     > p#notFoundText {
-      max-width: 88%;
+      max-width: 42%;
     }
   }
 }

@@ -10,6 +10,7 @@ section#accountPanel {
   background: transparent;
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
 
   &::before {
     content: "";
@@ -27,8 +28,8 @@ section#accountPanel {
     flex-direction: column;
     align-items: center;
     gap: 0.15rem;
-    padding: 4% 3% 3%;
-    border: 0.0625rem solid var(--line);
+    padding: 0.625rem 0.5rem;
+    border: 1px solid var(--line);
     border-radius: var(--radius-panel);
     background: var(--surface-strong);
     -webkit-backdrop-filter: blur(var(--blur));
@@ -41,13 +42,42 @@ section#accountPanel {
       border-top-right-radius: 0;
     }
 
+    > button#panelClose {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border: none;
+      border-radius: var(--radius-control);
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition:
+        background var(--duration-quick) ease,
+        color var(--duration-quick) ease;
+
+      &:hover {
+        background: var(--wash);
+        color: var(--ink);
+      }
+
+      > svg {
+        width: 55%;
+        height: 55%;
+      }
+    }
+
     > img#panelAvatar {
       width: 4rem;
       height: 4rem;
       margin-bottom: 0.35rem;
       border-radius: 50%;
       object-fit: cover;
-      border: 0.1875rem solid var(--bg);
+      border: 3px solid var(--bg);
     }
 
     > p#panelDisplayName {
@@ -111,8 +141,8 @@ section#accountPanel {
       display: flex;
       flex-direction: column;
       gap: 0.15rem;
-      padding: 3.5% 4%;
-      border: 0.0625rem solid var(--line);
+      padding: 0.75rem 0.625rem;
+      border: 1px solid var(--line);
       border-radius: var(--radius-panel);
       background: var(--surface);
 
@@ -153,6 +183,42 @@ section#accountPanel {
         &:hover {
           background: color-mix(in srgb, var(--danger) 10%, transparent);
         }
+      }
+    }
+  }
+}
+
+@media (min-width: 60em) {
+  section#accountPanel > header#panelHeader > button#panelClose {
+    display: none;
+  }
+}
+
+@media (max-width: 59.99em) {
+  section#accountPanel {
+    > header#panelHeader {
+      padding: min(0.625rem, 2.5vw) min(0.5rem, 2vw);
+
+      > button#panelClose {
+        top: min(0.5rem, 2vw);
+        right: min(0.5rem, 2vw);
+        width: min(2.25rem, 11vw);
+        height: min(2.25rem, 11vw);
+      }
+
+      > img#panelAvatar {
+        width: min(4rem, 30vw);
+        height: auto;
+        aspect-ratio: 1;
+      }
+    }
+
+    > div#panelSections {
+      gap: min(1rem, 4vw);
+      padding-top: min(1.5rem, 6vw);
+
+      > div#panelSection {
+        padding: min(0.75rem, 3vw) min(0.625rem, 2.5vw);
       }
     }
   }

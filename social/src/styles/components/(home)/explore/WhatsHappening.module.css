@@ -13,7 +13,7 @@ article#event {
   }
 
   &:not(:last-child) {
-    border-bottom: 0.0625rem solid var(--line);
+    border-bottom: 1px solid var(--line);
   }
 
   > h3#eventTitle {

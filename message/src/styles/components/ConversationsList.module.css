@@ -10,6 +10,7 @@ section#conversations {
   background: transparent;
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
 
   &::before {
     content: "";
@@ -25,11 +26,11 @@ section#conversations {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding: 4% 3% 3%;
+    padding: 0.625rem 0.5rem;
     background: var(--surface-strong);
     -webkit-backdrop-filter: blur(var(--blur));
     backdrop-filter: blur(var(--blur));
-    border: 0.0625rem solid var(--line);
+    border: 1px solid var(--line);
     border-radius: var(--radius-panel);
     box-shadow: var(--glass-shadow), var(--glass-inset);
     flex-shrink: 0;
@@ -44,34 +45,59 @@ section#conversations {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 0.75rem;
 
       > h1#conversationsTitle {
+        min-width: 0;
         font-size: 1.35rem;
         font-weight: 700;
         color: var(--ink);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
-      > button#newConversationButton {
+      > div#titleActions {
         display: flex;
         align-items: center;
-        justify-content: center;
-        width: 12%;
-        aspect-ratio: 1;
-        border: none;
-        border-radius: var(--radius-control);
-        background: var(--accent-soft);
-        color: var(--accent);
-        cursor: pointer;
-        transition: background var(--duration-quick) ease, color var(--duration-quick) ease;
+        gap: 0.5rem;
+        flex-shrink: 0;
 
-        &:hover {
-          background: var(--accent);
-          color: var(--accent-ink);
+        > button#panelClose,
+        > button#newConversationButton {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.25rem;
+          height: 2.25rem;
+          border: none;
+          border-radius: var(--radius-control);
+          background: transparent;
+          color: var(--ink-soft);
+          cursor: pointer;
+          transition:
+            background var(--duration-quick) ease,
+            color var(--duration-quick) ease;
+
+          &:hover {
+            background: var(--wash);
+            color: var(--ink);
+          }
+
+          > svg {
+            width: 55%;
+            height: 55%;
+          }
         }
 
-        > svg {
-          width: 55%;
-          height: 55%;
+        > button#newConversationButton {
+          background: var(--accent-soft);
+          color: var(--accent);
+
+          &:hover {
+            background: var(--accent);
+            color: var(--accent-ink);
+          }
         }
       }
     }
@@ -80,15 +106,15 @@ section#conversations {
       width: 100%;
       display: flex;
       align-items: center;
-      gap: 3%;
-      padding: 3% 4%;
-      border: 0.0625rem solid var(--line);
+      gap: 0.5rem;
+      padding: 0.5rem 0.625rem;
+      border: 1px solid var(--line);
       border-radius: var(--radius-control);
       background: transparent;
 
       > svg {
-        width: 1rem;
-        height: 1rem;
+        width: 16px;
+        height: 16px;
         flex-shrink: 0;
         color: var(--ink-soft);
       }
@@ -110,11 +136,11 @@ section#conversations {
     > nav#filterTabs {
       width: 100%;
       display: flex;
-      gap: 2%;
+      gap: 0.25rem;
 
       > button.tabItem {
         flex: 1;
-        padding: 3% 1%;
+        padding: 0.4rem 0.25rem;
         border: none;
         border-radius: var(--radius-control);
         background: transparent;
@@ -132,7 +158,7 @@ section#conversations {
 
       > button.activeTab {
         flex: 1;
-        padding: 3% 1%;
+        padding: 0.4rem 0.25rem;
         border: none;
         border-radius: var(--radius-control);
         background: var(--accent);
@@ -147,7 +173,7 @@ section#conversations {
   > ul#conversationsList {
     width: 100%;
     flex: none;
-    margin-top: 1%;
+    margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
 
@@ -158,8 +184,8 @@ section#conversations {
         width: 100%;
         display: flex;
         align-items: center;
-        gap: 4%;
-        padding: 3% 4%;
+        gap: 0.75rem;
+        padding: 0.6rem 0.625rem;
         border: none;
         background: transparent;
         cursor: pointer;
@@ -194,7 +220,7 @@ section#conversations {
             width: 28%;
             aspect-ratio: 1;
             border-radius: 50%;
-            border: 0.125rem solid var(--bg);
+            border: 2px solid var(--bg);
 
             &.online {
               background: var(--success);
@@ -222,8 +248,11 @@ section#conversations {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 0.5rem;
 
             > span#conversationTitle {
+              flex: 1;
+              min-width: 0;
               font-size: 0.925rem;
               font-weight: 600;
               color: var(--ink);
@@ -257,7 +286,7 @@ section#conversations {
             }
 
             > span#joinBadge {
-              padding: 0.05rem 0.4rem;
+              padding: 0.1rem 0.4rem;
               border-radius: 999px;
               background: var(--accent-soft);
               color: var(--accent);
@@ -273,8 +302,8 @@ section#conversations {
               align-items: center;
               justify-content: center;
               min-width: 1.25rem;
-              height: 1.25rem;
-              padding: 0 0.35rem;
+              min-height: 1.25rem;
+              padding: 0.1rem 0.35rem;
               border-radius: 999px;
               background: var(--accent);
               color: var(--accent-ink);
@@ -287,8 +316,68 @@ section#conversations {
       }
 
       &:not(:first-child) > button#conversationButton {
-        border-top: 0.0625rem solid var(--line);
+        border-top: 1px solid var(--line);
       }
+    }
+  }
+}
+
+@media (min-width: 60em) {
+  section#conversations > header#conversationsHeader > div#titleRow {
+    > div#titleActions > button#panelClose {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 59.99em) {
+  section#conversations {
+    > header#conversationsHeader {
+      padding: min(0.625rem, 2.5vw) min(0.5rem, 2vw);
+
+      > div#titleRow {
+        gap: min(0.75rem, 3vw);
+
+        > div#titleActions > button#panelClose,
+        > div#titleActions > button#newConversationButton {
+          width: min(2.25rem, 11vw);
+          height: min(2.25rem, 11vw);
+        }
+      }
+
+      > form#searchForm {
+        padding: min(0.5rem, 2vw) min(0.625rem, 2.5vw);
+      }
+
+      > nav#filterTabs {
+        > button.tabItem,
+        > button.activeTab {
+          padding: min(0.4rem, 1.5vw) min(0.25rem, 1vw);
+        }
+      }
+    }
+
+    > ul#conversationsList > li#conversationItem > button#conversationButton {
+      gap: min(0.75rem, 3vw);
+      padding: min(0.6rem, 2.5vw) min(0.625rem, 2.5vw);
+
+      > div#conversationContent {
+        > div#conversationTopLine {
+          gap: min(0.5rem, 2vw);
+        }
+
+        > div#conversationBottomLine {
+          gap: min(0.4rem, 1.5vw);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 40em) {
+  section#conversations > header#conversationsHeader > div#titleRow {
+    > div#titleActions > button#newConversationButton {
+      display: none;
     }
   }
 }

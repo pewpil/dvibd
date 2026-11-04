@@ -16,6 +16,9 @@ header#postHeader {
     > p#postHeaderName {
       font-weight: 600;
       line-height: 1.3;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
 
       > a#postHeaderNameLink {
         color: inherit;
@@ -36,6 +39,10 @@ header#postHeader {
       color: var(--ink-soft);
 
       > a#postHeaderHandle {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         color: inherit;
         transition: color var(--duration-quick) ease;
 

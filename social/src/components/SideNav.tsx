@@ -1,6 +1,7 @@
 import { createSignal, Show, type JSX } from "solid-js";
 import { A } from "@solidjs/router";
 import AccountMenu from "./AccountMenu";
+import ThemeToggle from "./ThemeToggle";
 import { useAuth } from "../contexts/AuthContext";
 import style from "../styles/components/SideNav.module.css";
 
@@ -101,7 +102,7 @@ function SideNav() {
     <nav id={style.sideNav} aria-label="Primary">
       <Show
         when={loggedIn()}
-        fallback={
+        fallback={[
           <A
             href="/login"
             id={style.navLogin}
@@ -109,8 +110,9 @@ function SideNav() {
             data-tooltip="Log in"
           >
             <LoginIcon />
-          </A>
-        }
+          </A>,
+          <ThemeToggle placement="inline" />,
+        ]}
       >
         <ul id={style.navList}>
           <li>
@@ -152,6 +154,7 @@ function SideNav() {
             </a>
           </li>
         </ul>
+        <ThemeToggle placement="inline" />
         <button
           type="button"
           id={style.navProfile}

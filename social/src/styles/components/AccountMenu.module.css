@@ -6,19 +6,26 @@ div#menuBackdrop {
 
 div#accountMenu {
   position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 0.5rem;
+  bottom: calc(100% + 0.5rem);
+  right: 0.5rem;
   display: flex;
   flex-direction: column;
+  max-width: min(18rem, calc(100vw - 1rem));
   padding: 0.5rem;
-  border: 0.0625rem solid var(--line);
+  border: 1px solid var(--line);
   border-radius: var(--radius-panel);
   background: var(--surface-strong);
   -webkit-backdrop-filter: blur(var(--blur-strong));
   backdrop-filter: blur(var(--blur-strong));
   box-shadow: var(--shadow-float);
   z-index: 1000;
+
+  @media (min-width: 60em) {
+    top: 100%;
+    bottom: auto;
+    right: 0;
+    margin-top: 0.5rem;
+  }
 
   > a#menuAccount,
   > button#menuAccount {
@@ -62,7 +69,7 @@ div#accountMenu {
 
   > hr#menuDivider {
     border: none;
-    border-top: 0.0625rem solid var(--line);
+    border-top: 1px solid var(--line);
     margin: 0.5rem 0;
   }
 

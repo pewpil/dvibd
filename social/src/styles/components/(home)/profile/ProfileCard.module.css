@@ -1,6 +1,6 @@
 div#profileCard {
   position: relative;
-  border: 0.0625rem solid var(--line);
+  border: 1px solid var(--line);
   border-top: none;
   border-bottom: none;
   background: var(--surface);
@@ -11,14 +11,16 @@ div#profileCard {
     position: absolute;
     top: -3rem;
     left: 1.25rem;
-    width: 7rem;
-    height: 7rem;
-    border: 0.25rem solid var(--bg);
+    width: min(7rem, 40%);
+    aspect-ratio: 1;
+    height: auto;
+    border: 4px solid var(--bg);
     border-radius: 50%;
   }
 
   > div#actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
     gap: 0.5rem;
@@ -34,7 +36,7 @@ div#profileCard {
       display: inline-flex;
       align-items: center;
       padding: 0.5rem 1.25rem;
-      border: 0.0625rem solid var(--line);
+      border: 1px solid var(--line);
       border-radius: 999px;
       background: transparent;
       color: var(--ink);
@@ -62,7 +64,7 @@ div#profileCard {
       justify-content: center;
       width: 2.25rem;
       height: 2.25rem;
-      border: 0.0625rem solid var(--line);
+      border: 1px solid var(--line);
       border-radius: 50%;
       background: transparent;
       color: var(--ink);
@@ -96,6 +98,7 @@ div#profileCard {
 
   > div#identity {
     display: flex;
+    flex-wrap: wrap;
     align-items: baseline;
     gap: 0.5rem;
     padding: 0 1.25rem;
@@ -146,6 +149,7 @@ div#profileCard {
 
   > div#counts {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.5rem;
     padding: 0 1.25rem;
     margin-top: 0.875rem;
@@ -164,7 +168,7 @@ div#profileCard {
   }
 
   &.completeCard {
-    border-bottom: 0.0625rem solid var(--line);
+    border-bottom: 1px solid var(--line);
     border-bottom-left-radius: var(--radius-panel);
     border-bottom-right-radius: var(--radius-panel);
   }

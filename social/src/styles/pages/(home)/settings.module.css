@@ -15,10 +15,10 @@ div#settings {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  padding: 1.5rem 0.25rem 3rem;
+  padding: 1.25rem 0.25rem 2.5rem;
 
-  @media (max-width: 47.5rem) {
-    padding: 1.25rem 0.25rem 2.5rem;
+  @media (min-width: 60em) {
+    padding: 1.5rem 0.25rem 3rem;
   }
 }
 
@@ -26,13 +26,17 @@ form#profilePanel {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1.5rem 1.25rem;
-  border: 0.0625rem solid var(--line);
+  padding: 1.25rem 1rem;
+  border: 1px solid var(--line);
   border-radius: var(--radius-panel);
   background: var(--surface);
   -webkit-backdrop-filter: blur(var(--blur));
   backdrop-filter: blur(var(--blur));
   box-shadow: var(--glass-shadow), var(--glass-inset);
+
+  @media (min-width: 60em) {
+    padding: 1.5rem 1.25rem;
+  }
 
   > header#panelHeader {
     display: flex;
@@ -60,7 +64,7 @@ form#profilePanel {
     > img#coverPreview {
       width: 100%;
       height: 7rem;
-      border: 0.0625rem solid var(--line);
+      border: 1px solid var(--line);
       border-radius: var(--radius-panel);
       object-fit: cover;
     }
@@ -71,7 +75,7 @@ form#profilePanel {
       bottom: -2.25rem;
       width: 4.5rem;
       height: 4.5rem;
-      border: 0.25rem solid var(--bg);
+      border: 4px solid var(--bg);
       border-radius: 50%;
       object-fit: cover;
     }
@@ -90,8 +94,10 @@ form#profilePanel {
     }
 
     > input {
+      width: 100%;
+      min-width: 0;
       padding: 0.65rem 1rem;
-      border: 0.0625rem solid var(--line);
+      border: 1px solid var(--line);
       border-radius: var(--radius-control);
       background: var(--surface-strong);
       color: var(--ink);
@@ -116,9 +122,11 @@ form#profilePanel {
     }
 
     > textarea {
+      width: 100%;
+      min-width: 0;
       padding: 0.65rem 1rem;
       min-height: 4.5rem;
-      border: 0.0625rem solid var(--line);
+      border: 1px solid var(--line);
       border-radius: var(--radius-control);
       background: var(--surface-strong);
       color: var(--ink);
@@ -159,23 +167,23 @@ form#profilePanel {
       color: var(--ink-soft);
     }
   }
-
-  @media (max-width: 47.5rem) {
-    padding: 1.25rem 1rem;
-  }
 }
 
 form#notificationPanel {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1.5rem 1.25rem;
-  border: 0.0625rem solid var(--line);
+  padding: 1.25rem 1rem;
+  border: 1px solid var(--line);
   border-radius: var(--radius-panel);
   background: var(--surface);
   -webkit-backdrop-filter: blur(var(--blur));
   backdrop-filter: blur(var(--blur));
   box-shadow: var(--glass-shadow), var(--glass-inset);
+
+  @media (min-width: 60em) {
+    padding: 1.5rem 1.25rem;
+  }
 
   > header#notificationHeader {
     display: flex;
@@ -205,7 +213,7 @@ form#notificationPanel {
     cursor: pointer;
 
     &:not(:first-of-type) {
-      border-top: 0.0625rem solid var(--line);
+      border-top: 1px solid var(--line);
     }
 
     &:first-of-type {
@@ -241,7 +249,7 @@ form#notificationPanel {
       width: 2.5rem;
       height: 1.375rem;
       margin: 0;
-      border: 0.0625rem solid var(--line);
+      border: 1px solid var(--line);
       border-radius: 999px;
       background: var(--surface-strong);
       -webkit-appearance: none;
@@ -282,16 +290,12 @@ form#notificationPanel {
       }
     }
   }
-
-  @media (max-width: 47.5rem) {
-    padding: 1.25rem 1rem;
-  }
 }
 
 form#profilePanel > p#formError,
 form#notificationPanel > p#notificationError {
   padding: 0.6rem 1rem;
-  border: 0.0625rem solid var(--danger);
+  border: 1px solid var(--danger);
   border-radius: var(--radius-control);
   background: color-mix(in srgb, var(--danger) 10%, transparent);
   color: var(--danger);
@@ -302,7 +306,7 @@ form#notificationPanel > p#notificationError {
 form#profilePanel > p#formSuccess,
 form#notificationPanel > p#notificationSuccess {
   padding: 0.6rem 1rem;
-  border: 0.0625rem solid var(--accent);
+  border: 1px solid var(--accent);
   border-radius: var(--radius-control);
   background: var(--accent-soft);
   color: var(--accent);
@@ -347,13 +351,17 @@ section#accountPanel {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 1.5rem 1.25rem;
-  border: 0.0625rem solid var(--line);
+  padding: 1.25rem 1rem;
+  border: 1px solid var(--line);
   border-radius: var(--radius-panel);
   background: var(--surface);
   -webkit-backdrop-filter: blur(var(--blur));
   backdrop-filter: blur(var(--blur));
   box-shadow: var(--glass-shadow), var(--glass-inset);
+
+  @media (min-width: 60em) {
+    padding: 1.5rem 1.25rem;
+  }
 
   > h2 {
     font-family: var(--font-heading);
@@ -380,7 +388,7 @@ section#accountPanel {
       font-size: 0.9375rem;
 
       &:not(:first-child) {
-        border-top: 0.0625rem solid var(--line);
+        border-top: 1px solid var(--line);
       }
 
       > dt {
@@ -400,7 +408,7 @@ section#accountPanel {
     align-self: flex-start;
     margin-top: 0.25rem;
     padding: 0.55rem 1.2rem;
-    border: 0.0625rem solid var(--line);
+    border: 1px solid var(--line);
     border-radius: 999px;
     background: transparent;
     color: var(--ink);
@@ -426,10 +434,6 @@ section#accountPanel {
     font-size: 0.8125rem;
     font-weight: 600;
     line-height: 1.4;
-  }
-
-  @media (max-width: 47.5rem) {
-    padding: 1.25rem 1rem;
   }
 }
 

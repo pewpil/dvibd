@@ -1,10 +1,15 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useRef, type ReactNode, type RefObject } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 import { useStuckScroll } from "../hooks/useStuckScroll";
 import style from "../styles/components/AccountPanel.module.css";
+
+interface AccountPanelProps {
+  onClose: () => void;
+  closeButtonRef: RefObject<HTMLButtonElement | null>;
+}
 
 type AccountIconName =
   | "settings"
@@ -199,7 +204,7 @@ function websiteHref(value: string): string {
   return /^https?:\/\//i.test(value) ? value : `https://${value}`;
 }
 
-export default function AccountPanel(): ReactNode {
+export default function AccountPanel(props: AccountPanelProps): ReactNode {
   const rootRef = useRef<HTMLElement | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   const stuck: boolean = useStuckScroll(rootRef, headerRef);
@@ -228,6 +233,26 @@ export default function AccountPanel(): ReactNode {
         ref={headerRef}
         className={stuck ? style.stuck : undefined}
       >
+        <button
+          type="button"
+          id={style.panelClose}
+          ref={props.closeButtonRef}
+          onClick={props.onClose}
+          aria-label="Close account panel"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
         <img id={style.panelAvatar} src={avatar} alt={displayName} />
         <p id={style.panelDisplayName}>{displayName}</p>
         {handle.length > 0 ? <p id={style.panelHandle}>@{handle}</p> : null}

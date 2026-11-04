@@ -20,7 +20,7 @@ nav#appRail {
       > button#profileButton {
         display: block;
         padding: 0;
-        border: 0.1875rem solid transparent;
+        border: 3px solid transparent;
         border-radius: 50%;
         background: transparent;
         cursor: pointer;
@@ -78,7 +78,7 @@ nav#appRail {
     align-items: center;
     gap: 0.75rem;
     padding: 1rem 0 0;
-    border-top: 0.0625rem solid var(--line);
+    border-top: 1px solid var(--line);
 
     > li#communityItem {
       width: 100%;
@@ -88,7 +88,7 @@ nav#appRail {
       > button#communityButton {
         display: block;
         padding: 0;
-        border: 0.1875rem solid transparent;
+        border: 3px solid transparent;
         border-radius: var(--radius-control);
         background: transparent;
         cursor: pointer;
@@ -118,6 +118,29 @@ nav#appRail {
     justify-content: center;
     width: 100%;
     padding: 0.75rem 0 0;
-    border-top: 0.0625rem solid var(--line);
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 59.99em) {
+  nav#appRail {
+    > div#railTop {
+      > div#avatarWrap > button#profileButton > img#profileAvatar {
+        width: min(2.5rem, 12vw);
+        height: min(2.5rem, 12vw);
+      }
+
+      > button#listToggle {
+        width: min(2.5rem, 12vw);
+        height: min(2.5rem, 12vw);
+      }
+    }
+
+    > ul#communityList > li#communityItem > button#communityButton {
+      > img#communityAvatar {
+        width: min(2.25rem, 11vw);
+        height: min(2.25rem, 11vw);
+      }
+    }
   }
 }

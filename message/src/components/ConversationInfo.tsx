@@ -18,6 +18,7 @@ interface ConversationInfoProps {
   onToggleMute?: () => void;
   onLeave?: () => void;
   onClose?: () => void;
+  overlay?: boolean;
 }
 
 function joinMeta(parts: string[]): string {
@@ -53,7 +54,12 @@ export default function ConversationInfo(
       ]);
 
   return (
-    <aside id={style.information} ref={rootRef}>
+    <aside
+      id={style.information}
+      ref={rootRef}
+      role={props.overlay === true ? "dialog" : undefined}
+      aria-label={props.overlay === true ? "Conversation details" : undefined}
+    >
       <section
         id={style.profileCard}
         ref={headerRef}

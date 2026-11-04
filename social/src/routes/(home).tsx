@@ -20,7 +20,7 @@ export default function HomeLayout({ children }: ParentProps) {
 
   return (
     <div id={style.homeLayout}>
-      <ThemeToggle />
+      <ThemeToggle hideOnMobile />
       <SideNav />
       <main id={style.feed}>{children}</main>
       <aside id={style.explore}>

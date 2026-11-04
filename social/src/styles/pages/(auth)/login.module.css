@@ -3,12 +3,22 @@ div#auth {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6%;
+  padding: 4rem 6% 6%;
   background: var(--bg);
 
+  @media (min-width: 75em) {
+    padding: 6%;
+  }
+
   > div#authInner {
-    width: 30%;
+    width: 88%;
+    max-width: 30rem;
     text-align: center;
+
+    @media (min-width: 75em) {
+      width: 30%;
+      max-width: none;
+    }
 
     > a#authBrand {
       display: flex;
@@ -37,13 +47,17 @@ div#auth {
     }
 
     > main#login {
-      padding: 2rem 2.5rem;
-      border: 0.0625rem solid var(--line);
+      padding: 1.5rem 1.25rem;
+      border: 1px solid var(--line);
       border-radius: var(--radius-panel);
       background: var(--surface);
       -webkit-backdrop-filter: blur(var(--blur-strong));
       backdrop-filter: blur(var(--blur-strong));
       box-shadow: var(--glass-shadow), var(--glass-inset);
+
+      @media (min-width: 75em) {
+        padding: 2rem 2.5rem;
+      }
 
       > h1 {
         font-family: var(--font-heading);
@@ -66,7 +80,7 @@ div#auth {
         > p#loginError {
           margin-top: 0.75rem;
           padding: 0.6rem 1rem;
-          border: 0.0625rem solid var(--danger);
+          border: 1px solid var(--danger);
           border-radius: var(--radius-control);
           background: color-mix(in srgb, var(--danger) 10%, transparent);
           color: var(--danger);
@@ -86,8 +100,10 @@ div#auth {
           color: var(--ink);
 
           > input {
+            width: 100%;
+            min-width: 0;
             padding: 0.65rem 1rem;
-            border: 0.0625rem solid var(--line);
+            border: 1px solid var(--line);
             border-radius: var(--radius-control);
             background: var(--surface-strong);
             color: var(--ink);
@@ -146,12 +162,6 @@ div#auth {
           }
         }
       }
-    }
-  }
-
-  @media (max-width: 47.5rem) {
-    > div#authInner {
-      width: 88%;
     }
   }
 }

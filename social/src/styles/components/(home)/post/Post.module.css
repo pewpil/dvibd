@@ -7,7 +7,7 @@ article#post {
   border-radius: 0;
 
   &:not(:first-child) {
-    border-top: 0.0625rem solid var(--line);
+    border-top: 1px solid var(--line);
   }
 
   > p#postText {

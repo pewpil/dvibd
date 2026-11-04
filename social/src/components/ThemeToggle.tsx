@@ -1,8 +1,10 @@
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, onCleanup } from "solid-js";
 import { getRequestEvent, isServer } from "solid-js/web";
 import style from "../styles/components/ThemeToggle.module.css";
 
 const THEME_KEY = "dvibd-theme";
+
+const THEME_EVENT = "dvibd-theme-change";
 
 const iconProps = {
   xmlns: "http://www.w3.org/2000/svg",
@@ -40,9 +42,24 @@ function SunIcon() {
   );
 }
 
-function ThemeToggle() {
+interface ThemeToggleProps {
+  placement?: "fixed" | "inline";
+  hideOnMobile?: boolean;
+}
+
+function ThemeToggle(props: ThemeToggleProps) {
   const [theme, setTheme] = createSignal<"light" | "dark">(getCookieTheme());
   const next = () => (theme() === "light" ? "dark" : "light");
+
+  const isFixed = (): boolean => (props.placement ?? "fixed") === "fixed";
+
+  const classes = (): string =>
+    [
+      isFixed() ? style.fixed : style.inline,
+      props.hideOnMobile === true ? style.hideOnMobile : undefined,
+    ]
+      .filter(Boolean)
+      .join(" ");
 
   createEffect(() => {
     if (isServer) return;
@@ -61,13 +78,31 @@ function ThemeToggle() {
     document.cookie = `${THEME_KEY}=${theme()};path=/;max-age=31536000;samesite=lax`;
   });
 
+  createEffect(() => {
+    if (isServer) return;
+    const sync = (event: Event): void => {
+      const value = (event as CustomEvent<"light" | "dark">).detail;
+      setTheme(value);
+    };
+    window.addEventListener(THEME_EVENT, sync);
+    onCleanup(() => window.removeEventListener(THEME_EVENT, sync));
+  });
+
+  const toggle = (): void => {
+    const value = next();
+    setTheme(value);
+    if (isServer) return;
+    window.dispatchEvent(new CustomEvent(THEME_EVENT, { detail: value }));
+  };
+
   return (
     <button
-      id={style.themeToggle}
+      id={isFixed() ? style.themeToggle : style.themeToggleInline}
+      class={classes()}
       type="button"
       aria-label={`Switch to ${next()} mode`}
       title={`Switch to ${next()} mode`}
-      onClick={() => setTheme(next())}
+      onClick={toggle}
     >
       {theme() === "light" ? <MoonIcon /> : <SunIcon />}
     </button>

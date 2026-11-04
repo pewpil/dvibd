@@ -5,7 +5,7 @@ section#profileSection {
   > img#cover {
     width: 100%;
     aspect-ratio: 3.2 / 1;
-    border: 0.0625rem solid var(--line);
+    border: 1px solid var(--line);
     border-bottom: none;
     border-radius: var(--radius-panel) var(--radius-panel) 0 0;
   }
