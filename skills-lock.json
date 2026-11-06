@@ -5,25 +5,25 @@
       "source": "addyosmani/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/api-and-interface-design/SKILL.md",
-      "computedHash": "8bdbf1fca81bef9258d7e0d9726f933f25677ec8537792e084a3fb7c54acf2ba"
+      "computedHash": "0d823e9ff32f529f21492a3fd7635fc75b43ff1eb1788d4be0974bfa42e22ae3"
     },
     "archify": {
       "source": "tt-a1i/archify",
       "sourceType": "github",
       "skillPath": "archify/SKILL.md",
-      "computedHash": "e8cbde4db89de7b49cfab034923a9f6028afd0bc413ab26fe1a68c242e2005fe"
+      "computedHash": "e9ef0923cda908886e667eb48e36b29e81d0a7a7b9fe2bc05f3779be271e5119"
     },
     "design-taste-frontend": {
       "source": "Leonxlnx/taste-skill",
       "sourceType": "github",
       "skillPath": "skills/taste-skill/SKILL.md",
-      "computedHash": "6ac8ba6089dcbc303744a507a4587113c5d845ca2f658b3ce2b0b5eab108fb0d"
+      "computedHash": "23b3930015c478034b222e1a015da03a962c8ab48aee9fb4f3f69d977034feaa"
     },
     "figcraft": {
       "source": "midasmatterhorn/artcraft-skills",
       "sourceType": "github",
       "skillPath": "figcraft/SKILL.md",
-      "computedHash": "cbf90be6c93c155fa4bb3a2e6d8f0245b29312e1e00b483a780a1dcefc22c624"
+      "computedHash": "1907fb5be545ea384f15769433c7d16920154cfac0ea1b6746a17fcc2f37e450"
     },
     "frontend-design": {
       "source": "anthropics/skills",
@@ -43,6 +43,36 @@
       "skillPath": "skills/glassmorphism/SKILL.md",
       "computedHash": "c98e77044561fea5e51116156d0ba600a56f9961ed18b498d72504d49aff7882"
     },
+    "laravel-patterns": {
+      "source": "affaan-m/ecc",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-patterns/SKILL.md",
+      "computedHash": "58d3d0c9c98dff80c4a4e0d28e7b3ddf8cbb2b941338a4d3780aff53f52f146e"
+    },
+    "laravel-plugin-discovery": {
+      "source": "affaan-m/ecc",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-plugin-discovery/SKILL.md",
+      "computedHash": "37de064b97a53a24437e3d78a9fae84736a4cd945b02b0ef023fb4d2148ad987"
+    },
+    "laravel-security": {
+      "source": "affaan-m/ecc",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-security/SKILL.md",
+      "computedHash": "89ad2cbae3832da0b934e1eb6548aa7396b27744c12a1a409a6f318c7ca6253f"
+    },
+    "laravel-tdd": {
+      "source": "affaan-m/ecc",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-tdd/SKILL.md",
+      "computedHash": "2b30678c04801d14ef4b0f5449430d1a524222061283b0ee88aec5e77b10d3b3"
+    },
+    "laravel-verification": {
+      "source": "affaan-m/ecc",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-verification/SKILL.md",
+      "computedHash": "a5a1c2fdb15fbfa05f78cdb8368a62b6b405c5d44eb56e93e637acf446d3f1a1"
+    },
     "minimalist-ui": {
       "source": "Leonxlnx/taste-skill-classics",
       "sourceType": "github",
@@ -59,13 +89,13 @@
       "source": "netlify/context-and-tools",
       "sourceType": "github",
       "skillPath": "skills/netlify-deploy/SKILL.md",
-      "computedHash": "150b58ac1bc6ac3a8c363e5b52af9a09a0d76ffc27b3887df506378e5d7d7bf8"
+      "computedHash": "ccf6a9cab730312cbba4490ee8825e8999b9ccd1e9364c06750199a08f3aeeb4"
     },
     "netlify-edge-functions": {
       "source": "netlify/context-and-tools",
       "sourceType": "github",
       "skillPath": "skills/netlify-edge-functions/SKILL.md",
-      "computedHash": "9b9ce4ee27483881711e7c022f78a20af3b304c035bd549900751f97cb826db1"
+      "computedHash": "043bfbfdf6f1de1209531b01fa74b3a473f59ba9dd4721c8464155caf3da22f9"
     },
     "netlify-frameworks": {
       "source": "netlify/context-and-tools",
@@ -137,7 +167,7 @@
       "source": "prisma/skills",
       "sourceType": "github",
       "skillPath": "prisma-postgres-setup/SKILL.md",
-      "computedHash": "db538316e4731435eaf259dbc51ebc3766442fa2a5e07c238918e7fb92d9bb93"
+      "computedHash": "4adedf139eb72d6b5b3667024c50a10e1815cda4b6a6e475e3c5633bdf2694f1"
     },
     "prisma-upgrade-v7": {
       "source": "prisma/skills",
@@ -156,19 +186,25 @@
       "source": "addyosmani/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/security-and-hardening/SKILL.md",
-      "computedHash": "32a1243d6eb45fd342c1f4e9f9ee5f1651a1e9fdccb86dcbbbee5d6f455ed362"
+      "computedHash": "f79bc2010272830c6d65400cfa5e860edc37af8607f1439a0a88aa3cea111ef1"
     },
     "security-review": {
       "source": "getsentry/skills",
       "sourceType": "github",
       "skillPath": "skills/security-review/SKILL.md",
-      "computedHash": "6b3e784d5589c67a11bbcc881b479fc8c2fdc1661a28d3f9d0213772b38fbd80"
+      "computedHash": "194b70d3a2a4e0b23a436866c95496457962d1a818c382c56e4912bcd0cc3424"
     },
     "sizing-units": {
       "source": "dembrandt/dembrandt-skills",
       "sourceType": "github",
       "skillPath": "skills/sizing-units/SKILL.md",
       "computedHash": "22113c444133e703e24bf4683872343086eca61cb580009256e0bbe155ea3fab"
+    },
+    "starter-kit-upgrade": {
+      "source": "laravel/agent-skills",
+      "sourceType": "github",
+      "skillPath": "laravel/skills/starter-kit-upgrade/SKILL.md",
+      "computedHash": "263cd806eab03b15af59bc6c7b46058425c31e9df4204572f5743ceae28d3a1b"
     },
     "svelte-code-writer": {
       "source": "sveltejs/ai-tools",
