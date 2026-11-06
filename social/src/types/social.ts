@@ -20,6 +20,10 @@ export type FollowResult =
   | { ok: true; following: boolean }
   | { ok: false; error: string };
 
+export type RecordViewResult =
+  | { ok: true; views: number }
+  | { ok: false };
+
 export interface NotificationPreferences {
   likes: boolean;
   replies: boolean;
@@ -45,6 +49,12 @@ export interface PostCard {
   repost: number;
   like: number;
   save: number;
+  views: number;
+}
+
+export interface PostThreadPage {
+  post: PostCard;
+  replies: PostCard[];
 }
 
 export interface TrendTopic {

@@ -99,6 +99,7 @@ model Post {
   likeCount     Int            @default(0)
   repostCount   Int            @default(0)
   saveCount     Int            @default(0)
+  viewCount     Int            @default(0)
   isFallback    Boolean        @default(false)
   createdAt     DateTime       @default(now())
   media         PostMedia[]    @relation("PostMediaPost")

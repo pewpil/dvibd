@@ -1,4 +1,4 @@
-import { createEffect, createSignal, Show } from "solid-js";
+import { createEffect, createSignal, Show, type JSX } from "solid-js";
 import { useSubmission } from "@solidjs/router";
 import { createPost } from "../../server/posts";
 import { useAuth } from "../../contexts/AuthContext";
@@ -9,19 +9,36 @@ import {
 import imageIcon from "../../assets/components/(home)/composer/image.svg?raw";
 import style from "../../styles/components/(home)/Composer.module.css";
 
-export default function Composer() {
+interface ComposerProps {
+  action?: typeof createPost;
+  parentId?: string;
+  placeholder?: string;
+  ariaLabel?: string;
+  submitLabel?: string;
+  pendingLabel?: string;
+  errorMessage?: string;
+}
+
+export default function Composer(props: ComposerProps): JSX.Element {
   const { user } = useAuth();
-  const submission = useSubmission(createPost);
+  const submitAction: typeof createPost = props.action ?? createPost;
+  const submission = useSubmission(submitAction);
   const [text, setText] = createSignal<string>("");
 
   const avatar = (): string => user()?.avatarUrl ?? "/profile-picture.svg";
   const name = (): string =>
     user()?.displayName ?? user()?.username ?? "You";
+  const placeholder = (): string => props.placeholder ?? "What's happening?";
+  const ariaLabel = (): string => props.ariaLabel ?? "Post text";
+  const submitLabel = (): string => props.submitLabel ?? "Post";
+  const pendingLabel = (): string => props.pendingLabel ?? "Posting...";
+  const errorMessage = (): string =>
+    props.errorMessage ?? "Could not publish your post. Try again.";
   const pending = (): boolean => submission.pending === true;
   const canSubmit = (): boolean => text().trim().length > 0 && !pending();
   const error = (): string | undefined => {
     if (submission.error !== undefined) {
-      return "Could not publish your post. Try again.";
+      return errorMessage();
     }
     const result: CreatePostResult | undefined = submission.result;
     if (result !== undefined && !result.ok) {
@@ -47,7 +64,10 @@ export default function Composer() {
   };
 
   return (
-    <form id={style.composer} action={createPost} method="post">
+    <form id={style.composer} action={submitAction} method="post">
+      <Show when={props.parentId !== undefined}>
+        <input type="hidden" name="parentId" value={props.parentId ?? ""} />
+      </Show>
       <img
         id={style.composerAvatar}
         src={avatar()}
@@ -59,8 +79,8 @@ export default function Composer() {
           name="text"
           rows="2"
           maxLength={MAX_STAT_LENGTH}
-          placeholder="What's happening?"
-          aria-label="Post text"
+          placeholder={placeholder()}
+          aria-label={ariaLabel()}
           value={text()}
           onInput={handleInput}
           disabled={pending()}
@@ -87,7 +107,7 @@ export default function Composer() {
               type="submit"
               disabled={!canSubmit()}
             >
-              {pending() ? "Posting..." : "Post"}
+              {pending() ? pendingLabel() : submitLabel()}
             </button>
           </div>
         </footer>

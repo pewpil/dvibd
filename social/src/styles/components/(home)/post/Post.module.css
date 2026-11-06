@@ -1,4 +1,6 @@
 article#post {
+  position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
@@ -8,6 +10,35 @@ article#post {
 
   &:not(:first-child) {
     border-top: 1px solid var(--line);
+  }
+
+  > a#postPermalink {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: 0;
+
+    &:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+  }
+
+  &[data-permalink="true"] {
+    > header,
+    > p#postText,
+    > figure,
+    > footer {
+      pointer-events: none;
+    }
+
+    > header a,
+    > header button,
+    > footer button {
+      pointer-events: auto;
+      position: relative;
+      z-index: 3;
+    }
   }
 
   > p#postText {

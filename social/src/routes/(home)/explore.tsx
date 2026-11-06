@@ -70,13 +70,15 @@ export default function Explore() {
         <For each={posts() ?? []}>
           {(post) => (
             <Post
+              id={post.id}
+              type={post.type}
               name={post.name}
               handle={post.handle}
               time={post.time}
               avatar={post.avatar}
               text={post.text}
               media={post.media}
-              reply={post.reply}
+              views={post.views}
               repost={post.repost}
               like={post.like}
               save={post.save}

@@ -1,0 +1,66 @@
+h1#threadTitle {
+  width: fit-content;
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+section#threadReplies {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+
+  > h2#repliesTitle {
+    padding: 0 0.25rem 0.5rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  > p#repliesEmpty {
+    padding: 0.5rem 0.25rem 1rem;
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+  }
+}
+
+section#postMissing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 3rem 1rem;
+  text-align: center;
+
+  > h2#postMissingTitle {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  > p#postMissingText {
+    max-width: 100%;
+    color: var(--ink-soft);
+  }
+
+  > a#postMissingLink {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.5rem;
+    margin-top: 0.5rem;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 0.07em;
+    text-underline-offset: 0.18em;
+
+    &:hover {
+      text-decoration-thickness: 0.12em;
+    }
+  }
+}
