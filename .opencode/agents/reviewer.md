@@ -12,6 +12,12 @@ permissions:
   - action: figcraft_*
     resource: "*"
     effect: deny
+  - action: photocraft_*
+    resource: "*"
+    effect: deny
+  - action: vectorcraft_*
+    resource: "*"
+    effect: deny
 ---
 
 # Reviewer

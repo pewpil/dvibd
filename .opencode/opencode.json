@@ -7,12 +7,34 @@
       "figcraft": {
         "type": "local",
         "command": [
-          "/home/sadanddan/.local/bin/figcraft-cli",
+          "{env:HOME}/.local/bin/figcraft-cli",
           "mcp",
           "--automation-read-root",
-          "/home/sadanddan/Projects/dvibd",
+          "{env:HOME}/Projects/dvibd",
           "--automation-write-root",
-          "/home/sadanddan/Projects/dvibd"
+          "{env:HOME}/Projects/dvibd"
+        ]
+      },
+      "photocraft": {
+        "type": "local",
+        "command": [
+          "{env:HOME}/.local/bin/photocraft-cli",
+          "mcp",
+          "--automation-read-root",
+          "{env:HOME}/Projects/dvibd",
+          "--automation-write-root",
+          "{env:HOME}/Projects/dvibd"
+        ]
+      },
+      "vectorcraft": {
+        "type": "local",
+        "command": [
+          "{env:HOME}/.local/bin/vectorcraft-cli",
+          "mcp",
+          "--automation-read-root",
+          "{env:HOME}/Projects/dvibd",
+          "--automation-write-root",
+          "{env:HOME}/Projects/dvibd"
         ]
       }
     }
