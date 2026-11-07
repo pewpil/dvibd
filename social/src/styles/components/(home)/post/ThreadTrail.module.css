@@ -1,0 +1,88 @@
+nav#threadTrail {
+  position: relative;
+  z-index: 1;
+  padding: 0.5rem 0.25rem 0;
+
+  > ol {
+    display: flex;
+    flex-direction: column;
+
+    > li {
+      + li {
+        border-top: 1px solid var(--line);
+      }
+
+      > a#threadTrailRow {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+        border-radius: var(--radius-control);
+        transition: background var(--duration-quick) ease;
+
+        &:hover {
+          background: var(--wash);
+        }
+
+        > img#threadTrailAvatar {
+          width: 2.6rem;
+          height: 2.6rem;
+          border-radius: 50%;
+          flex-shrink: 0;
+          object-fit: cover;
+        }
+
+        > span#threadTrailBody {
+          display: flex;
+          flex-direction: column;
+          gap: 0.125rem;
+          flex: 1 1 auto;
+          min-width: 0;
+
+          > span#threadTrailMeta {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            min-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+
+            > span#threadTrailName {
+              flex: 0 1 auto;
+              min-width: 0;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              color: var(--ink);
+              font-size: 0.875rem;
+              font-weight: 600;
+            }
+
+            > span#threadTrailHandle {
+              flex: 0 1 auto;
+              min-width: 0;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              color: var(--ink-soft);
+              font-size: 0.8125rem;
+            }
+
+            > span#threadTrailTime {
+              flex: 0 0 auto;
+              color: var(--ink-soft);
+              font-size: 0.8125rem;
+            }
+          }
+
+          > span#threadTrailExcerpt {
+            min-width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            color: var(--ink-soft);
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+  }
+}
