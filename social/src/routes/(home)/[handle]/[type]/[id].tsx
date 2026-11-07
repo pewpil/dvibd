@@ -299,6 +299,7 @@ export default function PostPage(): JSX.Element {
                 views={viewOverride() ?? data().post.views}
                 repost={data().post.repost}
                 like={data().post.like}
+                liked={data().post.liked}
                 save={data().post.save}
                 permalink={false}
               />,
@@ -342,6 +343,7 @@ export default function PostPage(): JSX.Element {
                         views={reply.views}
                         repost={reply.repost}
                         like={reply.like}
+                        liked={reply.liked}
                         save={reply.save}
                         onOpen={() => openReply(reply)}
                       />

@@ -19,6 +19,7 @@ interface PostProps {
   views: number;
   repost: number;
   like: number;
+  liked: boolean;
   save: number;
   permalink?: boolean;
   onOpen?: () => boolean | void;
@@ -70,9 +71,11 @@ export default function Post(props: PostProps): JSX.Element {
         <MediaPlaceholder count={props.media!.count} />
       </Show>
       <Actions
+        id={props.id}
         views={props.views}
         repost={props.repost}
         like={props.like}
+        liked={props.liked}
         save={props.save}
       />
     </article>

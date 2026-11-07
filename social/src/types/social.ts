@@ -24,6 +24,10 @@ export type RecordViewResult =
   | { ok: true; views: number }
   | { ok: false };
 
+export type LikeResult =
+  | { ok: true; liked: boolean; likes: number }
+  | { ok: false; error: string };
+
 export interface NotificationPreferences {
   likes: boolean;
   replies: boolean;
@@ -48,6 +52,7 @@ export interface PostCard {
   reply: number;
   repost: number;
   like: number;
+  liked: boolean;
   save: number;
   views: number;
 }

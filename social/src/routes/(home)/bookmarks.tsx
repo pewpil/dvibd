@@ -54,6 +54,7 @@ export default function Bookmarks() {
             views={post.views}
             repost={post.repost}
             like={post.like}
+            liked={post.liked}
             save={post.save}
           />
         )}

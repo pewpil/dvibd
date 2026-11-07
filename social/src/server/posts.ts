@@ -11,6 +11,7 @@ import {
 } from "../types/social";
 import { prisma } from "./db";
 import { relativeTime } from "./format";
+import { likedPostIds } from "./likeState";
 import { readSessionUser } from "./session";
 import { syncPostTags } from "./postTags";
 import type { SafeUser } from "./user";
@@ -30,7 +31,7 @@ export const POST_INCLUDE = {
 
 export type PostRow = Prisma.PostGetPayload<{ include: typeof POST_INCLUDE }>;
 
-export function toPostCard(post: PostRow): PostCard {
+export function toPostCard(post: PostRow, liked: boolean): PostCard {
   return {
     id: post.id,
     name: post.author.displayName ?? post.author.username,
@@ -43,6 +44,7 @@ export function toPostCard(post: PostRow): PostCard {
     reply: post.replyCount,
     repost: post.repostCount,
     like: post.likeCount,
+    liked: liked,
     save: post.saveCount,
     views: post.viewCount,
   };
@@ -223,44 +225,53 @@ export const recordView = action(async (
 
 export const getFeed = query(async (mode: FeedMode): Promise<PostCard[]> => {
   "use server";
+  const viewer: SafeUser | null = await readSessionUser();
+  let rows: PostRow[];
   if (mode === "following") {
-    const user = await readSessionUser();
-    if (user === null) {
+    if (viewer === null) {
       return [];
     }
-    const rows: PostRow[] = await prisma.post.findMany({
+    rows = await prisma.post.findMany({
       where: {
         OR: [
-          { authorId: user.id },
-          { author: { followers: { some: { followerId: user.id } } } },
+          { authorId: viewer.id },
+          { author: { followers: { some: { followerId: viewer.id } } } },
         ],
       },
       include: POST_INCLUDE,
       orderBy: { createdAt: "desc" },
       take: 50,
     });
-    return rows.map(toPostCard);
+  } else {
+    rows = await prisma.post.findMany({
+      include: POST_INCLUDE,
+      orderBy: { createdAt: "desc" },
+      take: 50,
+    });
   }
-  const rows: PostRow[] = await prisma.post.findMany({
-    include: POST_INCLUDE,
-    orderBy: { createdAt: "desc" },
-    take: 50,
-  });
-  return rows.map(toPostCard);
+  const liked: Set<string> = await likedPostIds(
+    rows.map((row) => row.id),
+    viewer === null ? null : viewer.id,
+  );
+  return rows.map((row) => toPostCard(row, liked.has(row.id)));
 }, "socialFeed");
 
 export const getBookmarks = query(async (): Promise<PostCard[]> => {
   "use server";
-  const user = await readSessionUser();
-  if (user === null) {
+  const viewer: SafeUser | null = await readSessionUser();
+  if (viewer === null) {
     return [];
   }
-  const rows = await prisma.bookmark.findMany({
-    where: { userId: user.id },
+  const rows: { post: PostRow }[] = await prisma.bookmark.findMany({
+    where: { userId: viewer.id },
     orderBy: { createdAt: "desc" },
     include: { post: { include: POST_INCLUDE } },
   });
-  return rows.map((row) => toPostCard(row.post));
+  const liked: Set<string> = await likedPostIds(
+    rows.map((row) => row.post.id),
+    viewer.id,
+  );
+  return rows.map((row) => toPostCard(row.post, liked.has(row.post.id)));
 }, "socialBookmarks");
 
 export const getPostThread = query(async (
@@ -287,8 +298,7 @@ export const getPostThread = query(async (
   if (row === null) {
     return null;
   }
-  const post: PostCard = toPostCard(row);
-  if (normalizedType === "status" && post.type !== "stat") {
+  if (row.kind !== "STAT") {
     return null;
   }
   if (row.author.username.toLowerCase() !== username.toLowerCase()) {
@@ -300,5 +310,14 @@ export const getPostThread = query(async (
     orderBy: { createdAt: "desc" },
     take: THREAD_REPLY_LIMIT,
   });
-  return { post: post, replies: replyRows.reverse().map(toPostCard) };
+  const replies: PostRow[] = replyRows.reverse();
+  const viewer: SafeUser | null = await readSessionUser();
+  const liked: Set<string> = await likedPostIds(
+    [row.id, ...replies.map((reply) => reply.id)],
+    viewer === null ? null : viewer.id,
+  );
+  return {
+    post: toPostCard(row, liked.has(row.id)),
+    replies: replies.map((reply) => toPostCard(reply, liked.has(reply.id))),
+  };
 }, "socialPostThread");

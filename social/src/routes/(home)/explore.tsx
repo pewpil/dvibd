@@ -81,6 +81,7 @@ export default function Explore() {
               views={post.views}
               repost={post.repost}
               like={post.like}
+              liked={post.liked}
               save={post.save}
             />
           )}

@@ -17,6 +17,7 @@ const SESSION_QUERY_KEYS: string[] = [
   "socialNotifications",
   "socialSuggestedProfiles",
   "socialFeed",
+  "socialPostThread",
 ];
 
 export interface SignupInput {
