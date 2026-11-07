@@ -1,5 +1,5 @@
 [build]
-  command = "if [[ \"$DATABASE_URL\" == *'*'* ]]; then unset DATABASE_URL; fi && npm --prefix ../../orm ci && npm --prefix ../../orm run generate && mkdir -p public"
+  command = "if [[ \"$DATABASE_URL\" == *'*'* ]]; then unset DATABASE_URL; fi && unset DIRECT_URL && npm --prefix ../../orm ci && npm --prefix ../../orm run generate && mkdir -p public"
   publish = "public"
 
 [build.environment]

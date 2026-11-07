@@ -19,6 +19,8 @@ const createPostSchema = z.object({
   text: z.string().trim().min(1).max(MAX_STAT_LENGTH),
 });
 
+const THREAD_REPLY_LIMIT: number = 50;
+
 export const POST_INCLUDE = {
   author: {
     select: { username: true, displayName: true, avatarUrl: true },
@@ -54,7 +56,7 @@ export const createPost = action(async (
   if (user === null) {
     return json<CreatePostResult>(
       { ok: false, error: "You need to be signed in to post." },
-      {},
+      { revalidate: [] },
     );
   }
   const raw: string | null = payload.get("text");
@@ -62,7 +64,7 @@ export const createPost = action(async (
   if (!parsed.success) {
     return json<CreatePostResult>(
       { ok: false, error: `Posts must be 1 to ${MAX_STAT_LENGTH} characters.` },
-      {},
+      { revalidate: [] },
     );
   }
   const post = await prisma.post.create({
@@ -100,7 +102,7 @@ export const createReply = action(async (
   if (user === null) {
     return json<CreatePostResult>(
       { ok: false, error: "You need to be signed in to reply." },
-      {},
+      { revalidate: [] },
     );
   }
   const rawText: string | null = payload.get("text");
@@ -108,7 +110,7 @@ export const createReply = action(async (
   if (!parsed.success) {
     return json<CreatePostResult>(
       { ok: false, error: `Replies must be 1 to ${MAX_STAT_LENGTH} characters.` },
-      {},
+      { revalidate: [] },
     );
   }
   const rawParentId: string | null = payload.get("parentId");
@@ -116,7 +118,7 @@ export const createReply = action(async (
   if (parentId === "" || parentId.length > 64) {
     return json<CreatePostResult>(
       { ok: false, error: "That post is no longer available." },
-      {},
+      { revalidate: [] },
     );
   }
   const parent: { id: string } | null = await prisma.post.findFirst({
@@ -126,7 +128,7 @@ export const createReply = action(async (
   if (parent === null) {
     return json<CreatePostResult>(
       { ok: false, error: "That post is no longer available." },
-      {},
+      { revalidate: [] },
     );
   }
   const [reply] = await prisma.$transaction([
@@ -154,7 +156,6 @@ export const createReply = action(async (
     { ok: true },
     {
       revalidate: [
-        "socialPostThread",
         "socialFeed",
         "socialProfilePage",
         "socialBookmarks",
@@ -174,15 +175,15 @@ export const recordView = action(async (
   "use server";
   const username: string = handle.trim().replace(/^@/, "");
   if (username === "" || username.length > 64) {
-    return json<RecordViewResult>({ ok: false }, {});
+    return json<RecordViewResult>({ ok: false }, { revalidate: [] });
   }
   const normalizedType: string = type.trim().toLowerCase();
   if (normalizedType !== "status") {
-    return json<RecordViewResult>({ ok: false }, {});
+    return json<RecordViewResult>({ ok: false }, { revalidate: [] });
   }
   const id: string = postId.trim();
   if (id === "" || id.length > 64) {
-    return json<RecordViewResult>({ ok: false }, {});
+    return json<RecordViewResult>({ ok: false }, { revalidate: [] });
   }
   const row: {
     id: string;
@@ -201,7 +202,7 @@ export const recordView = action(async (
     row.kind !== "STAT" ||
     row.author.username.toLowerCase() !== username.toLowerCase()
   ) {
-    return json<RecordViewResult>({ ok: false }, {});
+    return json<RecordViewResult>({ ok: false }, { revalidate: [] });
   }
   const updated: { viewCount: number } = await prisma.post.update({
     where: { id: row.id },
@@ -296,7 +297,8 @@ export const getPostThread = query(async (
   const replyRows: PostRow[] = await prisma.post.findMany({
     where: { parentId: row.id },
     include: POST_INCLUDE,
-    orderBy: { createdAt: "asc" },
+    orderBy: { createdAt: "desc" },
+    take: THREAD_REPLY_LIMIT,
   });
-  return { post: post, replies: replyRows.map(toPostCard) };
+  return { post: post, replies: replyRows.reverse().map(toPostCard) };
 }, "socialPostThread");

@@ -10,6 +10,7 @@ import {
 import { useAuth } from "../../../contexts/AuthContext";
 import { getProfilePage } from "../../../server/profiles";
 import type { PostCard, ProfilePage } from "../../../types/social";
+import BackButton from "../../../components/(home)/BackButton";
 import FeedHeader from "../../../components/(home)/FeedHeader";
 import ProfileCard from "../../../components/(home)/profile/ProfileCard";
 import ProfileTabs from "../../../components/(home)/profile/ProfileTabs";
@@ -84,7 +85,10 @@ export default function Profile(): JSX.Element {
 
   return [
     <FeedHeader ref={(el) => (headerEl = el)} noBottomBorder={tabsStuck()}>
-      <h1 id={style.profileTitle}>{pageTitle()}</h1>
+      <div id={style.profileHeaderRow}>
+        <BackButton />
+        <h1 id={style.profileTitle}>{pageTitle()}</h1>
+      </div>
       <Show when={tabsStuck()}>
         <ProfileTabs
           tabs={profileTabs}

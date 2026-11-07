@@ -19,16 +19,27 @@ This is a Node tooling package (`@dvibd/orm`), not a web application. It contain
   - `api-client`: output `../../dvibd/api/src/generated` (runtime: `nodejs`, extension: `mts`)
   - `gui-client`: output `../../dvibd/gui/src/generated` (runtime: `workerd`, extension: `mts`)
   - `social-client`: output `../../social/src/server/generated` (runtime: `nodejs`, extension: `mts`)
+  - `message-client`: output `../../message/src/server/generated` (runtime: `nodejs`, extension: `mts`)
 - Keep all generator entries intact in `schema.prisma`.
 - Generated output directories are gitignored in each app.
 
 ## Migrations & Database Management
 - Migrations live under `orm/prisma/migrations/`.
-- Run migrations using Prisma CLI commands from `orm/`:
+- The local scripts set `LOCAL_ENV=1`, which locks the run to the `db/` service (`postgresql://dvibd:dvibd@localhost:3001/dvibd`):
   ```bash
-  cd orm && npx prisma migrate dev
+  cd orm && npm run migrate -- --name <migration_name>
+  cd orm && npm run migrate:status
+  cd orm && npm run push
+  cd orm && npm run reset
+  cd orm && npm run studio
   ```
-- Against a hosted database, use `cd orm && npm run migrate:deploy` (`prisma migrate deploy`). `migrate dev` is for local `db/` only.
+- `npm run generate` needs no environment: it falls back to the local URL because `prisma generate` does not connect.
+- `migrate dev` is for local `db/` only. Do not run it against a hosted database.
+- Apply migrations to a hosted database with `DIRECT_URL` (the Supabase session-pooler URL) or `DATABASE_URL` supplied by the invoking shell, never a `.env` file:
+  ```bash
+  cd orm && DIRECT_URL="<Supabase session-pooler URL>" npm run migrate:deploy
+  ```
+- Run `migrate:deploy` before the app deploy. The script guards for a hosted URL and exits non-zero with a clear message when neither `DIRECT_URL` nor `DATABASE_URL` is set, so it can never fall through to the local URL.
 
 ## ORM Version Pin
 - The `^7.9.1` pin on `prisma` is deliberate, not drift. Prisma 8 has not shipped as stable: npm's `latest` tag points at `8.0.0-rc.24`, and Prisma's 2026-10-02 changelog states the final release was expected in October 2026. Wait for stable `8.0.0` and a settled Prisma 7 to 8 upgrade guide before planning the bump; Prisma ORM 7 receives fixes for 18 months after the 8 GA.
@@ -36,4 +47,12 @@ This is a Node tooling package (`@dvibd/orm`), not a web application. It contain
 - The move will be a project, not a version bump: Prisma 8 replaces `prisma generate` with `prisma contract emit`, changes the query style (`prisma.user.findMany` becomes `db.orm` calls), still reads a Prisma 7 Postgres schema, and this workspace's per-runtime generator blocks (`nodejs` and `workerd`) have no direct equivalent under 8's model.
 
 ## Environment Resolution
-`prisma.config.ts` resolves `DATABASE_URL` from `process.env` first, then throws if a `.env` file exists without it, then throws in production, and only otherwise falls back to the local `db/` default. `import "dotenv/config"` runs first, so a local `.env` lands in `process.env` and is picked up by the first branch. Netlify exposes site variables to builds and function runtimes and has no `.env` file, which is why the `process.env`-first order matters; see the env policy in the repository root `AGENTS.md`.
+`config.ts` owns the local default (`postgresql://dvibd:dvibd@localhost:3001/dvibd`) and the `LOCAL_ENV=1` lock. `prisma.config.ts` calls `resolveDatabaseUrl()` and passes the result to `datasource.url`; it does not load dotenv or read a `.env` file.
+
+Resolution order:
+1. `LOCAL_ENV=1`: return the local default and ignore ambient `DIRECT_URL` and `DATABASE_URL` (warn once per variable when either differs).
+2. Otherwise `DIRECT_URL` from the environment, when set and non-empty.
+3. Otherwise `DATABASE_URL` from the environment, when set and non-empty.
+4. Otherwise the local default. This keeps `prisma generate` working without an environment because it does not connect.
+
+`DIRECT_URL` is the Supabase session-pooler URL used for migrations; `DATABASE_URL` is the runtime and app URL. The CLI prefers `DIRECT_URL` for migration work. Hosted values come only from the invoking shell (Netlify exposes site variables to builds and function runtimes); no hosted URL is stored in `orm/` and no hosted URL is used as a fallback. Every selected URL is validated with `zod`.

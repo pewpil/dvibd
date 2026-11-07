@@ -4,6 +4,15 @@
   "model": "opencode/deepseek-v4.1-flash-free",
   "mcp": {
     "servers": {
+      "laravel-boost": {
+        "type": "local",
+        "command": [
+          "php",
+          "artisan",
+          "boost:mcp"
+        ],
+        "cwd": "{env:HOME}/Projects/dvibd/pics"
+      },
       "figcraft": {
         "type": "local",
         "command": [

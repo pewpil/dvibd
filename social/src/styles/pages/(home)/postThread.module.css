@@ -7,6 +7,34 @@ h1#threadTitle {
   line-height: 1.2;
 }
 
+div#threadHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+div#threadChain {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  > div#threadRail {
+    position: absolute;
+    z-index: 0;
+    width: 2px;
+    border-radius: 999px;
+    background: var(--line-strong);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  > article {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 section#threadReplies {
   display: flex;
   flex-direction: column;

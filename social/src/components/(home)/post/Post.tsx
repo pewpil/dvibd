@@ -21,11 +21,30 @@ interface PostProps {
   like: number;
   save: number;
   permalink?: boolean;
+  onOpen?: () => boolean | void;
 }
 
 export default function Post(props: PostProps): JSX.Element {
   const canPermalink = (): boolean =>
     props.permalink !== false && props.type === "stat";
+  const excerpt = (): string =>
+    props.text.replace(/\s+/g, " ").trim().slice(0, 60);
+  const permalinkLabel = (): string => {
+    const base: string = `Open post by ${props.name} (@${props.handle}), ${props.time}`;
+    const text: string = excerpt();
+    return text === "" ? base : `${base}: ${text}`;
+  };
+
+  const handlePermalinkClick = (
+    event: MouseEvent & { currentTarget: HTMLAnchorElement },
+  ): void => {
+    if (props.onOpen === undefined) return;
+    if (event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const handled: boolean | void = props.onOpen();
+    if (handled === false) return;
+    event.preventDefault();
+  };
 
   return (
     <article
@@ -36,7 +55,8 @@ export default function Post(props: PostProps): JSX.Element {
         <A
           id={style.postPermalink}
           href={postPath({ id: props.id, handle: props.handle, type: props.type })}
-          aria-label={`Open post by ${props.name} (@${props.handle}), ${props.time}`}
+          aria-label={permalinkLabel()}
+          onClick={handlePermalinkClick}
         />
       </Show>
       <Header

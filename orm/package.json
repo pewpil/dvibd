@@ -5,14 +5,14 @@
   "type": "module",
   "scripts": {
     "generate": "prisma generate",
-    "push": "prisma db push",
-    "migrate": "prisma migrate dev",
-    "migrate:deploy": "prisma migrate deploy",
-    "reset": "prisma migrate reset --force",
-    "studio": "prisma studio"
+    "push": "LOCAL_ENV=1 prisma db push",
+    "migrate": "LOCAL_ENV=1 prisma migrate dev",
+    "migrate:deploy": "node -e 'const url = process.env.DIRECT_URL || process.env.DATABASE_URL; if (!url || url.trim().length === 0) { console.error(\"migrate:deploy requires DIRECT_URL or DATABASE_URL in the environment (never .env)\"); process.exit(1); }' && prisma migrate deploy",
+    "migrate:status": "LOCAL_ENV=1 prisma migrate status",
+    "reset": "LOCAL_ENV=1 prisma migrate reset --force",
+    "studio": "LOCAL_ENV=1 prisma studio"
   },
   "dependencies": {
-    "dotenv": "^17.2.3",
     "prisma": "^7.9.1",
     "zod": "^4.4.3"
   },
